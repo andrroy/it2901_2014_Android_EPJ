@@ -1,4 +1,4 @@
-package org.royrvik.CapgeminiEMR;
+package org.royrvik.capgeminiemr;
 
 import android.app.Activity;
 import android.os.Bundle;
