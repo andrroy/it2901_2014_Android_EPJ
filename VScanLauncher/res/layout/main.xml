@@ -8,7 +8,14 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/launchOtherAppButton" android:layout_gravity="center_horizontal"/>
+            android:text="Start EMR application"
+            android:id="@+id/launchOtherAppButton"
+            android:layout_gravity="center_horizontal" />
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose pictures"
+            android:id="@+id/openGalleryButton"
+            android:layout_gravity="center_horizontal"/>
 </LinearLayout>
 
