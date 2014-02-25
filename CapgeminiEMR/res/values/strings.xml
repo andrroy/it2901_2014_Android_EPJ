@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">CapgeminiEMR</string>
+
+    <string name="login_heading">Log in to DIPS</string>
+    <string name="username2">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 </resources>
