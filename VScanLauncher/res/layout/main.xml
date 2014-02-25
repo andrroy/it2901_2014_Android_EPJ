@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
@@ -10,12 +10,25 @@
             android:layout_height="wrap_content"
             android:text="Start EMR application"
             android:id="@+id/launchOtherAppButton"
-            android:layout_gravity="center_horizontal" />
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true" />
 
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/launchOtherAppButton"
             android:text="Choose pictures"
+            android:layout_margin="20dp"
             android:id="@+id/openGalleryButton"
-            android:layout_gravity="center_horizontal"/>
-</LinearLayout>
+            android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/imagesChosenTextView"
+        android:layout_below="@id/openGalleryButton"
+        android:layout_centerHorizontal="true"
+       />
+
+
+</RelativeLayout>
