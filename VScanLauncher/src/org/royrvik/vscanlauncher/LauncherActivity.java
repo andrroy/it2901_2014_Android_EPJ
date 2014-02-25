@@ -81,8 +81,9 @@ public class LauncherActivity extends Activity {
      * Launches the main EMR application.
      */
     private void startOtherApplication() {
-        Intent startIntent = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        startActivity(startIntent);
+        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+        i.putStringArrayListExtra("chosen_images", selectedImagesPath);
+        startActivity(i);
     }
 
 
