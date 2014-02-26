@@ -6,4 +6,16 @@
     <string name="username2">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+
+    <!-- Preference screen strings -->
+    <string name="general">General</string>
+    <string name="security_and_data">Security and data</string>
+    <string name="reconfig_app_title">Reconfigure application</string>
+    <string name="reconfig_app_summary">Setup application with XML file</string>
+    <string name="language_title">Language settings</string>
+    <string name="language_summary">Change language or download language packs</string>
+    <string name="change_password_title">Change password</string>
+    <string name="change_password_summary">Change technical staff password. This will only affect the access to this menu</string>
+    <string name="delete_data_title">Delete all data</string>
+    <string name="delete_data_summary">This will delete all the encrypted data. This action is not possible to undo</string>
 </resources>

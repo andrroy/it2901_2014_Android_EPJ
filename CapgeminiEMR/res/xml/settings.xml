@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="@string/general" >
+
+        <Preference
+            android:summary="@string/reconfig_app_summary"
+            android:title="@string/reconfig_app_title" />
+
+        <Preference
+            android:summary="@string/language_summary"
+            android:title="@string/language_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/security_and_data" >
+
+        <Preference
+            android:summary="@string/change_password_summary"
+            android:title="@string/change_password_title" />
+
+        <Preference
+            android:summary="@string/delete_data_summary"
+            android:title="@string/delete_data_title" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

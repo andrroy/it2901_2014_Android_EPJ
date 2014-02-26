@@ -15,7 +15,7 @@ public class StartActivity extends Activity {
     private static final String TAG = "APP";
     private ArrayList<String> incomingImages;
 
-    private Button tempLoginButton;
+    private Button tempLoginButton, tempSettingsButton;
 
 
     @Override
@@ -35,6 +35,15 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(StartActivity.this, Login.class);
+                startActivity(i);
+            }
+        });
+
+        tempSettingsButton = (Button) findViewById(R.id.tempButton2);
+        tempSettingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(StartActivity.this, SettingsActivity.class);
                 startActivity(i);
             }
         });
