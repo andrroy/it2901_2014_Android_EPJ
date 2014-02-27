@@ -43,7 +43,7 @@ public class StartActivity extends Activity {
         tempSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(StartActivity.this, SettingsActivity.class);
+                Intent i = new Intent(StartActivity.this, HomeScreenActivity.class);
                 startActivity(i);
             }
         });
