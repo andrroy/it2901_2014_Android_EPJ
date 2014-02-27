@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeListAdapter extends ArrayAdapter<UltrasoundRowItem> {
@@ -34,9 +35,9 @@ public class HomeListAdapter extends ArrayAdapter<UltrasoundRowItem> {
         //ultrasound image for THIS row
         UltrasoundRowItem rowItem = getItem(position);
 
-        ImageView rowImage = (ImageView) convertView.findViewById(R.id.ultrasoundImagesListView);
+        /*ImageView rowImage = (ImageView) convertView.findViewById(R.id.ultrasoundImagesListView);
         Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
-        rowImage.setImageBitmap(bitmap);
+        rowImage.setImageBitmap(bitmap);*/
 
         TextView descriptionTextView = (TextView) convertView.findViewById(R.id.usDescriptionTextView);
         descriptionTextView.setText(rowItem.getDescription());

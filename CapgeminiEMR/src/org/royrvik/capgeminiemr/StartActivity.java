@@ -15,7 +15,7 @@ public class StartActivity extends Activity {
     private static final String TAG = "APP";
     private ArrayList<String> incomingImages;
 
-    private Button tempLoginButton, tempSettingsButton;
+    private Button tempLoginButton, tempSettingsButton, tempHomeButton;
 
 
     @Override
@@ -43,7 +43,17 @@ public class StartActivity extends Activity {
         tempSettingsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(StartActivity.this, SettingsActivity.class);
+                startActivity(i);
+            }
+        });
+
+        tempHomeButton = (Button) findViewById(R.id.tempButton3);
+        tempHomeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 Intent i = new Intent(StartActivity.this, HomeScreenActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
                 startActivity(i);
             }
         });
