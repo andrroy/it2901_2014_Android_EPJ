@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/usImageTextView"
+        android:id="@+id/usDescriptionTextView"
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/usImageImageView"
         android:layout_marginLeft="19dp"/>
