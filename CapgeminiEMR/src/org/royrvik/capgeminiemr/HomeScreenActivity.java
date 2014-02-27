@@ -4,22 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
-
-import java.text.SimpleDateFormat;
+import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
+import org.royrvik.capgeminiemr.adapter.UltrasoundRowItem;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-
 
 public class HomeScreenActivity extends Activity {
 
     private static final String TAG = "APP";
 
     private ListView ultrasoundListView;
-    private Context ctx;
+    private Context context;
     private ArrayList<String> incomingImages;
 
     @Override
@@ -27,21 +23,19 @@ public class HomeScreenActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
-        ctx = this;
+        context = this;
 
         // Get images from previous Activity
-        Intent i = getIntent();
-        incomingImages = i.getStringArrayListExtra("chosen_images");
+        Intent intent = getIntent();
+        incomingImages = intent.getStringArrayListExtra("chosen_images");
 
         List<UltrasoundRowItem> listOfExaminations = new ArrayList<UltrasoundRowItem>();
-        listOfExaminations.add(new UltrasoundRowItem(incomingImages.get(0), 101, "lol"));
-        listOfExaminations.add(new UltrasoundRowItem(incomingImages.get(0), 102, "lol2"));
-
-        Log.w(TAG, incomingImages.get(0));
+        for (int i = 0; i < incomingImages.size(); i++) {
+            listOfExaminations.add(new UltrasoundRowItem(incomingImages.get(i), i, "lol" + i));
+        }
 
         ultrasoundListView = (ListView) findViewById(R.id.ultrasoundImagesListView);
-        ultrasoundListView.setAdapter(new HomeListAdapter(ctx, R.layout.row_list_item, listOfExaminations));
-
+        ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item, listOfExaminations));
 
     }
 }

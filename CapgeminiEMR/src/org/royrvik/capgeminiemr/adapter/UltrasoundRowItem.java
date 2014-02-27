@@ -1,4 +1,4 @@
-package org.royrvik.capgeminiemr;
+package org.royrvik.capgeminiemr.adapter;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
