@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -57,7 +59,15 @@ public class LauncherActivity extends Activity {
             saveImage(image3, "ultrasound3.jpg");
 
         // refresh the image gallery
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        // This is not working on android 4.4+
+        //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+
+        MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+
+            public void onScanCompleted(String path, Uri uri) {
+                Log.w(TAG, "Does it work?");
+            }
+        });
 
         launchOtherAppButton = (Button) findViewById(R.id.launchOtherAppButton);
         launchOtherAppButton.setOnClickListener(new View.OnClickListener() {
@@ -112,7 +122,6 @@ public class LauncherActivity extends Activity {
     }
 
     /**
-     *
      * @param context
      * @param contentUri Uri to get absolute path from
      * @return absolute path to a file
@@ -134,8 +143,9 @@ public class LauncherActivity extends Activity {
 
     /**
      * Takes a bitmap and saves it to /DCIM/Camera as a .jpeg file
+     *
      * @param finalBitmap bitmap to be saved as .jpeg
-     * @param name name of image
+     * @param name        name of image
      */
     private void saveImage(Bitmap finalBitmap, String name) {
 
@@ -155,7 +165,6 @@ public class LauncherActivity extends Activity {
     }
 
     /**
-     *
      * @return an ArrayList of all image names as Strings
      */
     private ArrayList<String> getAllImages() {
@@ -200,8 +209,7 @@ public class LauncherActivity extends Activity {
                         imageList = imagePath.listFiles();
                     }
 
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
