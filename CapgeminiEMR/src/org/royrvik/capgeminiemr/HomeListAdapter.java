@@ -3,6 +3,7 @@ package org.royrvik.capgeminiemr;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomeListAdapter extends ArrayAdapter<UltrasoundRowItem> {
+
+    private static final String TAG = "APP";
 
     private int resource;
     private LayoutInflater inflater;
@@ -35,12 +38,16 @@ public class HomeListAdapter extends ArrayAdapter<UltrasoundRowItem> {
         //ultrasound image for THIS row
         UltrasoundRowItem rowItem = getItem(position);
 
-        /*ImageView rowImage = (ImageView) convertView.findViewById(R.id.ultrasoundImagesListView);
+        Log.w(TAG, rowItem.getImageUri());
+        ImageView rowImage = (ImageView) convertView.findViewById(R.id.usImageImageView);
         Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
-        rowImage.setImageBitmap(bitmap);*/
+        rowImage.setImageBitmap(bitmap);
 
         TextView descriptionTextView = (TextView) convertView.findViewById(R.id.usDescriptionTextView);
         descriptionTextView.setText(rowItem.getDescription());
+
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.usDateTextView);
+        dateTextView.setText(rowItem.getDate());
 
         return convertView;
 

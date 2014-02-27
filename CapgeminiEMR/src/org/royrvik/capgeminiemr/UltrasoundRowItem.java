@@ -1,5 +1,9 @@
 package org.royrvik.capgeminiemr;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class UltrasoundRowItem {
 
     private String imageUri;
@@ -7,9 +11,13 @@ public class UltrasoundRowItem {
     private int id;
     private String description;
 
-    public UltrasoundRowItem(String imageUri, String date, int id, String description) {
+    //SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yyyy");
+
+
+    public UltrasoundRowItem(String imageUri, int id, String description) {
+        this.date = dateFormat.format(new Date());
         this.imageUri = imageUri;
-        this.date = date;
         this.id = id;
         this.description = description;
 

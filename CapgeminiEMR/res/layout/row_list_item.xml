@@ -16,13 +16,24 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/usDescriptionTextView"
         android:layout_centerVertical="true"
+        android:text="asda"
         android:layout_toRightOf="@+id/usImageImageView"
+        android:layout_marginLeft="19dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/usDateTextView"
+        android:layout_centerVertical="true"
+        android:text="dfgdfgd"
+        android:layout_toRightOf="@+id/usDescriptionTextView"
         android:layout_marginLeft="19dp"/>
 
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/usImageCheckBox"
+        android:id="@+id/usCheckBox"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"

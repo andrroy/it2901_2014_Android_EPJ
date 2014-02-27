@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class Login extends Activity {
 
+    private static final String TAG = "APP";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
