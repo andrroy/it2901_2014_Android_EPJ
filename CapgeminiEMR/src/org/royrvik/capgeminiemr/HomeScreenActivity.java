@@ -31,7 +31,7 @@ public class HomeScreenActivity extends Activity {
 
         List<UltrasoundRowItem> listOfExaminations = new ArrayList<UltrasoundRowItem>();
         for (int i = 0; i < incomingImages.size(); i++) {
-            listOfExaminations.add(new UltrasoundRowItem(incomingImages.get(i), i, "lol" + i));
+            listOfExaminations.add(new UltrasoundRowItem(incomingImages.get(i), i, "Image" + i));
         }
 
         ultrasoundListView = (ListView) findViewById(R.id.ultrasoundImagesListView);

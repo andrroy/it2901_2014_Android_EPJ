@@ -31,5 +31,25 @@
         android:layout_below="@+id/filepathButton"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/statusStaticTextView"
+        android:text="@string/status"
+        android:layout_below="@+id/runconfigButton"
+        android:layout_alignLeft="@+id/filepathButton"
+        android:layout_alignStart="@+id/filepathButton"
+        android:layout_marginTop="63dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:id="@+id/statusTextView"
+        android:layout_below="@+id/statusStaticTextView"
+        android:layout_alignLeft="@+id/statusStaticTextView"
+        android:layout_alignStart="@+id/statusStaticTextView"
+        android:layout_marginTop="10dp"/>
+
 
 </RelativeLayout>

@@ -37,5 +37,13 @@
         android:id="@+id/tempButton3"
         android:layout_below="@+id/tempButton2"
         android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Gå til technical setup view"
+        android:id="@+id/tempButton4"
+        android:layout_below="@+id/tempButton3"
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
 
