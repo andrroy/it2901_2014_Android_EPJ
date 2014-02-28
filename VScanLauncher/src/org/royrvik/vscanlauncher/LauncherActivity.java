@@ -58,12 +58,16 @@ public class LauncherActivity extends Activity {
         if (!filListe.contains("ultrasound3"))
             saveImage(image3, "ultrasound3.jpg");
 
-        // refresh the image gallery
-        // This is not working on android 4.4+
-        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        // Refresh the image gallery
+        // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
+        try {
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        }
+        catch(SecurityException secException) {
+            Log.w(TAG, "KitKat doesn't like this :(");
+        }
 
         /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-
             public void onScanCompleted(String path, Uri uri) {
                 Log.w(TAG, "Does it work?");
             }
