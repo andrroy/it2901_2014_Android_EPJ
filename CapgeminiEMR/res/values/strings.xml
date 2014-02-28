@@ -19,5 +19,8 @@
     <string name="delete_data_title">Delete all data</string>
     <string name="delete_data_summary">This will delete all the encrypted data. This action is not possible to undo</string>
     <string name="use_picture">Use image(s)</string>
+    <string name="set_up">Set up</string>
+    <string name="filepath">filepath...</string>
+    <string name="run_config">Run config</string>
 
 </resources>

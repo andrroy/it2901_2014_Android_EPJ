@@ -26,5 +26,6 @@
         <activity android:name="org.royrvik.capgeminiemr.Login"></activity>
         <activity android:name="org.royrvik.capgeminiemr.SettingsActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.HomeScreenActivity"></activity>
+        <activity android:name=".TechnicalSetupActivity"/>
     </application>
 </manifest>

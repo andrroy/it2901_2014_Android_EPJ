@@ -4,4 +4,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/setupTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/set_up"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/filepath"
+        android:id="@+id/filepathButton"
+        android:layout_below="@+id/setupTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/run_config"
+        android:id="@+id/runconfigButton"
+        android:layout_marginTop="17dp"
+        android:layout_below="@+id/filepathButton"
+        android:layout_centerHorizontal="true"/>
+
+
 </RelativeLayout>

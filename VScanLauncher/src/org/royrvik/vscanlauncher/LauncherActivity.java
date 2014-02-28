@@ -60,14 +60,14 @@ public class LauncherActivity extends Activity {
 
         // refresh the image gallery
         // This is not working on android 4.4+
-        //sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
 
-        MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+        /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
 
             public void onScanCompleted(String path, Uri uri) {
                 Log.w(TAG, "Does it work?");
             }
-        });
+        });*/
 
         launchOtherAppButton = (Button) findViewById(R.id.launchOtherAppButton);
         launchOtherAppButton.setOnClickListener(new View.OnClickListener() {
