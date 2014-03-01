@@ -15,7 +15,7 @@ public class StartActivity extends Activity {
     private static final String TAG = "APP";
     private ArrayList<String> incomingImages;
 
-    private Button tempLoginButton, tempSettingsButton, tempHomeButton, tempTechsetupButton;
+    private Button tempLoginButton, tempSettingsButton, tempHomeButton, tempTechsetupButton, tempIdentifyButton;
 
 
     @Override
@@ -66,5 +66,14 @@ public class StartActivity extends Activity {
             }
         });
 
+        tempIdentifyButton = (Button) findViewById(R.id.tempButton5);
+        tempIdentifyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(StartActivity.this, IdentifyPatientActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                startActivity(i);
+            }
+        });
     }
 }

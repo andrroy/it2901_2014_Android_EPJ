@@ -1,10 +1,12 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.Activity;
-import android.media.Image;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+
+import java.util.ArrayList;
 
 /**
  * Created by Joakim on 28.02.14.
@@ -16,11 +18,13 @@ public class IdentifyPatientActivity extends Activity {
     private EditText input;
     private TextView error;
     private ViewFlipper flipper;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify);
+        intent = getIntent();
         flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
         input = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
@@ -34,6 +38,12 @@ public class IdentifyPatientActivity extends Activity {
         });
 
         automaticButton = (ImageButton) findViewById(R.id.automaticButton);
+        automaticButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //TODO: Not yet implemented
+            }
+        });
 
         backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +59,6 @@ public class IdentifyPatientActivity extends Activity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("THIS IS THE TEXT: "+input.getText());
                 if (!input.getText().toString().trim().isEmpty()) {
                     checkPid();
                 }
@@ -64,6 +73,13 @@ public class IdentifyPatientActivity extends Activity {
     private void checkPid() {
         //TODO: Validate the ID
         //TODO: Get patient info
-        //TODO: Start next view with the gathered information
+        ArrayList<String> info = new ArrayList<String>();
+        info.add(input.getText().toString());
+        info.add("Frank Stangelberg");
+        info.addAll(intent.getStringArrayListExtra("chosen_images"));
+
+        Intent i = new Intent(IdentifyPatientActivity.this, ExaminationView.class);
+        i.putStringArrayListExtra("info", info);
+        startActivity(i);
     }
 }
