@@ -25,7 +25,7 @@ public class IdentifyPatientActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify);
         intent = getIntent();
-        flipper = (ViewFlipper) findViewById(R.id.viewFlipper);
+        flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         input = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
 

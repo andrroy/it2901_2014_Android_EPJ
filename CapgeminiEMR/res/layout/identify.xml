@@ -7,7 +7,7 @@
     <ViewFlipper
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/viewFlipper">
+            android:id="@+id/identifyFlipper">
         <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
                         android:id="@+id/identify1" android:focusable="true">
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
