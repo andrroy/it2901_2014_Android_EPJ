@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent" android:weightSum="1">
+
+    <ViewFlipper
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewFlipper">
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:id="@+id/identify1" android:focusable="true">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceLarge" android:text="Identify patient"
+                      android:id="@+id/textView3" android:layout_alignParentTop="true"
+                      android:layout_centerHorizontal="true" android:layout_marginTop="113dp"/>
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/manualButton" android:layout_centerVertical="true"
+                         android:layout_alignLeft="@+id/textView3" android:layout_alignStart="@+id/textView3"
+                         android:src="@android:drawable/ic_menu_edit"/>
+            <ImageButton android:layout_width="wrap_content" android:layout_height="wrap_content"
+                         android:id="@+id/automaticButton" android:src="@android:drawable/ic_menu_camera"
+                         android:layout_alignTop="@+id/manualButton" android:layout_alignRight="@+id/textView3"
+                         android:layout_alignEnd="@+id/textView3"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="Manual"
+                      android:id="@+id/textView" android:layout_alignTop="@+id/textView4"
+                      android:layout_alignLeft="@+id/manualButton" android:layout_alignStart="@+id/manualButton"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceSmall" android:text="Automatic"
+                      android:id="@+id/textView4" android:layout_below="@+id/automaticButton"
+                      android:layout_alignLeft="@+id/automaticButton" android:layout_alignStart="@+id/automaticButton"/>
+        </RelativeLayout>
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+                        android:id="@+id/identify2">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:textAppearance="?android:attr/textAppearanceLarge" android:text="Identify patient manual"
+                      android:id="@+id/textView7" android:layout_alignParentTop="true"
+                      android:layout_centerHorizontal="true" android:layout_marginTop="159dp"/>
+            <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:inputType="number" android:ems="10" android:id="@+id/editText"
+                      android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Back"
+                    android:id="@+id/backButton" android:layout_below="@+id/editText"
+                    android:layout_alignLeft="@+id/editText" android:layout_alignStart="@+id/editText"/>
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK"
+                    android:id="@+id/okButton" android:layout_alignTop="@+id/backButton"
+                    android:layout_alignRight="@+id/editText" android:layout_alignEnd="@+id/editText"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:id="@+id/errorText" android:layout_below="@+id/textView7"
+                    android:layout_alignLeft="@+id/textView7" android:layout_alignStart="@+id/textView7"
+                    android:textColor="#ff0000" android:enabled="false" android:focusableInTouchMode="false"
+                    android:layout_above="@+id/editText" android:layout_alignRight="@+id/editText"
+                    android:layout_alignEnd="@+id/editText"/>
+        </RelativeLayout>
+    </ViewFlipper>
+</LinearLayout>
