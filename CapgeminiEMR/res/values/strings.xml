@@ -24,4 +24,14 @@
     <string name="run_config">Run config</string>
     <string name="status">Status</string>
 
+    <!-- Identify patient strings -->
+    <string name="identify_patient">Identify patient</string>
+    <string name="manual">Manual</string>
+    <string name="automatic">Automatic</string>
+    <string name="automatic">Automatic</string>
+
+    <!-- Examination string -->
+    <string name="patient_id">Patient ID:</string>
+
+
 </resources>
