@@ -8,6 +8,7 @@ public class SettingsActivity extends PreferenceActivity {
     private static final String TAG = "APP";
 
     @Override
+    @SuppressWarnings("deprecation")
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
