@@ -31,3 +31,4 @@ proguard/
 # Maven
 log/
 target/
+gen-external-apklibs
