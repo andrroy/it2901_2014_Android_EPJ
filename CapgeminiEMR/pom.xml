@@ -22,6 +22,11 @@
             <version>4.4.0</version>
             <type>apklib</type>
         </dependency>
+        <dependency>
+            <artifactId>crouton</artifactId>
+            <version>1.8.3</version>
+            <groupId>de.keyboardsurfer.android.widget</groupId>
+        </dependency>
     </dependencies>
 
     <build>
