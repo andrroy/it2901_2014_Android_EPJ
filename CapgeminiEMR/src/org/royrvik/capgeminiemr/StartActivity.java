@@ -3,10 +3,11 @@ package org.royrvik.capgeminiemr;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,7 @@ public class StartActivity extends Activity {
     private static final String TAG = "APP";
     private ArrayList<String> incomingImages;
 
-    private Button tempLoginButton, tempSettingsButton, tempHomeButton, tempTechsetupButton, tempIdentifyButton;
+    private Button tempLoginButton, tempSettingsButton, tempHomeButton, tempTechsetupButton, tempIdentifyButton, tempExaminationButton;
 
 
     @Override
@@ -27,13 +28,13 @@ public class StartActivity extends Activity {
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
 
-        Toast.makeText(StartActivity.this, "Recieved " + Integer.toString(incomingImages.size()) + " images from launcher", Toast.LENGTH_LONG).show();
+        Crouton.makeText(StartActivity.this, "Recieved " + Integer.toString(incomingImages.size())  + " images from launcher", Style.INFO).show();
 
         tempLoginButton = (Button) findViewById(R.id.tempButton);
         tempLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(StartActivity.this, Login.class);
+                Intent i = new Intent(StartActivity.this, LoginActivity.class);
                 startActivity(i);
             }
         });
@@ -57,7 +58,7 @@ public class StartActivity extends Activity {
             }
         });
 
-        tempTechsetupButton = (Button)findViewById(R.id.tempButton4);
+        tempTechsetupButton = (Button) findViewById(R.id.tempButton4);
         tempTechsetupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,6 +72,17 @@ public class StartActivity extends Activity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(StartActivity.this, IdentifyPatientActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                startActivity(i);
+            }
+        });
+
+
+        tempExaminationButton = (Button) findViewById(R.id.tempButton6);
+        tempExaminationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(StartActivity.this, ExaminationView.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 startActivity(i);
             }

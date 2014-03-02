@@ -19,8 +19,8 @@ public class ExaminationView extends Activity {
     private ViewFlipper flipper;
     private Examination data;
     private TextView header, idField, nameField, images1, images2, imageHeader;
-    private ImageButton returnButton, reviewAndUploadButton, deleteButton;
-    private Button addCommentsButton, nextButton, prevButton, doneButton;
+    private ImageButton returnButton, deleteButton;
+    private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentField;
     private ImageView image;
     private int currentImageId = 0;
@@ -112,7 +112,7 @@ public class ExaminationView extends Activity {
             }
         });
 
-        reviewAndUploadButton = (ImageButton) findViewById(R.id.reviewAndUploadButton);
+        reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

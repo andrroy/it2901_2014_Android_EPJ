@@ -24,11 +24,12 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.royrvik.capgeminiemr.Login"></activity>
+        <activity android:name="org.royrvik.capgeminiemr.LoginActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.SettingsActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.HomeScreenActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.TechnicalSetupActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.ExaminationView"></activity>
+        <activity android:name=".LoginActivity"/>
     </application>
 </manifest>
