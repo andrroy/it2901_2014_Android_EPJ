@@ -78,8 +78,9 @@ public class IdentifyPatientActivity extends Activity {
         info.add("Frank Stangelberg");
         info.addAll(intent.getStringArrayListExtra("chosen_images"));
 
-        Intent i = new Intent(IdentifyPatientActivity.this, ExaminationView.class);
+        Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
         i.putStringArrayListExtra("info", info);
         startActivity(i);
+        finish();
     }
 }

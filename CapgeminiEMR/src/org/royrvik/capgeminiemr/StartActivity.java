@@ -76,16 +76,5 @@ public class StartActivity extends Activity {
                 startActivity(i);
             }
         });
-
-
-        tempExaminationButton = (Button) findViewById(R.id.tempButton6);
-        tempExaminationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(StartActivity.this, ExaminationView.class);
-                i.putStringArrayListExtra("chosen_images", incomingImages);
-                startActivity(i);
-            }
-        });
     }
 }

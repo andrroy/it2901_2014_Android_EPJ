@@ -54,12 +54,5 @@
         android:layout_below="@+id/tempButton4"
         android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Gå til examination view"
-        android:id="@+id/tempButton6"
-        android:layout_below="@+id/tempButton5"
-        android:layout_centerHorizontal="true"/>
 </RelativeLayout>
 

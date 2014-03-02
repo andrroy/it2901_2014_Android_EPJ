@@ -14,7 +14,7 @@ import java.util.ArrayList;
 /**
  * Created by Joakim on 27.02.14.
  */
-public class ExaminationView extends Activity {
+public class ExaminationActivity extends Activity {
 
     private ViewFlipper flipper;
     private Examination data;
@@ -34,8 +34,8 @@ public class ExaminationView extends Activity {
 
         initFirstViewElements();
         initSecondViewElements();
-        //initExamination();
-        initTestingExamination();
+        initExamination();
+        //initTestingExamination();
         updateElements();
     }
 
@@ -64,6 +64,7 @@ public class ExaminationView extends Activity {
             public void onClick(View view) {
                 save();
                 currentImageId--;
+                updateEditorView();
             }
         });
 
@@ -117,6 +118,7 @@ public class ExaminationView extends Activity {
             @Override
             public void onClick(View view) {
                 //TODO: Implement
+                finish();
             }
         });
         reviewAndUploadButton.setClickable(false);
@@ -133,7 +135,6 @@ public class ExaminationView extends Activity {
 
     private void updateEditorView() {
         imageHeader.setText(currentImageId +1 + " / " + data.getImages().size());
-
         currentImage = data.getImages().get(currentImageId);
         image.setImageBitmap(BitmapFactory.decodeFile(currentImage.getImageUri()));
         commentField.setText(currentImage.getDescription());
@@ -145,7 +146,7 @@ public class ExaminationView extends Activity {
             prevButton.setClickable(true);
         }
 
-        if (currentImageId+1 < data.getImages().size()) {
+        if (data.getImages().size() == currentImageId+1) {
             nextButton.setClickable(false);
         }
         else {
@@ -155,12 +156,17 @@ public class ExaminationView extends Activity {
 
     private void deleteImage() {
         ArrayList<UltrasoundRowItem> temp = data.getImages();
-        temp.remove(temp.get(currentImageId));
-        data.updateImages(temp);
-        if (currentImageId > 0) {
-            currentImageId--;
+        if (temp.size() > 1) {
+            temp.remove(temp.get(currentImageId));
+            data.updateImages(temp);
+            if (currentImageId > 0) {
+                currentImageId--;
+            }
+            updateEditorView();
         }
-        updateEditorView();
+        else {
+            //TODO: Show error
+        }
     }
 
     private void updateElements() {
