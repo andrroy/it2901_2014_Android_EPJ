@@ -19,12 +19,13 @@ public class ExaminationView extends Activity {
     private ViewFlipper flipper;
     private Examination data;
     private TextView header, idField, nameField, images1, images2, imageHeader;
-    private ImageButton returnButton, uploadButton, deleteButton;
+    private ImageButton returnButton, reviewAndUploadButton, deleteButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton;
     private EditText commentField;
     private ImageView image;
     private int currentImageId = 0;
     private UltrasoundRowItem currentImage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,33 +44,48 @@ public class ExaminationView extends Activity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement
+                deleteImage();
             }
         });
+
         nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextImage();
+                save();
+                currentImageId++;
+                updateEditorView();
             }
         });
+
         prevButton = (Button) findViewById(R.id.prevButton);
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                prevImage();
+                save();
+                currentImageId--;
             }
         });
+
         doneButton = (Button) findViewById(R.id.doneButton);
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteImage();
+                save();
+                flipper.showPrevious();
+                updateElements();
             }
         });
+
         commentField = (EditText) findViewById(R.id.commentField);
         image = (ImageView) findViewById(R.id.imageArea);
         imageHeader = (TextView) findViewById(R.id.imageHeader);
+    }
+
+    private void save() {
+        ArrayList<UltrasoundRowItem> temp = data.getImages();
+        temp.get(currentImageId).setDescription(commentField.getText().toString());
+        data.updateImages(temp);
     }
 
     /**
@@ -96,13 +112,14 @@ public class ExaminationView extends Activity {
             }
         });
 
-        uploadButton = (ImageButton) findViewById(R.id.uploadButton);
-        uploadButton.setOnClickListener(new View.OnClickListener() {
+        reviewAndUploadButton = (ImageButton) findViewById(R.id.reviewAndUploadButton);
+        reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO: Implement
             }
         });
+        reviewAndUploadButton.setClickable(false);
 
         addCommentsButton = (Button) findViewById(R.id.addCommentsButton);
         addCommentsButton.setOnClickListener(new View.OnClickListener() {
@@ -120,18 +137,30 @@ public class ExaminationView extends Activity {
         currentImage = data.getImages().get(currentImageId);
         image.setImageBitmap(BitmapFactory.decodeFile(currentImage.getImageUri()));
         commentField.setText(currentImage.getDescription());
-    }
 
-    private void nextImage() {
+        if (currentImageId == 0) {
+            prevButton.setClickable(false);
+        }
+        else {
+            prevButton.setClickable(true);
+        }
 
-    }
-
-    private void prevImage() {
-
+        if (currentImageId+1 < data.getImages().size()) {
+            nextButton.setClickable(false);
+        }
+        else {
+            nextButton.setClickable(true);
+        }
     }
 
     private void deleteImage() {
-
+        ArrayList<UltrasoundRowItem> temp = data.getImages();
+        temp.remove(temp.get(currentImageId));
+        data.updateImages(temp);
+        if (currentImageId > 0) {
+            currentImageId--;
+        }
+        updateEditorView();
     }
 
     private void updateElements() {
@@ -146,13 +175,10 @@ public class ExaminationView extends Activity {
         else {
             images2.setText(temp + " image(s) without comment");
         }
-    }
 
-    private boolean checkInput() {
         if (data.getImages().size() == data.hasDesc()) {
-            return true;
+            reviewAndUploadButton.setClickable(true);
         }
-        return false;
     }
 
     private void initExamination() {
