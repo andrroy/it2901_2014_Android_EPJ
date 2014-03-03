@@ -1,17 +1,16 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 
 import java.util.ArrayList;
 
-/**
- * Created by Joakim on 28.02.14.
- */
-public class IdentifyPatientActivity extends Activity {
+
+public class IdentifyPatientActivity extends SherlockActivity {
 
     private Button backButton, okButton;
     private ImageButton  manualButton, automaticButton;
@@ -24,6 +23,11 @@ public class IdentifyPatientActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify);
+
+        //Actionbarsherlock back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         intent = getIntent();
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         input = (EditText) findViewById(R.id.editText);
@@ -82,5 +86,16 @@ public class IdentifyPatientActivity extends Activity {
         i.putStringArrayListExtra("info", info);
         startActivity(i);
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Back button clicked. Exit activity and open previous in activity stack
+                finish();
+                break;
+        }
+        return true;
     }
 }

@@ -11,9 +11,7 @@ import org.royrvik.capgeminiemr.adapter.UltrasoundRowItem;
 
 import java.util.ArrayList;
 
-/**
- * Created by Joakim on 27.02.14.
- */
+
 public class ExaminationActivity extends Activity {
 
     private ViewFlipper flipper;

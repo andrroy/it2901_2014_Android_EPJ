@@ -1,16 +1,18 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
 import org.royrvik.capgeminiemr.adapter.UltrasoundRowItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeScreenActivity extends Activity {
+public class HomeScreenActivity extends SherlockActivity {
 
     private static final String TAG = "APP";
 
@@ -25,6 +27,11 @@ public class HomeScreenActivity extends Activity {
 
         context = this;
 
+        //Actionbarsherlock back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+
         // Get images from previous Activity
         Intent intent = getIntent();
         incomingImages = intent.getStringArrayListExtra("chosen_images");
@@ -37,5 +44,16 @@ public class HomeScreenActivity extends Activity {
         ultrasoundListView = (ListView) findViewById(R.id.ultrasoundImagesListView);
         ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item, listOfExaminations));
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Back button clicked. Exit activity and open previous in activity stack
+                finish();
+                break;
+        }
+        return true;
     }
 }
