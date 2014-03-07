@@ -10,28 +10,27 @@
     <name>CapgeminiEMR</name>
 
     <dependencies>
+
         <dependency>
             <groupId>com.google.android</groupId>
             <artifactId>android</artifactId>
             <version>4.1.1.4</version>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>com.actionbarsherlock</groupId>
             <artifactId>actionbarsherlock</artifactId>
             <version>4.4.0</version>
             <type>apklib</type>
         </dependency>
+        
         <dependency>
             <artifactId>crouton</artifactId>
             <version>1.8.3</version>
             <groupId>de.keyboardsurfer.android.widget</groupId>
         </dependency>
-        <dependency>
-	   <groupId>com.google.android</groupId>
-	<artifactId>support-v4</artifactId>
-	<version>r6</version>
-</dependency>
+
     </dependencies>
 
     <build>
