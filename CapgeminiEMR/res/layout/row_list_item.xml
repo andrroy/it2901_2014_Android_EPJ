@@ -14,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/usDescriptionTextView"
+        android:id="@+id/usNameTextView"
         android:layout_centerVertical="true"
         android:text="asda"
         android:layout_toRightOf="@+id/usImageImageView"
@@ -27,7 +27,7 @@
         android:id="@+id/usDateTextView"
         android:layout_centerVertical="true"
         android:text="dfgdfgd"
-        android:layout_toRightOf="@+id/usDescriptionTextView"
+        android:layout_toRightOf="@+id/usNameTextView"
         android:layout_marginLeft="19dp"/>
 
     <CheckBox

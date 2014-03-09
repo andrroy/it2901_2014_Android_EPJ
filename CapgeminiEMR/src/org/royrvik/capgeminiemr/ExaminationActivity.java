@@ -6,8 +6,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
-import org.royrvik.capgeminiemr.adapter.Examination;
-import org.royrvik.capgeminiemr.adapter.UltrasoundRowItem;
+import org.royrvik.capgeminiemr.data.Examination;
 
 import java.util.ArrayList;
 

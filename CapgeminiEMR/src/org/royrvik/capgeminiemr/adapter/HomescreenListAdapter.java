@@ -11,10 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
+import org.royrvik.capgeminiemr.data.Examination;
 
 import java.util.List;
 
-public class HomescreenListAdapter extends ArrayAdapter<UltrasoundRowItem> {
+public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
     private static final String TAG = "APP";
 
@@ -22,7 +23,7 @@ public class HomescreenListAdapter extends ArrayAdapter<UltrasoundRowItem> {
     private LayoutInflater inflater;
     private Context context;
 
-    public HomescreenListAdapter(Context context, int resourceId, List<UltrasoundRowItem> objects) {
+    public HomescreenListAdapter(Context context, int resourceId, List<Examination> objects) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
@@ -35,17 +36,19 @@ public class HomescreenListAdapter extends ArrayAdapter<UltrasoundRowItem> {
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
         //ultrasound image/data for THIS row
-        UltrasoundRowItem rowItem = getItem(position);
+        Examination rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.usImageImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
+        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
         rowImage.setImageBitmap(bitmap);
 
-        TextView descriptionTextView = (TextView) convertView.findViewById(R.id.usDescriptionTextView);
-        descriptionTextView.setText(rowItem.getDescription());
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.usNameTextView);
+        //nameTextView.setText(rowItem.getPatientName());
+        nameTextView.setText("Navn");
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.usDateTextView);
-        dateTextView.setText(rowItem.getDate());
+        //dateTextView.setText(rowItem.getDate());
+        dateTextView.setText("01.01.2014");
 
         return convertView;
 
