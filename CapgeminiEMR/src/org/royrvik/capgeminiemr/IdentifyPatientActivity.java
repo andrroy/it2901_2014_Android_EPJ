@@ -74,6 +74,9 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
     }
 
+    /**
+     * Checks patients ID.
+     */
     private void checkPid() {
         //TODO: Validate the ID
         //TODO: Get patient info
