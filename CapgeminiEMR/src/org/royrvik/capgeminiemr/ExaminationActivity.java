@@ -13,12 +13,12 @@ import java.util.ArrayList;
 
 public class ExaminationActivity extends Activity {
 
-    private ViewFlipper flipper;
-    private Examination data;
-    private TextView header, idField, nameField, images1, images2, imageHeader;
+    private ViewFlipper examinationViewFlipper;
+    private Examination examination;
+    private TextView headerTextView, idTextView, nameTextView, images1TextView, images2TextView, imageHeaderTextView;
     private ImageButton returnButton, deleteButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
-    private EditText commentField;
+    private EditText commentEditText;
     private ImageView image;
     private int currentImageId = 0;
     private UltrasoundRowItem currentImage;
@@ -27,7 +27,7 @@ public class ExaminationActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.examination);
-        flipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
+        examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
         initFirstViewElements();
         initSecondViewElements();
@@ -70,20 +70,20 @@ public class ExaminationActivity extends Activity {
             @Override
             public void onClick(View view) {
                 save();
-                flipper.showPrevious();
+                examinationViewFlipper.showPrevious();
                 updateElements();
             }
         });
 
-        commentField = (EditText) findViewById(R.id.commentField);
+        commentEditText = (EditText) findViewById(R.id.commentField);
         image = (ImageView) findViewById(R.id.imageArea);
-        imageHeader = (TextView) findViewById(R.id.imageHeader);
+        imageHeaderTextView = (TextView) findViewById(R.id.imageHeader);
     }
 
     private void save() {
-        ArrayList<UltrasoundRowItem> temp = data.getImages();
-        temp.get(currentImageId).setDescription(commentField.getText().toString());
-        data.updateImages(temp);
+        ArrayList<UltrasoundRowItem> temp = examination.getImages();
+        temp.get(currentImageId).setDescription(commentEditText.getText().toString());
+        examination.updateImages(temp);
     }
 
     /**
@@ -92,15 +92,15 @@ public class ExaminationActivity extends Activity {
     private void initTestingExamination() {
         ArrayList<UltrasoundRowItem> images = new ArrayList<UltrasoundRowItem>();
         images.add(new UltrasoundRowItem("", 0, ""));
-        data = new Examination("012345678910", "Frank Stangelberg", images);
+        examination = new Examination("012345678910", "Frank Stangelberg", images);
     }
 
     private void initFirstViewElements() {
-        header = (TextView) findViewById(R.id.header);
-        idField = (TextView) findViewById(R.id.idField);
-        nameField = (TextView) findViewById(R.id.nameField);
-        images1 = (TextView) findViewById(R.id.images1);
-        images2 = (TextView) findViewById(R.id.images2);
+        headerTextView = (TextView) findViewById(R.id.header);
+        idTextView = (TextView) findViewById(R.id.idField);
+        nameTextView = (TextView) findViewById(R.id.nameField);
+        images1TextView = (TextView) findViewById(R.id.images1);
+        images2TextView = (TextView) findViewById(R.id.images2);
 
         returnButton = (ImageButton) findViewById(R.id.returnButton);
         returnButton.setOnClickListener(new View.OnClickListener() {
@@ -125,16 +125,16 @@ public class ExaminationActivity extends Activity {
             @Override
             public void onClick(View view) {
                 updateEditorView();
-                flipper.showNext();
+                examinationViewFlipper.showNext();
             }
         });
     }
 
     private void updateEditorView() {
-        imageHeader.setText(currentImageId +1 + " / " + data.getImages().size());
-        currentImage = data.getImages().get(currentImageId);
+        imageHeaderTextView.setText(currentImageId + 1 + " / " + examination.getImages().size());
+        currentImage = examination.getImages().get(currentImageId);
         image.setImageBitmap(BitmapFactory.decodeFile(currentImage.getImageUri()));
-        commentField.setText(currentImage.getDescription());
+        commentEditText.setText(currentImage.getDescription());
 
         if (currentImageId == 0) {
             prevButton.setClickable(false);
@@ -143,7 +143,7 @@ public class ExaminationActivity extends Activity {
             prevButton.setClickable(true);
         }
 
-        if (data.getImages().size() == currentImageId+1) {
+        if (examination.getImages().size() == currentImageId+1) {
             nextButton.setClickable(false);
         }
         else {
@@ -152,10 +152,10 @@ public class ExaminationActivity extends Activity {
     }
 
     private void deleteImage() {
-        ArrayList<UltrasoundRowItem> temp = data.getImages();
+        ArrayList<UltrasoundRowItem> temp = examination.getImages();
         if (temp.size() > 1) {
             temp.remove(temp.get(currentImageId));
-            data.updateImages(temp);
+            examination.updateImages(temp);
             if (currentImageId > 0) {
                 currentImageId--;
             }
@@ -167,19 +167,19 @@ public class ExaminationActivity extends Activity {
     }
 
     private void updateElements() {
-        header.setText("Patient ID: "+data.getPid());
-        idField.setText(data.getPid());
-        nameField.setText(data.getName());
-        images1.setText(data.hasDesc() + " image(s) with comment");
-        int temp = data.getImages().size()-data.hasDesc();
+        headerTextView.setText("Patient ID: " + examination.getPid());
+        idTextView.setText(examination.getPid());
+        nameTextView.setText(examination.getName());
+        images1TextView.setText(examination.hasDesc() + " image(s) with comment");
+        int temp = examination.getImages().size()- examination.hasDesc();
         if (temp == 0) {
-            images2.setText("");
+            images2TextView.setText("");
         }
         else {
-            images2.setText(temp + " image(s) without comment");
+            images2TextView.setText(temp + " image(s) without comment");
         }
 
-        if (data.getImages().size() == data.hasDesc()) {
+        if (examination.getImages().size() == examination.hasDesc()) {
             reviewAndUploadButton.setClickable(true);
         }
     }
@@ -194,6 +194,6 @@ public class ExaminationActivity extends Activity {
         for (int i=0;i<input.size();i++) {
             images.add(new UltrasoundRowItem(input.get(i), i, ""));
         }
-        data = new Examination(name, pid, images);
+        examination = new Examination(name, pid, images);
     }
 }

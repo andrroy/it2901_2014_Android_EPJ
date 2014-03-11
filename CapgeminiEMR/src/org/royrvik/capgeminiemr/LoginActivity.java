@@ -29,6 +29,7 @@ public class LoginActivity extends Activity {
         // get intent from launcher
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
+        Crouton.makeText(LoginActivity.this, "Recieved " + Integer.toString(incomingImages.size())  + " images from launcher", Style.INFO).show();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
