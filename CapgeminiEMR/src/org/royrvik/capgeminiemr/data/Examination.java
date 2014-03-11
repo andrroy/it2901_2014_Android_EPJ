@@ -22,6 +22,14 @@ public class Examination {
         this.imageUris = imageUris;
     }
 
+    public Examination() {
+        patientName = " ";
+        patientSsn = 0;
+        comments = new ArrayList<String>();
+        imageUris = new ArrayList<String>();
+        this.date = dateFormat.format(new Date());
+    }
+
     public int getPatientSsn() {
         return patientSsn;
     }

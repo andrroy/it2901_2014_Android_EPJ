@@ -17,6 +17,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private EditText patientIDEditText;
     private TextView error;
     private ViewFlipper flipper;
+    private ArrayList<String> incomingImages;
     private Intent intent;
 
     @Override
@@ -28,7 +29,10 @@ public class IdentifyPatientActivity extends SherlockActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        intent = getIntent();
+        // get intent from last activity
+        Intent i = getIntent();
+        incomingImages = i.getStringArrayListExtra("chosen_images");
+
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
@@ -84,10 +88,10 @@ public class IdentifyPatientActivity extends SherlockActivity {
         ArrayList<String> info = new ArrayList<String>();
         info.add(patientIDEditText.getText().toString());
         info.add("Frank Stangelberg");
-        info.addAll(intent.getStringArrayListExtra("chosen_images"));
 
         Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
         i.putStringArrayListExtra("info", info);
+        i.putStringArrayListExtra("chosen_images", incomingImages);
         startActivity(i);
         finish();
     }
