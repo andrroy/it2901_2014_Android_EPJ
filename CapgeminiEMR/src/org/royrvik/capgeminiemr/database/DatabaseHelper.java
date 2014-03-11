@@ -73,7 +73,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public Examination getExamination(int id) {
+    /*public Examination getExamination(int id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
@@ -86,7 +86,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Examination examination = new Examination(cursor.getString(0),
                 cursor.getString(1), convertStringToArray(cursor.getString(2)));
-    }
+    }*/
 
     // Helper methods for converting string arrays to/from string
     public static String convertArrayToString(String[] array) {

@@ -16,7 +16,7 @@
         android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.Holo.Light">
         <activity
-            android:name="org.royrvik.capgeminiemr.StartActivity"
+            android:name="org.royrvik.capgeminiemr.LoginActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -24,12 +24,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="org.royrvik.capgeminiemr.LoginActivity"></activity>
+        <activity android:name="org.royrvik.capgeminiemr.StartActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.SettingsActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.HomeScreenActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.TechnicalSetupActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"></activity>
         <activity android:name=".ExaminationActivity"></activity>
-        <activity android:name=".LoginActivity"/>
     </application>
 </manifest>

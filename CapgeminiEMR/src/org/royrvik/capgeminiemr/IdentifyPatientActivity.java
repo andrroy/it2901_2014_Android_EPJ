@@ -14,7 +14,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
     private Button backButton, okButton;
     private ImageButton  manualButton, automaticButton;
-    private EditText input;
+    private EditText patientIDEditText;
     private TextView error;
     private ViewFlipper flipper;
     private Intent intent;
@@ -30,7 +30,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
         intent = getIntent();
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
-        input = (EditText) findViewById(R.id.editText);
+        patientIDEditText = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
 
         manualButton = (ImageButton) findViewById(R.id.manualButton);
@@ -53,7 +53,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                input.setText("");
+                patientIDEditText.setText("");
                 error.setText("");
                 flipper.showPrevious();
             }
@@ -63,7 +63,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!input.getText().toString().trim().isEmpty()) {
+                if (!patientIDEditText.getText().toString().trim().isEmpty()) {
                     checkPid();
                 }
                 else {
@@ -76,12 +76,13 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
     /**
      * Checks patients ID.
+     * Starts ExaminationActivity if PID is accepted
      */
     private void checkPid() {
         //TODO: Validate the ID
         //TODO: Get patient info
         ArrayList<String> info = new ArrayList<String>();
-        info.add(input.getText().toString());
+        info.add(patientIDEditText.getText().toString());
         info.add("Frank Stangelberg");
         info.addAll(intent.getStringArrayListExtra("chosen_images"));
 
