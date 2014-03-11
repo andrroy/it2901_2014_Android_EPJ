@@ -10,6 +10,7 @@ import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -42,9 +43,11 @@ public class ExaminationActivity extends SherlockActivity {
         infoArrayList = i.getStringArrayListExtra("info");
 
         currentExamination = new Examination();
-        currentExamination.setImageUris(incomingImages);
         currentExamination.setPatientName(infoArrayList.get(1));
         currentExamination.setPatientSsn(Integer.parseInt(infoArrayList.get(0)));
+        for(String uri : incomingImages) {
+            currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
+        }
 
         initFirstViewElements();
         initSecondViewElements();
@@ -88,8 +91,14 @@ public class ExaminationActivity extends SherlockActivity {
         addCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(currentExamination.getUltrasoundImages().isEmpty()) {
+                    Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to", Style.ALERT).show();
+                }
+                else {
+                    examinationViewFlipper.showNext();
+                }
                 updateEditorView();
-                examinationViewFlipper.showNext();
+
             }
         });
     }
@@ -99,7 +108,7 @@ public class ExaminationActivity extends SherlockActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteImage();
+                //deleteImage();
             }
         });
 
@@ -165,13 +174,10 @@ public class ExaminationActivity extends SherlockActivity {
     }*/
 
     private void updateEditorView() {
-        if(currentExamination.getImageUris().size() > 0) {
-            imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getImageUris().size());
-            globalImageView.setImageBitmap(BitmapFactory.decodeFile(currentExamination.getImageUris().get(currentImageId)));
-            commentEditText.setText(currentExamination.getComments().get(currentImageId));
-        }
-        else {
-            Crouton.makeText(this, "Something happened (updateEditorView())", Style.ALERT).show();
+        if(currentExamination.getUltrasoundImages().size() > 0) {
+            imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getUltrasoundImages().size());
+            globalImageView.setImageBitmap(BitmapFactory.decodeFile(currentExamination.getUltrasoundImages().get(currentImageId).getImageUri()));
+            commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
         }
 
         if (currentImageId == 0) {
@@ -180,14 +186,14 @@ public class ExaminationActivity extends SherlockActivity {
             prevButton.setClickable(true);
         }
 
-        if (currentExamination.getImageUris().size() == currentImageId + 1) {
+        if (currentExamination.getUltrasoundImages().size() == currentImageId + 1) {
             nextButton.setClickable(false);
         } else {
             nextButton.setClickable(true);
         }
     }
 
-    private void deleteImage() {
+    /*private void deleteImage() {
         ArrayList<String> temp = currentExamination.getImageUris();
         if (temp.size() > 1) {
             temp.remove(temp.get(currentImageId));
@@ -199,7 +205,7 @@ public class ExaminationActivity extends SherlockActivity {
         } else {
             Crouton.makeText(this, "Something happened (deleteImage())", Style.ALERT).show();
         }
-    }
+    }*/
 
     private void updateElements() {
         headerTextView.setText("Patient ID: " + Integer.toString(currentExamination.getPatientSsn()));

@@ -10,6 +10,11 @@ public class UltrasoundImage {
         this.comment = comment;
     }
 
+    public UltrasoundImage(String imageUri) {
+        this.imageUri = imageUri;
+        this.comment = " ";
+    }
+
     public String getImageUri() {
         return imageUri;
     }

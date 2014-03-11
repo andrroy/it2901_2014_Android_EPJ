@@ -8,25 +8,22 @@ public class Examination {
 
     private int patientSsn;
     private String patientName;
-    private ArrayList<String> comments;
-    private ArrayList<String> imageUris;
+    private ArrayList<UltrasoundImage> ultrasoundImages;
     private String date;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yyyy");
 
-    public Examination(int patientSsn, String patientName, ArrayList<String> comments, ArrayList<String> imageUris) {
+    public Examination(int patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages) {
         this.date = dateFormat.format(new Date());
         this.patientSsn = patientSsn;
         this.patientName = patientName;
-        this.comments = comments;
-        this.imageUris = imageUris;
+        this.ultrasoundImages = ultrasoundImages;
     }
 
     public Examination() {
         patientName = " ";
         patientSsn = 0;
-        comments = new ArrayList<String>();
-        imageUris = new ArrayList<String>();
+        ultrasoundImages = new ArrayList<UltrasoundImage>();
         this.date = dateFormat.format(new Date());
     }
 
@@ -42,22 +39,6 @@ public class Examination {
         return date;
     }
 
-    public ArrayList<String> getImageUris() {
-        return imageUris;
-    }
-
-    public void setImageUris(ArrayList<String> imageUris) {
-        this.imageUris = imageUris;
-    }
-
-    public ArrayList<String> getComments() {
-        return comments;
-    }
-
-    public void setComments(ArrayList<String> comments) {
-        this.comments = comments;
-    }
-
     public String getPatientName() {
         return patientName;
     }
@@ -66,4 +47,15 @@ public class Examination {
         this.patientName = patientName;
     }
 
+    public ArrayList<UltrasoundImage> getUltrasoundImages() {
+        return ultrasoundImages;
+    }
+
+    public void setUltrasoundImages(ArrayList<UltrasoundImage> ultrasoundImages) {
+        this.ultrasoundImages = ultrasoundImages;
+    }
+
+    public void addUltrasoundImage(UltrasoundImage usImage) {
+        this.ultrasoundImages.add(usImage);
+    }
 }

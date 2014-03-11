@@ -8,6 +8,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,13 +37,15 @@ public class HomeScreenActivity extends SherlockActivity {
         Intent intent = getIntent();
         incomingImages = intent.getStringArrayListExtra("chosen_images");
 
-        List<Examination> listOfExaminations = new ArrayList<Examination>();
+
+
+        /*List<Examination> listOfExaminations = new ArrayList<Examination>();
         for (int i = 0; i < incomingImages.size(); i++) {
-            listOfExaminations.add(new Examination(1, "Navn", null, null));
+            listOfExaminations.add(new Examination(1, "Navn"));
         }
 
         ultrasoundListView = (ListView) findViewById(R.id.ultrasoundImagesListView);
-        ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item, listOfExaminations));
+        ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item, listOfExaminations));*/
 
     }
 

@@ -39,8 +39,8 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         Examination rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.usImageImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
-        rowImage.setImageBitmap(bitmap);
+        //Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
+        //rowImage.setImageBitmap(bitmap);
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.usNameTextView);
         //nameTextView.setText(rowItem.getPatientName());
