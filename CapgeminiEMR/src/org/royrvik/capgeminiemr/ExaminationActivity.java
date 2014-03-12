@@ -20,7 +20,7 @@ public class ExaminationActivity extends SherlockActivity {
 
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton returnButton, deleteButton;
+    private ImageButton deleteButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -67,14 +67,6 @@ public class ExaminationActivity extends SherlockActivity {
         nameTextView = (TextView) findViewById(R.id.nameField);
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
-
-        returnButton = (ImageButton) findViewById(R.id.returnButton);
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Implement
-            }
-        });
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
