@@ -58,4 +58,8 @@ public class Examination {
     public void addUltrasoundImage(UltrasoundImage usImage) {
         this.ultrasoundImages.add(usImage);
     }
+
+    public void deleteImage(int index) {
+        this.ultrasoundImages.remove(index);
+    }
 }

@@ -2,6 +2,7 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -45,13 +46,12 @@ public class ExaminationActivity extends SherlockActivity {
         currentExamination = new Examination();
         currentExamination.setPatientName(infoArrayList.get(1));
         currentExamination.setPatientSsn(Integer.parseInt(infoArrayList.get(0)));
-        for(String uri : incomingImages) {
+        for (String uri : incomingImages) {
             currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
         }
 
         initFirstViewElements();
         initSecondViewElements();
-        //initTestingExamination();
         updateElements();
 
         //Actionbarsherlock back button
@@ -83,7 +83,7 @@ public class ExaminationActivity extends SherlockActivity {
             @Override
             public void onClick(View view) {
                 if (currentExamination.getUltrasoundImages().isEmpty()) {
-                    Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to", Style.ALERT).show();
+                    Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to (this is not supposed to happen)", Style.ALERT).show();
                 } else {
                     examinationViewFlipper.showNext();
                 }
@@ -98,7 +98,7 @@ public class ExaminationActivity extends SherlockActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //deleteImage();
+                deleteImage();
             }
         });
 
@@ -141,11 +141,11 @@ public class ExaminationActivity extends SherlockActivity {
 
         // Sets the comment to the current UltrasoundImage to the text in commentEditText
         currentExamination.getUltrasoundImages().get(currentImageId).setComment(commentEditText.getText().toString());
-         
+
     }
 
     private void updateEditorView() {
-        if(currentExamination.getUltrasoundImages().size() > 0) {
+        if (currentExamination.getUltrasoundImages().size() > 0) {
             imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getUltrasoundImages().size());
             globalImageView.setImageBitmap(BitmapFactory.decodeFile(currentExamination.getUltrasoundImages().get(currentImageId).getImageUri()));
             commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
@@ -164,37 +164,41 @@ public class ExaminationActivity extends SherlockActivity {
         }
     }
 
-    /*private void deleteImage() {
-        ArrayList<String> temp = currentExamination.getImageUris();
-        if (temp.size() > 1) {
-            temp.remove(temp.get(currentImageId));
-            currentExamination.setImageUris(temp);
-            if (currentImageId > 0) {
-                currentImageId--;
-            }
-            updateEditorView();
+    private void deleteImage() {
+
+        if (currentExamination.getUltrasoundImages().size() <= 1) {
+            Crouton.makeText(this, "You can't delete your only image!", Style.ALERT).show();
         } else {
-            Crouton.makeText(this, "Something happened (deleteImage())", Style.ALERT).show();
+            currentExamination.deleteImage(currentImageId);
+            if (currentImageId > 0)
+                currentImageId--;
+            Crouton.makeText(this, "Image deleted", Style.CONFIRM).show();
+            updateEditorView();
         }
-    }*/
+
+    }
 
     private void updateElements() {
         headerTextView.setText("Patient ID: " + Integer.toString(currentExamination.getPatientSsn()));
         idTextView.setText(Integer.toString(currentExamination.getPatientSsn()));
         nameTextView.setText(currentExamination.getPatientName());
-        imagesWithCommentTextView.setText("FIX THIS image(s) with comment");
-        /*int temp = examination.getImages().size() - examination.hasDesc();
-        if (temp == 0) {
-            imagesWithoutCommentTextView.setText("");
-        } else {
-            imagesWithoutCommentTextView.setText(temp + "image(s) without comment");
+
+        int imagesWithComment = 0;
+        int imagesWithoutComment = 0;
+        for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
+            if (usi.getComment() == " ")
+                imagesWithoutComment++;
+            else
+                imagesWithComment++;
         }
 
-        if (examination.getImages().size() == examination.hasDesc()) {
-            reviewAndUploadButton.setClickable(true);
-        }*/
-    }
+        imagesWithoutCommentTextView.setText(imagesWithoutComment + " image(s) without comment");
+        imagesWithCommentTextView.setText(imagesWithComment + " image(s) with comment");
 
+        if (imagesWithoutComment > 0)
+            imagesWithoutCommentTextView.setTextColor(Color.RED);
+
+    }
 
 
     @Override
