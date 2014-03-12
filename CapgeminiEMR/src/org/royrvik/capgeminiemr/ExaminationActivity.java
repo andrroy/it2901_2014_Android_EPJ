@@ -51,7 +51,6 @@ public class ExaminationActivity extends SherlockActivity {
 
         initFirstViewElements();
         initSecondViewElements();
-        initExamination();
         //initTestingExamination();
         updateElements();
 
@@ -91,10 +90,9 @@ public class ExaminationActivity extends SherlockActivity {
         addCommentsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(currentExamination.getUltrasoundImages().isEmpty()) {
+                if (currentExamination.getUltrasoundImages().isEmpty()) {
                     Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to", Style.ALERT).show();
-                }
-                else {
+                } else {
                     examinationViewFlipper.showNext();
                 }
                 updateEditorView();
@@ -116,7 +114,7 @@ public class ExaminationActivity extends SherlockActivity {
         nextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save();
+                save();
                 currentImageId++;
                 updateEditorView();
             }
@@ -126,7 +124,7 @@ public class ExaminationActivity extends SherlockActivity {
         prevButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save();
+                save();
                 currentImageId--;
                 updateEditorView();
             }
@@ -136,7 +134,7 @@ public class ExaminationActivity extends SherlockActivity {
         doneButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //save();
+                save();
                 examinationViewFlipper.showPrevious();
                 updateElements();
             }
@@ -147,31 +145,12 @@ public class ExaminationActivity extends SherlockActivity {
         imageHeaderTextView = (TextView) findViewById(R.id.imageHeader);
     }
 
-    private void initExamination() {
-        String name = infoArrayList.get(0);
-        String pid = infoArrayList.get(1);
+    private void save() {
 
-        /*ArrayList<UltrasoundRowItem> images = new ArrayList<UltrasoundRowItem>();
-        for (int i = 0; i < input.size(); i++) {
-            images.add(new UltrasoundRowItem(input.get(i), i, ""));
-        }
-        examination = new Examination(name, pid, images);*/
+        // Sets the comment to the current UltrasoundImage to the text in commentEditText
+        currentExamination.getUltrasoundImages().get(currentImageId).setComment(commentEditText.getText().toString());
+         
     }
-
-    /*private void save() {
-        ArrayList<UltrasoundRowItem> temp = examination.getImages();
-        temp.get(currentImageId).setDescription(commentEditText.getText().toString());
-        currentExamination.updateImages(temp);
-    }*/
-
-    /**
-     * For testing only
-     */
-    /*private void initTestingExamination() {
-        ArrayList<UltrasoundRowItem> images = new ArrayList<UltrasoundRowItem>();
-        images.add(new UltrasoundRowItem("", 0, ""));
-        examination = new Examination("012345678910", "Frank Stangelberg", images);
-    }*/
 
     private void updateEditorView() {
         if(currentExamination.getUltrasoundImages().size() > 0) {
