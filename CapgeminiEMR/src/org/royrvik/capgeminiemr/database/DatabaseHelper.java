@@ -6,11 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "EMR_DB";
+    private static final String DATABASE_NAME = "emrdb";
 
     // Table name
     private static final String TABLE_EXAMINATIONS = "examinations";
@@ -55,18 +56,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /*
             CRUD operations
+            NOTE: Can only take arrays, NOT arraylists
      */
 
-    public void addExamination(int ssn, String[] images, String patientName, String[] comments) {
+    public void addExamination(Examination ex) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
+        /*
+               Build query
+         */
         ContentValues values = new ContentValues();
-        values.put(KEY_SSN, ssn);
-        values.put(KEY_PATIENT_NAME, patientName);
-        values.put(KEY_COMMENTS, convertArrayToString(comments));
-        values.put(KEY_IMAGES, convertArrayToString(images));
+        values.put(KEY_SSN, ex.getPatientSsn());
+        values.put(KEY_PATIENT_NAME, ex.getPatientName());
 
+        // Convert the comment ArrayList to String[], then to String
+        String[] commentArray = new String[ex.getAllComments().size()];
+        commentArray = ex.getAllComments().toArray(commentArray);
+        values.put(KEY_COMMENTS, convertArrayToString(commentArray));
+
+        String[] imagesArray = new String[ex.getAllImages().size()];
+        imagesArray = ex.getAllImages().toArray(imagesArray);
+        values.put(KEY_IMAGES, convertArrayToString(imagesArray));
+
+
+        // Execute query
         db.insert(TABLE_EXAMINATIONS, null, values);
 
         db.close();
@@ -84,10 +98,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
+        // Build Examination with result
+        Examination examination = new Examination();
+        examination.setPatientSsn(Integer.parseInt(cursor.getString(1)));
+        examination.setPatientName(cursor.getString(2));
+
+        String[] commentsArray = convertStringToArray(cursor.getString(3));
+        String[] imagesArray = convertStringToArray(cursor.getString(4));
+        for(int i=0;i<commentsArray.length;i++) {
+            examination.addUltrasoundImage(new UltrasoundImage(imagesArray[i], commentsArray[i]));
+        }
+
+        return examination;
 
     }
 
-    // Helper methods for converting string arrays to/from string
+
+    /*
+            Helper methods for converting string arrays to/from string
+     */
     public static String convertArrayToString(String[] array) {
         String stringSeparator = "__,__";
         String str = "";

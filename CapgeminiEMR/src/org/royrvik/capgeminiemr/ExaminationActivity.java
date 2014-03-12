@@ -14,6 +14,7 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 
@@ -29,6 +30,7 @@ public class ExaminationActivity extends SherlockActivity {
     private Examination currentExamination;
     private ArrayList<String> incomingImages;
     private ArrayList<String> infoArrayList = new ArrayList<String>();
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +38,7 @@ public class ExaminationActivity extends SherlockActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper = new DatabaseHelper(this);
 
         // get intent from last activity
         Intent i = getIntent();
@@ -72,11 +74,10 @@ public class ExaminationActivity extends SherlockActivity {
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement
-                finish();
+                dbHelper.addExamination(currentExamination);
+                Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
             }
         });
-        reviewAndUploadButton.setClickable(false);
 
         addCommentsButton = (Button) findViewById(R.id.addCommentsButton);
         addCommentsButton.setOnClickListener(new View.OnClickListener() {

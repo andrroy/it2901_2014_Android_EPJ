@@ -62,4 +62,22 @@ public class Examination {
     public void deleteImage(int index) {
         this.ultrasoundImages.remove(index);
     }
+
+    public ArrayList<String> getAllComments() {
+        ArrayList<String> allComments = new ArrayList<String>();
+
+        for(UltrasoundImage us : ultrasoundImages) {
+            allComments.add(us.getComment());
+        }
+        return allComments;
+    }
+
+    public ArrayList<String> getAllImages() {
+        ArrayList<String> allImages = new ArrayList<String>();
+
+        for(UltrasoundImage us : ultrasoundImages) {
+            allImages.add(us.getImageUri());
+        }
+        return allImages;
+    }
 }
