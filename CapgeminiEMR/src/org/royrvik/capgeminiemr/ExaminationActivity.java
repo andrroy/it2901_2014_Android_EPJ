@@ -195,6 +195,9 @@ public class ExaminationActivity extends SherlockActivity {
         imagesWithoutCommentTextView.setText(imagesWithoutComment + " image(s) without comment");
         imagesWithCommentTextView.setText(imagesWithComment + " image(s) with comment");
 
+        // Reset font color
+        imagesWithoutCommentTextView.setTextColor(Color.BLACK);
+
         if (imagesWithoutComment > 0)
             imagesWithoutCommentTextView.setTextColor(Color.RED);
 

@@ -93,7 +93,6 @@ public class IdentifyPatientActivity extends SherlockActivity {
         i.putStringArrayListExtra("info", info);
         i.putStringArrayListExtra("chosen_images", incomingImages);
         startActivity(i);
-        finish();
     }
 
     @Override
