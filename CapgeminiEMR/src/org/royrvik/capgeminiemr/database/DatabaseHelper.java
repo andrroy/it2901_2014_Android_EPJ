@@ -33,7 +33,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
+        String CREATE_EXAMINATION_TABLE = "CREATE TABLE examinations ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
                 "comments TEXT, " +
