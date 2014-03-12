@@ -37,8 +37,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
                 "comments TEXT, " +
-                "ssn INTEGER, " +
-                "images TEXT )";
+                "images TEXT, " +
+                "ssn INTEGER )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
@@ -100,11 +100,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Build Examination with result
         Examination examination = new Examination();
-        examination.setPatientSsn(Integer.parseInt(cursor.getString(1)));
-        examination.setPatientName(cursor.getString(2));
+        int lol = Integer.parseInt(cursor.getString(0));
+        examination.setPatientName(cursor.getString(1));
+        String[] commentsArray = convertStringToArray(cursor.getString(2));
+        String[] imagesArray = convertStringToArray(cursor.getString(3));
+        examination.setPatientSsn(Integer.parseInt(cursor.getString(4)));
 
-        String[] commentsArray = convertStringToArray(cursor.getString(3));
-        String[] imagesArray = convertStringToArray(cursor.getString(4));
         for(int i=0;i<commentsArray.length;i++) {
             examination.addUltrasoundImage(new UltrasoundImage(imagesArray[i], commentsArray[i]));
         }
