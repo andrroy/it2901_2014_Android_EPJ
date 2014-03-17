@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -63,7 +62,6 @@ public class ExaminationActivity extends SherlockActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
     }
 
     private void initFirstViewElements() {
@@ -79,7 +77,7 @@ public class ExaminationActivity extends SherlockActivity {
             public void onClick(View view) {
                 dbHelper.addExamination(currentExamination);
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
-                Log.d(TAG, dbHelper.getExamination(1).getPatientName());
+                ArrayList<UltrasoundImage> lol = dbHelper.getAllUltrasoundImagesFromExamination(1);
             }
         });
 

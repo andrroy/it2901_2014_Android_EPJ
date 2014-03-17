@@ -15,6 +15,10 @@ public class UltrasoundImage {
         this.comment = " ";
     }
 
+    public UltrasoundImage() {
+
+    }
+
     public String getImageUri() {
         return imageUri;
     }

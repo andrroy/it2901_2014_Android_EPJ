@@ -5,8 +5,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -31,6 +34,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN};
     private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
+
+    private static final String TAG = "APP";
+
 
 
     public DatabaseHelper(Context context) {
@@ -70,6 +76,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.onCreate(db);
     }
 
+
+    /*
+            CRUD OPERATIONS
+     */
 
     public void addExamination(Examination ex) {
 
@@ -121,6 +131,33 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return examination;
 
+    }
+
+    public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
+
+        ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
+        String selectQuery = "SELECT * FROM ultrasoundimage WHERE examination_id=" + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                // Fetch the values and create a new Ultrasoundimage object
+                UltrasoundImage usi = new UltrasoundImage();
+
+                usi.setComment(cursor.getString(2));
+                Log.d(TAG, "comment" + cursor.getString(2));
+                usi.setImageUri(cursor.getString(3));
+                Log.d(TAG, "uri" + cursor.getString(3));
+
+                // Add the USI to the list
+                usiList.add(usi);
+
+            } while(cursor.moveToNext());
+        }
+
+        return usiList;
     }
 
 
