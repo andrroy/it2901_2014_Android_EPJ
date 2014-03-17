@@ -25,7 +25,7 @@ public class HomeScreenActivity extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
-
+//
         context = this;
 
         //Actionbarsherlock back button
