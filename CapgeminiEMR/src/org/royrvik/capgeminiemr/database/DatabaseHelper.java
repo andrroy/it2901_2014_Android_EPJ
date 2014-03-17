@@ -147,9 +147,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UltrasoundImage usi = new UltrasoundImage();
 
                 usi.setComment(cursor.getString(2));
-                Log.d(TAG, "comment" + cursor.getString(2));
+                //Log.d(TAG, "comment" + cursor.getString(2));
                 usi.setImageUri(cursor.getString(3));
-                Log.d(TAG, "uri" + cursor.getString(3));
+                //Log.d(TAG, "uri" + cursor.getString(3));
 
                 // Add the USI to the list
                 usiList.add(usi);

@@ -77,7 +77,9 @@ public class ExaminationActivity extends SherlockActivity {
             public void onClick(View view) {
                 dbHelper.addExamination(currentExamination);
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
-                ArrayList<UltrasoundImage> lol = dbHelper.getAllUltrasoundImagesFromExamination(1);
+
+                Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                startActivity(i);
             }
         });
 
