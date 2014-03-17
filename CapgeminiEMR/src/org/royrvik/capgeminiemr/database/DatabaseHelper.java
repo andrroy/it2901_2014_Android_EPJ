@@ -14,16 +14,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "emrdb";
 
     // Table name
-    private static final String TABLE_EXAMINATIONS = "examinations";
+    private static final String TABLE_EXAMINATION = "examination";
+    private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
 
     // Column names
-    private static final String KEY_ID = "id";
+    // Examination
+    private static final String KEY_EX_ID = "examination_id";
     private static final String KEY_PATIENT_NAME = "patient_name";
-    private static final String KEY_COMMENTS = "comments";
-    private static final String KEY_IMAGES = "images";
-    private static final String KEY_SSN = "ssn";
+    private static final String KEY_SSN = "patient_ssn";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_PATIENT_NAME, KEY_COMMENTS, KEY_IMAGES, KEY_SSN};
+    // Ultrasoundimage
+    private static final String KEY_USI_ID = "ultrasoundimage_id";
+    private static final String KEY_COMMENT = "comment";
+    private static final String KEY_URI = "uri";
+
+
+    private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN};
+    private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
 
 
     public DatabaseHelper(Context context) {
@@ -33,21 +40,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String CREATE_EXAMINATION_TABLE = "CREATE TABLE examinations ( " +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+        String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
+                "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
-                "comments TEXT, " +
-                "images TEXT, " +
-                "ssn INTEGER )";
+                "patient_ssn INTEGER )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
+
+        String CREATE_ULTRASOUNDIMAGE_TABLE = "CREATE TABLE ultrasoundimage ( " +
+                "ultrasoundimage_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "examination_id INTEGER, " +
+                "comment TEXT, " +
+                "uri TEXT, " +
+                "FOREIGN KEY(examination_id) REFERENCES examination(examination_id) )";
+
+        // Create examination table
+        db.execSQL(CREATE_EXAMINATION_TABLE);
+        db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop table
         db.execSQL("DROP TABLE IF EXISTS examination");
+        db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
 
         // Recreate the table
         this.onCreate(db);
