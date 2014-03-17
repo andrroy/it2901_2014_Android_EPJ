@@ -55,8 +55,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "uri TEXT, " +
                 "FOREIGN KEY(examination_id) REFERENCES examination(examination_id) )";
 
-        // Create examination table
-        db.execSQL(CREATE_EXAMINATION_TABLE);
+        // Create ultrasoundimage table
         db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
     }
 
@@ -66,39 +65,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS examination");
         db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
 
+
         // Recreate the table
         this.onCreate(db);
     }
 
 
-    /*
-            CRUD operations
-            NOTE: Can only take arrays, NOT arraylists
-     */
-
     public void addExamination(Examination ex) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
-        /*
-               Build query
-         */
+        // Build query
         ContentValues values = new ContentValues();
         values.put(KEY_SSN, ex.getPatientSsn());
         values.put(KEY_PATIENT_NAME, ex.getPatientName());
 
-        // Convert the comment ArrayList to String[], then to String
-        String[] commentArray = new String[ex.getAllComments().size()];
-        commentArray = ex.getAllComments().toArray(commentArray);
-        values.put(KEY_COMMENTS, convertArrayToString(commentArray));
+        // Execute query and get the auto incremented id value
+        int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
 
-        String[] imagesArray = new String[ex.getAllImages().size()];
-        imagesArray = ex.getAllImages().toArray(imagesArray);
-        values.put(KEY_IMAGES, convertArrayToString(imagesArray));
+        // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
+        for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
+            ContentValues ultrasoundImageValues = new ContentValues();
+            ultrasoundImageValues.put(KEY_EX_ID, examinationId);
+            ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
+            ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
 
-        // Execute query
-        db.insert(TABLE_EXAMINATIONS, null, values);
+            // Execute query
+            db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
+
+        }
 
         db.close();
 
@@ -108,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_EXAMINATIONS, COLUMNS, " id = ?",
+        Cursor cursor = db.query(TABLE_EXAMINATION, COLUMNS_EX, " examination_id = ?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
 
@@ -117,15 +113,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Build Examination with result
         Examination examination = new Examination();
-        int lol = Integer.parseInt(cursor.getString(0));
+        int exId = Integer.parseInt(cursor.getString(0));
         examination.setPatientName(cursor.getString(1));
-        String[] commentsArray = convertStringToArray(cursor.getString(2));
-        String[] imagesArray = convertStringToArray(cursor.getString(3));
-        examination.setPatientSsn(Integer.parseInt(cursor.getString(4)));
+        examination.setPatientSsn(Integer.parseInt(cursor.getString(2)));
 
-        for(int i=0;i<commentsArray.length;i++) {
-            examination.addUltrasoundImage(new UltrasoundImage(imagesArray[i], commentsArray[i]));
-        }
+        db.close();
 
         return examination;
 
@@ -155,6 +147,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * @param l long to be converted
+     * @return long as integer if possible
+     */
+    public static int safeLongToInt(long l) {
+        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException
+                    (l + " cannot be cast to int without changing its value.");
+        }
+        return (int) l;
+    }
 
 
 }
