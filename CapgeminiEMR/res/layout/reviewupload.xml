@@ -4,6 +4,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/patient_info"
+            android:id="@+id/patientInfoTextView"
+            android:layout_centerHorizontal="true"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ID: 0102010302"
+            android:id="@+id/reviewIdTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/patientInfoTextView"
+            android:layout_alignLeft="@id/patientInfoTextView"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: Tjalve Tjalvesen"
+            android:id="@+id/reviewNameTextView"
+            android:layout_centerHorizontal="true"
+            android:layout_alignLeft="@id/reviewIdTextView"
+            android:layout_below="@id/reviewIdTextView"
+            />
+
+    </RelativeLayout>
+
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -13,6 +49,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginLeft="22dp"
         android:layout_marginRight="22dp"
-        android:layout_marginTop="22dp"/>
+        android:layout_marginTop="80dp"/>
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package org.royrvik.capgeminiemr.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
-import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
 import java.util.List;
 
-public class ReviewListAdapter extends ArrayAdapter<Examination> {
+public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
 
     private static final String TAG = "APP";
 
@@ -21,7 +23,7 @@ public class ReviewListAdapter extends ArrayAdapter<Examination> {
     private LayoutInflater inflater;
     private Context context;
 
-    public ReviewListAdapter(Context context, int resourceId, List<Examination> objects) {
+    public ReviewListAdapter(Context context, int resourceId, List<UltrasoundImage> objects) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
@@ -34,19 +36,14 @@ public class ReviewListAdapter extends ArrayAdapter<Examination> {
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
         //ultrasound image/data for THIS row
-        Examination rowItem = getItem(position);
+        UltrasoundImage rowItem = getItem(position);
 
-        ImageView rowImage = (ImageView) convertView.findViewById(R.id.usImageImageView);
-        //Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
-        //rowImage.setImageBitmap(bitmap);
+        ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
+        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
+        rowImage.setImageBitmap(bitmap);
 
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.usNameTextView);
-        //nameTextView.setText(rowItem.getPatientName());
-        nameTextView.setText("Navn");
-
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.usDateTextView);
-        //dateTextView.setText(rowItem.getDate());
-        dateTextView.setText("01.01.2014");
+        TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
+        commentTextView.setText(rowItem.getComment());
 
         return convertView;
 
