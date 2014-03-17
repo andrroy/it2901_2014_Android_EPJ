@@ -126,6 +126,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int exId = Integer.parseInt(cursor.getString(0));
         examination.setPatientName(cursor.getString(1));
         examination.setPatientSsn(Integer.parseInt(cursor.getString(2)));
+        examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
         db.close();
 

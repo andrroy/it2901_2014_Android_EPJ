@@ -22,9 +22,9 @@ public class ReviewUploadActivity extends Activity {
 
         dbHelper = new DatabaseHelper(this);
 
-        Examination lol = dbHelper.getExamination(1);
+        Log.d("APP", dbHelper.getExamination(1).getDate());
 
-        Log.d("APP", lol.getUltrasoundImages().get(0).getComment());
+
 
 
     }
