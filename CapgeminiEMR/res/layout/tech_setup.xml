@@ -5,51 +5,47 @@
                 android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/setupTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/set_up"
-        android:layout_marginTop="50dp"
-        android:layout_centerHorizontal="true"/>
+            android:id="@+id/setupTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/set_up"
+            android:layout_marginTop="50dp"
+            android:layout_centerHorizontal="true"/>
+
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/pathToSettingsEditText"
+            android:layout_below="@+id/setupTextView"
+            android:layout_centerHorizontal="true"
+            android:width="200dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="30dp"/>
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/filepath"
-        android:id="@+id/filepathButton"
-        android:layout_below="@+id/setupTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="38dp"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/run_config"
-        android:id="@+id/runconfigButton"
-        android:layout_marginTop="17dp"
-        android:layout_below="@+id/filepathButton"
-        android:layout_centerHorizontal="true"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/get_config"
+            android:id="@+id/getConfigButton"
+            android:layout_below="@+id/pathToSettingsEditText" android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/statusStaticTextView"
-        android:text="@string/status"
-        android:layout_below="@+id/runconfigButton"
-        android:layout_alignLeft="@+id/filepathButton"
-        android:layout_alignStart="@+id/filepathButton"
-        android:layout_marginTop="63dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/statusStaticTextView"
+            android:text="@string/status"
+            android:layout_below="@+id/getConfigButton"
+            android:layout_marginTop="63dp" android:layout_centerHorizontal="true"/>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/statusTextView"
-        android:layout_below="@+id/statusStaticTextView"
-        android:layout_alignLeft="@+id/statusStaticTextView"
-        android:layout_alignStart="@+id/statusStaticTextView"
-        android:layout_marginTop="10dp"/>
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/statusTextView"
+            android:layout_below="@+id/statusStaticTextView"
+            android:layout_alignLeft="@+id/statusStaticTextView"
+            android:layout_alignStart="@+id/statusStaticTextView"
+            android:layout_marginTop="10dp"/>
 
 </RelativeLayout>

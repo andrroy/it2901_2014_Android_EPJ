@@ -5,7 +5,13 @@
 
         <Preference
             android:summary="@string/reconfig_app_summary"
-            android:title="@string/reconfig_app_title" />
+            android:title="@string/reconfig_app_title">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="org.royrvik.capgeminiemr"
+                    android:targetClass="org.royrvik.capgeminiemr.TechnicalSetupActivity" />
+        </Preference>
+
 
         <Preference
             android:summary="@string/language_summary"
