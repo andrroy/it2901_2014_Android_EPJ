@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -77,7 +78,9 @@ public class ExaminationActivity extends SherlockActivity {
             public void onClick(View view) {
                 dbHelper.addExamination(currentExamination);
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
-                ArrayList<UltrasoundImage> lol = dbHelper.getAllUltrasoundImagesFromExamination(1);
+
+                Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                startActivity(i);
             }
         });
 

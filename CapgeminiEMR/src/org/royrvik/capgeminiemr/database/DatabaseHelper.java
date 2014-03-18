@@ -71,7 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS examination");
         db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
 
-
         // Recreate the table
         this.onCreate(db);
     }
@@ -81,6 +80,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CRUD OPERATIONS
      */
 
+    /**
+     * Adds an Examination to the database. The ultrasoundimages for the Examination
+     * is stored in a separate table to maintain database normalisation
+     * @param ex
+     */
     public void addExamination(Examination ex) {
 
         SQLiteDatabase db = this.getWritableDatabase();
@@ -110,6 +114,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     *  Fetches an Examination
+     * @param id ID of examination to be fetched
+     * @return Examination with this ID
+     */
     public Examination getExamination(int id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
@@ -126,6 +135,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int exId = Integer.parseInt(cursor.getString(0));
         examination.setPatientName(cursor.getString(1));
         examination.setPatientSsn(Integer.parseInt(cursor.getString(2)));
+        examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
         db.close();
 
@@ -133,6 +143,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    /**
+     * Fetches all ultrasoundimages from the UltrasoundImage table with foreign key id.
+     * Used by getExamination()
+     * @param id
+     * @return Arraylist with UltrasoundImages for this Examination
+     */
     public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
 
         ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
@@ -147,9 +163,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UltrasoundImage usi = new UltrasoundImage();
 
                 usi.setComment(cursor.getString(2));
-                Log.d(TAG, "comment" + cursor.getString(2));
+                //Log.d(TAG, "comment" + cursor.getString(2));
                 usi.setImageUri(cursor.getString(3));
-                Log.d(TAG, "uri" + cursor.getString(3));
+                //Log.d(TAG, "uri" + cursor.getString(3));
 
                 // Add the USI to the list
                 usiList.add(usi);
@@ -164,6 +180,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
             Helper methods for converting string arrays to/from string
      */
+
     public static String convertArrayToString(String[] array) {
         String stringSeparator = "__,__";
         String str = "";

@@ -45,7 +45,7 @@ public class HomeScreenActivity extends SherlockActivity {
         }
 
         ultrasoundListView = (ListView) findViewById(R.id.ultrasoundImagesListView);
-        ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item, listOfExaminations));*/
+        ultrasoundListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations));*/
 
     }
 

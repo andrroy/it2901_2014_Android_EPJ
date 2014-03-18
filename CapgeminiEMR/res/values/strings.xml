@@ -32,5 +32,10 @@
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
 
+    <!-- Review and upload strings -->
+    <string name="patient_info">Patient info:</string>
+
+
+
 
 </resources>
