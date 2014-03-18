@@ -34,7 +34,7 @@ public class EMRApplication extends Application {
 
     public void setExternalPackageSettings(String packageName, String packageServer, String hospitalServer, String protocol) {
         this.settingsPackageName = packageName;
-        this.settingsHospitalServer = packageServer;
+        this.settingsPackageServer = packageServer;
         this.settingsHospitalServer = hospitalServer;
         this.settingsProtocol = protocol;
 
