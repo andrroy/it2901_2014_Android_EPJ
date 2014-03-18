@@ -7,6 +7,19 @@ import android.preference.PreferenceManager;
 public class EMRApplication extends Application {
     private String settingsPackageName, settingsPackageServer, settingsHospitalServer, settingsProtocol;
 
+
+    /*
+        USAGE:
+        private EMRApplication globalApp;
+        .
+        .
+        globalApp = (EMRApplication) getApplicationContext();
+        String olol = globalApp.getSettingsPackageName();
+
+
+     */
+
+
     @Override
     public void onCreate() {
         super.onCreate();
