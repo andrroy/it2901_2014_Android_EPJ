@@ -21,7 +21,7 @@
     <string name="use_picture">Use image(s)</string>
     <string name="set_up">Set up</string>
     <string name="filepath">filepath...</string>
-    <string name="run_config">Run config</string>
+    <string name="get_config">Get config</string>
     <string name="status">Status</string>
 
     <!-- Identify patient strings -->
