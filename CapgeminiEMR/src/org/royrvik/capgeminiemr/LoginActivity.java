@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.utils.Authenticator;
 
 import java.util.ArrayList;
 
@@ -35,10 +36,24 @@ public class LoginActivity extends SherlockActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (doLogin()) {
+
+                //Check if either fields are empty
+                if(usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")){
+                    Crouton.makeText(LoginActivity.this, "Please enter username and password", Style.ALERT).show();
+                }
+                //Check if username/password is correct, and forwarding to next view if true
+                else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
+
+                    passwordEditText.setText("");
+
                     Intent i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
+
+                    //Username/password combination wrong, or technical difficulties.
+                    // Should probably provide implement better feedback at some point
+                } else{
+                    Crouton.makeText(LoginActivity.this, "Login failed", Style.ALERT).show();
                 }
             }
         });
@@ -54,19 +69,6 @@ public class LoginActivity extends SherlockActivity {
     }
 
 
-    /**
-     * Temporary login function
-     *
-     * @return
-     */
-    private boolean doLogin() {
-        if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
-            return true;
-        } else {
-            Crouton.makeText(this, "Wrong username or password", Style.ALERT).show();
-            return false;
-        }
-    }
 
     /**
      * Checks if application is started with/without images, if user is alraedy logged in etc..

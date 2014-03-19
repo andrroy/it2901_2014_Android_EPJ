@@ -8,8 +8,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-//import org.royrvik.capgeminiemr.packagemanager.DownloadXmlTask;
-
 
 public class TechnicalSetupActivity extends SherlockActivity {
 
