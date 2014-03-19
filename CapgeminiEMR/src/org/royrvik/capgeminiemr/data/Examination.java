@@ -6,14 +6,14 @@ import java.util.Date;
 
 public class Examination {
 
-    private int patientSsn;
+    private long patientSsn;
     private String patientName;
     private ArrayList<UltrasoundImage> ultrasoundImages;
     private String date;
 
     SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yyyy");
 
-    public Examination(int patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages) {
+    public Examination(long patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages) {
         this.date = dateFormat.format(new Date());
         this.patientSsn = patientSsn;
         this.patientName = patientName;
@@ -27,11 +27,11 @@ public class Examination {
         this.date = dateFormat.format(new Date());
     }
 
-    public int getPatientSsn() {
+    public long getPatientSsn() {
         return patientSsn;
     }
 
-    public void setPatientSsn(int patientSsn) {
+    public void setPatientSsn(long patientSsn) {
         this.patientSsn = patientSsn;
     }
 
