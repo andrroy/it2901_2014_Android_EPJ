@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.utils.XmlParser;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,8 @@ public class LoginActivity extends SherlockActivity {
                 startActivity(i);
             }
         });
+
+        XmlParser.parse("http://folk.ntnu.no/andrroy/settings.xml");
 
     }
 
