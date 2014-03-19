@@ -31,8 +31,7 @@ public class XmlParser {
 
         for (int i = 0; i < entries.getLength(); i++) {
             Element element = (Element) entries.item(i);
-            Log.d("APP", "Found element " + element.getNodeName());
-            Log.d("APP", "Found value " + element.getNodeValue());
+            Log.d("APP", "Name: " + element.getNodeName() + ". Value: " + element.getTextContent());
         }
 
         //return xml;
