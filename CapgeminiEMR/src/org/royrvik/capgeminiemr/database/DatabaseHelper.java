@@ -5,24 +5,38 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
+
+import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "EMR_DB";
+    private static final String DATABASE_NAME = "emrdb";
 
     // Table name
-    private static final String TABLE_EXAMINATIONS = "examinations";
+    private static final String TABLE_EXAMINATION = "examination";
+    private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
 
     // Column names
-    private static final String KEY_ID = "id";
+    // Examination
+    private static final String KEY_EX_ID = "examination_id";
     private static final String KEY_PATIENT_NAME = "patient_name";
-    private static final String KEY_COMMENTS = "comments";
-    private static final String KEY_IMAGES = "images";
-    private static final String KEY_SSN = "ssn";
+    private static final String KEY_SSN = "patient_ssn";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_PATIENT_NAME, KEY_COMMENTS, KEY_IMAGES, KEY_SSN};
+    // Ultrasoundimage
+    private static final String KEY_USI_ID = "ultrasoundimage_id";
+    private static final String KEY_COMMENT = "comment";
+    private static final String KEY_URI = "uri";
+
+
+    private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN};
+    private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
+
+    private static final String TAG = "APP";
+
 
 
     public DatabaseHelper(Context context) {
@@ -33,20 +47,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
-                "comments TEXT, " +
-                "ssn INTEGER, " +
-                "images TEXT )";
+                "patient_ssn INTEGER )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
+
+        String CREATE_ULTRASOUNDIMAGE_TABLE = "CREATE TABLE ultrasoundimage ( " +
+                "ultrasoundimage_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "examination_id INTEGER, " +
+                "comment TEXT, " +
+                "uri TEXT, " +
+                "FOREIGN KEY(examination_id) REFERENCES examination(examination_id) )";
+
+        // Create ultrasoundimage table
+        db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop table
         db.execSQL("DROP TABLE IF EXISTS examination");
+        db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
 
         // Recreate the table
         this.onCreate(db);
@@ -54,41 +77,110 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /*
-            CRUD operations
+            CRUD OPERATIONS
      */
 
-    public void addExamination(int ssn, String[] images, String patientName, String[] comments) {
+    /**
+     * Adds an Examination to the database. The ultrasoundimages for the Examination
+     * is stored in a separate table to maintain database normalisation
+     * @param ex
+     */
+    public void addExamination(Examination ex) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
+        // Build query
         ContentValues values = new ContentValues();
-        values.put(KEY_SSN, ssn);
-        values.put(KEY_PATIENT_NAME, patientName);
-        values.put(KEY_COMMENTS, convertArrayToString(comments));
-        values.put(KEY_IMAGES, convertArrayToString(images));
+        values.put(KEY_SSN, ex.getPatientSsn());
+        values.put(KEY_PATIENT_NAME, ex.getPatientName());
 
-        db.insert(TABLE_EXAMINATIONS, null, values);
+        // Execute query and get the auto incremented id value
+        int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
+
+        // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
+        for (UltrasoundImage usi : ex.getUltrasoundImages()) {
+
+            ContentValues ultrasoundImageValues = new ContentValues();
+            ultrasoundImageValues.put(KEY_EX_ID, examinationId);
+            ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
+            ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
+
+            // Execute query
+            db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
+
+        }
 
         db.close();
 
     }
 
-    /*public Examination getExamination(int id) {
+    /**
+     *  Fetches an Examination
+     * @param id ID of examination to be fetched
+     * @return Examination with this ID
+     */
+    public Examination getExamination(int id) {
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.query(TABLE_EXAMINATIONS, COLUMNS, " id = ?",
+        Cursor cursor = db.query(TABLE_EXAMINATION, COLUMNS_EX, " examination_id = ?",
                 new String[]{String.valueOf(id)},
                 null, null, null, null);
 
         if (cursor != null)
             cursor.moveToFirst();
 
-        Examination examination = new Examination(cursor.getString(0),
-                cursor.getString(1), convertStringToArray(cursor.getString(2)));
-    }*/
+        // Build Examination with result
+        Examination examination = new Examination();
+        int exId = Integer.parseInt(cursor.getString(0));
+        examination.setPatientName(cursor.getString(1));
+        examination.setPatientSsn(Integer.parseInt(cursor.getString(2)));
+        examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
-    // Helper methods for converting string arrays to/from string
+        db.close();
+
+        return examination;
+
+    }
+
+    /**
+     * Fetches all ultrasoundimages from the UltrasoundImage table with foreign key id.
+     * Used by getExamination()
+     * @param id
+     * @return Arraylist with UltrasoundImages for this Examination
+     */
+    public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
+
+        ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
+        String selectQuery = "SELECT * FROM ultrasoundimage WHERE examination_id=" + id;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if(cursor.moveToFirst()) {
+            do {
+                // Fetch the values and create a new Ultrasoundimage object
+                UltrasoundImage usi = new UltrasoundImage();
+
+                usi.setComment(cursor.getString(2));
+                //Log.d(TAG, "comment" + cursor.getString(2));
+                usi.setImageUri(cursor.getString(3));
+                //Log.d(TAG, "uri" + cursor.getString(3));
+
+                // Add the USI to the list
+                usiList.add(usi);
+
+            } while(cursor.moveToNext());
+        }
+
+        return usiList;
+    }
+
+
+    /*
+            Helper methods for converting string arrays to/from string
+     */
+
     public static String convertArrayToString(String[] array) {
         String stringSeparator = "__,__";
         String str = "";
@@ -109,6 +201,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
 
+    /**
+     * @param l long to be converted
+     * @return long as integer if possible
+     */
+    public static int safeLongToInt(long l) {
+        if (l < Integer.MIN_VALUE || l > Integer.MAX_VALUE) {
+            throw new IllegalArgumentException
+                    (l + " cannot be cast to int without changing its value.");
+        }
+        return (int) l;
+    }
 
 
 }

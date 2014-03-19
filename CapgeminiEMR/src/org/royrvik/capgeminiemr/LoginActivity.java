@@ -2,12 +2,14 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.utils.NetworkChecker;
 
 import java.util.ArrayList;
 
@@ -15,7 +17,7 @@ import java.util.ArrayList;
 public class LoginActivity extends SherlockActivity {
 
     private EditText usernameEditText, passwordEditText;
-    private Button loginButton;
+    private Button loginButton, settingsButton;
     private ArrayList<String> incomingImages;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,7 @@ public class LoginActivity extends SherlockActivity {
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
+        settingsButton = (Button) findViewById(R.id.settingsButton);
 
         // get intent from launcher
         Intent i = getIntent();
@@ -39,6 +42,14 @@ public class LoginActivity extends SherlockActivity {
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
                 }
+            }
+        });
+
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(LoginActivity.this, SettingsActivity.class);
+                startActivity(i);
             }
         });
 

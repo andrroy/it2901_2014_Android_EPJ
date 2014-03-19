@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -29,6 +30,10 @@ public class ExaminationActivity extends SherlockActivity {
     private Examination currentExamination;
     private ArrayList<String> incomingImages;
     private ArrayList<String> infoArrayList = new ArrayList<String>();
+    private DatabaseHelper dbHelper;
+
+    // For logging
+    private static final String TAG = "APP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +41,7 @@ public class ExaminationActivity extends SherlockActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-        DatabaseHelper dbHelper = new DatabaseHelper(this);
+        dbHelper = new DatabaseHelper(this);
 
         // get intent from last activity
         Intent i = getIntent();
@@ -58,7 +63,6 @@ public class ExaminationActivity extends SherlockActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-
     }
 
     private void initFirstViewElements() {
@@ -72,11 +76,13 @@ public class ExaminationActivity extends SherlockActivity {
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Implement
-                finish();
+                dbHelper.addExamination(currentExamination);
+                Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
+
+                Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                startActivity(i);
             }
         });
-        reviewAndUploadButton.setClickable(false);
 
         addCommentsButton = (Button) findViewById(R.id.addCommentsButton);
         addCommentsButton.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +200,9 @@ public class ExaminationActivity extends SherlockActivity {
 
         imagesWithoutCommentTextView.setText(imagesWithoutComment + " image(s) without comment");
         imagesWithCommentTextView.setText(imagesWithComment + " image(s) with comment");
+
+        // Reset font color
+        imagesWithoutCommentTextView.setTextColor(Color.BLACK);
 
         if (imagesWithoutComment > 0)
             imagesWithoutCommentTextView.setTextColor(Color.RED);
