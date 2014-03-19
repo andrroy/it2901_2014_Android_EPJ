@@ -11,6 +11,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.utils.XmlParser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class LoginActivity extends SherlockActivity {
@@ -52,7 +53,12 @@ public class LoginActivity extends SherlockActivity {
             }
         });
 
-        XmlParser.parse("http://folk.ntnu.no/andrroy/settings.xml");
+        HashMap<String, String> hashMap = XmlParser.parse("http://folk.ntnu.no/andrroy/settings.xml");
+
+        /*for (Map.Entry<String, String> entry : hashMap.entrySet()) {
+            //System.out.println(entry.getKey() + "/" + entry.getValue());
+            Log.d("APP", entry.getKey() + entry.getValue());
+        }*/
 
     }
 

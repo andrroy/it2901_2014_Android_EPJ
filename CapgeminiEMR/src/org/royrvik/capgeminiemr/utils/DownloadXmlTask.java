@@ -1,7 +1,6 @@
 package org.royrvik.capgeminiemr.utils;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -33,7 +32,6 @@ class DownloadXmlTask extends AsyncTask<String, Void, String> {
             e.printStackTrace();
         }
 
-        Log.d("APP", output);
         return output;
 
     }

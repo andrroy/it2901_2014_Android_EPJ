@@ -9,16 +9,28 @@ import org.xml.sax.InputSource;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.StringReader;
+import java.util.HashMap;
 
 public class XmlParser {
-    public static void parse(String url) {
+
+    /**
+     * Reads XML from URL and returns a Hashmap containing every node as nodekey:nodevalue
+     * @param url URL to the XML
+     * @return HashMap containing XML node name as key and node value as value
+     */
+    public static HashMap<String, String> parse(String url) {
         String xml = "";
+        // Hashmap containing the fetched values from XML as "nodeName:nodeValue"
+        HashMap<String, String> xmlNodeHashMap = new HashMap<String, String>();
+
+        // Download the XML file with helper class
         try {
             xml = new DownloadXmlTask().execute(url).get();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // Parse the XML and save it in the HashMap
         Document xmlDocument = null;
         try {
             xmlDocument = loadXMLFromString(xml);
@@ -26,15 +38,17 @@ public class XmlParser {
             e.printStackTrace();
         }
 
-
         NodeList entries = xmlDocument.getElementsByTagName("*");
 
         for (int i = 0; i < entries.getLength(); i++) {
             Element element = (Element) entries.item(i);
-            Log.d("APP", "Name: " + element.getNodeName() + ". Value: " + element.getTextContent());
+            if(!element.getNodeName().equals("settings")) {
+                xmlNodeHashMap.put(element.getNodeName(), element.getTextContent());
+                Log.d("APP", "Name: " + element.getNodeName() + ". Value: " + element.getTextContent());
+            }
         }
 
-        //return xml;
+        return xmlNodeHashMap;
     }
 
     /**
