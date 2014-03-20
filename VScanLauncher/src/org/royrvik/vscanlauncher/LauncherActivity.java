@@ -26,12 +26,14 @@ public class LauncherActivity extends Activity {
 
     private static final String TAG = "APP";
     private static int RESULT_LOAD_IMAGE = 1;
+    private static int RESULT_IDENTIFY_PATIENT = 2;
 
-    private Button launchOtherAppButton, openGalleryButton;
-    private TextView numberofChosenImagesTV;
+    private Button launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
+    private TextView numberofChosenImagesTV, patientIdTextView;
 
     private ArrayList<String> selectedImagesPath;
 
+    private ArrayList<String> patientData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,9 @@ public class LauncherActivity extends Activity {
         selectedImagesPath = new ArrayList<String>();
         openGalleryButton = (Button) findViewById(R.id.openGalleryButton);
         numberofChosenImagesTV = (TextView) findViewById(R.id.imagesChosenTextView);
+        patientIdTextView = (TextView) findViewById(R.id.patientIdTextView);
+        patientData = new ArrayList<String>();
+        patientData.add("No ID Available");
 
         Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
         Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
@@ -89,15 +94,62 @@ public class LauncherActivity extends Activity {
             }
         });
 
+
+        launchWithoutImagesButton = (Button) findViewById(R.id.launchWithIdButton);
+        launchWithoutImagesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (patientData.size() > 1) {
+                    startOtherAppWithId();
+                }
+                else {
+                    //TODO: Show Error, no ID available
+                }
+            }
+        });
+
+        identifyPatientButton = (Button) findViewById(R.id.identifyPatientButton);
+        identifyPatientButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startOtherAppIdentifyPatient();
+            }
+        });
     }
 
     /**
      * Launches the main EMR application.
      */
     private void startOtherApplication() {
+        if (selectedImagesPath.size() > 0) { //Images are chosen
+            Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+            i.putStringArrayListExtra("chosen_images", selectedImagesPath);
+            i.putExtra("type", 1);
+            startActivity(i);
+        }
+        else { //No images chosen
+            startOtherAppWithoutPictures();
+        }
+    }
+
+    private void startOtherAppWithoutPictures() {
+        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+        i.putExtra("type", 2);
+        startActivity(i);
+    }
+
+    private void startOtherAppWithId() {
         Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
         i.putStringArrayListExtra("chosen_images", selectedImagesPath);
+        i.putExtra("id", patientData.get(0));
+        i.putExtra("type", 3);
         startActivity(i);
+    }
+
+    private void startOtherAppIdentifyPatient() {
+        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+        i.putExtra("type", 4);
+        startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
     }
 
 
@@ -122,7 +174,10 @@ public class LauncherActivity extends Activity {
             numberofChosenImagesTV.setText("Number of selected images: " + Integer.toString(selectedImagesPath.size()));
 
         }
-
+        else if (requestCode == RESULT_IDENTIFY_PATIENT && resultCode == RESULT_OK && data != null) {
+            patientData = data.getStringArrayListExtra("patient");
+            patientIdTextView.setText(patientData.get(0));
+        }
     }
 
     /**

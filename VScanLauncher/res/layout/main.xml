@@ -15,11 +15,9 @@
 
     <Button android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/launchOtherAppButton"
             android:text="Choose pictures"
-            android:layout_margin="20dp"
             android:id="@+id/openGalleryButton"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -29,6 +27,24 @@
         android:layout_below="@id/openGalleryButton"
         android:layout_centerHorizontal="true"
        />
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start EMR with images and ID"
+            android:id="@+id/launchWithIdButton"
+            android:layout_below="@+id/launchOtherAppButton" android:layout_centerHorizontal="true"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start EMR: Identify Patient"
+            android:id="@+id/identifyPatientButton"
+            android:layout_below="@+id/launchWithIdButton" android:layout_centerHorizontal="true" android:layout_marginTop="23dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current ID: 01234567890"
+            android:id="@+id/patientIdTextView" android:layout_below="@+id/launchWithIdButton"
+            android:layout_centerHorizontal="true"/>
 
 
 </RelativeLayout>

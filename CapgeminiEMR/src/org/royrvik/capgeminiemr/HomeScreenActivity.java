@@ -33,10 +33,6 @@ public class HomeScreenActivity extends SherlockActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
 
-        // Get images from previous Activity
-        Intent intent = getIntent();
-        incomingImages = intent.getStringArrayListExtra("chosen_images");
-
 
 
         /*List<Examination> listOfExaminations = new ArrayList<Examination>();

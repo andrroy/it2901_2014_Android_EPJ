@@ -15,9 +15,13 @@ import java.util.ArrayList;
 
 public class LoginActivity extends SherlockActivity {
 
+    private static int RESULT_IDENTIFY_PATIENT = 2;
+
     private EditText usernameEditText, passwordEditText;
     private Button loginButton, settingsButton;
     private ArrayList<String> incomingImages;
+    private String patientId;
+    private int launcherCommand;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +34,8 @@ public class LoginActivity extends SherlockActivity {
 
         // get intent from launcher
         Intent i = getIntent();
-        incomingImages = i.getStringArrayListExtra("chosen_images");
-        Crouton.makeText(LoginActivity.this, "Recieved " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
+        launcherCommand = i.getIntExtra("type", 0);
+        getInformationFromIntent(i);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,9 +50,7 @@ public class LoginActivity extends SherlockActivity {
 
                     passwordEditText.setText("");
 
-                    Intent i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
-                    i.putStringArrayListExtra("chosen_images", incomingImages);
-                    startActivity(i);
+                    startApplication();
 
                     //Username/password combination wrong, or technical difficulties.
                     // Should probably provide implement better feedback at some point
@@ -68,14 +70,61 @@ public class LoginActivity extends SherlockActivity {
 
     }
 
+    private void getInformationFromIntent(Intent i) {
+        switch (launcherCommand) {
+            case 1: //Images
+                incomingImages = i.getStringArrayListExtra("chosen_images");
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
+                break;
+            case 2: //No images
+                Crouton.makeText(LoginActivity.this,"Received no images from launcher", Style.INFO);
+                break;
+            case 3: //Images and ID
+                incomingImages = i.getStringArrayListExtra("chosen_images");
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from launcher", Style.INFO).show();
+                patientId = i.getStringExtra("id");
+                break;
+            case 4: //Identify
+                Crouton.makeText(LoginActivity.this,"Identify Patient", Style.INFO);
+                break;
+            default:
 
-
-    /**
-     * Checks if application is started with/without images, if user is alraedy logged in etc..
-     */
-    private void startApplicationInMode() {
-
+        }
     }
 
+    private void startApplication() {
+        Intent i;
+        switch (launcherCommand) {
+            case 1: //Images
+                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                startActivity(i);
+                break;
+            case 2: //No images
+                i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                startActivity(i);
+                break;
+            case 3: //Images and ID
+                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                i.putExtra("id", patientId);
+                startActivity(i);
+                break;
+            case 4: //Identify
+                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("return", 1);
+                startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
+                break;
+            default:
+        }
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RESULT_IDENTIFY_PATIENT && resultCode == RESULT_OK && data != null) {
+            setResult(RESULT_OK, data);
+            finish();
+        }
+    }
 }
