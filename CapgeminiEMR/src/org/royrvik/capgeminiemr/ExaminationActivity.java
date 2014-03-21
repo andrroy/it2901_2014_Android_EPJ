@@ -50,7 +50,7 @@ public class ExaminationActivity extends SherlockActivity {
 
         currentExamination = new Examination();
         currentExamination.setPatientName(infoArrayList.get(1));
-        currentExamination.setPatientSsn(Integer.parseInt(infoArrayList.get(0)));
+        currentExamination.setPatientSsn(Long.parseLong(infoArrayList.get(0)));
         for (String uri : incomingImages) {
             currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
         }
@@ -185,8 +185,8 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        headerTextView.setText("Patient ID: " + Integer.toString(currentExamination.getPatientSsn()));
-        idTextView.setText(Integer.toString(currentExamination.getPatientSsn()));
+        headerTextView.setText("Patient ID: " + Long.toString(currentExamination.getPatientSsn()));
+        idTextView.setText(Long.toString(currentExamination.getPatientSsn()));
         nameTextView.setText(currentExamination.getPatientName());
 
         int imagesWithComment = 0;

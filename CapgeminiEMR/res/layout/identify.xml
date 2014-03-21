@@ -64,7 +64,6 @@
                 android:layout_alignLeft="@+id/automaticButton"
                 android:layout_alignStart="@+id/automaticButton"/>
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -122,5 +121,6 @@
                 android:layout_alignRight="@+id/editText"
                 android:layout_alignEnd="@+id/editText"/>
         </RelativeLayout>
+
     </ViewFlipper>
 </LinearLayout>
