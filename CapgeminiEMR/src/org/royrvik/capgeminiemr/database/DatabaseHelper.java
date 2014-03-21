@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
@@ -49,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
-                "patient_ssn INTEGER )";
+                "patient_ssn TEXT )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
@@ -134,7 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Examination examination = new Examination();
         int exId = Integer.parseInt(cursor.getString(0));
         examination.setPatientName(cursor.getString(1));
-        examination.setPatientSsn(Integer.parseInt(cursor.getString(2)));
+        examination.setPatientSsn(cursor.getString(2));
         examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
         db.close();
