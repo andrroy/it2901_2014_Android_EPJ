@@ -23,6 +23,7 @@
     <string name="filepath">filepath...</string>
     <string name="get_config">Get config</string>
     <string name="status">Status</string>
+    <string name="url">URL...</string>
 
     <!-- Identify patient strings -->
     <string name="identify_patient">Identify patient</string>
@@ -36,6 +37,8 @@
     <string name="patient_info">Patient info:</string>
     <string name="upload">Upload!</string>
     <string name="edit">Edit</string>
+
+
 
 
 

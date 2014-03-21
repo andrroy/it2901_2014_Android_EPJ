@@ -4,8 +4,14 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+
 public class EMRApplication extends Application {
-    private String settingsPackageName, settingsPackageServer, settingsHospitalServer, settingsProtocol;
+
+    private final static String PACKAGE_NAME = "packageName";
+    private final static String PACKAGE_SERVER = "packageServer";
+    private final static String HOSPITAL_SERVER = "hospitalServer";
+    private final static String PROTOCOL = "protocol";
 
 
     /*
@@ -24,28 +30,22 @@ public class EMRApplication extends Application {
     public void onCreate() {
         super.onCreate();
 
-        // Initialize fields
-        settingsHospitalServer = "";
-        settingsPackageName = "";
-        settingsHospitalServer = "";
-        settingsProtocol = "";
 
     }
 
-    public void setExternalPackageSettings(String packageName, String packageServer, String hospitalServer, String protocol) {
-        this.settingsPackageName = packageName;
-        this.settingsPackageServer = packageServer;
-        this.settingsHospitalServer = hospitalServer;
-        this.settingsProtocol = protocol;
+    public void setExternalPackageSettings(HashMap<String, String> settingsHashMap) {
+
 
         // Get SharedPreferences and create editor for manipulating preferences
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         SharedPreferences.Editor preferencesEditor = appSharedPrefs.edit();
+
         // Add preferences
-        preferencesEditor.putString("packageName", settingsPackageName);
-        preferencesEditor.putString("packageServer", settingsPackageServer);
-        preferencesEditor.putString("hospitalServer", settingsHospitalServer);
-        preferencesEditor.putString("protocol", settingsProtocol);
+        preferencesEditor.putString(PACKAGE_NAME, settingsHashMap.get(PACKAGE_NAME));
+        preferencesEditor.putString(PACKAGE_SERVER, settingsHashMap.get(PACKAGE_SERVER));
+        preferencesEditor.putString(HOSPITAL_SERVER, settingsHashMap.get(HOSPITAL_SERVER));
+        preferencesEditor.putString(PROTOCOL, settingsHashMap.get(PROTOCOL));
+
         // Commit changes
         preferencesEditor.commit();
 
@@ -53,28 +53,28 @@ public class EMRApplication extends Application {
 
     public String getSettingsPackageName() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString("packageName", "");
+        String s = appSharedPrefs.getString(PACKAGE_NAME, "");
 
         return s;
     }
 
     public String getSettingsPackageServer() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString("packageServer", "");
+        String s = appSharedPrefs.getString(PACKAGE_SERVER, "");
 
         return s;
     }
 
     public String getSettingsHospitalServer() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString("hospitalServer", "");
+        String s = appSharedPrefs.getString(HOSPITAL_SERVER, "");
 
         return s;
     }
 
     public String getSettingsProtocol() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString("protocol", "");
+        String s = appSharedPrefs.getString(PROTOCOL, "");
 
         return s;
     }
