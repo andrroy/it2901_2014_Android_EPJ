@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class EMRApplication extends Application {
 
@@ -49,6 +50,18 @@ public class EMRApplication extends Application {
         // Commit changes
         preferencesEditor.commit();
 
+    }
+
+    public void clearSharedPreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+    }
+
+    public Map<String, ?> getAllPreferences() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getAll();
     }
 
     public String getSettingsPackageName() {

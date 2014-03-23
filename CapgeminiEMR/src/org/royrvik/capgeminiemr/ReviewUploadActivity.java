@@ -13,6 +13,7 @@ import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.List;
+import java.util.Map;
 
 
 public class ReviewUploadActivity extends Activity {
