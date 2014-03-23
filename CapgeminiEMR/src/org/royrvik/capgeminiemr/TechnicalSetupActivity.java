@@ -53,11 +53,11 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
                     statusTextView.setText("Settings imported");
                     statusTextView.setTextColor(Color.GREEN);
-                    Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM);
+                    Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Crouton.makeText(TechnicalSetupActivity.this, "Problem...", Style.ALERT);
+                    Crouton.makeText(TechnicalSetupActivity.this, "Problem...", Style.ALERT).show();
                     // TODO: Handle exceptions better...
                 }
             }
