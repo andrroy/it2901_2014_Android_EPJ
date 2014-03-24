@@ -1,6 +1,8 @@
 package org.royrvik.capgeminiemr.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +12,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.List;
 
@@ -38,16 +39,14 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         Examination rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.homeListImageView);
-        //Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
-        //rowImage.setImageBitmap(bitmap);
+        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
+        rowImage.setImageBitmap(bitmap);
 
         TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
-        //ssnTextView.setText(rowItem.getPatientName());
-        ssnTextView.setText("Navn");
+        ssnTextView.setText(rowItem.getPatientSsn());
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
-        //dateTextView.setText(rowItem.getDate());
-        dateTextView.setText("01.01.2014");
+        dateTextView.setText(rowItem.getDate());
 
         return convertView;
 
