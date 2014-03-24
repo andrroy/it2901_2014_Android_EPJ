@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_EX_ID = "examination_id";
     private static final String KEY_PATIENT_NAME = "patient_name";
     private static final String KEY_SSN = "patient_ssn";
+    private static final String KEY_DATE = "date";
 
     // Ultrasoundimage
     private static final String KEY_USI_ID = "ultrasoundimage_id";
@@ -31,11 +32,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_URI = "uri";
 
 
-    private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN};
+    private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN, KEY_DATE};
     private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
 
     private static final String TAG = "APP";
-
 
 
     public DatabaseHelper(Context context) {
@@ -48,7 +48,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
-                "patient_ssn TEXT )";
+                "patient_ssn TEXT, " +
+                "date TEXT )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
@@ -82,7 +83,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
      * is stored in a separate table to maintain database normalisation
-     * @param ex
+     *
+     * @param ex Examination to add
      */
     public void addExamination(Examination ex) {
 
@@ -92,11 +94,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_SSN, ex.getPatientSsn());
         values.put(KEY_PATIENT_NAME, ex.getPatientName());
+        values.put(KEY_DATE, ex.getDate());
 
         // Execute query and get the auto incremented id value
         int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
 
-        // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
+        // Add all UltrasoundImages from the Examination to the Ultrasounimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
@@ -114,7 +117,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     *  Fetches an Examination
+     * Fetches an Examination
+     *
      * @param id ID of examination to be fetched
      * @return Examination with this ID
      */
@@ -134,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         int exId = Integer.parseInt(cursor.getString(0));
         examination.setPatientName(cursor.getString(1));
         examination.setPatientSsn(cursor.getString(2));
+        examination.setDate(cursor.getString(3));
         examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
         db.close();
@@ -143,8 +148,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * Gets all Examinations stored in the database.
+     *
+     * @return ArrayList of all Examinations
+     */
+    public ArrayList<Examination> getAllExaminations() {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("select * from examination", null);
+
+        ArrayList<Examination> examinationList = new ArrayList<Examination>();
+
+        if (cursor.moveToFirst()) {
+
+            while (cursor.isAfterLast() == false) {
+                // Get values from row
+                String id = cursor.getString(cursor.getColumnIndex("examination_id"));
+                String name = cursor.getString(cursor.getColumnIndex("patient_name"));
+                String ssn = cursor.getString(cursor.getColumnIndex("patient_ssn"));
+                String date = cursor.getString(cursor.getColumnIndex("date"));
+                // Get Ultrasoundimages from appropriate table for this Examination
+                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(Integer.parseInt(id));
+                // Create examination with data from this row
+                Examination ex = new Examination(ssn, name, usiList, date);
+                // Add it to the list
+                examinationList.add(ex);
+
+                cursor.moveToNext();
+            }
+        }
+        return examinationList;
+    }
+
+    /**
      * Fetches all ultrasoundimages from the UltrasoundImage table with foreign key id.
      * Used by getExamination()
+     *
      * @param id
      * @return Arraylist with UltrasoundImages for this Examination
      */
@@ -156,7 +195,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
-        if(cursor.moveToFirst()) {
+        if (cursor.moveToFirst()) {
             do {
                 // Fetch the values and create a new Ultrasoundimage object
                 UltrasoundImage usi = new UltrasoundImage();
@@ -169,7 +208,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 // Add the USI to the list
                 usiList.add(usi);
 
-            } while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
 
         return usiList;

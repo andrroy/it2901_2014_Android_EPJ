@@ -38,17 +38,15 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         //ultrasound image/data for THIS row
         Examination rowItem = getItem(position);
 
-        ImageView rowImage = (ImageView) convertView.findViewById(R.id.usImageImageView);
-        //Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUris().get(0));
-        //rowImage.setImageBitmap(bitmap);
+        ImageView rowImage = (ImageView) convertView.findViewById(R.id.homeListImageView);
+        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
+        rowImage.setImageBitmap(bitmap);
 
-        TextView nameTextView = (TextView) convertView.findViewById(R.id.usNameTextView);
-        //nameTextView.setText(rowItem.getPatientName());
-        nameTextView.setText("Navn");
+        TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
+        ssnTextView.setText(rowItem.getPatientSsn());
 
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.usDateTextView);
-        //dateTextView.setText(rowItem.getDate());
-        dateTextView.setText("01.01.2014");
+        TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
+        dateTextView.setText(rowItem.getDate());
 
         return convertView;
 
