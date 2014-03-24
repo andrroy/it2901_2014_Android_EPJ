@@ -28,6 +28,7 @@ public class Examination {
 
     public Examination() {
         ultrasoundImages = new ArrayList<UltrasoundImage>();
+        this.date = dateFormat.format(new Date());
     }
 
     public String getPatientSsn() {

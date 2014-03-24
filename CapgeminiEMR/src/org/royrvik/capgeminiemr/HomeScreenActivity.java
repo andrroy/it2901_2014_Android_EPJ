@@ -1,18 +1,14 @@
 package org.royrvik.capgeminiemr;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
-import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
-import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HomeScreenActivity extends SherlockActivity {
 
@@ -36,8 +32,11 @@ public class HomeScreenActivity extends SherlockActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
-        homescreenListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations));
+        /*homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
+        homescreenListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations));*/
+
+        ArrayList<Examination> listlol = dbHelper.getAllExaminations();
+
 
     }
 

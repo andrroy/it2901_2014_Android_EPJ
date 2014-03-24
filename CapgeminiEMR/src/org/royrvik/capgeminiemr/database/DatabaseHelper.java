@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
@@ -156,24 +155,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<Examination> getAllExaminations() {
 
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.rawQuery("select * from table", null);
+        Cursor cursor = db.rawQuery("select * from examination", null);
 
         ArrayList<Examination> examinationList = new ArrayList<Examination>();
 
         if (cursor.moveToFirst()) {
 
             while (cursor.isAfterLast() == false) {
+                // Get values from row
                 String id = cursor.getString(cursor.getColumnIndex("examination_id"));
                 String name = cursor.getString(cursor.getColumnIndex("patient_name"));
                 String ssn = cursor.getString(cursor.getColumnIndex("patient_ssn"));
                 String date = cursor.getString(cursor.getColumnIndex("date"));
+                // Get Ultrasoundimages from appropriate table for this Examination
                 ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(Integer.parseInt(id));
                 // Create examination with data from this row
                 Examination ex = new Examination(ssn, name, usiList, date);
                 // Add it to the list
                 examinationList.add(ex);
-
-                Log.d("APP", Integer.toString(examinationList.size()));
 
                 cursor.moveToNext();
             }
