@@ -9,9 +9,13 @@
 
     <!-- Preference screen strings -->
     <string name="general">General</string>
+    <string name="setup">Setup</string>
+    <string name="other">Other</string>
     <string name="security_and_data">Security and data</string>
     <string name="reconfig_app_title">Reconfigure application</string>
     <string name="reconfig_app_summary">Setup application with XML file</string>
+    <string name="view_current_setup_title">View current setup</string>
+    <string name="view_current_setup_summary">...</string>
     <string name="language_title">Language settings</string>
     <string name="language_summary">Change language or download language packs</string>
     <string name="department_userid_title">Department authentication</string>

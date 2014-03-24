@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/general">
+    <PreferenceCategory android:title="@string/setup">
 
         <Preference
             android:summary="@string/reconfig_app_summary"
@@ -12,17 +12,31 @@
                 android:targetClass="org.royrvik.capgeminiemr.TechnicalSetupActivity"/>
         </Preference>
 
-        <ListPreference
-                android:summary="@string/department_id_summary"
-                android:title="@string/department_userid_title"/>
+        <Preference
+            android:title="@string/view_current_setup_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.royrvik.capgeminiemr"
+                android:targetClass="org.royrvik.capgeminiemr.CurrentSetupActivity"/>
+        </Preference>
 
         <ListPreference
-            android:key="prefSyncFrequency"
+            android:summary="@string/department_id_summary"
+            android:title="@string/department_userid_title"/>
+
+    </PreferenceCategory>
+
+
+    <PreferenceCategory android:title="@string/other">
+
+        <ListPreference
+            android:key="wut"
             android:entries="@array/languages"
-            android:summary="@string/language_summary"
             android:entryValues="@array/languages"
             android:title="@string/language_title"/>
+
     </PreferenceCategory>
+
 
     <PreferenceCategory android:title="@string/security_and_data">
 

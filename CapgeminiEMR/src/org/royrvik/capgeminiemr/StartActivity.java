@@ -1,17 +1,16 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
+import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 
 import java.util.ArrayList;
 
-public class StartActivity extends Activity {
+public class StartActivity extends SherlockActivity {
 
     private static final String TAG = "APP";
     private ArrayList<String> incomingImages;
@@ -28,7 +27,7 @@ public class StartActivity extends Activity {
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
 
-        Crouton.makeText(StartActivity.this, "Recieved " + Integer.toString(incomingImages.size())  + " images from launcher", Style.INFO).show();
+        Crouton.makeText(StartActivity.this, "Recieved " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
 
         tempLoginButton = (Button) findViewById(R.id.tempButton);
         tempLoginButton.setOnClickListener(new View.OnClickListener() {
