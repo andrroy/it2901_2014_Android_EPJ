@@ -34,5 +34,6 @@
         <activity android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"></activity>
         <activity android:name=".ExaminationActivity"></activity>
         <activity android:name=".ReviewUploadActivity"/>
+        <activity android:name=".CurrentSetupActivity"/>
     </application>
 </manifest>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentSetupKeyTextView"
+        android:layout_centerVertical="true"
+        android:text="asda"
+        android:layout_margin="19dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/currentSetupValueTextView"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/currentSetupKeyTextView"
+        android:text="asda"
+        android:layout_margin="19dp"/>
+
+</RelativeLayout>

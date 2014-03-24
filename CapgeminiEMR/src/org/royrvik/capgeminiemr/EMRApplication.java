@@ -56,6 +56,7 @@ public class EMRApplication extends Application {
     public void clearSharedPreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = preferences.edit();
+        // Delete old preferences before adding new
         editor.clear();
         editor.commit();
     }
