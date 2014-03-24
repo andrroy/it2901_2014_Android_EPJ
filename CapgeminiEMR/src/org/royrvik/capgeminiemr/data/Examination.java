@@ -19,11 +19,15 @@ public class Examination {
         this.ultrasoundImages = ultrasoundImages;
     }
 
+    public Examination(String patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages, String date) {
+        this.date = date;
+        this.patientSsn = patientSsn;
+        this.patientName = patientName;
+        this.ultrasoundImages = ultrasoundImages;
+    }
+
     public Examination() {
-        patientName = " ";
-        patientSsn = " ";
         ultrasoundImages = new ArrayList<UltrasoundImage>();
-        this.date = dateFormat.format(new Date());
     }
 
     public String getPatientSsn() {
@@ -36,6 +40,10 @@ public class Examination {
 
     public String getDate() {
         return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getPatientName() {
