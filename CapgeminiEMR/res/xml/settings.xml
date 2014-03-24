@@ -12,6 +12,9 @@
                 android:targetClass="org.royrvik.capgeminiemr.TechnicalSetupActivity"/>
         </Preference>
 
+        <ListPreference
+                android:summary="@string/department_id_summary"
+                android:title="@string/department_userid_title"/>
 
         <ListPreference
             android:key="prefSyncFrequency"
