@@ -68,7 +68,18 @@ public class TechnicalSetupActivity extends SherlockActivity {
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
         globalApp.setExternalPackageSettings(settingsHashMap);
-        Log.d("APP", globalApp.getSettingsHospitalServer());
+        Log.d("APP", "= PackageName: " + globalApp.getSettingsPackageName());
+        Log.d("APP", "= PackageLocation: " + globalApp.getSettingsPackageLocation());
+        Log.d("APP", "= PackageServerPort: " + globalApp.getSettingsPackageServerPort());
+        Log.d("APP", "= HospitalServerAddress_ " + globalApp.getSettingsHospitalServerAddress());
+        Log.d("APP", "= HospitalServerProtocol: " + globalApp.getSettingsHospitalServerProtocol());
+        Log.d("APP", "= HospitalServerPort: " + globalApp.getSettingsHospitalServerPort());
+        Log.d("APP", "= AuthenticationProtocol: " + globalApp.getSettingsAuthenticationProtocol());
+        Log.d("APP", "= AuthenticationServer: " + globalApp.getSettingsAuthenticationServerAddress());
+        Log.d("APP", "= AuthenticationServerPort: " + globalApp.getSettingsAuthenticationServerPort());
+        Log.d("APP", "= LDAP UserID: " + globalApp.getSettingsLDAPUserID());
+        Log.d("APP", "= LDAP OU: " + globalApp.getSettingsLDAPOU());
+        Log.d("APP", "= LDAP DC: " + globalApp.getSettingsLDAPDC());
 
     }
 
