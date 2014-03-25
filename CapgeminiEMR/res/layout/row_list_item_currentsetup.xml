@@ -8,17 +8,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currentSetupKeyTextView"
-        android:layout_centerVertical="true"
         android:text="asda"
-        android:layout_margin="19dp"/>
+        android:textSize="22dp"
+        android:layout_margin="12dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/currentSetupValueTextView"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/currentSetupKeyTextView"
-        android:text="asda"
-        android:layout_margin="19dp"/>
+        android:layout_below="@id/currentSetupKeyTextView"
+        android:layout_marginLeft="12dp"
+        android:textColor="@color/darkgrey"
+        android:text="asda"/>
 
 </RelativeLayout>
