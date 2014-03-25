@@ -8,3 +8,4 @@
 ### Known issues
 * Android 4.4 (KitKat) doesn't like the gallery to be refreshed and will either show an empty gallery or will force application to crash.
 * Unable to fully clear the SQLite database without reinstalling application.
+* Can't read nested XML properly.
