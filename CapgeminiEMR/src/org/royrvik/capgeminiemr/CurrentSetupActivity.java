@@ -2,16 +2,13 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.app.SherlockListActivity;
 import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.adapter.CurrentSetupListAdapter;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.data.SettingsItem;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class CurrentSetupActivity extends SherlockActivity {
@@ -33,29 +30,28 @@ public class CurrentSetupActivity extends SherlockActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Get current settings from Application class
-        ArrayList<ArrayList<String>> keyValueList = buildData(globalApp.getAllPreferences());
+        ArrayList<SettingsItem> listOfSettings = buildData(globalApp.getAllPreferences());
 
         currentSetupListView = (ListView) findViewById(R.id.currentSetupListView);
-        currentSetupListView.setAdapter(new CurrentSetupListAdapter(context, R.layout.row_list_item_currentsetup, keyValueList));
-
+        currentSetupListView.setAdapter(new CurrentSetupListAdapter(context, R.layout.row_list_item_currentsetup, listOfSettings));
 
     }
 
-    public ArrayList<ArrayList<String>> buildData(Map<String, ?> preferenceHashMap) {
+    /**
+     * Builds the dataset for the adapter to use
+     *
+     * @param preferenceHashMap Hashmap from EMRApplication
+     * @return ArrayList of all settings saved in SharedPreferences, each represented as SettingsItem
+     */
+    public ArrayList<SettingsItem> buildData(Map<String, ?> preferenceHashMap) {
 
-        ArrayList<String> keys = new ArrayList<String>();
-        ArrayList<String> values = new ArrayList<String>();
+        ArrayList<SettingsItem> settingsItemList = new ArrayList<SettingsItem>();
 
         for (String key : preferenceHashMap.keySet()) {
-            keys.add(key);
-            values.add((String) preferenceHashMap.get(key));
+            settingsItemList.add(new SettingsItem(key, (String) preferenceHashMap.get(key)));
         }
 
-        ArrayList<ArrayList<String>> keyValueList = new ArrayList<ArrayList<String>>();
-        keyValueList.add(keys);
-        keyValueList.add(values);
-
-        return keyValueList;
+        return settingsItemList;
     }
 
     @Override
