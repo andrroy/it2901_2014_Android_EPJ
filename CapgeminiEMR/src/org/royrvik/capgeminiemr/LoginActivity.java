@@ -8,13 +8,14 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import org.royrvik.capgeminiemr.utils.Authenticator;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
 
 public class LoginActivity extends SherlockActivity {
 
+    private SessionManager session;
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
     private EditText usernameEditText, passwordEditText;
@@ -27,6 +28,8 @@ public class LoginActivity extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        session = new SessionManager(getApplicationContext());
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
@@ -41,23 +44,16 @@ public class LoginActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
 
-                //Check if either fields are empty
-                if(usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")){
-                    Crouton.makeText(LoginActivity.this, "Please enter username and password", Style.ALERT).show();
-                }
+                //Creates a new login session with the credentials entered
+                session.createLoginSession(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                 //Check if username/password is correct, and forwarding to next view if true
-                else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
-                //else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
-
-                    passwordEditText.setText("");
-
+                if (session.checkLogin()) {
                     startApplication();
-
-                    //Username/password combination wrong, or technical difficulties.
-                    // Should probably provide implement better feedback at some point
-                } else{
-                    Crouton.makeText(LoginActivity.this, "Login failed", Style.ALERT).show();
                 }
+                else{
+                    Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
+                }
+                passwordEditText.setText("");
             }
         });
 
