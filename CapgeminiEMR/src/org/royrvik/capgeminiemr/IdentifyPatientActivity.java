@@ -2,10 +2,12 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
@@ -20,11 +22,15 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private Intent intent;
     private boolean returnAfter = false;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.identify);
+
+        //Getting the session
+        session = new SessionManager(getApplicationContext());
 
         //Actionbarsherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -34,9 +40,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
         String id = i.getStringExtra("id");
-        if (i.getIntExtra("return", 0) == 1) {
-            returnAfter = true;
-        }
+        returnAfter = i.getBooleanExtra("return", false);
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
@@ -119,10 +123,29 @@ public class IdentifyPatientActivity extends SherlockActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Back button clicked. Exit activity and open previous in activity stack
+                // Back button clicked.
+                System.out.println(flipper.getDisplayedChild());
+                if (flipper.getDisplayedChild() > 0) {
+                    flipper.showPrevious();
+                    break;
+                }
+                // Exit activity and open previous in activity stack
+                session.logout();
                 finish();
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        session.logout();
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        finish();
     }
 }

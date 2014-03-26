@@ -24,7 +24,6 @@ public class LoginActivity extends SherlockActivity {
     private String patientId;
     private int launcherCommand;
     private String broadcastCode = "";
-
     private SessionManager session;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -42,7 +41,7 @@ public class LoginActivity extends SherlockActivity {
         getInformationFromIntent(getIntent());
 
         //If the current session is valid
-        if (session.checkLogin()) {
+        if (session.checkSession()) {
             startApplication();
         }
 
@@ -56,7 +55,7 @@ public class LoginActivity extends SherlockActivity {
                 );
 
                 //Check if username/password is correct, and forwarding to next view if true
-                if (session.checkLogin()) {
+                if (session.checkSession()) {
                     startApplication();
                 }
                 else{
@@ -108,20 +107,23 @@ public class LoginActivity extends SherlockActivity {
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 startActivity(i);
+                finish();
                 break;
             case 2: //No images
                 i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 startActivity(i);
+                finish();
                 break;
             case 3: //Images and ID
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 i.putExtra("id", patientId);
                 startActivity(i);
+                finish();
                 break;
             case 4: //Identify
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("return", 1);
+                i.putExtra("return", true);
                 startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
                 break;
             default:
@@ -137,12 +139,5 @@ public class LoginActivity extends SherlockActivity {
             sendBroadcast(i);
             finish();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        System.out.println("Destroying...");
-        session.logout();
     }
 }
