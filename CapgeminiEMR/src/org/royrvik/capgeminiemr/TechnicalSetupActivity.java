@@ -58,40 +58,10 @@ public class TechnicalSetupActivity extends SherlockActivity {
             public void onClick(View view) {
                 try {
 
-
                     HashMap<String, String> settingsHashMap = XmlParser.parse(pathToXmlEditText.getText().toString());
 
-                    if(globalApp.hasSettingsConfigured()){
-
-                        //Displays alertDialog notifying user that examinations will be lost if user proceeds with setup
-                        new AlertDialog.Builder(TechnicalSetupActivity.this)
-                                .setTitle("Delete local examinations")
-                                .setMessage("This procedure will delete all examinations waiting to be uploaded. Are you sure you want to do this?")
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
-                                        dbHelper.deleteAllExaminations();
-                                        Log.d("APP", "DELETING OMG");
-                                    }
-                                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //Do nothing
-                            }
-                        }).show();
-                    }
-
-                    if(Validator.validateSettings(settingsHashMap)){
-                        addSettingsToSharedPreferences(settingsHashMap);
-                        statusTextView.setText("Settings imported");
-                        statusTextView.setTextColor(Color.GREEN);
-                        Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
-                    } else{
-                        statusTextView.setText("Settings invalid");
-                        statusTextView.setTextColor(Color.RED);
-                        Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
-                    }
+                    if(globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
+                    else processSettings(settingsHashMap);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -106,19 +76,41 @@ public class TechnicalSetupActivity extends SherlockActivity {
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
         globalApp.setExternalPackageSettings(settingsHashMap);
-//        Log.d("APP", "= PackageName: " + globalApp.getSettingsPackageName());
-//        Log.d("APP", "= PackageLocation: " + globalApp.getSettingsPackageLocation());
-//        Log.d("APP", "= PackageServerPort: " + globalApp.getSettingsPackageServerPort());
-//        Log.d("APP", "= HospitalServerAddress_ " + globalApp.getSettingsHospitalServerAddress());
-//        Log.d("APP", "= HospitalServerProtocol: " + globalApp.getSettingsHospitalServerProtocol());
-//        Log.d("APP", "= HospitalServerPort: " + globalApp.getSettingsHospitalServerPort());
-//        Log.d("APP", "= AuthenticationProtocol: " + globalApp.getSettingsAuthenticationProtocol());
-//        Log.d("APP", "= AuthenticationServer: " + globalApp.getSettingsAuthenticationServerAddress());
-//        Log.d("APP", "= AuthenticationServerPort: " + globalApp.getSettingsAuthenticationServerPort());
-//        Log.d("APP", "= LDAP UserID: " + globalApp.getSettingsLDAPUserID());
-//        Log.d("APP", "= LDAP OU: " + globalApp.getSettingsLDAPOU());
-//        Log.d("APP", "= LDAP DC: " + globalApp.getSettingsLDAPDC());
+    }
 
+    private void processSettings(HashMap<String, String> settingsHashMap){
+
+        if(Validator.validateSettings(settingsHashMap)){
+            addSettingsToSharedPreferences(settingsHashMap);
+            statusTextView.setText("Settings imported");
+            statusTextView.setTextColor(Color.GREEN);
+            Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
+        } else{
+            statusTextView.setText("Settings invalid");
+            statusTextView.setTextColor(Color.RED);
+            Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
+        }
+    }
+
+    private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
+
+        //Displays alertDialog notifying user that examinations will be lost if user proceeds with setup
+        new AlertDialog.Builder(TechnicalSetupActivity.this)
+                .setTitle("Delete local examinations")
+                .setMessage("This procedure will delete all examinations waiting to be uploaded. Are you sure you want to do this?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+                        dbHelper.deleteAllExaminations();
+                        processSettings(settingsHashMap);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
+            }
+        }).show();
     }
 
     @Override
