@@ -24,7 +24,7 @@ public class HomeScreenActivity extends SherlockActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
-//
+
         context = this;
 
         dbHelper = new DatabaseHelper(this);
@@ -39,8 +39,6 @@ public class HomeScreenActivity extends SherlockActivity {
 
         homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
         homescreenListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations));
-
-
 
     }
 

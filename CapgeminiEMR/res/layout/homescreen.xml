@@ -15,11 +15,4 @@
         android:layout_marginRight="22dp"
         android:layout_marginTop="22dp"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Use image(s)"
-        android:id="@+id/usePictureButton"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"/>
 </RelativeLayout>
