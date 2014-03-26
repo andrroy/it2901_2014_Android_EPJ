@@ -6,6 +6,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.utils.Authenticator;
@@ -18,7 +21,7 @@ public class LoginActivity extends SherlockActivity {
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
     private EditText usernameEditText, passwordEditText;
-    private Button loginButton, settingsButton;
+    private Button loginButton;
     private ArrayList<String> incomingImages;
     private String patientId;
     private int launcherCommand;
@@ -31,7 +34,6 @@ public class LoginActivity extends SherlockActivity {
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
-        settingsButton = (Button) findViewById(R.id.settingsButton);
 
         // get intent from launcher
         Intent i = getIntent();
@@ -42,12 +44,12 @@ public class LoginActivity extends SherlockActivity {
             public void onClick(View v) {
 
                 //Check if either fields are empty
-                if(usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")){
+                if (usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")) {
                     Crouton.makeText(LoginActivity.this, "Please enter username and password", Style.ALERT).show();
                 }
                 //Check if username/password is correct, and forwarding to next view if true
                 else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
-                //else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
+                    //else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
 
                     passwordEditText.setText("");
 
@@ -55,17 +57,9 @@ public class LoginActivity extends SherlockActivity {
 
                     //Username/password combination wrong, or technical difficulties.
                     // Should probably provide implement better feedback at some point
-                } else{
+                } else {
                     Crouton.makeText(LoginActivity.this, "Login failed", Style.ALERT).show();
                 }
-            }
-        });
-
-        settingsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(LoginActivity.this, SettingsActivity.class);
-                startActivity(i);
             }
         });
 
@@ -79,7 +73,7 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
                 break;
             case 2: //No images
-                Crouton.makeText(LoginActivity.this,"Received no images from launcher", Style.INFO);
+                Crouton.makeText(LoginActivity.this, "Received no images from launcher", Style.INFO);
                 break;
             case 3: //Images and ID
                 incomingImages = i.getStringArrayListExtra("chosen_images");
@@ -87,7 +81,7 @@ public class LoginActivity extends SherlockActivity {
                 patientId = i.getStringExtra("id");
                 break;
             case 4: //Identify
-                Crouton.makeText(LoginActivity.this,"Identify Patient", Style.INFO);
+                Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO);
                 break;
             default:
                 finish();
@@ -131,5 +125,24 @@ public class LoginActivity extends SherlockActivity {
             sendBroadcast(i);
             finish();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.xml.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case R.id.settings_button:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
     }
 }
