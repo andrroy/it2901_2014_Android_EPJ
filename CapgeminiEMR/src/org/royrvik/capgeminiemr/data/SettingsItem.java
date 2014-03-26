@@ -1,5 +1,10 @@
 package org.royrvik.capgeminiemr.data;
 
+/**
+ * Convenience class used by CurrentSetupActivity to show the items
+ * currently in SharedPreferences.
+ */
+
 public class SettingsItem {
 
     private String key, value;

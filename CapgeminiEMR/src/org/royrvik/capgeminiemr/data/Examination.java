@@ -4,6 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * Representation of an Examination and the
+ */
 public class Examination {
 
     private String patientName, patientSsn;

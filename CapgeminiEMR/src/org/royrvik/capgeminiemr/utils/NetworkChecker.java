@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 public class NetworkChecker {
 
     /**
-     *  Utility for checking the status of the internet connection
+     * Utility for checking the status of the internet connection
      * @param context
      * @return true if the device is connected to the internet, false if it isn't
      */
