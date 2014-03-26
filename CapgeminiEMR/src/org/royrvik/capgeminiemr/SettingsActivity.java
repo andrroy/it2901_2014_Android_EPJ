@@ -31,4 +31,5 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         }
         return true;
     }
+
 }

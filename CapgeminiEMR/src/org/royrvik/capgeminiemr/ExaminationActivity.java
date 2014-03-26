@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -50,7 +49,7 @@ public class ExaminationActivity extends SherlockActivity {
 
         currentExamination = new Examination();
         currentExamination.setPatientName(infoArrayList.get(1));
-        currentExamination.setPatientSsn(Long.parseLong(infoArrayList.get(0)));
+        currentExamination.setPatientSsn(infoArrayList.get(0));
         for (String uri : incomingImages) {
             currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
         }
@@ -185,8 +184,8 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        headerTextView.setText("Patient ID: " + Long.toString(currentExamination.getPatientSsn()));
-        idTextView.setText(Long.toString(currentExamination.getPatientSsn()));
+        headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
+        idTextView.setText(currentExamination.getPatientSsn());
         nameTextView.setText(currentExamination.getPatientName());
 
         int imagesWithComment = 0;

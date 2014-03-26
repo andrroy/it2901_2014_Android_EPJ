@@ -21,14 +21,15 @@
             android:layout_centerHorizontal="true"
             android:width="200dp"
             android:layout_marginBottom="20dp"
-            android:layout_marginTop="30dp"/>
+            android:layout_marginTop="30dp" android:hint="@string/url" android:textSize="11dp"/>
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/get_config"
             android:id="@+id/getConfigButton"
-            android:layout_below="@+id/pathToSettingsEditText" android:layout_centerHorizontal="true"/>
+            android:layout_below="@+id/pathToSettingsEditText"
+            android:layout_centerHorizontal="true"/>
 
     <TextView
             android:layout_width="wrap_content"
@@ -46,6 +47,7 @@
             android:layout_below="@+id/statusStaticTextView"
             android:layout_alignLeft="@+id/statusStaticTextView"
             android:layout_alignStart="@+id/statusStaticTextView"
-            android:layout_marginTop="10dp"/>
+            android:layout_marginTop="10dp"
+            android:maxWidth="100dp"/>
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockActivity;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -15,7 +15,7 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import java.util.List;
 
 
-public class ReviewUploadActivity extends Activity {
+public class ReviewUploadActivity extends SherlockActivity {
 
     private DatabaseHelper dbHelper;
 

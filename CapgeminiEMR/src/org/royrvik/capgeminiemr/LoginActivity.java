@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.utils.Authenticator;
 
 import java.util.ArrayList;
 
@@ -21,6 +22,7 @@ public class LoginActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private String patientId;
     private int launcherCommand;
+    private String broadcastCode = "";
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +35,6 @@ public class LoginActivity extends SherlockActivity {
 
         // get intent from launcher
         Intent i = getIntent();
-        launcherCommand = i.getIntExtra("type", 0);
         getInformationFromIntent(i);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -45,8 +46,8 @@ public class LoginActivity extends SherlockActivity {
                     Crouton.makeText(LoginActivity.this, "Please enter username and password", Style.ALERT).show();
                 }
                 //Check if username/password is correct, and forwarding to next view if true
-                //else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
-                else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
+                else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
+                //else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
 
                     passwordEditText.setText("");
 
@@ -71,6 +72,7 @@ public class LoginActivity extends SherlockActivity {
     }
 
     private void getInformationFromIntent(Intent i) {
+        launcherCommand = i.getIntExtra("type", 0);
         switch (launcherCommand) {
             case 1: //Images
                 incomingImages = i.getStringArrayListExtra("chosen_images");
@@ -88,8 +90,8 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this,"Identify Patient", Style.INFO);
                 break;
             default:
-
         }
+        broadcastCode = i.getStringExtra("code");
     }
 
     private void startApplication() {
@@ -123,7 +125,9 @@ public class LoginActivity extends SherlockActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == RESULT_IDENTIFY_PATIENT && resultCode == RESULT_OK && data != null) {
-            setResult(RESULT_OK, data);
+            Intent i = new Intent(broadcastCode);
+            i.putStringArrayListExtra("patient", data.getStringArrayListExtra("patient"));
+            sendBroadcast(i);
             finish();
         }
     }

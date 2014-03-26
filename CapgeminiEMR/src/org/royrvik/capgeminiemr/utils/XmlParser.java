@@ -44,7 +44,6 @@ public class XmlParser {
             Element element = (Element) entries.item(i);
             if(!element.getNodeName().equals("settings")) {
                 xmlNodeHashMap.put(element.getNodeName(), element.getTextContent());
-                Log.d("APP", "Name: " + element.getNodeName() + ". Value: " + element.getTextContent());
             }
         }
 

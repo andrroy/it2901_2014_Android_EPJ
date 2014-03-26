@@ -90,7 +90,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
     /**
      * Checks patients ID.
-     * Starts ExaminationActivity if PID is accepted
+     * Starts ExaminationActivity or returns to the launcher if PID is accepted
      */
     private void checkPid() {
         //TODO: Validate the ID

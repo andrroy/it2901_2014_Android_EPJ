@@ -11,11 +11,11 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
-import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class HomescreenListAdapter extends ArrayAdapter<Examination> {
+public class CurrentSetupListAdapter extends ArrayAdapter<ArrayList<String>> {
 
     private static final String TAG = "APP";
 
@@ -23,7 +23,7 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
     private LayoutInflater inflater;
     private Context context;
 
-    public HomescreenListAdapter(Context context, int resourceId, List<Examination> objects) {
+    public CurrentSetupListAdapter(Context context, int resourceId, ArrayList<ArrayList<String>> objects) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
@@ -35,18 +35,14 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
-        //ultrasound image/data for THIS row
-        Examination rowItem = getItem(position);
+        // Data for THIS row
+        ArrayList<String> rowItem = getItem(position);
 
-        ImageView rowImage = (ImageView) convertView.findViewById(R.id.homeListImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
-        rowImage.setImageBitmap(bitmap);
+        TextView keyTextView = (TextView) convertView.findViewById(R.id.currentSetupKeyTextView);
+        keyTextView.setText(rowItem.toString());
 
-        TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
-        ssnTextView.setText(rowItem.getPatientSsn());
-
-        TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
-        dateTextView.setText(rowItem.getDate());
+        TextView valueTextView = (TextView) convertView.findViewById(R.id.currentSetupValueTextView);
+        valueTextView.setText(rowItem.toString());
 
         return convertView;
 

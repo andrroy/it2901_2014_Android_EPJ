@@ -14,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name="org.royrvik.capgeminiemr.EMRApplication"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
         android:theme="@android:style/Theme.Holo.Light">
@@ -33,5 +34,6 @@
         <activity android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"></activity>
         <activity android:name=".ExaminationActivity"></activity>
         <activity android:name=".ReviewUploadActivity"/>
+        <activity android:name=".CurrentSetupActivity"/>
     </application>
 </manifest>

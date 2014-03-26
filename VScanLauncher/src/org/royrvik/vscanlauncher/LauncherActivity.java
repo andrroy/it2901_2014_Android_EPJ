@@ -1,8 +1,7 @@
 package org.royrvik.vscanlauncher;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,10 +25,12 @@ public class LauncherActivity extends Activity {
 
     private static final String TAG = "APP";
     private static int RESULT_LOAD_IMAGE = 1;
-    private static int RESULT_IDENTIFY_PATIENT = 2;
+    private static final String BROADCAST_CODE = "find a better code";
+    private ReceiveMessages receiver = null;
+
 
     private Button launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
-    private TextView numberofChosenImagesTV, patientIdTextView;
+    private TextView numberOfChosenImagesTV, patientIdTextView;
 
     private ArrayList<String> selectedImagesPath;
 
@@ -41,10 +43,11 @@ public class LauncherActivity extends Activity {
 
         selectedImagesPath = new ArrayList<String>();
         openGalleryButton = (Button) findViewById(R.id.openGalleryButton);
-        numberofChosenImagesTV = (TextView) findViewById(R.id.imagesChosenTextView);
+        numberOfChosenImagesTV = (TextView) findViewById(R.id.imagesChosenTextView);
         patientIdTextView = (TextView) findViewById(R.id.patientIdTextView);
         patientData = new ArrayList<String>();
-        patientData.add("No ID Available");
+        receiver = new ReceiveMessages();
+        registerReceiver(receiver, new IntentFilter(BROADCAST_CODE));
 
         Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
         Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
@@ -102,7 +105,7 @@ public class LauncherActivity extends Activity {
                     startOtherAppWithId();
                 }
                 else {
-                    //TODO: Show Error, no ID available
+                    Toast.makeText(getApplicationContext(), "No ID availalbe.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,20 +123,14 @@ public class LauncherActivity extends Activity {
      * Launches the main EMR application.
      */
     private void startOtherApplication() {
+        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
         if (selectedImagesPath.size() > 0) { //Images are chosen
-            Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
             i.putStringArrayListExtra("chosen_images", selectedImagesPath);
             i.putExtra("type", 1);
-            startActivity(i);
         }
         else { //No images chosen
-            startOtherAppWithoutPictures();
+            i.putExtra("type", 2);
         }
-    }
-
-    private void startOtherAppWithoutPictures() {
-        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        i.putExtra("type", 2);
         startActivity(i);
     }
 
@@ -148,7 +145,8 @@ public class LauncherActivity extends Activity {
     private void startOtherAppIdentifyPatient() {
         Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
         i.putExtra("type", 4);
-        startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
+        i.putExtra("code", BROADCAST_CODE);
+        startActivity(i);
     }
 
 
@@ -170,13 +168,15 @@ public class LauncherActivity extends Activity {
             cursor.close();
 
             selectedImagesPath.add(getRealPathFromURI(this, selectedImage));
-            numberofChosenImagesTV.setText("Number of selected images: " + Integer.toString(selectedImagesPath.size()));
+            numberOfChosenImagesTV.setText("Number of selected images: " + Integer.toString(selectedImagesPath.size()));
 
         }
-        else if (requestCode == RESULT_IDENTIFY_PATIENT && resultCode == RESULT_OK && data != null) {
-            patientData = data.getStringArrayListExtra("patient");
-            patientIdTextView.setText(patientData.get(0));
-        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(receiver);
     }
 
     /**
@@ -279,5 +279,21 @@ public class LauncherActivity extends Activity {
 
         return allFileNames;
 
+    }
+
+    private class ReceiveMessages extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ArrayList<String> data = intent.getStringArrayListExtra("patient");
+            patientData = new ArrayList<String>();
+            if (data.size() > 0) {
+                for (String item : data) {
+                    patientData.add(item);
+                }
+            }
+            else patientData.add("No ID available.");
+            patientIdTextView.setText(patientData.get(0));
+        }
     }
 }
