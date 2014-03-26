@@ -41,7 +41,7 @@ public class LoginActivity extends SherlockActivity {
         getInformationFromIntent(getIntent());
 
         //If the current session is valid
-        if (session.checkSession()) {
+        if (session.isValid()) {
             startApplication();
         }
 
@@ -55,7 +55,7 @@ public class LoginActivity extends SherlockActivity {
                 );
 
                 //Check if username/password is correct, and forwarding to next view if true
-                if (session.checkSession()) {
+                if (session.isValid()) {
                     startApplication();
                 }
                 else{
@@ -101,7 +101,6 @@ public class LoginActivity extends SherlockActivity {
 
     private void startApplication() {
         Intent i;
-        System.out.println("Starting app with launcher command: " + launcherCommand);
         switch (launcherCommand) {
             case 1: //Images
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);

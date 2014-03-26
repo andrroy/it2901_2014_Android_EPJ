@@ -2,7 +2,6 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -77,9 +76,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!patientIDEditText.getText().toString().trim().isEmpty()) {
-                    checkPid();
-                }
+                if (!patientIDEditText.getText().toString().trim().isEmpty()) checkPid();
                 else {
                     error.setText("Invalid ID format.");
                 }
@@ -100,22 +97,28 @@ public class IdentifyPatientActivity extends SherlockActivity {
         //TODO: Validate the ID
         //TODO: Show that the app is working on something
         //TODO: Get patient info
-        ArrayList<String> info = new ArrayList<String>();
-        info.add(patientIDEditText.getText().toString());
-        info.add("Frank Stangelberg"); //For testing only
+        if (true /*The ID was validated*/) {
+            ArrayList<String> info = new ArrayList<String>();
+            info.add(patientIDEditText.getText().toString());
+            info.add("Frank Stangelberg"); //For testing only
 
-        if (returnAfter) {
-            Intent data = new Intent();
-            data.putStringArrayListExtra("patient", info);
-            setResult(RESULT_OK, data);
-            returnAfter = false;
-            finish();
+            if (returnAfter) {
+                Intent data = new Intent();
+                data.putStringArrayListExtra("patient", info);
+                setResult(RESULT_OK, data);
+                returnAfter = false;
+                finish();
+            }
+            else {
+                Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
+                i.putStringArrayListExtra("info", info);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                startActivity(i);
+                finish();
+            }
         }
         else {
-            Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
-            i.putStringArrayListExtra("info", info);
-            i.putStringArrayListExtra("chosen_images", incomingImages);
-            startActivity(i);
+            Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -124,7 +127,6 @@ public class IdentifyPatientActivity extends SherlockActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Back button clicked.
-                System.out.println(flipper.getDisplayedChild());
                 if (flipper.getDisplayedChild() > 0) {
                     flipper.showPrevious();
                     break;

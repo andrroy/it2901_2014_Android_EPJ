@@ -43,14 +43,14 @@ public class SessionManager {
 
     /**
      * Checks if the session is still valid
-     * @return
+     * @return - true if the session is valid
      */
-    public boolean checkSession() {
+    public boolean isValid() {
         return pref.getLong(KEY_TIME, 0) != 0 && new Date().getTime() < pref.getLong(KEY_TIME, 0) + SESSION_TIMEOUT_IN_MIN*60000;
     }
 
     /**
-     *
+     *  Tries to authenticate the user, and starts the session if successful
      */
     private void authenticate() {
         //FOR TESTING
@@ -76,7 +76,7 @@ public class SessionManager {
     }
 
     /**
-     *
+     *  Clears out all session information
      */
     public void logout() {
         editor.clear();
