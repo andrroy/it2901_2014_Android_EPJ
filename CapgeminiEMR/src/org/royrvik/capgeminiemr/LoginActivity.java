@@ -18,11 +18,12 @@ public class LoginActivity extends SherlockActivity {
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
     private EditText usernameEditText, passwordEditText;
-    private Button loginButton, settingsButton;
+    private Button loginButton, settingsButton, offlineButton;
     private ArrayList<String> incomingImages;
     private String patientId;
     private int launcherCommand;
     private String broadcastCode = "";
+    private boolean offlineIsPressed = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,7 @@ public class LoginActivity extends SherlockActivity {
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         settingsButton = (Button) findViewById(R.id.settingsButton);
+        offlineButton = (Button) findViewById(R.id.offlineButton);
 
         // get intent from launcher
         Intent i = getIntent();
@@ -69,6 +71,15 @@ public class LoginActivity extends SherlockActivity {
             }
         });
 
+        offlineButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                offlineIsPressed = true;
+                startApplication();
+
+            }
+        });
+
     }
 
     private void getInformationFromIntent(Intent i) {
@@ -100,16 +111,25 @@ public class LoginActivity extends SherlockActivity {
             case 1: //Images
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
+                if (offlineIsPressed){
+                    i.putExtra("offline", true);
+                }
                 startActivity(i);
                 break;
             case 2: //No images
                 i = new Intent(LoginActivity.this, HomeScreenActivity.class);
+                if (offlineIsPressed){
+                    i.putExtra("offline", true);
+                }
                 startActivity(i);
                 break;
             case 3: //Images and ID
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 i.putExtra("id", patientId);
+                if (offlineIsPressed){
+                    i.putExtra("offline", true);
+                }
                 startActivity(i);
                 break;
             case 4: //Identify

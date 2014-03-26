@@ -20,6 +20,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private Intent intent;
     private boolean returnAfter = false;
+    private boolean offlineMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
+        offlineMode = i.getBooleanExtra("offline", false);
 
 
         manualButton = (ImageButton) findViewById(R.id.manualButton);
@@ -110,6 +112,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
             Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
             i.putStringArrayListExtra("info", info);
             i.putStringArrayListExtra("chosen_images", incomingImages);
+            i.putExtra("offline", offlineMode);
             startActivity(i);
         }
     }
