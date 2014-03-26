@@ -9,18 +9,18 @@ import java.util.Map;
 
 public class EMRApplication extends Application {
 
-    private final static String PACKAGE_NAME = "packageName";
-    private final static String PACKAGE_LOCATION = "packageLocation";
-    private final static String PACKAGE_SERVER_PORT = "packageServerPort";
-    private final static String HOSPITAL_SERVER_ADDRESS = "hospitalServerAddress";
-    private final static String HOSPITAL_SERVER_PROTOCOL = "hospitalServerProtocol";
-    private final static String HOSPITAL_SERVER_PORT = "hospitalServerPort";
-    private final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
-    private final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
-    private final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
-    private final static String LDAP_USERID = "LDAPuserID";
-    private final static String LDAP_OU = "LDAPOU";
-    private final static String LDAP_DC = "LDAPDC";
+    public final static String PACKAGE_NAME = "packageName";
+    public final static String PACKAGE_LOCATION = "packageLocation";
+    public final static String PACKAGE_SERVER_PORT = "packageServerPort";
+    public final static String HOSPITAL_SERVER_ADDRESS = "hospitalServerAddress";
+    public final static String HOSPITAL_SERVER_PROTOCOL = "hospitalServerProtocol";
+    public final static String HOSPITAL_SERVER_PORT = "hospitalServerPort";
+    public final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
+    public final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
+    public final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
+    public final static String LDAP_USERID = "LDAPuserID";
+    public final static String LDAP_OU = "LDAPOU";
+    public final static String LDAP_DC = "LDAPDC";
 
 
 
@@ -83,6 +83,42 @@ public class EMRApplication extends Application {
     public Map<String, ?> getAllPreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getAll();
+    }
+
+    public boolean hasSettingsConfigured(){
+
+        //Check that "core" settings are specified
+        if(
+                !(getSettingsPackageName().isEmpty()) &&
+                !(getSettingsPackageLocation().isEmpty()) &&
+                !(getSettingsPackageServerPort().isEmpty()) &&
+                !(getSettingsHospitalServerAddress().isEmpty()) &&
+                !(getSettingsHospitalServerProtocol().isEmpty()) &&
+                !(getSettingsHospitalServerPort().isEmpty()) &&
+                !(getSettingsAuthenticationProtocol().isEmpty()) &&
+                !(getSettingsAuthenticationServerAddress().isEmpty()) &&
+                !(getSettingsAuthenticationServerPort().isEmpty())
+        ){
+
+            //Check settings for specific authentication protocol
+            //In this case, LDAP
+            if(
+                    !(getSettingsLDAPUserID().isEmpty()) &&
+                    !(getSettingsLDAPOU().isEmpty()) &&
+                    !(getSettingsLDAPDC().isEmpty())
+                    ){
+                return true;
+
+                //If not all LDAP settings are configured, return false
+            } else{
+                return false;
+            }
+
+
+        }
+
+        //If some "core" settings NOT specified, return false
+        return false;
     }
 
     public String getSettingsPackageName() {
@@ -168,11 +204,5 @@ public class EMRApplication extends Application {
 
         return s;
     }
-
-    //LDAP:
-    //userID
-    //OU
-    //DC
-
 
 }

@@ -2,7 +2,6 @@ package org.royrvik.capgeminiemr.utils;
 
 
 import android.os.AsyncTask;
-import android.util.Log;
 import com.unboundid.ldap.sdk.*;
 import com.unboundid.util.ssl.SSLUtil;
 import com.unboundid.util.ssl.TrustAllTrustManager;
