@@ -1,6 +1,7 @@
 package org.royrvik.capgeminiemr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -25,6 +26,8 @@ public class ReviewUploadActivity extends SherlockActivity {
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
+    private boolean offlineMode = false;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reviewupload);
@@ -32,6 +35,10 @@ public class ReviewUploadActivity extends SherlockActivity {
         dbHelper = new DatabaseHelper(this);
 
         context = this;
+
+
+        Intent i = getIntent();
+        offlineMode = i.getBooleanExtra("offline", false);
 
         // Fetch examination from database and show its images and comments in the listview
         List<UltrasoundImage> examinationImages = dbHelper.getExamination(1).getUltrasoundImages();
@@ -55,11 +62,19 @@ public class ReviewUploadActivity extends SherlockActivity {
         });
 
         // Textviews
-        reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
-        reviewIdTextView.setText("ID: " + dbHelper.getExamination(1).getPatientSsn());
-        reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-        reviewNameTextView.setText("Name: " + dbHelper.getExamination(1).getPatientName());
 
+        if(offlineMode){
+            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView.setText("ID: *******");
+            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView.setText("Name: *******");
+        }
+        else {
+            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView.setText("ID: " + dbHelper.getExamination(1).getPatientSsn());
+            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView.setText("Name: " + dbHelper.getExamination(1).getPatientName());
+        }
 
     }
 }

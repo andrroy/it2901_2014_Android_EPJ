@@ -82,6 +82,7 @@ public class ExaminationActivity extends SherlockActivity {
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
 
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                i.putExtra("offline", offlineMode);
                 startActivity(i);
             }
         });
