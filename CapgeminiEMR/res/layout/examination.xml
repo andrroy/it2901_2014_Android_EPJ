@@ -117,7 +117,6 @@
                 android:layout_alignStart="@+id/nameField"
                 android:layout_marginBottom="28dp"/>
         </RelativeLayout>
-
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
@@ -225,5 +224,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"/>
         </RelativeLayout>
+
     </ViewFlipper>
 </LinearLayout>

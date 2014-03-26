@@ -90,6 +90,7 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this,"Identify Patient", Style.INFO);
                 break;
             default:
+                finish();
         }
         broadcastCode = i.getStringExtra("code");
     }
