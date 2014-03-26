@@ -104,6 +104,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
             Intent data = new Intent();
             data.putStringArrayListExtra("patient", info);
             setResult(RESULT_OK, data);
+            returnAfter = false;
             finish();
         }
         else {

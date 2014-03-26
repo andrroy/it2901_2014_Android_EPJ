@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.utils.Encryption;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.ArrayList;
 
 public class LoginActivity extends SherlockActivity {
 
-    private SessionManager session;
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
     private EditText usernameEditText, passwordEditText;
@@ -24,6 +24,8 @@ public class LoginActivity extends SherlockActivity {
     private String patientId;
     private int launcherCommand;
     private String broadcastCode = "";
+
+    private SessionManager session;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,15 +39,22 @@ public class LoginActivity extends SherlockActivity {
         settingsButton = (Button) findViewById(R.id.settingsButton);
 
         // get intent from launcher
-        Intent i = getIntent();
-        getInformationFromIntent(i);
+        getInformationFromIntent(getIntent());
+
+        //If the current session is valid
+        if (session.checkLogin()) {
+            startApplication();
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Creates a new login session with the credentials entered, encrypting the password
+                session.createLoginSession(
+                        usernameEditText.getText().toString(),
+                        Encryption.encrypt(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+                );
 
-                //Creates a new login session with the credentials entered
-                session.createLoginSession(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                 //Check if username/password is correct, and forwarding to next view if true
                 if (session.checkLogin()) {
                     startApplication();
@@ -93,6 +102,7 @@ public class LoginActivity extends SherlockActivity {
 
     private void startApplication() {
         Intent i;
+        System.out.println("Starting app with launcher command: " + launcherCommand);
         switch (launcherCommand) {
             case 1: //Images
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
@@ -127,5 +137,12 @@ public class LoginActivity extends SherlockActivity {
             sendBroadcast(i);
             finish();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        System.out.println("Destroying...");
+        session.logout();
     }
 }

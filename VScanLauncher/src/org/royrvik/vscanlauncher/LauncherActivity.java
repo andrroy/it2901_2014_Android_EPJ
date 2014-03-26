@@ -135,11 +135,14 @@ public class LauncherActivity extends Activity {
     }
 
     private void startOtherAppWithId() {
-        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        i.putStringArrayListExtra("chosen_images", selectedImagesPath);
-        i.putExtra("id", patientData.get(0));
-        i.putExtra("type", 3);
-        startActivity(i);
+        if (selectedImagesPath.size() > 0) { //Images are chosen
+            Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+            i.putStringArrayListExtra("chosen_images", selectedImagesPath);
+            i.putExtra("id", patientData.get(0));
+            i.putExtra("type", 3);
+            startActivity(i);
+        }
+        else Toast.makeText(getApplicationContext(), "You need to choose images.", Toast.LENGTH_SHORT).show();
     }
 
     private void startOtherAppIdentifyPatient() {
