@@ -14,8 +14,7 @@ public class Validator {
     public static boolean validateSettings(HashMap<String, String> settingsHashMap){
         try{
             //Checks if all "core" settings are in place
-            if(
-                    !(settingsHashMap.get(EMRApplication.PACKAGE_NAME).isEmpty()) &&
+            if(!(settingsHashMap.get(EMRApplication.PACKAGE_NAME).isEmpty()) &&
                             !(settingsHashMap.get(EMRApplication.PACKAGE_LOCATION).isEmpty()) &&
                             !(settingsHashMap.get(EMRApplication.PACKAGE_SERVER_PORT).isEmpty()) &&
                             !(settingsHashMap.get(EMRApplication.HOSPITAL_SERVER_ADDRESS).isEmpty()) &&
@@ -23,10 +22,18 @@ public class Validator {
                             !(settingsHashMap.get(EMRApplication.HOSPITAL_SERVER_PORT).isEmpty()) &&
                             !(settingsHashMap.get(EMRApplication.AUTHENTICATION_PROTOCOL).isEmpty()) &&
                             !(settingsHashMap.get(EMRApplication.AUTHENTICATION_SERVER_ADDRESS).isEmpty()) &&
-                            !(settingsHashMap.get(EMRApplication.AUTHENTICATION_SERVER_PORT).isEmpty())
-                    ){
-                return true;
+                            !(settingsHashMap.get(EMRApplication.AUTHENTICATION_SERVER_PORT).isEmpty())) {
+
+
+                //Checks if necessary LDAP settings are present
+                if (!(settingsHashMap.get(EMRApplication.LDAP_USERID).isEmpty()) &&
+                        !(settingsHashMap.get(EMRApplication.LDAP_OU).isEmpty()) &&
+                        !(settingsHashMap.get(EMRApplication.LDAP_DC).isEmpty())) {
+                    return true;
+                }
+
             }
+
             return false;
         }
 
