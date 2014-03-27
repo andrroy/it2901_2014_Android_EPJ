@@ -1,5 +1,7 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +13,8 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.Validator;
 import org.royrvik.capgeminiemr.utils.XmlParser;
 
 import java.util.HashMap;
@@ -34,26 +38,24 @@ public class TechnicalSetupActivity extends SherlockActivity {
         globalApp = (EMRApplication) getApplicationContext();
 
         statusTextView = (TextView) findViewById(R.id.statusTextView);
-        //Should only be displayed if app is indeed not yet set up
-        statusTextView.setText("Application is not currently set up.");
-        statusTextView.setTextColor(Color.RED);
+
+        //Sets status message based on whether app is configured or not
+        if(globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.", Color.GREEN);
+        else setStatusText("Application is not currently set up.", Color.RED);
 
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
-
         getConfigButton = (Button) findViewById(R.id.getConfigButton);
 
         getConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    // If app is already set up, the user should be notified and the database should be dropped
+                    HashMap<String, String> settingsHashMap = XmlParser.parse(pathToXmlEditText.getText().toString());
 
-                    // http://folk.ntnu.no/andrroy/settings.xml
-                    addSettingsToSharedPreferences(XmlParser.parse(pathToXmlEditText.getText().toString()));
-
-                    statusTextView.setText("Settings imported");
-                    statusTextView.setTextColor(Color.GREEN);
-                    Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
+                    //If settings are already configured, process settings.xml but give warning that data will be deleted
+                    //Else, just process settings.xml
+                    if(globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
+                    else processSettings(settingsHashMap);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -68,19 +70,49 @@ public class TechnicalSetupActivity extends SherlockActivity {
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
         globalApp.setExternalPackageSettings(settingsHashMap);
-        Log.d("APP", "= PackageName: " + globalApp.getSettingsPackageName());
-        Log.d("APP", "= PackageLocation: " + globalApp.getSettingsPackageLocation());
-        Log.d("APP", "= PackageServerPort: " + globalApp.getSettingsPackageServerPort());
-        Log.d("APP", "= HospitalServerAddress_ " + globalApp.getSettingsHospitalServerAddress());
-        Log.d("APP", "= HospitalServerProtocol: " + globalApp.getSettingsHospitalServerProtocol());
-        Log.d("APP", "= HospitalServerPort: " + globalApp.getSettingsHospitalServerPort());
-        Log.d("APP", "= AuthenticationProtocol: " + globalApp.getSettingsAuthenticationProtocol());
-        Log.d("APP", "= AuthenticationServer: " + globalApp.getSettingsAuthenticationServerAddress());
-        Log.d("APP", "= AuthenticationServerPort: " + globalApp.getSettingsAuthenticationServerPort());
-        Log.d("APP", "= LDAP UserID: " + globalApp.getSettingsLDAPUserID());
-        Log.d("APP", "= LDAP OU: " + globalApp.getSettingsLDAPOU());
-        Log.d("APP", "= LDAP DC: " + globalApp.getSettingsLDAPDC());
+    }
 
+    /**
+     * Runs validation method, and saves to shared Preferences if settings are valid.
+     * Also outputs relevant information to user.
+     * @param settingsHashMap
+     */
+    private void processSettings(HashMap<String, String> settingsHashMap){
+
+        if(Validator.validateSettings(settingsHashMap)){
+            addSettingsToSharedPreferences(settingsHashMap);
+            setStatusText("Settings imported", Color.GREEN);
+            Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
+        } else{
+            setStatusText("Settings invalid", Color.RED);
+            Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
+        }
+    }
+
+    private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
+
+        //Displays alertDialog notifying user that examinations will be lost if user proceeds with setup
+        new AlertDialog.Builder(TechnicalSetupActivity.this)
+                .setTitle("Delete local examinations")
+                .setMessage("This procedure will delete all examinations waiting to be uploaded. Are you sure you want to do this?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+                        dbHelper.deleteAllExaminations();
+                        processSettings(settingsHashMap);
+                    }
+                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
+            }
+        }).show();
+    }
+
+    private void setStatusText(String text, int color){
+        statusTextView.setText(text);
+        statusTextView.setTextColor(color);
     }
 
     @Override
