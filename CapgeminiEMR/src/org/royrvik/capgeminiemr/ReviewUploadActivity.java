@@ -67,7 +67,7 @@ public class ReviewUploadActivity extends SherlockActivity {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: *******");
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: *******");
+            reviewNameTextView.setText("Name not available in offline mode");
         }
         else {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);

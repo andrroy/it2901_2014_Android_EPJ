@@ -63,6 +63,14 @@
                 android:layout_below="@+id/automaticButton"
                 android:layout_alignLeft="@+id/automaticButton"
                 android:layout_alignStart="@+id/automaticButton"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Currently in offline mode"
+                    android:id="@+id/offlineMessage"
+                    android:layout_marginTop="53dp" android:layout_below="@+id/textView"
+                    android:layout_alignLeft="@+id/textView" android:layout_alignStart="@+id/textView"
+                    android:textColor="#f00"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="match_parent"

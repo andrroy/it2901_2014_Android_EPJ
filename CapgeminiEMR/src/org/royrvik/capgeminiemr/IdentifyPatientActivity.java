@@ -15,7 +15,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private Button backButton, okButton;
     private ImageButton  manualButton, automaticButton;
     private EditText patientIDEditText;
-    private TextView error;
+    private TextView error, offlineMessage;
     private ViewFlipper flipper;
     private ArrayList<String> incomingImages;
     private Intent intent;
@@ -38,6 +38,9 @@ public class IdentifyPatientActivity extends SherlockActivity {
         if (i.getIntExtra("return", 0) == 1) {
             returnAfter = true;
         }
+        offlineMode = i.getBooleanExtra("offline", false);
+        // Denne skrives hele tiden likevel. Skal se på senere.
+        // if(offlineMode) offlineMessage = (TextView) findViewById(R.id.offlineMessage);
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);

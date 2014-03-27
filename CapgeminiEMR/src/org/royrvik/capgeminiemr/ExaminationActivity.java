@@ -188,7 +188,6 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        System.out.println("TestDASPOFJADPOFJADPOFJAPDOFJAPDOJFPOADJFPOADJFPOAJDFPOAJDFPOAJDFPOAJDFPOAJDFPOAJDFPOAJDFPOADJFOPDAJF--------------> "+ offlineMode);
         if(offlineMode){
             headerTextView.setText("Patient ID: *******");
             nameTextView.setText("Name not available in offline mode");
