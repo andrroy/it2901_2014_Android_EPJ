@@ -108,7 +108,7 @@ public class Encryption {
     }
 
     /**
-     * Generates a new {@link SecretKey} using the contextString string and the chosen algorithm.
+     * Generates a new {@link SecretKey} using the username string and the chosen algorithm.
      * @param username - a String to digest and use as salt
      */
     private static SecretKey generateSecretKey(String username) {

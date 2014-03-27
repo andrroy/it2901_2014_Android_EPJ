@@ -38,7 +38,7 @@ public class SessionManager {
         editor.putString(KEY_NAME, name);
         editor.putString(KEY_PASS, password);
         editor.commit();
-        authenticate();
+        validate();
     }
 
     /**
@@ -50,29 +50,33 @@ public class SessionManager {
     }
 
     /**
-     *  Tries to authenticate the user, and starts the session if successful
+     *  Tries to validate the user input, and starts the session if successful
      */
-    private void authenticate() {
+    private void validate() {
+        String username = pref.getString(KEY_NAME, "");
+        String passwordHash = pref.getString(KEY_PASS, "");
+
         //FOR TESTING
-        if (pref.getString(KEY_NAME, "").equals("a")) {
-            //Setting session start time
-            editor.putLong(KEY_TIME, new Date().getTime());
-            editor.commit();
+        if (username.equals("a")) {
+            startNewSession();
             return;
         }
         //END FOR TESTING
 
-        if (pref.getString(KEY_NAME, "").equals("") || pref.getString(KEY_PASS, "").equals("")) {
+        if (username.equals("") || Encryption.decrypt(username, passwordHash).equals("")) {
             return;
         }
-        else if (Authenticator.AuthenticateWithLdap(
-                pref.getString(KEY_NAME, ""),
-                Encryption.decrypt(pref.getString(KEY_NAME, ""), pref.getString(KEY_PASS, "")))) {
-
-            //Setting session start time
-            editor.putLong(KEY_TIME, new Date().getTime());
-            editor.commit();
+        else if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash))) {
+            startNewSession();
         }
+    }
+
+    /**
+     * Sets the session start time
+     */
+    private void startNewSession() {
+        editor.putLong(KEY_TIME, new Date().getTime());
+        editor.commit();
     }
 
     /**
