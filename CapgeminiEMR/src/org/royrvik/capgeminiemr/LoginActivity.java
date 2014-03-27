@@ -11,7 +11,8 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import org.royrvik.capgeminiemr.utils.Authenticator;
+import org.royrvik.capgeminiemr.utils.Encryption;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
@@ -26,40 +27,43 @@ public class LoginActivity extends SherlockActivity {
     private String patientId;
     private int launcherCommand;
     private String broadcastCode = "";
+    private SessionManager session;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        session = new SessionManager(getApplicationContext());
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
 
         // get intent from launcher
-        Intent i = getIntent();
-        getInformationFromIntent(i);
+        getInformationFromIntent(getIntent());
+
+        //If the current session is valid
+        if (session.isValid()) {
+            startApplication();
+        }
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Creates a new login session with the credentials entered, encrypting the password
+                session.createLoginSession(
+                        usernameEditText.getText().toString(),
+                        Encryption.encrypt(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+                );
 
-                //Check if either fields are empty
-                if (usernameEditText.getText().toString().matches("") || passwordEditText.getText().toString().matches("")) {
-                    Crouton.makeText(LoginActivity.this, "Please enter username and password", Style.ALERT).show();
-                }
                 //Check if username/password is correct, and forwarding to next view if true
-                else if (Authenticator.AuthenticateWithLdap(usernameEditText.getText().toString(), passwordEditText.getText().toString())) {
-                    //else if (usernameEditText.getText().toString().equals("a") && passwordEditText.getText().toString().equals("a")) {
-
-                    passwordEditText.setText("");
-
+                if (session.isValid()) {
                     startApplication();
-
-                    //Username/password combination wrong, or technical difficulties.
-                    // Should probably provide implement better feedback at some point
-                } else {
-                    Crouton.makeText(LoginActivity.this, "Login failed", Style.ALERT).show();
                 }
+                else{
+                    Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
+                }
+                passwordEditText.setText("");
             }
         });
 
@@ -96,20 +100,23 @@ public class LoginActivity extends SherlockActivity {
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 startActivity(i);
+                finish();
                 break;
             case 2: //No images
                 i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 startActivity(i);
+                finish();
                 break;
             case 3: //Images and ID
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 i.putExtra("id", patientId);
                 startActivity(i);
+                finish();
                 break;
             case 4: //Identify
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("return", 1);
+                i.putExtra("return", true);
                 startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
                 break;
             default:
