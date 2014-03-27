@@ -40,15 +40,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
         statusTextView = (TextView) findViewById(R.id.statusTextView);
 
         //Sets status message based on whether app is configured or not
-        if(globalApp.hasSettingsConfigured()){
-            statusTextView.setText("Application is already configured.");
-            statusTextView.setTextColor(Color.GREEN);
-        }
-        else{
-            statusTextView.setText("Application is not currently set up.");
-            statusTextView.setTextColor(Color.RED);
-        }
-
+        if(globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.", Color.GREEN);
+        else setStatusText("Application is not currently set up.", Color.RED);
 
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
         getConfigButton = (Button) findViewById(R.id.getConfigButton);
@@ -57,9 +50,10 @@ public class TechnicalSetupActivity extends SherlockActivity {
             @Override
             public void onClick(View view) {
                 try {
-
                     HashMap<String, String> settingsHashMap = XmlParser.parse(pathToXmlEditText.getText().toString());
 
+                    //If settings are already configured, process settings.xml but give warning that data will be deleted
+                    //Else, just process settings.xml
                     if(globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
                     else processSettings(settingsHashMap);
 
@@ -78,18 +72,25 @@ public class TechnicalSetupActivity extends SherlockActivity {
         globalApp.setExternalPackageSettings(settingsHashMap);
     }
 
+    /**
+     *
+     * @param settingsHashMap
+     */
     private void processSettings(HashMap<String, String> settingsHashMap){
 
         if(Validator.validateSettings(settingsHashMap)){
             addSettingsToSharedPreferences(settingsHashMap);
-            statusTextView.setText("Settings imported");
-            statusTextView.setTextColor(Color.GREEN);
+            setStatusText("Settings imported", Color.GREEN);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
         } else{
-            statusTextView.setText("Settings invalid");
-            statusTextView.setTextColor(Color.RED);
+            setStatusText("Settings invalid", Color.RED);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
         }
+    }
+
+    private void setStatusText(String text, int color){
+        statusTextView.setText(text);
+        statusTextView.setTextColor(color);
     }
 
     private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
