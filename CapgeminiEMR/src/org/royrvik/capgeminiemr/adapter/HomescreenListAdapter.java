@@ -1,6 +1,7 @@
 package org.royrvik.capgeminiemr.adapter;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -39,8 +40,18 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         Examination rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.homeListImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
-        rowImage.setImageBitmap(bitmap);
+
+        // Check if Examination has no images
+        if(rowItem.getUltrasoundImages().size() < 1 || rowItem.getUltrasoundImages() == null) {
+            // Show dummy image
+            int resID = context.getResources().getIdentifier("no_image" , "drawable", context.getPackageName());
+            rowImage.setImageResource(resID);
+        }
+        else {
+            Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
+            rowImage.setImageBitmap(bitmap);
+        }
+
 
         TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
         ssnTextView.setText(rowItem.getPatientSsn());
