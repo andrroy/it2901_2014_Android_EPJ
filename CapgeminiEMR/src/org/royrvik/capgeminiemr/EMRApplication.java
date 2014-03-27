@@ -39,8 +39,6 @@ public class EMRApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
 
     public void setExternalPackageSettings(HashMap<String, String> settingsHashMap) {
@@ -85,6 +83,11 @@ public class EMRApplication extends Application {
         return preferences.getAll();
     }
 
+
+    /**
+     * Checks if app is currently set up with working settings
+     * @return true if all necessary settings are present in sharedPreferences
+     */
     public boolean hasSettingsConfigured(){
 
         //Check that "core" settings are specified
@@ -98,26 +101,22 @@ public class EMRApplication extends Application {
                 !(getSettingsAuthenticationProtocol().isEmpty()) &&
                 !(getSettingsAuthenticationServerAddress().isEmpty()) &&
                 !(getSettingsAuthenticationServerPort().isEmpty())
-        ){
+        ) {
 
             //Check settings for specific authentication protocol
             //In this case, LDAP
-            if(
+            if (
                     !(getSettingsLDAPUserID().isEmpty()) &&
-                    !(getSettingsLDAPOU().isEmpty()) &&
-                    !(getSettingsLDAPDC().isEmpty())
-                    ){
+                            !(getSettingsLDAPOU().isEmpty()) &&
+                            !(getSettingsLDAPDC().isEmpty())
+                    ) {
                 return true;
-
-                //If not all LDAP settings are configured, return false
-            } else{
-                return false;
             }
 
-
         }
-
-        //If some "core" settings NOT specified, return false
+        //If some "core" settings NOT specified
+        // OR authentication protocol NOT specified
+        // return false
         return false;
     }
 

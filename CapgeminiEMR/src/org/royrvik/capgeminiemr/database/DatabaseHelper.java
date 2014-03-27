@@ -148,7 +148,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Deletes all
+     * Deletes all examinations stored in database
+     *
      */
     public void deleteAllExaminations() {
 

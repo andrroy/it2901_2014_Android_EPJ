@@ -73,7 +73,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
     }
 
     /**
-     *
+     * Runs validation method, and saves to shared Preferences if settings are valid.
+     * Also outputs relevant information to user.
      * @param settingsHashMap
      */
     private void processSettings(HashMap<String, String> settingsHashMap){
@@ -86,11 +87,6 @@ public class TechnicalSetupActivity extends SherlockActivity {
             setStatusText("Settings invalid", Color.RED);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
         }
-    }
-
-    private void setStatusText(String text, int color){
-        statusTextView.setText(text);
-        statusTextView.setTextColor(color);
     }
 
     private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
@@ -112,6 +108,11 @@ public class TechnicalSetupActivity extends SherlockActivity {
                 //Do nothing
             }
         }).show();
+    }
+
+    private void setStatusText(String text, int color){
+        statusTextView.setText(text);
+        statusTextView.setTextColor(color);
     }
 
     @Override
