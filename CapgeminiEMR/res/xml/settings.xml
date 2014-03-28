@@ -20,7 +20,7 @@
                 android:targetClass="org.royrvik.capgeminiemr.CurrentSetupActivity"/>
         </Preference>
 
-        <ListPreference
+        <Preference
             android:summary="@string/department_id_summary"
             android:title="@string/department_userid_title"/>
 
