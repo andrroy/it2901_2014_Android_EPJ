@@ -208,7 +208,6 @@ public class ExaminationActivity extends SherlockActivity {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
