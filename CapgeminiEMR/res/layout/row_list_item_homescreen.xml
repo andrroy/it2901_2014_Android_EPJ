@@ -16,8 +16,19 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/homeListSsnTextView"
             android:layout_centerVertical="true"
-            android:text="asda"
+            android:text="ssn"
             android:layout_toRightOf="@+id/homeListImageView"
+            android:layout_marginLeft="19dp"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/homeListNameTextView"
+            android:layout_centerVertical="true"
+            android:textSize="11dp"
+            android:text="navn"
+            android:layout_toRightOf="@+id/homeListSsnTextView"
             android:layout_marginLeft="19dp"/>
 
     <TextView
@@ -26,8 +37,9 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/homeListDateTextView"
             android:layout_centerVertical="true"
-            android:text="dfgdfgd"
-            android:layout_toRightOf="@+id/homeListSsnTextView"
+            android:textSize="11dp"
+            android:text="dato"
+            android:layout_toRightOf="@+id/homeListNameTextView"
             android:layout_marginLeft="19dp"/>
 
 </RelativeLayout>

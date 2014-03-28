@@ -1,7 +1,6 @@
 package org.royrvik.capgeminiemr.adapter;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
@@ -55,6 +54,9 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
         TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
         ssnTextView.setText(rowItem.getPatientSsn());
+
+        TextView nameTextView = (TextView) convertView.findViewById(R.id.homeListNameTextView);
+        nameTextView.setText(rowItem.getPatientName());
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
         dateTextView.setText(rowItem.getDate());
