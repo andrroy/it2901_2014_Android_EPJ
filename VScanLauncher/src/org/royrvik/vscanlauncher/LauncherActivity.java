@@ -29,7 +29,7 @@ public class LauncherActivity extends Activity {
     private ReceiveMessages receiver = null;
 
 
-    private Button launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
+    private Button launchSavedButton, launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
     private TextView numberOfChosenImagesTV, patientIdTextView;
 
     private ArrayList<String> selectedImagesPath;
@@ -80,6 +80,15 @@ public class LauncherActivity extends Activity {
             }
         });*/
 
+
+        launchSavedButton = (Button) findViewById(R.id.launchSavedExButton);
+        launchSavedButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchHomeScreen();
+            }
+        });
+
         launchOtherAppButton = (Button) findViewById(R.id.launchOtherAppButton);
         launchOtherAppButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +128,17 @@ public class LauncherActivity extends Activity {
         });
     }
 
+
+    /**
+     * Launch straight to the home screen.
+     */
+    private void launchHomeScreen(){
+        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
+        i.putExtra("type", 2);
+        startActivity(i);
+    }
+
+
     /**
      * Launches the main EMR application.
      */
@@ -129,7 +149,7 @@ public class LauncherActivity extends Activity {
             i.putExtra("type", 1);
         }
         else { //No images chosen
-            i.putExtra("type", 2);
+            Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show();
         }
         startActivity(i);
     }

@@ -3,48 +3,82 @@
               android:orientation="vertical"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+              android:background="@android:color/darker_gray"
         >
+
+
+
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="View saved examinations"
+            android:id="@+id/launchSavedExButton"
+            android:layout_margin="20dp"
+            android:layout_centerHorizontal="true"
+
+            />
 
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start EMR application"
             android:id="@+id/launchOtherAppButton"
-            android:layout_margin="20dp"
-            android:layout_centerHorizontal="true" />
+            android:layout_margin="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/launchSavedExButton"
+            />
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose pictures"
-            android:id="@+id/openGalleryButton"
-            android:layout_centerVertical="true" android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/imagesChosenTextView"
-        android:layout_below="@id/openGalleryButton"
-        android:layout_centerHorizontal="true"
-       />
+
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start EMR with images and ID"
             android:id="@+id/launchWithIdButton"
-            android:layout_below="@+id/launchOtherAppButton" android:layout_centerHorizontal="true"/>
+            android:layout_below="@+id/launchOtherAppButton" android:layout_centerHorizontal="true"
+
+            />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No ID available"
+            android:id="@+id/patientIdTextView"
+            android:layout_below="@+id/launchWithIdButton"
+            android:layout_centerHorizontal="true"
+            android:textColor="@android:color/background_light"
+            />
+
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start EMR: Identify Patient"
             android:id="@+id/identifyPatientButton"
-            android:layout_below="@+id/launchWithIdButton" android:layout_centerHorizontal="true" android:layout_marginTop="23dp"/>
+            android:layout_below="@+id/launchWithIdButton"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            />
+
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose pictures"
+            android:id="@+id/openGalleryButton"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/identifyPatientButton"
+            android:layout_marginTop="5dp"
+            />
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No ID available"
-            android:id="@+id/patientIdTextView" android:layout_below="@+id/launchWithIdButton"
-            android:layout_centerHorizontal="true"/>
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/imagesChosenTextView"
+            android:layout_below="@id/openGalleryButton"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/background_light"
+            />
+
 
 
 </RelativeLayout>
