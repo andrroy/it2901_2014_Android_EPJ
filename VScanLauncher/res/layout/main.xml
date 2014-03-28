@@ -15,7 +15,6 @@
             android:id="@+id/launchSavedExButton"
             android:layout_margin="20dp"
             android:layout_centerHorizontal="true"
-
             />
 
     <Button
@@ -76,7 +75,7 @@
             android:id="@+id/imagesChosenTextView"
             android:layout_below="@id/openGalleryButton"
             android:layout_centerHorizontal="true"
-            android:background="@android:color/background_light"
+            android:textColor="@android:color/background_light"
             />
 
 
