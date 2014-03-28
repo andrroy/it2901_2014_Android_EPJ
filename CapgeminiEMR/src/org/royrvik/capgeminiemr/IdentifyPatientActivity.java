@@ -132,17 +132,10 @@ public class IdentifyPatientActivity extends SherlockActivity {
                     break;
                 }
                 // Exit activity and open previous in activity stack
-                session.logout();
                 finish();
                 break;
         }
         return true;
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        session.logout();
     }
 
     @Override
