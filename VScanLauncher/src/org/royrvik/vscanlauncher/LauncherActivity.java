@@ -317,6 +317,7 @@ public class LauncherActivity extends Activity {
             }
             else patientData.add("No ID available.");
             patientIdTextView.setText(patientData.get(0));
+            Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
         }
     }
 }
