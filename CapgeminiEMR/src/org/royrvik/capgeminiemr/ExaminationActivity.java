@@ -208,12 +208,13 @@ public class ExaminationActivity extends SherlockActivity {
 
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Back button clicked. Exit activity and open previous in activity stack
+                dbHelper.addExamination(currentExamination);
+                startActivity(new Intent(this, HomeScreenActivity.class));
                 finish();
                 break;
         }

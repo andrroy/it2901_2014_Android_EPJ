@@ -126,10 +126,12 @@ public class LoginActivity extends SherlockActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RESULT_IDENTIFY_PATIENT && resultCode == RESULT_OK && data != null) {
-            Intent i = new Intent(broadcastCode);
-            i.putStringArrayListExtra("patient", data.getStringArrayListExtra("patient"));
-            sendBroadcast(i);
+        if (requestCode == RESULT_IDENTIFY_PATIENT) {
+            if (resultCode == RESULT_OK && data != null) {
+                Intent i = new Intent(broadcastCode);
+                i.putStringArrayListExtra("patient", data.getStringArrayListExtra("patient"));
+                sendBroadcast(i);
+            }
             finish();
         }
     }
@@ -150,6 +152,5 @@ public class LoginActivity extends SherlockActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 }
