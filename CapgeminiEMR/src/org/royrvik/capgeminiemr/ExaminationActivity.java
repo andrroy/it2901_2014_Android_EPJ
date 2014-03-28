@@ -30,6 +30,7 @@ public class ExaminationActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private ArrayList<String> infoArrayList = new ArrayList<String>();
     private DatabaseHelper dbHelper;
+    private boolean offlineMode;
 
     // For logging
     private static final String TAG = "APP";
@@ -46,6 +47,8 @@ public class ExaminationActivity extends SherlockActivity {
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
         infoArrayList = i.getStringArrayListExtra("info");
+        offlineMode = i.getBooleanExtra("offline", false);
+
 
         currentExamination = new Examination();
         currentExamination.setPatientName(infoArrayList.get(1));
@@ -79,6 +82,7 @@ public class ExaminationActivity extends SherlockActivity {
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
 
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                i.putExtra("offline", offlineMode);
                 startActivity(i);
             }
         });
@@ -184,9 +188,16 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
-        idTextView.setText(currentExamination.getPatientSsn());
-        nameTextView.setText(currentExamination.getPatientName());
+        if(offlineMode){
+            headerTextView.setText("Patient ID: *******");
+            nameTextView.setText("Name not available in offline mode");
+            idTextView.setText("*******");
+        }
+        else {
+            headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
+            idTextView.setText(currentExamination.getPatientSsn());
+            nameTextView.setText(currentExamination.getPatientName());
+        }
 
         int imagesWithComment = 0;
         int imagesWithoutComment = 0;

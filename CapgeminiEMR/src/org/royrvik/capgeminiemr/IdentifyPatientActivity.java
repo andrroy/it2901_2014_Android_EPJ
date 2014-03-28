@@ -16,12 +16,13 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private Button backButton, okButton;
     private ImageButton  manualButton, automaticButton;
     private EditText patientIDEditText;
-    private TextView error;
+    private TextView error, offlineMessage;
     private ViewFlipper flipper;
     private ArrayList<String> incomingImages;
     private Intent intent;
     private boolean returnAfter = false;
     private SessionManager session;
+    private boolean offlineMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +41,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         incomingImages = i.getStringArrayListExtra("chosen_images");
         String id = i.getStringExtra("id");
         returnAfter = i.getBooleanExtra("return", false);
+        offlineMode = session.isValid();
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
