@@ -2,6 +2,7 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
@@ -142,11 +143,28 @@ public class IdentifyPatientActivity extends SherlockActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // QR code result format: xxxxxxxxxxx,Magnus Lund
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
         if (scanResult != null) {
-            Crouton.makeText(IdentifyPatientActivity.this, scanResult.toString(), Style.INFO).show();
+            if(scanResult.getFormatName().equals("QR_CODE")) {
+                Log.d("APP", scanResult.toString());
+
+                String[] patientData = scanResult.getContents().split(",");
+                String patientSsn = patientData[0];
+                String patientName = patientData[1];
+
+                Log.d("APP", "Format: " + scanResult.getFormatName());
+                Log.d("APP", "SSN: " + patientSsn);
+                Log.d("APP", "Name: " + patientName);
+            }
+            else {
+                Log.d("APP", "Invalid format");
+            }
         }
-        // else continue with any other code you need in the method
+
+
+
     }
 
     /*@Override
