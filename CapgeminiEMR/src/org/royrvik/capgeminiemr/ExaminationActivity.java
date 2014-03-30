@@ -13,6 +13,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
@@ -30,7 +31,7 @@ public class ExaminationActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private ArrayList<String> infoArrayList = new ArrayList<String>();
     private DatabaseHelper dbHelper;
-    private boolean offlineMode;
+    private SessionManager session;
 
     // For logging
     private static final String TAG = "APP";
@@ -43,11 +44,13 @@ public class ExaminationActivity extends SherlockActivity {
 
         dbHelper = new DatabaseHelper(this);
 
+        //Getting the session
+        session = new SessionManager(getApplicationContext());
+
         // get intent from last activity
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
         infoArrayList = i.getStringArrayListExtra("info");
-        offlineMode = i.getBooleanExtra("offline", false);
 
 
         currentExamination = new Examination();
@@ -82,7 +85,6 @@ public class ExaminationActivity extends SherlockActivity {
                 Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
 
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
-                i.putExtra("offline", offlineMode);
                 startActivity(i);
             }
         });
@@ -188,7 +190,7 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        if(offlineMode){
+        if(!session.isValid()){
             headerTextView.setText("Patient ID: *******");
             nameTextView.setText("Name not available in offline mode");
             idTextView.setText("*******");

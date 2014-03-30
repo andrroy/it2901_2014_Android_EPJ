@@ -12,6 +12,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.List;
 
@@ -23,10 +24,10 @@ public class ReviewUploadActivity extends SherlockActivity {
     private ListView reviewListView;
     private Context context;
 
+    private SessionManager session;
+
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
-
-    private boolean offlineMode = false;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +35,11 @@ public class ReviewUploadActivity extends SherlockActivity {
 
         dbHelper = new DatabaseHelper(this);
 
+
+        //Getting the session
+        session = new SessionManager(getApplicationContext());
+
         context = this;
-
-
-        Intent i = getIntent();
-        offlineMode = i.getBooleanExtra("offline", false);
 
         // Fetch examination from database and show its images and comments in the listview
         List<UltrasoundImage> examinationImages = dbHelper.getExamination(1).getUltrasoundImages();
@@ -63,7 +64,7 @@ public class ReviewUploadActivity extends SherlockActivity {
 
         // Textviews
 
-        if(offlineMode){
+        if(!session.isValid()){
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: *******");
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);

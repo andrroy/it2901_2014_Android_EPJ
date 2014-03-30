@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -12,8 +13,10 @@ import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.utils.Encryption;
+import org.royrvik.capgeminiemr.utils.NetworkChecker;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
+import javax.xml.soap.Text;
 import java.util.ArrayList;
 
 
@@ -22,7 +25,8 @@ public class LoginActivity extends SherlockActivity {
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
     private EditText usernameEditText, passwordEditText;
-    private Button loginButton;
+    private Button loginButton, offlineModeButton;
+    private TextView networkStatusTextView;
     private ArrayList<String> incomingImages;
     private String patientId;
     private int launcherCommand;
@@ -38,6 +42,8 @@ public class LoginActivity extends SherlockActivity {
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
+        offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
+        networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
 
         // get intent from launcher
         getInformationFromIntent(getIntent());
@@ -61,11 +67,44 @@ public class LoginActivity extends SherlockActivity {
                     startApplication();
                 }
                 else{
-                    Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
+                    if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
+                        Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
+                    }
+                    else {
+                        Crouton.makeText(LoginActivity.this, "Check your network settings", Style.ALERT).show();
+                        recheckNetwork();
+                    }
                 }
                 passwordEditText.setText("");
             }
         });
+
+        offlineModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startApplication();
+            }
+        });
+
+        recheckNetwork();
+    }
+
+    private void recheckNetwork() {
+        //If the device has a connection to a network
+        if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
+            networkStatusTextView.setText("");
+            usernameEditText.setEnabled(true);
+            passwordEditText.setEnabled(true);
+            loginButton.setEnabled(true);
+            offlineModeButton.setEnabled(false);
+        }
+        else {
+            networkStatusTextView.setText("Network Unavailable");
+            usernameEditText.setEnabled(false);
+            passwordEditText.setEnabled(false);
+            loginButton.setEnabled(false);
+            offlineModeButton.setEnabled(true);
+        }
 
     }
 
@@ -152,5 +191,11 @@ public class LoginActivity extends SherlockActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        recheckNetwork();
     }
 }

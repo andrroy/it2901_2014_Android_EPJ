@@ -18,12 +18,14 @@ public class SessionManager {
 
     private SharedPreferences pref;
     private Editor editor;
+    private Context context;
 
     /**
      *
      * @param context
      */
     public SessionManager(Context context) {
+        this.context = context;
         pref = context.getSharedPreferences(PREF_CODE, Context.MODE_PRIVATE);
         editor = pref.edit();
     }
@@ -46,9 +48,16 @@ public class SessionManager {
      * @return - true if the session is valid
      */
     public boolean isValid() {
-        return pref.getLong(KEY_TIME, 0) != 0 && new Date().getTime() < pref.getLong(KEY_TIME, 0) + SESSION_TIMEOUT_IN_MIN*60000;
+        return NetworkChecker.isNetworkAvailable(context) && isSessionActive();
     }
 
+    /**
+     *  Checks to see if the session has timed out
+     * @return - true if the session is still active
+     */
+    private boolean isSessionActive() {
+        return pref.getLong(KEY_TIME, 0) != 0 && new Date().getTime() < pref.getLong(KEY_TIME, 0) + SESSION_TIMEOUT_IN_MIN*60000;
+    }
     /**
      *  Tries to validate the user input, and starts the session if successful
      */

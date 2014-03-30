@@ -19,10 +19,8 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private TextView error, offlineMessage;
     private ViewFlipper flipper;
     private ArrayList<String> incomingImages;
-    private Intent intent;
     private boolean returnAfter = false;
     private SessionManager session;
-    private boolean offlineMode = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +29,6 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
-
         //Actionbarsherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -41,12 +38,17 @@ public class IdentifyPatientActivity extends SherlockActivity {
         incomingImages = i.getStringArrayListExtra("chosen_images");
         String id = i.getStringExtra("id");
         returnAfter = i.getBooleanExtra("return", false);
-        offlineMode = session.isValid();
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
-
+        offlineMessage = (TextView) findViewById(R.id.offlineMessage);
+        if (session.isValid()) {
+            offlineMessage.setText("");
+        }
+        else {
+            offlineMessage.setText("Currently in offline mode");
+        }
 
         manualButton = (ImageButton) findViewById(R.id.manualButton);
         manualButton.setOnClickListener(new View.OnClickListener() {
