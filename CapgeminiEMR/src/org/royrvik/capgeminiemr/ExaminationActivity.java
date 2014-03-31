@@ -47,24 +47,29 @@ public class ExaminationActivity extends SherlockActivity {
         //Getting the session
         session = new SessionManager(getApplicationContext());
 
+
         // get intent from last activity
-        Intent i = getIntent();
-        incomingImages = i.getStringArrayListExtra("chosen_images");
-        infoArrayList = i.getStringArrayListExtra("info");
+        Intent intent = getIntent();
 
-
-        currentExamination = new Examination();
-        currentExamination.setPatientName(infoArrayList.get(1));
-        currentExamination.setPatientSsn(infoArrayList.get(0));
-        for (String uri : incomingImages) {
-            currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
+        // Check what kind of extras intent has, and create
+        if(intent.hasExtra("chosen_images") && intent.hasExtra("info")) {
+            incomingImages = intent.getStringArrayListExtra("chosen_images");
+            infoArrayList = intent.getStringArrayListExtra("info");
+            currentExamination = new Examination();
+            currentExamination.setPatientName(infoArrayList.get(1));
+            currentExamination.setPatientSsn(infoArrayList.get(0));
+            for (String uri : incomingImages) {
+                currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
+            }
         }
+
+
 
         initFirstViewElements();
         initSecondViewElements();
         updateElements();
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
