@@ -25,21 +25,21 @@ public class LauncherActivity extends Activity {
 
     private static final String TAG = "APP";
     private static int RESULT_LOAD_IMAGE = 1;
-    private static final String BROADCAST_CODE = "find a better code";
-    private ReceiveMessages receiver = null;
-
+    private static final String BROADCAST_CODE = "find a better code?";
 
     private Button launchSavedButton, launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
     private TextView numberOfChosenImagesTV, patientIdTextView;
 
+    private ReceiveMessages receiver = null;
     private ArrayList<String> selectedImagesPath;
-
     private ArrayList<String> patientData;
 
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.main);
+
+        updateImageLibrary();
 
         selectedImagesPath = new ArrayList<String>();
         openGalleryButton = (Button) findViewById(R.id.openGalleryButton);
@@ -48,37 +48,6 @@ public class LauncherActivity extends Activity {
         patientData = new ArrayList<String>();
         receiver = new ReceiveMessages();
         registerReceiver(receiver, new IntentFilter(BROADCAST_CODE));
-
-        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
-        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
-        Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
-
-        ArrayList<String> filListe = getAllImages();
-
-        // So we don't add duplicates of all images every time we launch the application
-        if (!filListe.contains("ultrasound1"))
-            saveImage(image1, "ultrasound1.jpg");
-
-        if (!filListe.contains("ultrasound2"))
-            saveImage(image2, "ultrasound2.jpg");
-
-        if (!filListe.contains("ultrasound3"))
-            saveImage(image3, "ultrasound3.jpg");
-
-        // Refresh the image gallery
-        // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
-        try {
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        }
-        catch(SecurityException secException) {
-            Log.d(TAG, "KitKat doesn't like this :(");
-        }
-
-        /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
-                Log.w(TAG, "Does it work?");
-            }
-        });*/
 
 
         launchSavedButton = (Button) findViewById(R.id.launchSavedExButton);
@@ -110,12 +79,7 @@ public class LauncherActivity extends Activity {
         launchWithoutImagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (patientData.size() > 1) {
-                    startOtherAppWithId();
-                }
-                else {
-                    Toast.makeText(getApplicationContext(), "No ID availalbe.", Toast.LENGTH_SHORT).show();
-                }
+                startOtherAppWithId();
             }
         });
 
@@ -128,51 +92,42 @@ public class LauncherActivity extends Activity {
         });
     }
 
-
     /**
      * Launch straight to the home screen.
      */
     private void launchHomeScreen(){
-        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        i.putExtra("type", 2);
-        startActivity(i);
+        new EMRLauncher(getApplicationContext()).start();
     }
-
 
     /**
-     * Launches the main EMR application.
+     * Launches the main EMR application with images.
      */
     private void startOtherApplication() {
-        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        if (selectedImagesPath.size() > 0) { //Images are chosen
-            i.putStringArrayListExtra("chosen_images", selectedImagesPath);
-            i.putExtra("type", 1);
-        }
-        else { //No images chosen
-            Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show();
-        }
-        startActivity(i);
+        if (selectedImagesPath.size() > 0) new EMRLauncher(getApplicationContext(), selectedImagesPath).start(); //Images are chosen
+        else Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
     }
 
+    /**
+     * Launches the main EMR application with images and ID
+     */
     private void startOtherAppWithId() {
-        if (selectedImagesPath.size() > 0) { //Images are chosen
-            Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-            i.putStringArrayListExtra("chosen_images", selectedImagesPath);
-            i.putExtra("id", patientData.get(0));
-            i.putExtra("type", 3);
-            startActivity(i);
+        if (patientData.size() > 1) {
+            if (selectedImagesPath.size() > 0) new EMRLauncher(getApplicationContext(), selectedImagesPath, patientData).start(); //Images are chosen
+            else Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
         }
-        else Toast.makeText(getApplicationContext(), "You need to choose images.", Toast.LENGTH_SHORT).show();
+        else Toast.makeText(getApplicationContext(), "No ID available.", Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * Launches the main EMR application to identify a patient
+     */
     private void startOtherAppIdentifyPatient() {
-        Intent i = getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr");
-        i.putExtra("type", 4);
-        i.putExtra("code", BROADCAST_CODE);
-        startActivity(i);
+        new EMRLauncher(getApplicationContext(), BROADCAST_CODE).start();
     }
 
-
+    /**
+     *
+     */
     private void openGallery() {
         Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(i, RESULT_LOAD_IMAGE);
@@ -202,6 +157,42 @@ public class LauncherActivity extends Activity {
         unregisterReceiver(receiver);
     }
 
+    /**
+     * Adds three test images to the device
+     */
+    private void updateImageLibrary() {
+
+        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
+        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
+        Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
+
+        ArrayList<String> fileList = getAllImages();
+
+        // So we don't add duplicates of all images every time we launch the application
+        if (!fileList.contains("ultrasound1"))
+            saveImage(image1, "ultrasound1.jpg");
+
+        if (!fileList.contains("ultrasound2"))
+            saveImage(image2, "ultrasound2.jpg");
+
+        if (!fileList.contains("ultrasound3"))
+            saveImage(image3, "ultrasound3.jpg");
+
+        // Refresh the image gallery
+        // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
+        try {
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+        }
+        catch(SecurityException secException) {
+            Log.d(TAG, "KitKat doesn't like this :(");
+        }
+
+        /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
+            public void onScanCompleted(String path, Uri uri) {
+                Log.w(TAG, "Does it work?");
+            }
+        });*/
+    }
     /**
      * @param context
      * @param contentUri Uri to get absolute path from
