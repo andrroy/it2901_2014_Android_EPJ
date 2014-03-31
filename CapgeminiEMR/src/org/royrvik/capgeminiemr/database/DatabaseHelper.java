@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
@@ -99,7 +100,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Execute query and get the auto incremented id value
         int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
 
-        // Add all UltrasoundImages from the Examination to the Ultrasounimage table
+        // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
@@ -148,7 +149,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Deletes all examinations stored in database
+     * Deletes Examination with id from the database
+     * @param id ID of Examination to delete
+     * @return true if an examination was deleted, false if not
+     */
+    public boolean deleteExamination(int id) {
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
+        Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
+
+        // Delete row in TABLE_EXAMINATION
+        return db.delete(TABLE_EXAMINATION, KEY_EX_ID + "=" + id, null) > 0;
+
+    }
+
+    /**
+     * Updates an examination already stored in the database
+     * @param id ID of Examination to update
+     * @param ex Examination to replace the examination on row id
+     */
+    public void updateExamination(int id, Examination ex) {
+        // Shortcut..Delete the row and add the examination as a new examination
+        deleteExamination(id);
+        addExamination(ex);
+    }
+
+    /**
+     * Deletes all examinations stored in the database
      *
      */
     public void deleteAllExaminations() {

@@ -1,7 +1,6 @@
 package org.royrvik.capgeminiemr;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,10 +9,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
+import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -76,6 +77,8 @@ public class ReviewUploadActivity extends SherlockActivity {
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
             reviewNameTextView.setText("Name: " + dbHelper.getExamination(1).getPatientName());
         }
+
+
 
     }
 }

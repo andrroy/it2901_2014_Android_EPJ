@@ -91,4 +91,14 @@ public class Examination {
         }
         return allImages;
     }
+
+    @Override
+    public String toString() {
+        return "Examination{" +
+                "patientName='" + patientName + '\'' +
+                ", patientSsn='" + patientSsn + '\'' +
+                ", ultrasoundImages=" + ultrasoundImages +
+                ", date='" + date + '\'' +
+                '}';
+    }
 }
