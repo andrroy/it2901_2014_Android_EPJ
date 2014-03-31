@@ -84,10 +84,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
      * is stored in a separate table to maintain database normalisation
-     *
      * @param ex Examination to add
+     * @return examination_id of the newly added examination
      */
-    public void addExamination(Examination ex) {
+    public int addExamination(Examination ex) {
 
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -114,6 +114,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         db.close();
+        return examinationId;
 
     }
 
