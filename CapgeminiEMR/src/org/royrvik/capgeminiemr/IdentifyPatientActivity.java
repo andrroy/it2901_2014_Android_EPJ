@@ -2,10 +2,15 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
+import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -14,7 +19,7 @@ import java.util.ArrayList;
 public class IdentifyPatientActivity extends SherlockActivity {
 
     private Button backButton, okButton;
-    private ImageButton  manualButton, automaticButton;
+    private ImageButton manualButton, automaticButton;
     private EditText patientIDEditText;
     private TextView error, offlineMessage;
     private ViewFlipper flipper;
@@ -62,7 +67,8 @@ public class IdentifyPatientActivity extends SherlockActivity {
         automaticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: Not yet implemented
+                IntentIntegrator integrator = new IntentIntegrator(IdentifyPatientActivity.this);
+                integrator.initiateScan();
             }
         });
 
@@ -112,16 +118,14 @@ public class IdentifyPatientActivity extends SherlockActivity {
                 setResult(RESULT_OK, data);
                 returnAfter = false;
                 finish();
-            }
-            else {
+            } else {
                 Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
                 i.putStringArrayListExtra("info", info);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
                 startActivity(i);
                 finish();
             }
-        }
-        else {
+        } else {
             Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
         }
     }
@@ -142,9 +146,34 @@ public class IdentifyPatientActivity extends SherlockActivity {
         return true;
     }
 
-    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        // QR code result format: xxxxxxxxxxx,Magnus Lund
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+
+        if (scanResult != null) {
+            if(scanResult.getFormatName().equals("QR_CODE")) {
+                Log.d("APP", scanResult.toString());
+
+                String[] patientData = scanResult.getContents().split(",");
+                String patientSsn = patientData[0];
+                String patientName = patientData[1];
+
+                Log.d("APP", "Format: " + scanResult.getFormatName());
+                Log.d("APP", "SSN: " + patientSsn);
+                Log.d("APP", "Name: " + patientName);
+            }
+            else {
+                Log.d("APP", "Invalid format");
+            }
+        }
+
+
+
+    }
+
+    /*@Override
     protected void onRestart() {
         super.onRestart();
         finish();
-    }
+    }*/
 }

@@ -13,4 +13,5 @@
 ### TODO
 * Overall better exception handling
 * XMLParser needs to handle nested elements
+* Integrate QR scan functionaliy for identifying patients
 * (Make GUI look better)
