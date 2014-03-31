@@ -1,6 +1,7 @@
 package org.royrvik.capgeminiemr;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,12 +10,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
-import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,13 +21,14 @@ public class ReviewUploadActivity extends SherlockActivity {
 
     private DatabaseHelper dbHelper;
 
-    private ListView reviewListView;
     private Context context;
-
     private SessionManager session;
 
+    private ListView reviewListView;
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
+
+    private int examinationId;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,14 +36,17 @@ public class ReviewUploadActivity extends SherlockActivity {
 
         dbHelper = new DatabaseHelper(this);
 
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
 
         context = this;
 
+        // get intent from last activity
+        Intent i = getIntent();
+        examinationId = i.getIntExtra("ex_id", 0);
+
         // Fetch examination from database and show its images and comments in the listview
-        List<UltrasoundImage> examinationImages = dbHelper.getExamination(1).getUltrasoundImages();
+        List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
         reviewListView.setAdapter(new ReviewListAdapter(context, R.layout.row_list_item_review, examinationImages));
 
@@ -73,9 +76,9 @@ public class ReviewUploadActivity extends SherlockActivity {
         }
         else {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
-            reviewIdTextView.setText("ID: " + dbHelper.getExamination(1).getPatientSsn());
+            reviewIdTextView.setText("ID: " + dbHelper.getExamination(examinationId).getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: " + dbHelper.getExamination(1).getPatientName());
+            reviewNameTextView.setText("Name: " + dbHelper.getExamination(examinationId).getPatientName());
         }
 
 

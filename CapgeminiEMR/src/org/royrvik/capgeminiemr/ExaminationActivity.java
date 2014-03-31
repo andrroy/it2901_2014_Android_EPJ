@@ -81,10 +81,11 @@ public class ExaminationActivity extends SherlockActivity {
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dbHelper.addExamination(currentExamination);
-                Crouton.makeText(ExaminationActivity.this, "Saved examination to database", Style.INFO).show();
-
+                // Add examination to database and retrieve its examination_id
+                int exId = dbHelper.addExamination(currentExamination);
+                // Start
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
+                i.putExtra("ex_id", exId);
                 startActivity(i);
             }
         });
