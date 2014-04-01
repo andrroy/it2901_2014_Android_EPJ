@@ -41,13 +41,13 @@ public class IdentifyPatientActivity extends SherlockActivity {
         // get intent from last activity
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("chosen_images");
-        String id = i.getStringExtra("id");
         returnAfter = i.getBooleanExtra("return", false);
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
         error = (TextView) findViewById(R.id.errorText);
         offlineMessage = (TextView) findViewById(R.id.offlineMessage);
+
         if (session.isValid()) {
             offlineMessage.setText("");
         }
@@ -87,13 +87,13 @@ public class IdentifyPatientActivity extends SherlockActivity {
             @Override
             public void onClick(View view) {
                 if (!patientIDEditText.getText().toString().trim().isEmpty()) checkPid();
-                else {
-                    error.setText("Invalid ID format.");
-                }
+                else error.setText("Invalid ID format.");
             }
         });
+
         //If activity was started with id
-        if (id != null) { //Maybe more tests is needed
+        String id = i.getStringExtra("id");
+        if (id != null) {
             patientIDEditText.setText(id);
             checkPid();
         }
