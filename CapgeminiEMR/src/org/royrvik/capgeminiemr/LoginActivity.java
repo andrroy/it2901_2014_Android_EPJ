@@ -79,7 +79,7 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
                 break;
             case 2: //No images
-                Crouton.makeText(LoginActivity.this, "Received no images from launcher", Style.INFO);
+                Crouton.makeText(LoginActivity.this, "Received no images from launcher", Style.INFO).show();
                 break;
             case 3: //Images and ID
                 incomingImages = i.getStringArrayListExtra("chosen_images");
@@ -87,7 +87,7 @@ public class LoginActivity extends SherlockActivity {
                 patientId = i.getStringExtra("id");
                 break;
             case 4: //Identify
-                Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO);
+                Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO).show();
                 break;
             default:
                 finish();

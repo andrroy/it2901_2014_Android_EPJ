@@ -66,16 +66,17 @@ public class HomeScreenActivity extends SherlockActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         // Delete the Examination from the database
                         boolean deleted = dbHelper.deleteExamination(ex.getId());
+
                         if(deleted)
                             Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
                         else
-                            Crouton.makeText(HomeScreenActivity.this, "Examination not found in the database", Style.CONFIRM).show();
+                            Crouton.makeText(HomeScreenActivity.this, "Examination not found in the database", Style.ALERT).show();
                     }
                 });
                 dialog.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        // Go
+                        // Start ExaminationActivity
                     }
                 });
                 dialog.show();
