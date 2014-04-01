@@ -15,8 +15,6 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.utils.Encryption;
 import org.royrvik.capgeminiemr.utils.NetworkChecker;
 import org.royrvik.capgeminiemr.utils.SessionManager;
-
-import javax.xml.soap.Text;
 import java.util.ArrayList;
 
 
@@ -33,10 +31,12 @@ public class LoginActivity extends SherlockActivity {
     private String broadcastCode = "";
     private SessionManager session;
 
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
+        //Get current session
         session = new SessionManager(getApplicationContext());
 
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
@@ -48,37 +48,15 @@ public class LoginActivity extends SherlockActivity {
         // get intent from launcher
         getInformationFromIntent(getIntent());
 
-        //If the current session is valid
-        if (session.isValid()) {
-            startApplication();
-        }
+        //If the current session is still valid, forward to next activity
+        if (session.isValid()) startApplication();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Creates a new login session with the credentials entered, encrypting the password
-                session.createLoginSession(
-                        usernameEditText.getText().toString(),
-                        Encryption.encrypt(usernameEditText.getText().toString(), passwordEditText.getText().toString())
-                );
-
-                //Check if username/password is correct, and forwarding to next view if true
-                if (session.isValid()) {
-                    startApplication();
-                }
-                else{
-                    if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
-                        Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
-                    }
-                    else {
-                        Crouton.makeText(LoginActivity.this, "Check your network settings", Style.ALERT).show();
-                        recheckNetwork();
-                    }
-                }
-                passwordEditText.setText("");
+                login();
             }
         });
-
         offlineModeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,25 +67,10 @@ public class LoginActivity extends SherlockActivity {
         recheckNetwork();
     }
 
-    private void recheckNetwork() {
-        //If the device has a connection to a network
-        if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
-            networkStatusTextView.setText("");
-            usernameEditText.setEnabled(true);
-            passwordEditText.setEnabled(true);
-            loginButton.setEnabled(true);
-            offlineModeButton.setEnabled(false);
-        }
-        else {
-            networkStatusTextView.setText("Network Unavailable");
-            usernameEditText.setEnabled(false);
-            passwordEditText.setEnabled(false);
-            loginButton.setEnabled(false);
-            offlineModeButton.setEnabled(true);
-        }
-
-    }
-
+    /**
+     * Gathers information from the intent
+     * @param i the intent
+     */
     private void getInformationFromIntent(Intent i) {
         launcherCommand = i.getIntExtra("type", 0);
         switch (launcherCommand) {
@@ -132,6 +95,57 @@ public class LoginActivity extends SherlockActivity {
         broadcastCode = i.getStringExtra("code");
     }
 
+    /**
+     * Creates a new login session, and validates the credentials
+     */
+    private void login() {
+        //Creates a new login session with the credentials entered, encrypting the password
+        session.createLoginSession(
+                usernameEditText.getText().toString(),
+                Encryption.encrypt(usernameEditText.getText().toString(), passwordEditText.getText().toString())
+        );
+
+        //Check if the credentials are correct, and forwarding to next view if true
+        if (session.isValid()) {
+            startApplication();
+        }
+        else{
+            if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
+                Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
+            }
+            else {
+                Crouton.makeText(LoginActivity.this, "Check your network settings", Style.ALERT).show();
+                recheckNetwork();
+            }
+        }
+        passwordEditText.setText("");
+    }
+
+    /**
+     * Checks if the device is connected to a network, and updates affected fields
+     */
+    private void recheckNetwork() {
+        //If the device has a connection to a network
+        if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
+            networkStatusTextView.setText("");
+            usernameEditText.setEnabled(true);
+            passwordEditText.setEnabled(true);
+            loginButton.setEnabled(true);
+            offlineModeButton.setEnabled(false);
+        }
+        else {
+            networkStatusTextView.setText("Network Unavailable");
+            usernameEditText.setEnabled(false);
+            passwordEditText.setEnabled(false);
+            loginButton.setEnabled(false);
+            offlineModeButton.setEnabled(true);
+        }
+
+    }
+
+    /**
+     * Starts the next activity, based on launcher input
+     */
     private void startApplication() {
         Intent i;
         switch (launcherCommand) {
