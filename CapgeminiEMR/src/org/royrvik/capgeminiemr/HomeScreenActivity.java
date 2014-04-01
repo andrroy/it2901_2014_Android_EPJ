@@ -51,8 +51,16 @@ public class HomeScreenActivity extends SherlockActivity {
                 // Show popup
                 AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
                 dialog.setTitle("Examination...");
-                dialog.setMessage("Name: " + ex.getPatientName() + "\n" + "SSN: " + ex.getPatientSsn());
-                dialog.setPositiveButton("Ok", null);
+                StringBuilder infoString = new StringBuilder();
+                infoString.append("Name: " + ex.getPatientName() + "\n");
+                infoString.append("SSN: " + ex.getPatientSsn() + "\n");
+                infoString.append("Date: " + ex.getDate() + "\n");
+                infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
+
+                dialog.setMessage(infoString);
+                dialog.setPositiveButton("OK", null);
+                dialog.setNegativeButton("Delete", null);
+                dialog.setNeutralButton("Edit", null);
                 dialog.show();
             }
         });

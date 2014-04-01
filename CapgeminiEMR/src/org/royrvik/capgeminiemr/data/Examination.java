@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import java.util.Date;
 
 /**
- * Representation of an Examination and the
+ * Representation of an Examination
  */
 public class Examination {
 
     private String patientName, patientSsn;
     private ArrayList<UltrasoundImage> ultrasoundImages;
     private String date;
+    private int id;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yyyy");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yy");
 
     public Examination(String patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages) {
         this.date = dateFormat.format(new Date());
@@ -64,6 +65,14 @@ public class Examination {
 
     public void setUltrasoundImages(ArrayList<UltrasoundImage> ultrasoundImages) {
         this.ultrasoundImages = ultrasoundImages;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public void addUltrasoundImage(UltrasoundImage usImage) {
