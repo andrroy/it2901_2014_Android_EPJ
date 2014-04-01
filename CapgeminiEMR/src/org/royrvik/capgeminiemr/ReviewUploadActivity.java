@@ -56,6 +56,8 @@ public class ReviewUploadActivity extends SherlockActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Delete the current examination from the database
+                Log.d("APP", "Examination ble slettet : " + Boolean.toString(dbHelper.deleteExamination(examinationId)));
                 finish();
             }
         });

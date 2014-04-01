@@ -50,9 +50,9 @@ public class ExaminationActivity extends SherlockActivity {
 
         // get intent from last activity
         Intent intent = getIntent();
-
-        // Check what kind of extras intent has, and create
+        // Check what kind of extras intent has, and create/fetch examination based on result
         if(intent.hasExtra("chosen_images") && intent.hasExtra("info")) {
+            // Activity started from IdentifyPatientActivity
             incomingImages = intent.getStringArrayListExtra("chosen_images");
             infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
@@ -62,9 +62,15 @@ public class ExaminationActivity extends SherlockActivity {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
         }
+        else if(intent.hasExtra("ex_id")) {
+            // Activity started from Homescreen
+            int exId = intent.getIntExtra("ex_id", 0);
+            currentExamination = dbHelper.getExamination(exId);
+
+        }
 
 
-
+        // Initialize GUI elements
         initFirstViewElements();
         initSecondViewElements();
         updateElements();
@@ -88,7 +94,7 @@ public class ExaminationActivity extends SherlockActivity {
             public void onClick(View view) {
                 // Add examination to database and retrieve its examination_id
                 int exId = dbHelper.addExamination(currentExamination);
-                // Start
+                // Start ReviewUpload and attach the examination id
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("ex_id", exId);
                 startActivity(i);
