@@ -165,6 +165,9 @@ public class LauncherActivity extends Activity {
         Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
         Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
         Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
+        Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
+        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
+        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
 
         ArrayList<String> fileList = getAllImages();
 
@@ -177,6 +180,15 @@ public class LauncherActivity extends Activity {
 
         if (!fileList.contains("ultrasound3"))
             saveImage(image3, "ultrasound3.jpg");
+
+        if (!fileList.contains("ultrasound4"))
+            saveImage(image4, "ultrasound4.jpg");
+
+        if (!fileList.contains("ultrasound5"))
+            saveImage(image5, "ultrasound5.jpg");
+
+        if (!fileList.contains("ultrasound6"))
+            saveImage(image6, "ultrasound6.jpg");
 
         // Refresh the image gallery
         // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
