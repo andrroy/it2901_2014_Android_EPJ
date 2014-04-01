@@ -94,6 +94,7 @@ public class ExaminationActivity extends SherlockActivity {
             public void onClick(View view) {
                 // Add examination to database and retrieve its examination_id
                 int exId = dbHelper.addExamination(currentExamination);
+                currentExamination.setId(exId);
                 // Start ReviewUpload and attach the examination id
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("ex_id", exId);

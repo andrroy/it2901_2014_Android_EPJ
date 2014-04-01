@@ -65,6 +65,8 @@ public class ReviewUploadActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 Log.d("APP", "Do something...");
+                Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
+                startActivity(i);
             }
         });
 

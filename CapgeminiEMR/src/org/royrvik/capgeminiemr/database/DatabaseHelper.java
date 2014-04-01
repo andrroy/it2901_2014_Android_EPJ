@@ -138,6 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Build Examination with result
         Examination examination = new Examination();
         int exId = Integer.parseInt(cursor.getString(0));
+        examination.setId(exId);
         examination.setPatientName(cursor.getString(1));
         examination.setPatientSsn(cursor.getString(2));
         examination.setDate(cursor.getString(3));
@@ -204,14 +205,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             while (cursor.isAfterLast() == false) {
                 // Get values from row
-                String id = cursor.getString(cursor.getColumnIndex("examination_id"));
+                int id = cursor.getInt(cursor.getColumnIndex("examination_id"));
                 String name = cursor.getString(cursor.getColumnIndex("patient_name"));
                 String ssn = cursor.getString(cursor.getColumnIndex("patient_ssn"));
                 String date = cursor.getString(cursor.getColumnIndex("date"));
                 // Get Ultrasoundimages from appropriate table for this Examination
-                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(Integer.parseInt(id));
+                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(id);
                 // Create examination with data from this row
                 Examination ex = new Examination(ssn, name, usiList, date);
+                ex.setId(id);
                 // Add it to the list
                 examinationList.add(ex);
 
