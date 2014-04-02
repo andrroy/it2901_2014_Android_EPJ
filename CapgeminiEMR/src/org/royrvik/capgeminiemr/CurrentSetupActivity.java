@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.royrvik.capgeminiemr.adapter.CurrentSetupListAdapter;
 import org.royrvik.capgeminiemr.data.SettingsItem;
 
@@ -63,5 +64,11 @@ public class CurrentSetupActivity extends SherlockActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.cancelAllCroutons();
+        super.onDestroy();
     }
 }

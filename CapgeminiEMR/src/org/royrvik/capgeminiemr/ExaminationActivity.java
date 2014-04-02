@@ -249,6 +249,7 @@ public class ExaminationActivity extends SherlockActivity {
 
     @Override
     protected void onDestroy() {
+        Crouton.cancelAllCroutons();
         super.onDestroy();
     }
 }

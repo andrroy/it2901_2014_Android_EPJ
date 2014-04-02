@@ -3,6 +3,7 @@ package org.royrvik.capgeminiemr;
 import android.os.Bundle;
 import com.actionbarsherlock.app.SherlockPreferenceActivity;
 import com.actionbarsherlock.view.MenuItem;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
@@ -30,6 +31,12 @@ public class SettingsActivity extends SherlockPreferenceActivity {
                 break;
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.cancelAllCroutons();
+        super.onDestroy();
     }
 
 }

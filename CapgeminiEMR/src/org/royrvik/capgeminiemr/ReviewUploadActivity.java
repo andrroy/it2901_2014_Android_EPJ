@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -85,7 +86,11 @@ public class ReviewUploadActivity extends SherlockActivity {
             reviewNameTextView.setText("Name: " + dbHelper.getExamination(examinationId).getPatientName());
         }
 
+    }
 
-
+    @Override
+    protected void onDestroy() {
+        Crouton.cancelAllCroutons();
+        super.onDestroy();
     }
 }

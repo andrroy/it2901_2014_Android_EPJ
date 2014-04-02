@@ -212,4 +212,10 @@ public class LoginActivity extends SherlockActivity {
         super.onResume();
         recheckNetwork();
     }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.cancelAllCroutons();
+        super.onDestroy();
+    }
 }

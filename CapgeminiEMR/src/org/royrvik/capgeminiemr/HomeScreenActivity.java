@@ -101,4 +101,10 @@ public class HomeScreenActivity extends SherlockActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        Crouton.cancelAllCroutons();
+        super.onDestroy();
+    }
 }
