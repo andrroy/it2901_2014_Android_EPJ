@@ -8,38 +8,38 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:id="@+id/homeListImageView"
+            android:src="@drawable/ic_launcher"
             />
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/homeListSsnTextView"
-            android:layout_centerVertical="true"
+            android:textSize="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
             android:text="ssn"
-            android:layout_toRightOf="@+id/homeListImageView"
-            android:layout_marginLeft="19dp"/>
+            android:layout_toRightOf="@+id/homeListImageView"/>
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
+    <org.royrvik.capgeminiemr.utils.AutoResizeTextView
+            android:layout_width="150dp"
+            android:layout_height="25dp"
             android:id="@+id/homeListNameTextView"
-            android:layout_centerVertical="true"
-            android:textSize="11dp"
+            android:textSize="25dp"
+            android:layout_marginLeft="15dp"
             android:text="navn"
-            android:layout_toRightOf="@+id/homeListSsnTextView"
-            android:layout_marginLeft="19dp"/>
+            android:maxLines="1"
+            android:layout_below="@+id/homeListSsnTextView"
+            android:layout_toRightOf="@+id/homeListImageView"/>
 
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
             android:id="@+id/homeListDateTextView"
-            android:layout_centerVertical="true"
             android:textSize="11dp"
+            android:layout_marginLeft="15dp"
             android:text="dato"
-            android:layout_toRightOf="@+id/homeListNameTextView"
-            android:layout_marginLeft="19dp"/>
+            android:layout_below="@+id/homeListNameTextView"
+            android:layout_toRightOf="@+id/homeListImageView"/>
 
 </RelativeLayout>
