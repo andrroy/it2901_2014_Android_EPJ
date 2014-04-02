@@ -25,6 +25,7 @@ public class HomeScreenActivity extends SherlockActivity {
     private ListView homescreenListView;
     private Context context;
     private DatabaseHelper dbHelper;
+    private ArrayList<Examination> listOfExaminations;
 
 
     @Override
@@ -41,10 +42,11 @@ public class HomeScreenActivity extends SherlockActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Get all examinations in the database
-        ArrayList<Examination> listOfExaminations = dbHelper.getAllExaminations();
+        listOfExaminations = dbHelper.getAllExaminations();
 
         homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
-        homescreenListView.setAdapter(new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations));
+        final HomescreenListAdapter homescreenListAdapter = new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations);
+        homescreenListView.setAdapter(homescreenListAdapter);
         homescreenListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -72,6 +74,12 @@ public class HomeScreenActivity extends SherlockActivity {
                             Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
                         else
                             Crouton.makeText(HomeScreenActivity.this, "Examination not found in the database", Style.ALERT).show();
+
+                        // Update data set and notify the adapter of the changes
+                        listOfExaminations.clear();
+                        listOfExaminations.addAll(dbHelper.getAllExaminations());
+                        homescreenListAdapter.notifyDataSetChanged();
+                        homescreenListView.refreshDrawableState();
                     }
                 });
                 dialog.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
