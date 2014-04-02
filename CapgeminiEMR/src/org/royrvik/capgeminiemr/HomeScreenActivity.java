@@ -3,6 +3,7 @@ package org.royrvik.capgeminiemr;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -77,6 +78,9 @@ public class HomeScreenActivity extends SherlockActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Start ExaminationActivity
+                        Intent i = new Intent(HomeScreenActivity.this, ExaminationActivity.class);
+                        i.putExtra("ex_id", ex.getId());
+                        startActivity(i);
                     }
                 });
                 dialog.show();

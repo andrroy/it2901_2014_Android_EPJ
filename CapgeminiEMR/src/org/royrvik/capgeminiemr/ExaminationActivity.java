@@ -246,4 +246,9 @@ public class ExaminationActivity extends SherlockActivity {
         }
         return true;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
