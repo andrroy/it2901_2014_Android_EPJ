@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -67,6 +70,13 @@ public class HomeScreenActivity extends SherlockActivity {
                 dialog.setNegativeButton("Delete", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Confirmation dialog
+                        AlertDialog.Builder confirmDialog = new AlertDialog.Builder(HomeScreenActivity.this);
+                        confirmDialog.setTitle("Confirm");
+                        confirmDialog.setMessage("Are you sure you want to delete this examination?");
+                        confirmDialog.setPositiveButton("Yes", null);
+                        confirmDialog.setNegativeButton("No", null);
+                        confirmDialog.show();
                         // Delete the Examination from the database
                         boolean deleted = dbHelper.deleteExamination(ex.getId());
 
@@ -106,8 +116,18 @@ public class HomeScreenActivity extends SherlockActivity {
                 // Back button clicked. Exit activity and open previous in activity stack
                 finish();
                 break;
+            case R.id.logout_button:
+                Log.d("APP", "logout");
+                break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getSupportMenuInflater();
+        inflater.inflate(R.xml.menu_homescreen, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
