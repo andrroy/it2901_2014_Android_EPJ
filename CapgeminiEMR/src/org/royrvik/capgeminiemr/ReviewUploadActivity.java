@@ -68,6 +68,7 @@ public class ReviewUploadActivity extends SherlockActivity {
                 Log.d("APP", "Do something...");
                 Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
                 startActivity(i);
+                finish();
             }
         });
 

@@ -15,9 +15,11 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.omg.PortableInterceptor.HOLDING;
 import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
@@ -29,6 +31,7 @@ public class HomeScreenActivity extends SherlockActivity {
     private Context context;
     private DatabaseHelper dbHelper;
     private ArrayList<Examination> listOfExaminations;
+    private SessionManager session;
 
 
     @Override
@@ -39,6 +42,9 @@ public class HomeScreenActivity extends SherlockActivity {
         context = this;
 
         dbHelper = new DatabaseHelper(this);
+
+        //Getting the session
+        session = new SessionManager(getApplicationContext());
 
         //Actionbarsherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -118,6 +124,12 @@ public class HomeScreenActivity extends SherlockActivity {
                 break;
             case R.id.logout_button:
                 Log.d("APP", "logout");
+                session.logout();
+                // Finish all activities in stack and return to login
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
                 break;
         }
         return true;
