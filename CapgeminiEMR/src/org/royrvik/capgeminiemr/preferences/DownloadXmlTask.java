@@ -1,4 +1,4 @@
-package org.royrvik.capgeminiemr.utils;
+package org.royrvik.capgeminiemr.preferences;
 
 import android.os.AsyncTask;
 

@@ -1,6 +1,6 @@
-package org.royrvik.capgeminiemr.utils;
+package org.royrvik.capgeminiemr.preferences;
 
-import android.util.Log;
+import org.royrvik.capgeminiemr.preferences.DownloadXmlTask;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

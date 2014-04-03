@@ -13,8 +13,8 @@ import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
-import org.royrvik.capgeminiemr.utils.Validator;
-import org.royrvik.capgeminiemr.utils.XmlParser;
+import org.royrvik.capgeminiemr.preferences.Validator;
+import org.royrvik.capgeminiemr.preferences.XmlParser;
 
 import java.util.HashMap;
 
