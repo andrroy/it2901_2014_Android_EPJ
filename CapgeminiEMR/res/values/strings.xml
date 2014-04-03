@@ -24,6 +24,7 @@
     <string name="change_password_summary">Change technical staff password. This will only affect the access to this menu</string>
     <string name="delete_data_title">Delete all data</string>
     <string name="delete_data_summary">This will delete all the encrypted data. This action is not possible to undo</string>
+    <string name="delete_data_message">This will delete all the encrypted data. Are you sure you want to continue?</string>
     <string name="use_picture">Use image(s)</string>
     <string name="set_up">Set up</string>
     <string name="filepath">filepath...</string>

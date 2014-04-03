@@ -44,9 +44,13 @@
             android:summary="@string/change_password_summary"
             android:title="@string/change_password_title"/>
 
-        <Preference
+        <org.royrvik.capgeminiemr.preferences.YesNoPreference
+            android:dialogMessage="@string/delete_data_message"
+            android:key="com.example.myapp.pref_reset_settings_key"
             android:summary="@string/delete_data_summary"
-            android:title="@string/delete_data_title"/>
+            android:title="@string/delete_data_title"
+            android:positiveButtonText="Yes"
+            android:negativeButtonText="No" />
     </PreferenceCategory>
 
 </PreferenceScreen>
