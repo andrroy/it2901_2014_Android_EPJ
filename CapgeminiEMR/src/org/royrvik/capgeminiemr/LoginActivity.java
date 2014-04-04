@@ -49,8 +49,7 @@ public class LoginActivity extends SherlockActivity {
         offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
         networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
 
-        // If the app is not set up properly
-        if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
+        checkSetup();
 
         // get intent from launcher
         getInformationFromIntent(getIntent());
@@ -158,6 +157,14 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
+     * Checks if the app is set up properly, if not, launch the tech setup.
+     */
+    private void checkSetup() {
+        //Removed for testing purposes.
+        //if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
+    }
+
+    /**
      * Starts the next activity, based on launcher input.
      */
     private void startApplication() {
@@ -224,6 +231,7 @@ public class LoginActivity extends SherlockActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkSetup();
         recheckNetwork();
     }
 

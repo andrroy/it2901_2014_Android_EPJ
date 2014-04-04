@@ -23,9 +23,11 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     private TextView statusTextView, techLoginTextView, techLoginConfirmTextView;
     private Button getConfigButton, loginButton;
-    private EMRApplication globalApp;
     private EditText pathToXmlEditText, techLoginPasswordEditText, techLoginConfirmPasswordEditText;
     private ViewFlipper flipper;
+
+    private EMRApplication globalApp;
+    private DatabaseHelper dbHelper;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
         // Initialize Application (SharedPreferences controller)
         globalApp = (EMRApplication) getApplicationContext();
+
+        dbHelper = new DatabaseHelper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.statusTextView);
 
@@ -87,8 +91,22 @@ public class TechnicalSetupActivity extends SherlockActivity {
      *
      */
     private void checkTechPassword() {
-        //TODO: check if password is correct
-        flipper.showNext();
+        if (isFirstSetup()) {
+            if (techLoginPasswordEditText.getText().toString().equals(techLoginConfirmPasswordEditText.getText().toString())) {
+                if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
+                    flipper.showNext();
+                }
+                else {
+                    Crouton.makeText(TechnicalSetupActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
+                }
+            }
+            else {
+                Crouton.makeText(TechnicalSetupActivity.this, "The passwords does not match!", Style.ALERT).show();
+            }
+        }
+        if (dbHelper.isCorrectTechPassword(techLoginPasswordEditText.getText().toString())) {
+            flipper.showNext();
+        }
     }
 
     /**
@@ -96,10 +114,12 @@ public class TechnicalSetupActivity extends SherlockActivity {
      */
     private void updateLoginView() {
         if (isFirstSetup()) {
+            techLoginTextView.setText("Please choose a password for technical users");
             techLoginConfirmPasswordEditText.setEnabled(true);
             techLoginConfirmTextView.setText("Confirm new password");
         }
         else {
+            techLoginTextView.setText("Please enter technical user password");
             techLoginConfirmPasswordEditText.setEnabled(false);
             techLoginConfirmTextView.setText("");
         }
@@ -110,7 +130,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
      * @return True if the tech password is not set.
      */
     private boolean isFirstSetup() {
-        return false; //TODO: Check if the tech user is set
+        return !dbHelper.isTechPasswordSet();
     }
 
     /**
