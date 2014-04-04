@@ -10,6 +10,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import net.sqlcipher.database.SQLiteDatabase;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -40,6 +41,7 @@ public class ExaminationActivity extends SherlockActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
+        SQLiteDatabase.loadLibs(getApplicationContext());
         dbHelper = new DatabaseHelper(this);
 
         //Getting the session

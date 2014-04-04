@@ -3,9 +3,9 @@ package org.royrvik.capgeminiemr.database;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteOpenHelper;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 
@@ -38,13 +38,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String TAG = "APP";
 
+    private Context context;
+
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
+        SQLiteDatabase.loadLibs(context);
 
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -84,12 +89,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
      * is stored in a separate table to maintain database normalisation
+     *
      * @param ex Examination to add
      * @return examination_id of the newly added examination
      */
     public int addExamination(Examination ex) {
+        SQLiteDatabase.loadLibs(context);
 
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase("test123");
 
         // Build query
         ContentValues values = new ContentValues();
@@ -126,7 +133,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Examination getExamination(int id) {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase.loadLibs(context);
+
+        SQLiteDatabase db = this.getReadableDatabase("test123");
 
         Cursor cursor = db.query(TABLE_EXAMINATION, COLUMNS_EX, " examination_id = ?",
                 new String[]{String.valueOf(id)},
@@ -152,12 +161,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Deletes Examination with id from the database
+     *
      * @param id ID of Examination to delete
      * @return true if an examination was deleted, false if not
      */
     public boolean deleteExamination(int id) {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("test123");
 
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
         Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
@@ -169,6 +179,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Updates an examination already stored in the database
+     *
      * @param id ID of Examination to update
      * @param ex Examination to replace the examination on row id
      */
@@ -180,11 +191,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Deletes all examinations stored in the database
-     *
      */
     public void deleteAllExaminations() {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("test123");
         db.delete(TABLE_EXAMINATION, null, null);
         db.delete(TABLE_ULTRASOUNDIMAGE, null, null);
     }
@@ -196,7 +206,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Examination> getAllExaminations() {
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("test123");
         Cursor cursor = db.rawQuery("select * from examination", null);
 
         ArrayList<Examination> examinationList = new ArrayList<Examination>();
@@ -235,7 +245,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
         String selectQuery = "SELECT * FROM ultrasoundimage WHERE examination_id=" + id;
 
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase("test123");
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
