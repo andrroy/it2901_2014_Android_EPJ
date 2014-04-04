@@ -69,6 +69,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Create ultrasoundimage table
         db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
+
+        db.execSQL("CREATE TABLE techpassword (password TEXT)");
     }
 
     @Override
@@ -76,6 +78,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop table
         db.execSQL("DROP TABLE IF EXISTS examination");
         db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
+        db.execSQL("DROP TABLE IF EXISTS techpassword");
 
         // Recreate the table
         this.onCreate(db);
@@ -85,7 +88,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
             CRUD OPERATIONS
      */
+    private String getTechUserPassword() {
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getReadableDatabase("test123");
+        String password = "";
+        Cursor cursor = db.rawQuery("SELECT * FROM techpassword", null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                password = cursor.getString(cursor.getColumnIndex("password"));
+            }
+        }
+        return password;
+    }
 
+    private void setTechUserPassword(String password) {
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getWritableDatabase("test123");
+        db.execSQL("INSERT INTO techpassword(password) VALUES ("+ password +")");
+    }
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
      * is stored in a separate table to maintain database normalisation
@@ -323,8 +343,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return True if the password is correct
      */
     public boolean isCorrectTechPassword(String techPassword) {
-        String hardcodedpassword = "1234"; //TODO: get the real password from db
-        return techPassword.equals(hardcodedpassword);
+        return techPassword.equals(getTechUserPassword());
     }
 
     /**
@@ -332,9 +351,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return True is the tech password is set.
      */
     public boolean isTechPasswordSet() {
-        return true; //TODO: do a check
+        return !getTechUserPassword().equals("");
     }
-
     /**
      * Saves the tech password to the database
      * @param techPassword The password entered by the user.
@@ -345,7 +363,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
         else {
-            //TODO: save to database
+            setTechUserPassword(techPassword);
             return true;
         }
     }
