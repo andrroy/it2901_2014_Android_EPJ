@@ -6,7 +6,7 @@ import android.content.SharedPreferences.Editor;
 import java.util.Date;
 
 /**
- * Created by Joakim on 26.03.2014.
+ * Created by Joakim.
  */
 public class SessionManager {
 
@@ -21,8 +21,8 @@ public class SessionManager {
     private Context context;
 
     /**
-     *
-     * @param context
+     * Constructor for the {@linkplain org.royrvik.capgeminiemr.utils.SessionManager}.
+     * @param context The application {@linkplain android.content.Context} used for {@linkplain android.content.SharedPreferences}.
      */
     public SessionManager(Context context) {
         this.context = context;
@@ -31,9 +31,9 @@ public class SessionManager {
     }
 
     /**
-     *
-     * @param name
-     * @param password
+     * Creates a new login session.
+     * @param name The username entered by the user.
+     * @param password The encrypted password entered by the user.
      */
     public void createLoginSession(String name, String password) {
         editor.clear();
@@ -44,22 +44,22 @@ public class SessionManager {
     }
 
     /**
-     * Checks if the session is still valid
-     * @return - true if the session is valid
+     * Checks if the session is still valid.
+     * @return True if the session is valid.
      */
     public boolean isValid() {
         return NetworkChecker.isNetworkAvailable(context) && isSessionActive();
     }
 
     /**
-     *  Checks to see if the session has timed out
-     * @return - true if the session is still active
+     * Checks to see if the session has timed out.
+     * @return True if the session is still active.
      */
     private boolean isSessionActive() {
         return pref.getLong(KEY_TIME, 0) != 0 && new Date().getTime() < pref.getLong(KEY_TIME, 0) + SESSION_TIMEOUT_IN_MIN*60000;
     }
     /**
-     *  Tries to validate the user input, and starts the session if successful
+     *  Tries to validate the user input, and starts the session if successful.
      */
     private void validate() {
         String username = pref.getString(KEY_NAME, "");
@@ -72,16 +72,17 @@ public class SessionManager {
         }
         //END FOR TESTING
 
-        if (username.equals("") || Encryption.decrypt(username, passwordHash).equals("")) {
-            return;
-        }
-        else if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash))) {
-            startNewSession();
+        if (!username.equals("")) {
+            if (!Encryption.decrypt(username, passwordHash).equals("")) {
+                if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash))) {
+                    startNewSession();
+                }
+            }
         }
     }
 
     /**
-     * Sets the session start time
+     * Sets the session start time.
      */
     private void startNewSession() {
         editor.putLong(KEY_TIME, new Date().getTime());
@@ -89,7 +90,7 @@ public class SessionManager {
     }
 
     /**
-     *  Clears out all session information
+     *  Clears out all session information.
      */
     public void logout() {
         editor.clear();

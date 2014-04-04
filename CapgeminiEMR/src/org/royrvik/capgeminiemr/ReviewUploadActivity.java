@@ -1,6 +1,5 @@
 package org.royrvik.capgeminiemr;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,24 +13,22 @@ import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
-
 import java.util.List;
 
 
 public class ReviewUploadActivity extends SherlockActivity {
 
+    private int examinationId;
     private DatabaseHelper dbHelper;
-
-    private Context context;
     private SessionManager session;
 
     private ListView reviewListView;
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
-    private int examinationId;
 
-    public void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.reviewupload);
 
@@ -40,8 +37,6 @@ public class ReviewUploadActivity extends SherlockActivity {
         //Getting the session
         session = new SessionManager(getApplicationContext());
 
-        context = this;
-
         // get intent from last activity
         Intent i = getIntent();
         examinationId = i.getIntExtra("ex_id", 0);
@@ -49,7 +44,7 @@ public class ReviewUploadActivity extends SherlockActivity {
         // Fetch examination from database and show its images and comments in the listview
         List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
-        reviewListView.setAdapter(new ReviewListAdapter(context, R.layout.row_list_item_review, examinationImages));
+        reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
 
         // Buttons
         editButton = (Button) findViewById(R.id.editButton);
@@ -66,19 +61,25 @@ public class ReviewUploadActivity extends SherlockActivity {
             @Override
             public void onClick(View v) {
                 Log.d("APP", "Do something...");
+                //TODO: Upload to a server
                 Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
             }
         });
 
-        // Textviews
+        updateTextViews();
+    }
 
+    /**
+     * Updates the TextViews with sensitive information, based on the status of the current session.
+     */
+    private void updateTextViews() {
         if(!session.isValid()){
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: *******");
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name not available in offline mode");
+            reviewNameTextView.setText("Name: not available in offline mode");
         }
         else {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
@@ -86,12 +87,17 @@ public class ReviewUploadActivity extends SherlockActivity {
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
             reviewNameTextView.setText("Name: " + dbHelper.getExamination(examinationId).getPatientName());
         }
-
     }
 
     @Override
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTextViews();
     }
 }

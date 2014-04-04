@@ -68,8 +68,8 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
-     * Gathers information from the intent
-     * @param i the intent
+     * Gathers information from the intent.
+     * @param i The {@linkplain android.content.Intent} from the activity.
      */
     private void getInformationFromIntent(Intent i) {
         launcherCommand = i.getIntExtra("type", 0);
@@ -96,7 +96,7 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
-     * Creates a new login session, and validates the credentials
+     * Creates a new login session, and validates the credentials.
      */
     private void login() {
         //Creates a new login session with the credentials entered, encrypting the password
@@ -122,7 +122,7 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
-     * Checks if the device is connected to a network, and updates affected fields
+     * Checks if the device is connected to a network, and updates affected fields.
      */
     private void recheckNetwork() {
         //If the device has a connection to a network
@@ -144,7 +144,7 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
-     * Starts the next activity, based on launcher input
+     * Starts the next activity, based on launcher input.
      */
     private void startApplication() {
         Intent i;

@@ -4,9 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import java.util.ArrayList;
 
-
 /**
- * Created by Joakim on 31.03.2014.
+ * Created by Joakim.
  */
 public class EMRLauncher extends Intent {
 
@@ -19,7 +18,7 @@ public class EMRLauncher extends Intent {
 
     /**
      * Constructor used to launch the EMR app to the EMR Homescreen
-     * @param context Application context from the launcher
+     * @param context Application {@linkplain android.content.Context} from the launcher
      */
     public EMRLauncher(Context context) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
@@ -29,8 +28,8 @@ public class EMRLauncher extends Intent {
 
     /**
      * Constructor used to launch the EMR app to Identify a patient and return the gathered data.
-     * @param context Application context from the launcher.
-     * @param broadcastCode The broadcast code registered to the BroadcastReceiver in the launcher.
+     * @param context Application {@linkplain android.content.Context} from the launcher
+     * @param broadcastCode A {@linkplain java.lang.String} with the broadcast code registered to the BroadcastReceiver in the launcher.
      */
     public EMRLauncher(Context context, String broadcastCode) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
@@ -41,8 +40,8 @@ public class EMRLauncher extends Intent {
 
     /**
      * Constructor used to launch the EMR app to start with images.
-     * @param context Application context from the launcher
-     * @param images The images to send to the EMR app
+     * @param context Application {@linkplain android.content.Context} from the launcher
+     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the EMR app
      */
     public EMRLauncher(Context context, ArrayList<String> images) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
@@ -53,9 +52,9 @@ public class EMRLauncher extends Intent {
 
     /**
      * Constructor used to launch the EMR app to start with images and patient data.
-     * @param context - Application context from the launcher
-     * @param images The images to send to the EMR app
-     * @param patientData The patient data to send to the EMR app
+     * @param context Application {@linkplain android.content.Context} from the launcher
+     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the EMR app
+     * @param patientData The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of patient data to send to the EMR app
      */
     public EMRLauncher(Context context, ArrayList<String> images, ArrayList<String> patientData) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));

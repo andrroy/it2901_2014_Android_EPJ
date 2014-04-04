@@ -28,8 +28,6 @@ public class ExaminationActivity extends SherlockActivity {
     private ImageView globalImageView;
     private int currentImageId = 0;
     private Examination currentExamination;
-    private ArrayList<String> incomingImages;
-    private ArrayList<String> infoArrayList = new ArrayList<String>();
     private DatabaseHelper dbHelper;
     private SessionManager session;
 
@@ -50,8 +48,8 @@ public class ExaminationActivity extends SherlockActivity {
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
         if(activityStartedFrom().equals("IdentifyPatientActivity")) {
-            incomingImages = intent.getStringArrayListExtra("chosen_images");
-            infoArrayList = intent.getStringArrayListExtra("info");
+            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
+            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
             currentExamination.setPatientName(infoArrayList.get(1));
             currentExamination.setPatientSsn(infoArrayList.get(0));
@@ -174,17 +172,13 @@ public class ExaminationActivity extends SherlockActivity {
             commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
         }
 
-        if (currentImageId == 0) {
-            prevButton.setClickable(false);
-        } else {
-            prevButton.setClickable(true);
-        }
+        //Disable prevButton if current image is the first.
+        if (currentImageId == 0) prevButton.setClickable(false);
+        else prevButton.setClickable(true);
 
-        if (currentExamination.getUltrasoundImages().size() == currentImageId + 1) {
-            nextButton.setClickable(false);
-        } else {
-            nextButton.setClickable(true);
-        }
+        //Disable nextButton if current image is the last.
+        if (currentExamination.getUltrasoundImages().size() == currentImageId + 1) nextButton.setClickable(false);
+        else nextButton.setClickable(true);
     }
 
     private void deleteImage() {
@@ -204,7 +198,7 @@ public class ExaminationActivity extends SherlockActivity {
     private void updateElements() {
         if(!session.isValid()){
             headerTextView.setText("Patient ID: *******");
-            nameTextView.setText("Name not available in offline mode");
+            nameTextView.setText("Name: not available in offline mode");
             idTextView.setText("*******");
         }
         else {
@@ -268,5 +262,11 @@ public class ExaminationActivity extends SherlockActivity {
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
         super.onDestroy();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateElements();
     }
 }
