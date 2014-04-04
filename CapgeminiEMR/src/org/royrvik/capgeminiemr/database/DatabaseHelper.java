@@ -153,6 +153,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
         db.close();
+        cursor.close();
 
         return examination;
 
@@ -273,6 +274,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             } while (cursor.moveToNext());
         }
+
+        cursor.close();
 
         return usiList;
     }
