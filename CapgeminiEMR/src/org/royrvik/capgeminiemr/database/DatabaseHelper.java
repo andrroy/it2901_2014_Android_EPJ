@@ -317,5 +317,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return (int) l;
     }
 
+    /**
+     * Checks if the entered password is correct.
+     * @param techPassword The password entered by the user.
+     * @return True if the password is correct
+     */
+    public boolean isCorrectTechPassword(String techPassword) {
+        String hardcodedpassword = "1234"; //TODO: get the real password from db
+        return techPassword.equals(hardcodedpassword);
+    }
 
+    /**
+     * Checks to see if the tech password is set.
+     * @return True is the tech password is set.
+     */
+    public boolean isTechPasswordSet() {
+        return true; //TODO: do a check
+    }
+
+    /**
+     * Saves the tech password to the database
+     * @param techPassword The password entered by the user.
+     * @return True if the password was saved successfully
+     */
+    public boolean saveTechPassword(String techPassword) {
+        if (isTechPasswordSet()) {
+            return false;
+        }
+        else {
+            //TODO: save to database
+            return true;
+        }
+    }
 }

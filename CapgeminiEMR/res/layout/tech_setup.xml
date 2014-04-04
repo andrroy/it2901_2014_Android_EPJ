@@ -4,50 +4,96 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-    <TextView
-            android:id="@+id/setupTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/set_up"
-            android:layout_marginTop="50dp"
-            android:layout_centerHorizontal="true"/>
-
-    <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/pathToSettingsEditText"
-            android:layout_below="@+id/setupTextView"
-            android:layout_centerHorizontal="true"
-            android:width="200dp"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="30dp" android:hint="@string/url" android:textSize="11dp"/>
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/get_config"
-            android:id="@+id/getConfigButton"
-            android:layout_below="@+id/pathToSettingsEditText"
-            android:layout_centerHorizontal="true"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/statusStaticTextView"
-            android:text="@string/status"
-            android:layout_below="@+id/getConfigButton"
-            android:layout_marginTop="63dp" android:layout_centerHorizontal="true"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/statusTextView"
-            android:layout_below="@+id/statusStaticTextView"
-            android:layout_alignLeft="@+id/statusStaticTextView"
-            android:layout_alignStart="@+id/statusStaticTextView"
-            android:layout_marginTop="10dp"
-            android:maxWidth="100dp"/>
+    <ViewFlipper
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/techSetupTiewFlipper">
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Please enter technical user password"
+                    android:id="@+id/techLoginTextView"
+                    android:layout_marginTop="89dp" android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/techLoginPasswordEditText" android:layout_below="@+id/techLoginTextView"
+                    android:layout_centerHorizontal="true" android:layout_marginTop="43dp"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Confirm new password"
+                    android:id="@+id/techLoginConfirmTextView"
+                    android:layout_centerVertical="true" android:layout_alignLeft="@+id/techLoginPasswordEditText"
+                    android:layout_alignStart="@+id/techLoginPasswordEditText"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:ems="10"
+                    android:id="@+id/techLoginConfirmPasswordEditText"
+                    android:layout_alignStart="@+id/techLoginPasswordEditText" android:layout_below="@+id/techLoginConfirmTextView"
+                    android:layout_alignLeft="@+id/techLoginPasswordEditText"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="OK"
+                    android:id="@+id/techLoginOkButton" android:layout_below="@+id/techLoginConfirmPasswordEditText"
+                    android:layout_alignRight="@+id/techLoginConfirmPasswordEditText" android:layout_alignEnd="@+id/techLoginConfirmPasswordEditText"
+                    android:layout_marginTop="47dp"/>
+        </RelativeLayout>
+        <RelativeLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                >
+            <TextView
+                    android:id="@+id/setupTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="@string/set_up"
+                    android:layout_marginTop="50dp"
+                    android:layout_centerHorizontal="true"/>
+            <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pathToSettingsEditText"
+                    android:layout_below="@+id/setupTextView"
+                    android:layout_centerHorizontal="true"
+                    android:width="200dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="30dp" android:hint="@string/url" android:textSize="11dp"/>
+            <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/get_config"
+                    android:id="@+id/getConfigButton"
+                    android:layout_below="@+id/pathToSettingsEditText"
+                    android:layout_centerHorizontal="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/statusStaticTextView"
+                    android:text="@string/status"
+                    android:layout_below="@+id/getConfigButton"
+                    android:layout_marginTop="63dp" android:layout_centerHorizontal="true"/>
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="New Text"
+                    android:id="@+id/statusTextView"
+                    android:layout_below="@+id/statusStaticTextView"
+                    android:layout_alignLeft="@+id/statusStaticTextView"
+                    android:layout_alignStart="@+id/statusStaticTextView"
+                    android:layout_marginTop="10dp"
+                    android:maxWidth="100dp"/>
+        </RelativeLayout>
+    </ViewFlipper>
 
 </RelativeLayout>

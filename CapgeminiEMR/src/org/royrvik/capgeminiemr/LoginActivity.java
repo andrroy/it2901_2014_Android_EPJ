@@ -30,6 +30,7 @@ public class LoginActivity extends SherlockActivity {
     private int launcherCommand;
     private String broadcastCode = "";
     private SessionManager session;
+    private EMRApplication appSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,16 @@ public class LoginActivity extends SherlockActivity {
         //Get current session
         session = new SessionManager(getApplicationContext());
 
+        //Get application settings
+        appSettings = (EMRApplication) getApplicationContext();
+
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
         networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
+
+        checkSetup();
 
         // get intent from launcher
         getInformationFromIntent(getIntent());
@@ -144,6 +150,21 @@ public class LoginActivity extends SherlockActivity {
     }
 
     /**
+     * Starts the technical setup activity.
+     */
+    private void startTechnicalSetup() {
+        startActivity(new Intent(LoginActivity.this, TechnicalSetupActivity.class));
+    }
+
+    /**
+     * Checks if the app is set up properly, if not, launch the tech setup.
+     */
+    private void checkSetup() {
+        //Removed for testing purposes.
+        //if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
+    }
+
+    /**
      * Starts the next activity, based on launcher input.
      */
     private void startApplication() {
@@ -210,6 +231,7 @@ public class LoginActivity extends SherlockActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        checkSetup();
         recheckNetwork();
     }
 
