@@ -30,6 +30,7 @@ public class LoginActivity extends SherlockActivity {
     private int launcherCommand;
     private String broadcastCode = "";
     private SessionManager session;
+    private EMRApplication appSettings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,17 @@ public class LoginActivity extends SherlockActivity {
         //Get current session
         session = new SessionManager(getApplicationContext());
 
+        //Get application settings
+        appSettings = (EMRApplication) getApplicationContext();
+
         usernameEditText = (EditText) findViewById(R.id.usernameEditText);
         passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         loginButton = (Button) findViewById(R.id.loginButton);
         offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
         networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
+
+        // If the app is not set up properly
+        if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
 
         // get intent from launcher
         getInformationFromIntent(getIntent());
@@ -141,6 +148,13 @@ public class LoginActivity extends SherlockActivity {
             offlineModeButton.setEnabled(true);
         }
 
+    }
+
+    /**
+     * Starts the technical setup activity.
+     */
+    private void startTechnicalSetup() {
+        startActivity(new Intent(LoginActivity.this, TechnicalSetupActivity.class));
     }
 
     /**

@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -20,10 +21,11 @@ import java.util.HashMap;
 
 public class TechnicalSetupActivity extends SherlockActivity {
 
-    private TextView statusTextView;
-    private Button getConfigButton;
+    private TextView statusTextView, techLoginTextView, techLoginConfirmTextView;
+    private Button getConfigButton, loginButton;
     private EMRApplication globalApp;
-    private EditText pathToXmlEditText;
+    private EditText pathToXmlEditText, techLoginPasswordEditText, techLoginConfirmPasswordEditText;
+    private ViewFlipper flipper;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +43,21 @@ public class TechnicalSetupActivity extends SherlockActivity {
         //Sets status message based on whether app is configured or not
         if(globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.", Color.GREEN);
         else setStatusText("Application is not currently set up.", Color.RED);
+
+        flipper = (ViewFlipper) findViewById(R.id.techSetupTiewFlipper);
+        techLoginTextView = (TextView) findViewById(R.id.techLoginTextView);
+        techLoginConfirmTextView = (TextView) findViewById(R.id.techLoginConfirmTextView);
+        techLoginPasswordEditText = (EditText) findViewById(R.id.techLoginPasswordEditText);
+        techLoginConfirmPasswordEditText = (EditText) findViewById(R.id.techLoginConfirmPasswordEditText);
+        loginButton = (Button) findViewById(R.id.techLoginOkButton);
+        loginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkTechPassword();
+            }
+        });
+
+        updateLoginView();
 
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
         getConfigButton = (Button) findViewById(R.id.getConfigButton);
@@ -66,6 +83,40 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     }
 
+    /**
+     *
+     */
+    private void checkTechPassword() {
+        //TODO: check if password is correct
+        flipper.showNext();
+    }
+
+    /**
+     *
+     */
+    private void updateLoginView() {
+        if (isFirstSetup()) {
+            techLoginConfirmPasswordEditText.setEnabled(true);
+            techLoginConfirmTextView.setText("Confirm new password");
+        }
+        else {
+            techLoginConfirmPasswordEditText.setEnabled(false);
+            techLoginConfirmTextView.setText("");
+        }
+    }
+
+    /**
+     *
+     * @return True if the tech password is not set.
+     */
+    private boolean isFirstSetup() {
+        return false; //TODO: Check if the tech user is set
+    }
+
+    /**
+     *
+     * @param settingsHashMap
+     */
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
         globalApp.setExternalPackageSettings(settingsHashMap);
@@ -88,6 +139,10 @@ public class TechnicalSetupActivity extends SherlockActivity {
         }
     }
 
+    /**
+     *
+     * @param settingsHashMap
+     */
     private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
 
         //Displays alertDialog notifying user that examinations will be lost if user proceeds with setup
@@ -109,6 +164,11 @@ public class TechnicalSetupActivity extends SherlockActivity {
         }).show();
     }
 
+    /**
+     *
+     * @param text
+     * @param color
+     */
     private void setStatusText(String text, int color){
         statusTextView.setText(text);
         statusTextView.setTextColor(color);
