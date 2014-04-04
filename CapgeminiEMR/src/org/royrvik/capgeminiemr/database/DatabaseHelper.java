@@ -94,8 +94,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return examination_id of the newly added examination
      */
     public int addExamination(Examination ex) {
-        SQLiteDatabase.loadLibs(context);
 
+        SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getWritableDatabase("test123");
 
         // Build query
@@ -134,7 +134,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Examination getExamination(int id) {
 
         SQLiteDatabase.loadLibs(context);
-
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         Cursor cursor = db.query(TABLE_EXAMINATION, COLUMNS_EX, " examination_id = ?",
@@ -167,6 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public boolean deleteExamination(int id) {
 
+        SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
@@ -184,6 +184,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param ex Examination to replace the examination on row id
      */
     public void updateExamination(int id, Examination ex) {
+
         // Shortcut..Delete the row and add the examination as a new examination
         deleteExamination(id);
         addExamination(ex);
@@ -194,7 +195,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllExaminations() {
 
+        SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getReadableDatabase("test123");
+
         db.delete(TABLE_EXAMINATION, null, null);
         db.delete(TABLE_ULTRASOUNDIMAGE, null, null);
     }
@@ -206,7 +209,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Examination> getAllExaminations() {
 
+        SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getReadableDatabase("test123");
+
         Cursor cursor = db.rawQuery("select * from examination", null);
 
         ArrayList<Examination> examinationList = new ArrayList<Examination>();
@@ -230,6 +235,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 cursor.moveToNext();
             }
         }
+
+        cursor.close();
+
         return examinationList;
     }
 
@@ -242,10 +250,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
 
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getReadableDatabase("test123");
+
         ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
         String selectQuery = "SELECT * FROM ultrasoundimage WHERE examination_id=" + id;
 
-        SQLiteDatabase db = this.getReadableDatabase("test123");
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
