@@ -88,22 +88,24 @@ public class HomeScreenActivity extends SherlockActivity {
                             AlertDialog.Builder confirmDialog = new AlertDialog.Builder(HomeScreenActivity.this);
                             confirmDialog.setTitle("Confirm");
                             confirmDialog.setMessage("Are you sure you want to delete this examination?");
-                            confirmDialog.setPositiveButton("Yes", null);
+                            confirmDialog.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // Delete the Examination from the database
+                                    boolean deleted = dbHelper.deleteExamination(ex.getId());
+                                    if(deleted)
+                                        Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
+
+                                    // Update data set and notify the adapter of the changes
+                                    listOfExaminations.clear();
+                                    listOfExaminations.addAll(dbHelper.getAllExaminations());
+                                    homescreenListAdapter.notifyDataSetChanged();
+                                    homescreenListView.refreshDrawableState();
+                                }
+                            });
                             confirmDialog.setNegativeButton("No", null);
                             confirmDialog.show();
-                            // Delete the Examination from the database
-                            boolean deleted = dbHelper.deleteExamination(ex.getId());
 
-                            if(deleted)
-                                Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
-                            else
-                                Crouton.makeText(HomeScreenActivity.this, "Examination not found in the database", Style.ALERT).show();
-
-                            // Update data set and notify the adapter of the changes
-                            listOfExaminations.clear();
-                            listOfExaminations.addAll(dbHelper.getAllExaminations());
-                            homescreenListAdapter.notifyDataSetChanged();
-                            homescreenListView.refreshDrawableState();
                         }
                     });
                     dialog.setNeutralButton("Edit", new DialogInterface.OnClickListener() {
