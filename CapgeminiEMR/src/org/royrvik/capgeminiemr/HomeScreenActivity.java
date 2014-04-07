@@ -45,10 +45,6 @@ public class HomeScreenActivity extends SherlockActivity {
         //Getting the session
         session = new SessionManager(getApplicationContext());
 
-        //Actionbarsherlock back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-
         // Get all examinations in the database
         listOfExaminations = dbHelper.getAllExaminations();
 
@@ -131,10 +127,6 @@ public class HomeScreenActivity extends SherlockActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
-                // Back button clicked. Exit activity and open previous in activity stack
-                finish();
-                break;
             case R.id.logout_button:
                 Log.d("APP", "logout");
                 session.logout();
