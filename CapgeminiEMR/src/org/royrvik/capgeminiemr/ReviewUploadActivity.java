@@ -9,10 +9,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.adapter.ReviewListAdapter;
+import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -21,6 +26,7 @@ public class ReviewUploadActivity extends SherlockActivity {
     private int examinationId;
     private DatabaseHelper dbHelper;
     private SessionManager session;
+    private RemoteServiceConnection service;
 
     private ListView reviewListView;
     private Button editButton, uploadButton;
@@ -37,12 +43,18 @@ public class ReviewUploadActivity extends SherlockActivity {
         //Getting the session
         session = new SessionManager(getApplicationContext());
 
+        //Starting connection service
+        service = new RemoteServiceConnection(getApplicationContext());
+        if (!service.bindService()) {
+            Crouton.makeText(ReviewUploadActivity.this, "Could not connect to the EMR service", Style.ALERT);
+        }
+
         // get intent from last activity
         Intent i = getIntent();
         examinationId = i.getIntExtra("ex_id", 0);
 
         // Fetch examination from database and show its images and comments in the listview
-        List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
+        final List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
 
@@ -60,8 +72,15 @@ public class ReviewUploadActivity extends SherlockActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("APP", "Do something...");
-                //TODO: Upload to a server
+                List<String> data = new ArrayList<String>();
+                Examination ex = dbHelper.getExamination(examinationId);
+                data.add(ex.getPatientSsn());
+                data.add(ex.getPatientName());
+                List<String> images = ex.getAllImages();
+                if (service.upload(data, images)) {
+                    dbHelper.deleteExamination(examinationId);
+                }
+                else Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
                 Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
@@ -93,6 +112,7 @@ public class ReviewUploadActivity extends SherlockActivity {
     protected void onDestroy() {
         Crouton.cancelAllCroutons();
         super.onDestroy();
+        service.releaseService();
     }
 
     @Override
@@ -100,4 +120,5 @@ public class ReviewUploadActivity extends SherlockActivity {
         super.onResume();
         updateTextViews();
     }
+
 }

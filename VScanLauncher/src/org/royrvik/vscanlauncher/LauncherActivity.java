@@ -313,7 +313,7 @@ public class LauncherActivity extends Activity {
         public void onReceive(Context context, Intent intent) {
             ArrayList<String> data = intent.getStringArrayListExtra("patient");
             patientData = new ArrayList<String>();
-            if (data.size() > 0) {
+            if (data != null && data.size() > 0) {
                 for (String item : data) {
                     patientData.add(item);
                 }

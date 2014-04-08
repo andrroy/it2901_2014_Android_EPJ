@@ -5,6 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
+import android.os.RemoteException;
+import com.example.EMRService.EMRRemoteInterface;
+
+import java.util.List;
 
 /**
  * Created by Laxcor.
@@ -12,6 +16,7 @@ import android.os.IBinder;
 public class RemoteServiceConnection implements ServiceConnection {
 
     private Context context;
+    private EMRRemoteInterface service;
 
     /**
      * Constructor
@@ -22,11 +27,9 @@ public class RemoteServiceConnection implements ServiceConnection {
         this.context = context;
     }
 
-    EMR_RemoteService service;
-
     @Override
     public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
-        service = EMR_RemoteService.Stub.asInterface(iBinder);
+        service = EMRRemoteInterface.Stub.asInterface(iBinder);
     }
 
     @Override
@@ -40,8 +43,33 @@ public class RemoteServiceConnection implements ServiceConnection {
      */
     public boolean bindService() {
         Intent i = new Intent();
-        i.setClassName("org.royrvik.capgeminiemr",org.royrvik.capgeminiemr.utils.EMR_RemoteService.class.getName());
-        return context.bindService(i, this, Context.BIND_AUTO_CREATE);
+        i.setClassName("com.example.EMRService","com.example.EMRService.EMRService");
+        return context.bindService(i, RemoteServiceConnection.this, Context.BIND_AUTO_CREATE);
+    }
+
+    /**
+     *
+     * @param ssn
+     * @return
+     */
+    public List<String> getPatientData(String ssn) {
+        try {
+            List<String> data = service.getPatientData(ssn);
+            return data;
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /** Upload the provided data **/
+    public boolean upload(List<String> patientData, List<String> imagePaths) {
+        try {
+            return service.upload(patientData, imagePaths);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**
