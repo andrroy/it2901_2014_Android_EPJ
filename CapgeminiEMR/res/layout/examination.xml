@@ -57,19 +57,20 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
                 android:text="-no ID found-"
                 android:id="@+id/idField"
                 android:layout_alignStart="@+id/textView"
                 android:layout_below="@+id/textView"
                 android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+            <org.royrvik.capgeminiemr.utils.AutoResizeTextView
+                android:layout_width="match_parent"
+                android:layout_height="25dp"
                 android:text="-no name found-"
                 android:id="@+id/nameField"
+                android:textSize="18dp"
+                android:maxLines="1"
                 android:layout_alignStart="@+id/idField"
                 android:layout_below="@+id/idField"
                 android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
@@ -77,7 +78,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
                 android:text="-no images found-"
                 android:id="@+id/images2"
                 android:layout_alignStart="@+id/nameField"
@@ -109,7 +110,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textSize="18dp"
                 android:text="-no images found-"
                 android:id="@+id/images1"
                 android:layout_above="@+id/addCommentsButton"
