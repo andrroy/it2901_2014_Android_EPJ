@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table name
     private static final String TABLE_EXAMINATION = "examination";
     private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
+    private static final String TABLE_TECHPASSWORD = "techpassword";
 
     // Column names
     // Examination
@@ -32,14 +33,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_COMMENT = "comment";
     private static final String KEY_URI = "uri";
 
+    // Techpassword
+    private static final String KEY_TECHPASSWORD = "password";
+
 
     private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN, KEY_DATE};
     private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
 
-    private static final String TAG = "APP";
-
     private Context context;
-
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -70,6 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Create ultrasoundimage table
         db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
 
+        // Create techpassword table
         db.execSQL("CREATE TABLE techpassword (password TEXT)");
     }
 
@@ -104,7 +106,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private void setTechUserPassword(String password) {
         SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getWritableDatabase("test123");
-        db.execSQL("INSERT INTO techpassword(password) VALUES ("+ password +")");
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_TECHPASSWORD, password);
+        db.insert(TABLE_TECHPASSWORD, null, values);
+        db.close();
+
     }
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination

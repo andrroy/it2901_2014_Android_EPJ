@@ -95,6 +95,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
             if (techLoginPasswordEditText.getText().toString().equals(techLoginConfirmPasswordEditText.getText().toString())) {
                 if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
                     flipper.showNext();
+                    return;
                 }
                 else {
                     Crouton.makeText(TechnicalSetupActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
