@@ -11,7 +11,7 @@ import com.example.EMRService.EMRRemoteInterface;
 import java.util.List;
 
 /**
- * Created by Laxcor.
+ * Created by Joakim.
  */
 public class RemoteServiceConnection implements ServiceConnection {
 
@@ -48,9 +48,9 @@ public class RemoteServiceConnection implements ServiceConnection {
     }
 
     /**
-     *
-     * @param ssn
-     * @return
+     * Get patient data from the service
+     * @param ssn The ssn for the person
+     * @return An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
      */
     public List<String> getPatientData(String ssn) {
         try {
@@ -62,7 +62,12 @@ public class RemoteServiceConnection implements ServiceConnection {
         return null;
     }
 
-    /** Upload the provided data **/
+    /**
+     * Upload data to the service
+     * @param patientData An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
+     * @param imagePaths An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
+     * @return
+     */
     public boolean upload(List<String> patientData, List<String> imagePaths) {
         try {
             return service.upload(patientData, imagePaths);
