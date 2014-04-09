@@ -9,6 +9,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
+import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
     private ArrayList<String> incomingImages;
     private boolean returnAfter = false;
     private SessionManager session;
+    private RemoteServiceConnection service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +37,12 @@ public class IdentifyPatientActivity extends SherlockActivity {
         //Actionbarsherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+
+        //Starting connection service
+        service = new RemoteServiceConnection(getApplicationContext());
+        if (!service.bindService()) {
+            Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT);
+        }
 
         // get intent from last activity
         Intent i = getIntent();
@@ -93,7 +101,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         String id = i.getStringExtra("id");
         if (id != null) {
             patientIDEditText.setText(id);
-            checkPid();
+            flipper.showNext();
         }
     }
 
@@ -103,28 +111,21 @@ public class IdentifyPatientActivity extends SherlockActivity {
      */
     private void checkPid() {
         if (session.isValid()) {
-            String patientID = patientIDEditText.getText().toString();
-            //TODO: Validate the ID
             //TODO: Show that the app is working on something
-            //TODO: Get patient info
-            if (true /*If the ID was valid*/) {
-                ArrayList<String> info = new ArrayList<String>();
-                info.add(patientID);
-                info.add("Frank Stangelberg"); //For testing only
-
+            ArrayList<String> info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString());
+            if (info != null) {
                 if (returnAfter) {
                     Intent data = new Intent();
                     data.putStringArrayListExtra("patient", info);
                     setResult(RESULT_OK, data);
                     returnAfter = false;
-                    finish();
                 }else {
                     Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
                     i.putStringArrayListExtra("info", info);
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
-                    finish();
                 }
+                finish();
             } else Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
         } else Toast.makeText(getApplicationContext(), "Session timed out, or lost connection", Toast.LENGTH_LONG).show();
     }
@@ -165,5 +166,11 @@ public class IdentifyPatientActivity extends SherlockActivity {
                 Log.d("APP", "Invalid format");
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        service.releaseService();
     }
 }

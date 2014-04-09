@@ -1,9 +1,9 @@
-package org.royrvik.capgeminiemr.utils;
+package com.example.EMRService;
 
 /**
- * Created by Laxcor.
+ * Created by Joakim.
  */
-interface EMR_RemoteService {
+interface EMRRemoteInterface {
     /** Get patient data linked to the provided ssn **/
     List<String> getPatientData(in String ssn);
 
