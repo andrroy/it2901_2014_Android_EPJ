@@ -22,15 +22,18 @@
             android:layout_height="wrap_content"
             android:text="ID: 0102010302"
             android:id="@+id/reviewIdTextView"
+            android:textSize="18dp"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/patientInfoTextView"
             android:layout_alignLeft="@id/patientInfoTextView"
             />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <org.royrvik.capgeminiemr.utils.AutoResizeTextView
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
             android:text="Name: Tjalve Tjalvesen"
+            android:maxLines="1"
+            android:textSize="18dp"
             android:id="@+id/reviewNameTextView"
             android:layout_centerHorizontal="true"
             android:layout_alignLeft="@id/reviewIdTextView"

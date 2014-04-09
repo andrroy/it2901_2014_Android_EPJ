@@ -4,7 +4,7 @@
 ### How to build and run
 1. Download sources with Maven (pom.xml - Maven - Download sources)
 2. Add .jars in libs folder to project dependencies.
-..* IntelliJ: Project structure - Modules - CapgeminiEMR - Dependencies - Add - Select all jar-files
+  * IntelliJ: Project structure - Modules - CapgeminiEMR - Dependencies - Add - Select all jar-files
 in the libs folder.
 3. Build and run the CapgeminiEMR module. The application will install, but will exit right away.
 4. Build and run the VScanLauncher module.
