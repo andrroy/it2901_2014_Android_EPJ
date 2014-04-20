@@ -14,6 +14,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.FullScreenViewActivity;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -50,8 +51,8 @@ public class ExaminationActivity extends SherlockActivity {
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
         if(activityStartedFrom().equals("IdentifyPatientActivity")) {
-            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
-            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
+            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images"); // Contains image URIs
+            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info"); // Contains name and ssn
             currentExamination = new Examination();
             currentExamination.setPatientName(infoArrayList.get(1));
             currentExamination.setPatientSsn(infoArrayList.get(0));
@@ -109,10 +110,14 @@ public class ExaminationActivity extends SherlockActivity {
                 if (currentExamination.getUltrasoundImages().isEmpty()) {
                     Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to (this is not supposed to happen)", Style.ALERT).show();
                 } else {
-                    examinationViewFlipper.showNext();
+                    // Start FullScreenViewActivity here.
+                    Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
+                    i.putExtra("ex_images", currentExamination.getAllImages());
+                    startActivity(i);
+
+                    //examinationViewFlipper.showNext();
                 }
                 updateEditorView();
-
             }
         });
     }

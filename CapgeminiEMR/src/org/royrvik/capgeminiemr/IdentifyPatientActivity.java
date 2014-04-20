@@ -113,6 +113,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         if (session.isValid()) {
             //TODO: Show that the app is working on something
             ArrayList<String> info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString());
+
             if (info != null) {
                 if (returnAfter) {
                     Intent data = new Intent();
