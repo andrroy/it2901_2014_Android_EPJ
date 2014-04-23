@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import android.widget.Button;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -15,7 +16,6 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
-
 import java.util.ArrayList;
 
 
@@ -23,7 +23,7 @@ public class ExaminationActivity extends SherlockActivity {
 
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton deleteButton;
+    private ImageButton deleteButton, idStatusImageButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -65,8 +65,10 @@ public class ExaminationActivity extends SherlockActivity {
             }
         }
         else if(activityStartedFrom().equals("HomeScreenActivity")) {
-            int exId = intent.getIntExtra("ex_id", 0);
-            currentExamination = dbHelper.getExamination(exId);
+            int exId = intent.getIntExtra("ex_id", -1);
+            if (exId != -1) {
+                currentExamination = dbHelper.getExamination(exId);
+            } else finish();
         }
 
         // Initialize GUI elements
@@ -86,6 +88,9 @@ public class ExaminationActivity extends SherlockActivity {
         nameTextView = (TextView) findViewById(R.id.nameField);
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
+        idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
+
+
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {

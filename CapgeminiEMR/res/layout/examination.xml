@@ -117,6 +117,11 @@
                 android:layout_alignLeft="@+id/nameField"
                 android:layout_alignStart="@+id/nameField"
                 android:layout_marginBottom="28dp"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idstatusImageButton" android:layout_below="@+id/textView"
+                    android:layout_toLeftOf="@+id/idField" android:layout_alignBottom="@+id/idField"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
