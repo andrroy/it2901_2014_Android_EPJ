@@ -23,7 +23,7 @@ public class ExaminationActivity extends SherlockActivity {
 
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton deleteButton, idStatusImageButton;
+    private ImageButton deleteButton, idStatusImageButton, greenidStatusImageButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -89,8 +89,15 @@ public class ExaminationActivity extends SherlockActivity {
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
         idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
+        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
 
+        greenidStatusImageButton.setVisibility(View.GONE);
 
+        if(idTextView.getText().length() > 1){
+            idStatusImageButton.setVisibility(View.GONE);
+            greenidStatusImageButton.setVisibility(View.VISIBLE);
+
+        }
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {

@@ -120,8 +120,19 @@
             <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/idstatusImageButton" android:layout_below="@+id/textView"
-                    android:layout_toLeftOf="@+id/idField" android:layout_alignBottom="@+id/idField"/>
+                    android:id="@+id/idstatusImageButton"
+                    android:clickable="true" android:visibility="visible" android:cropToPadding="false"
+                    android:focusable="false" android:src="@drawable/abs__ab_bottom_transparent_dark_holo"
+                    android:layout_below="@+id/textView"
+                    android:layout_alignBottom="@+id/idField" android:layout_toRightOf="@+id/idstatusGreenImageButton"
+                    android:background="#ff392e" android:layout_toLeftOf="@+id/textView"/>
+            <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/idstatusGreenImageButton" android:layout_alignTop="@+id/idstatusImageButton"
+                    android:layout_alignParentLeft="true" android:layout_alignParentStart="true"
+                    android:layout_above="@+id/nameField" android:background="#35ff34"
+                    android:src="@drawable/abs__ab_bottom_transparent_dark_holo"/>
         </RelativeLayout>
         <RelativeLayout
             android:layout_width="fill_parent"
