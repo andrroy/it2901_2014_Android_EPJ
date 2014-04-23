@@ -50,7 +50,8 @@ public class ExaminationActivity extends SherlockActivity {
 
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
-        if(activityStartedFrom().equals("IdentifyPatientActivity")) {
+        // Activity was started to create a new examination
+        if (activityStartedForAction().equals("new_examination")) {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
