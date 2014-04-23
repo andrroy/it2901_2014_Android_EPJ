@@ -40,6 +40,7 @@
 
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
+    <string name="patent_info">Patient info:</string>
 
     <!-- Review and upload strings -->
     <string name="patient_info">Patient info:</string>
@@ -49,6 +50,11 @@
     <!-- Login -->
     <string name="offline_mode">Offline mode</string>
     <string name="network_unavailable">Network unavailable</string>
+
+
+    <!-- Fullscreen View -->
+    <string name="close">Close</string>
+
 
 
 

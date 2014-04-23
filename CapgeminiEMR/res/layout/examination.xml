@@ -29,10 +29,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Patient ID: "
+                    android:text="@string/patent_info"
                     android:id="@+id/header"
                     android:layout_centerVertical="true"
                     android:layout_centerHorizontal="true"/>
+
             </RelativeLayout>
 
             <ImageButton
@@ -133,6 +134,7 @@
                     android:src="@android:drawable/checkbox_on_background"
                     android:layout_above="@+id/nameField" android:layout_toLeftOf="@+id/idstatusImageButton"/>
         </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">

@@ -60,7 +60,7 @@ public class TouchImageView extends ImageView {
         matrix = new Matrix();
         m = new float[9];
         setImageMatrix(matrix);
-        setScaleType(ScaleType.MATRIX);
+        setScaleType(ScaleType.CENTER_CROP);
 
         setOnTouchListener(new OnTouchListener() {
 

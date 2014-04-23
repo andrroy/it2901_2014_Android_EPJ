@@ -9,7 +9,7 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:scaleType="fitCenter"
-            android:background=""
+            android:background="#000"
             />
 
     <Button
@@ -30,7 +30,7 @@
     <RelativeLayout
             android:id="@+id/btmGradient"
             android:layout_width="fill_parent"
-            android:layout_height="60dp"
+            android:layout_height="80dp"
             android:layout_alignParentBottom="true"
             android:background="@drawable/bottomgradient"
 

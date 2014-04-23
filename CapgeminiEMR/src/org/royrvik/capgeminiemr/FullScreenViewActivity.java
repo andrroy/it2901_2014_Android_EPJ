@@ -18,7 +18,6 @@ public class FullScreenViewActivity extends Activity{
     // private Utils utils - Need a way to put URIs
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
-    private ArrayList<String> incomingImages;
     private Examination currentExamination; // TODO: When Examination is parcelable, change.
 
 
@@ -30,9 +29,9 @@ public class FullScreenViewActivity extends Activity{
         viewPager = (ViewPager) findViewById(R.id.pager);
 
         Intent i = getIntent();
-        incomingImages = i.getStringArrayListExtra("ex_images");
+        currentExamination = i.getParcelableExtra("examination");
 
-        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, incomingImages);
+        adapter = new FullScreenImageAdapter(FullScreenViewActivity.this, currentExamination);
 
         viewPager.setAdapter(adapter);
 

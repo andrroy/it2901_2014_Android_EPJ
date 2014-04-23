@@ -1,5 +1,6 @@
 package org.royrvik.capgeminiemr.adapter;
 
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.Toast;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -32,16 +33,10 @@ public class FullScreenImageAdapter extends PagerAdapter{
     private LayoutInflater inflater;
     private Examination currentExamination;
 
-    public FullScreenImageAdapter(Activity activity, ArrayList<String> uris){
-        this._activity = activity;
-        this.imageURIs = uris;
-    }
 
-    // Consctructor to support Examiniation obejcts when this is implemented.
     public FullScreenImageAdapter(Activity activity, Examination currentExamination){
         this._activity = activity;
         this.currentExamination = currentExamination;
-        this.imageURIs = currentExamination.getAllImages();
     }
 
     public int getCount(){
@@ -53,6 +48,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     public Object instantiateItem(ViewGroup container, int position){
+        imageURIs = currentExamination.getAllImages();
+
         TouchImageView imgDisplay;
         final Button btnClose;
         final Button btnDelete;
@@ -72,6 +69,9 @@ public class FullScreenImageAdapter extends PagerAdapter{
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = BitmapFactory.decodeFile(imageURIs.get(position), options);
+        String s = "Current image being viewed" + position;
+        Log.d("APP:", s);
+
         imgDisplay.setImageBitmap(bitmap);
 
 
@@ -89,20 +89,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         btnDelete.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
                 btnDelete.setBackgroundResource(R.drawable.ic_delete_up);
-                // Delete image
-                if (imageURIs.size() <= 1) {
-                 //TODO: alert with Toast that the operation is not allowed
-                }
-                /**
-                 *
-                else {
-                    currentExamination.deleteImage(currentImageId);
-                    if (currentImageId > 0)
-                        currentImageId--;
-                    Crouton.makeText(this, "Image deleted", Style.CONFIRM).show();
-                    updateEditorView();
-                }
-                 */
+                deleteImage();
             }
 
         });
@@ -120,6 +107,11 @@ public class FullScreenImageAdapter extends PagerAdapter{
 
         return viewLayout;
     }
+
+    public void deleteImage(){
+        //TODO: Need to figure out how to identify the image being viewed.
+    }
+
 
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
