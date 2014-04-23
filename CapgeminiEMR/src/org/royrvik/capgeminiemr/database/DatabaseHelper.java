@@ -88,7 +88,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
     /*
-            CRUD OPERATIONS
+            CREATE, READ, UPDATE, DELETE OPERATIONS
+     */
+
+    /**
+     * Get the technical user password
+     * @return
      */
     private String getTechUserPassword() {
         SQLiteDatabase.loadLibs(context);
@@ -103,6 +108,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return password;
     }
 
+    /**
+     * Sets the technical user password
+     * @param password
+     */
     private void setTechUserPassword(String password) {
         SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getWritableDatabase("test123");
@@ -113,6 +122,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
 
     }
+
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
      * is stored in a separate table to maintain database normalisation

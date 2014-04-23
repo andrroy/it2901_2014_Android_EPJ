@@ -15,9 +15,3 @@ in the libs folder.
 an empty gallery or will force application to crash
 * Unable to fully clear the SQLite database without reinstalling application
 * Can't read nested XML properly
-
-### TODO
-* Overall better exception handling
-* XMLParser needs to handle nested elements
-* Integrate QR scan functionality for identifying patients
-* (Make GUI look better)

@@ -10,9 +10,6 @@ import com.example.EMRService.EMRRemoteInterface;
 
 import java.util.List;
 
-/**
- * Created by Joakim.
- */
 public class RemoteServiceConnection implements ServiceConnection {
 
     private Context context;

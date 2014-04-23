@@ -1,5 +1,8 @@
 package org.royrvik.capgeminiemr.data;
 
+/**
+ * Representation of an ultrasoundimage and the data related to it.
+ */
 public class UltrasoundImage {
 
     private String imageUri;
