@@ -21,9 +21,10 @@ import java.util.ArrayList;
 
 public class ExaminationActivity extends SherlockActivity {
 
+    private static final int REQUEST_CODE = 5;
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton deleteButton;
+    private ImageButton deleteButton, idStatusImageButton, greenidStatusImageButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -41,7 +42,7 @@ public class ExaminationActivity extends SherlockActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-        SQLiteDatabase.loadLibs(this);
+        SQLiteDatabase.loadLibs(getApplicationContext());
         dbHelper = new DatabaseHelper(this);
 
         //Getting the session
@@ -50,18 +51,25 @@ public class ExaminationActivity extends SherlockActivity {
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
         if(activityStartedFrom().equals("IdentifyPatientActivity")) {
-            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images"); // Contains image URIs
-            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info"); // Contains name and ssn
+            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
+            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
-            currentExamination.setPatientName(infoArrayList.get(1));
+            if (infoArrayList.size() < 2) {
+                currentExamination.setPatientName("");
+            } else {
+                currentExamination.setPatientName(infoArrayList.get(1));
+            }
             currentExamination.setPatientSsn(infoArrayList.get(0));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
         }
-        else if(activityStartedFrom().equals("HomeScreenActivity")) {
-            int exId = intent.getIntExtra("ex_id", 0);
-            currentExamination = dbHelper.getExamination(exId);
+        // Activity was started to edit an existing examination
+        else if (activityStartedForAction().equals("edit_examination")) {
+            int exId = intent.getIntExtra("ex_id", -1);
+            if (exId != -1) {
+                currentExamination = dbHelper.getExamination(exId);
+            } else finish();
         }
 
         // Initialize GUI elements
@@ -81,27 +89,58 @@ public class ExaminationActivity extends SherlockActivity {
         nameTextView = (TextView) findViewById(R.id.nameField);
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
+        idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
+        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
+
+        idStatusImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("id", currentExamination.getPatientSsn());
+                i.putExtra("return", true);
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
+        greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("id", currentExamination.getPatientSsn());
+                i.putExtra("return", true);
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
+
+        //Updates the verification buttons.
+        greenidStatusImageButton.setVisibility(View.GONE);
+        if (idIsValidated()) {
+            idStatusImageButton.setVisibility(View.GONE);
+            greenidStatusImageButton.setVisibility(View.VISIBLE);
+
+        }
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // If activity started from HomeScreen, the examination should already
-                // exist in the database. In which case we should delete it first
-                if(activityStartedFrom().equals("HomeScreenActivity"))
-                    dbHelper.deleteExamination(currentExamination.getId());
+                //if (!idIsValidated()) return;
 
-                //What if the application crashes here?
-                // TODO: Use updateExamination() instead.
-
-                // Add examination to database and retrieve its examination_id
-                int exId = dbHelper.addExamination(currentExamination);
-                currentExamination.setId(exId);
+                // Choose action based on why this activity was started
+                int exId;
+                if(activityStartedForAction().equals("new_examination"))
+                    exId = dbHelper.addExamination(currentExamination);
+                else if(activityStartedForAction().equals("edit_examination")) {
+                    dbHelper.updateExamination(currentExamination);
+                    exId = currentExamination.getId();
+                }
+                else
+                    return;
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("ex_id", exId);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -122,6 +161,7 @@ public class ExaminationActivity extends SherlockActivity {
                     //examinationViewFlipper.showNext();
                 }
                 updateEditorView();
+
             }
         });
     }
@@ -173,6 +213,11 @@ public class ExaminationActivity extends SherlockActivity {
     private void save() {
         // Sets the comment to the current UltrasoundImage to the text in commentEditText
         currentExamination.getUltrasoundImages().get(currentImageId).setComment(commentEditText.getText().toString());
+
+    }
+
+    private boolean idIsValidated() {
+        return currentExamination.getPatientName().length() > 0;
     }
 
     private void updateEditorView() {
@@ -206,12 +251,11 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     private void updateElements() {
-        if(!session.isValid()){
+        if (!session.isValid()) {
             headerTextView.setText("Patient ID: *******");
             nameTextView.setText("Name: not available in offline mode");
             idTextView.setText("*******");
-        }
-        else {
+        } else {
             headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
             idTextView.setText(currentExamination.getPatientSsn());
             nameTextView.setText(currentExamination.getPatientName());
@@ -220,7 +264,7 @@ public class ExaminationActivity extends SherlockActivity {
         int imagesWithComment = 0;
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
-            if (usi.getComment() == " ")
+            if (usi.getComment().equals(" "))
                 imagesWithoutComment++;
             else
                 imagesWithComment++;
@@ -238,24 +282,34 @@ public class ExaminationActivity extends SherlockActivity {
     }
 
     /**
-     * Returns the name of the activity which started this activity
+     * Returns the type of action this activity was started to do
      */
-
-    private String activityStartedFrom() {
+    private String activityStartedForAction() {
         // get intent from last activity
         Intent intent = getIntent();
         // Check what kind of extras intent has
-        if(intent.hasExtra("chosen_images") && intent.hasExtra("info")) {
-            // Activity started from IdentifyPatientActivity
-            return "IdentifyPatientActivity";
-        }
-        else if(intent.hasExtra("ex_id")) {
-            // Activity started from HomeScreenActivity
-            return "HomeScreenActivity";
+        if (intent.hasExtra("chosen_images") && intent.hasExtra("info")) {
+            // Activity was started to add a new examination
+            return "new_examination";
+        } else if (intent.hasExtra("ex_id")) {
+            // Activity was started to edit an examination
+            return "edit_examination";
         }
         return null;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            ArrayList<String> info = data.getStringArrayListExtra("patient");
+            if (info.size() > 1) {
+                currentExamination.setPatientSsn(info.get(0));
+                currentExamination.setPatientName(info.get(1));
+            }
+            initFirstViewElements();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

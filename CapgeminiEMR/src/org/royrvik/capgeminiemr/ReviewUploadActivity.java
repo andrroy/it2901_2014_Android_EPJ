@@ -2,7 +2,6 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -31,7 +30,6 @@ public class ReviewUploadActivity extends SherlockActivity {
     private ListView reviewListView;
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,8 +62,9 @@ public class ReviewUploadActivity extends SherlockActivity {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Delete the current examination from the database
-                Log.d("APP", "Examination ble slettet : " + Boolean.toString(dbHelper.deleteExamination(examinationId)));
+                Intent i = new Intent(ReviewUploadActivity.this, ExaminationActivity.class);
+                i.putExtra("ex_id", examinationId);
+                startActivity(i);
                 finish();
             }
         });

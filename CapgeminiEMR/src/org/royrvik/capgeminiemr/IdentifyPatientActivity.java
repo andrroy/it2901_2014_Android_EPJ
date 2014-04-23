@@ -42,6 +42,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         service = new RemoteServiceConnection(getApplicationContext());
         if (!service.bindService()) {
             Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT);
+            finish();
         }
 
         // get intent from last activity
@@ -110,25 +111,28 @@ public class IdentifyPatientActivity extends SherlockActivity {
      * Starts ExaminationActivity or returns to the launcher if PID is accepted
      */
     private void checkPid() {
+        //TODO: Show that the app is working on something
+        ArrayList<String> info = new ArrayList<String>();
         if (session.isValid()) {
-            //TODO: Show that the app is working on something
-            ArrayList<String> info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString());
-
-            if (info != null) {
-                if (returnAfter) {
-                    Intent data = new Intent();
-                    data.putStringArrayListExtra("patient", info);
-                    setResult(RESULT_OK, data);
-                    returnAfter = false;
-                }else {
-                    Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
-                    i.putStringArrayListExtra("info", info);
-                    i.putStringArrayListExtra("chosen_images", incomingImages);
-                    startActivity(i);
-                }
-                finish();
-            } else Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
-        } else Toast.makeText(getApplicationContext(), "Session timed out, or lost connection", Toast.LENGTH_LONG).show();
+            info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString());
+        }
+        else {
+            info.add(patientIDEditText.getText().toString());
+        }
+        if (info != null) {
+            if (returnAfter) {
+                Intent data = new Intent();
+                data.putStringArrayListExtra("patient", info);
+                setResult(RESULT_OK, data);
+                returnAfter = false;
+            }else {
+                Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
+                i.putStringArrayListExtra("info", info);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                startActivity(i);
+            }
+            finish();
+        } else Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
     }
 
     @Override
