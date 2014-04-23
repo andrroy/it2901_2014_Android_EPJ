@@ -91,7 +91,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             CRUD OPERATIONS
      */
     private String getTechUserPassword() {
-        SQLiteDatabase.loadLibs(context);
+            SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getReadableDatabase("test123");
         String password = "";
         Cursor cursor = db.rawQuery("SELECT * FROM techpassword", null);

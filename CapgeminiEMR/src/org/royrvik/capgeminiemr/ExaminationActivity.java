@@ -41,7 +41,7 @@ public class ExaminationActivity extends SherlockActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-        SQLiteDatabase.loadLibs(getApplicationContext());
+        SQLiteDatabase.loadLibs(this);
         dbHelper = new DatabaseHelper(this);
 
         //Getting the session
