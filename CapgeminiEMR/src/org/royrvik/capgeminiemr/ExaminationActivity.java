@@ -137,6 +137,7 @@ public class ExaminationActivity extends SherlockActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("ex_id", exId);
                 startActivity(i);
+                finish();
             }
         });
 
