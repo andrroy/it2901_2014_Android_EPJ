@@ -42,6 +42,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         service = new RemoteServiceConnection(getApplicationContext());
         if (!service.bindService()) {
             Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT);
+            finish();
         }
 
         // get intent from last activity

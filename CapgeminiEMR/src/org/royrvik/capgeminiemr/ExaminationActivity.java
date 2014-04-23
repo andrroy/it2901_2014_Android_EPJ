@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 public class ExaminationActivity extends SherlockActivity {
 
+    private static final int REQUEST_CODE = 5;
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
     private ImageButton deleteButton, idStatusImageButton, greenidStatusImageButton;
@@ -54,7 +55,7 @@ public class ExaminationActivity extends SherlockActivity {
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
             if (infoArrayList.size() < 2) {
-                currentExamination.setPatientName("No name received from intent.");
+                currentExamination.setPatientName("");
             }
             else {
                 currentExamination.setPatientName(infoArrayList.get(1));
@@ -91,9 +92,18 @@ public class ExaminationActivity extends SherlockActivity {
         idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
         greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
 
+        idStatusImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("id", currentExamination.getPatientSsn());
+                i.putExtra("return", true);
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
         greenidStatusImageButton.setVisibility(View.GONE);
 
-        if(idTextView.getText().length() > 1){
+        if(nameTextView.getText().toString().length() < 1){
             idStatusImageButton.setVisibility(View.GONE);
             greenidStatusImageButton.setVisibility(View.VISIBLE);
 
@@ -264,6 +274,18 @@ public class ExaminationActivity extends SherlockActivity {
         return null;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            ArrayList<String> info = data.getStringArrayListExtra("patient");
+            if (info.size() > 1) {
+                currentExamination.setPatientSsn(info.get(0));
+                currentExamination.setPatientName(info.get(1));
+            }
+            initFirstViewElements();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
