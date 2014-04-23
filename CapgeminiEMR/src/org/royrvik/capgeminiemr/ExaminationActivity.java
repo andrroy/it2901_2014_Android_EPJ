@@ -103,6 +103,7 @@ public class ExaminationActivity extends SherlockActivity {
         });
         greenidStatusImageButton.setVisibility(View.GONE);
 
+        //Updates the verification buttons.
         if(nameTextView.getText().toString().length() < 1){
             idStatusImageButton.setVisibility(View.GONE);
             greenidStatusImageButton.setVisibility(View.VISIBLE);
