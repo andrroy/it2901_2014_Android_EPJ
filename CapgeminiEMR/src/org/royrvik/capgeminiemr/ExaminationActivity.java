@@ -53,7 +53,12 @@ public class ExaminationActivity extends SherlockActivity {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
-            currentExamination.setPatientName(infoArrayList.get(1));
+            if (infoArrayList.size() < 2) {
+                currentExamination.setPatientName("No name received from intent.");
+            }
+            else {
+                currentExamination.setPatientName(infoArrayList.get(1));
+            }
             currentExamination.setPatientSsn(infoArrayList.get(0));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
