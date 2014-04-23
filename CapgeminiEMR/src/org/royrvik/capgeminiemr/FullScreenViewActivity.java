@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import org.royrvik.capgeminiemr.data.Examination;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class FullScreenViewActivity extends Activity{
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
     private ArrayList<String> incomingImages;
+    private Examination currentExamination; // TODO: When Examination is parcelable, change.
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,8 +28,6 @@ public class FullScreenViewActivity extends Activity{
         setContentView(R.layout.activity_fullscreen_view);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-
-        //utils = new Utils(getApplicationContext()); Finn ut hva som er vanlig å gjøre med context - brukes for å sende state til andre klasser.
 
         Intent i = getIntent();
         incomingImages = i.getStringArrayListExtra("ex_images");

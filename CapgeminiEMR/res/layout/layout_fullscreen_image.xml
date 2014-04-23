@@ -8,7 +8,9 @@
             android:id="@+id/imgDisplay"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:background=""
+            />
 
     <Button
             android:id="@+id/btnClose"
@@ -25,6 +27,15 @@
             android:text="@string/close" />
 
 
+    <RelativeLayout
+            android:id="@+id/btmGradient"
+            android:layout_width="fill_parent"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bottomgradient"
+
+            ></RelativeLayout>
+
     <Button
             android:id="@+id/btnDelete"
             android:layout_width="36dp"
@@ -36,6 +47,32 @@
             android:layout_marginBottom="10dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp" />
-            
-    
+
+
+    <Button
+            android:id="@+id/btnComment"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_comment"
+            android:layout_alignBaseline="@id/btnDelete"
+            android:layout_toRightOf="@id/btnDelete"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+
+
+    <Button
+            android:id="@+id/btnTag"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_tags"
+            android:layout_toRightOf="@id/btnComment"
+            android:layout_alignBaseline="@id/btnComment"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+
+
 </RelativeLayout>
