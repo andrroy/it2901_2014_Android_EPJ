@@ -11,11 +11,6 @@ public class UltrasoundImage implements Parcelable {
     private String imageUri;
     private String comment;
 
-    public UltrasoundImage(String imageUri, String comment) {
-        this.imageUri = imageUri;
-        this.comment = comment;
-    }
-
     public UltrasoundImage(String imageUri) {
         this.imageUri = imageUri;
         this.comment = " ";

@@ -93,6 +93,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Get the technical user password
+     *
      * @return
      */
     private String getTechUserPassword() {
@@ -110,6 +111,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Sets the technical user password
+     *
      * @param password
      */
     private void setTechUserPassword(String password) {
@@ -154,7 +156,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             // Execute query
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
-
         }
 
         db.close();
@@ -218,11 +219,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Updates an examination already stored in the database
      *
-     * @param id ID of Examination to update
      * @param ex Examination to replace the examination on row id
      */
-    public void updateExamination(int id, Examination ex) {
+    public void updateExamination(Examination ex) {
 
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getReadableDatabase("test123");
+
+        // Build query
+        ContentValues values = new ContentValues();
+        values.put(KEY_SSN, ex.getPatientSsn());
+        values.put(KEY_PATIENT_NAME, ex.getPatientName());
+        values.put(KEY_DATE, ex.getDate());
+
+        int rowsAffected = db.update(TABLE_EXAMINATION, values, KEY_EX_ID  + " = ?",
+                new String[]{String.valueOf(ex.getId())});
+
+        Log.d("APP", "Number of rows affected by update: " + Integer.toString(rowsAffected));
+
+        int examinationId = ex.getId();
+
+        // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
+        for (UltrasoundImage usi : ex.getUltrasoundImages()) {
+
+            ContentValues ultrasoundImageValues = new ContentValues();
+            ultrasoundImageValues.put(KEY_EX_ID, examinationId);
+            ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
+            ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
+
+            // Execute query
+            db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
+        }
+
+        db.close();
 
     }
 
@@ -354,6 +383,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Checks if the entered password is correct.
+     *
      * @param techPassword The password entered by the user.
      * @return True if the password is correct
      */
@@ -363,21 +393,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     /**
      * Checks to see if the tech password is set.
+     *
      * @return True is the tech password is set.
      */
     public boolean isTechPasswordSet() {
         return !getTechUserPassword().equals("");
     }
+
     /**
      * Saves the tech password to the database
+     *
      * @param techPassword The password entered by the user.
      * @return True if the password was saved successfully
      */
     public boolean saveTechPassword(String techPassword) {
         if (isTechPasswordSet()) {
             return false;
-        }
-        else {
+        } else {
             setTechUserPassword(techPassword);
             return true;
         }
