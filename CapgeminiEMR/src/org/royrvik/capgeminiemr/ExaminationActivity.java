@@ -101,10 +101,19 @@ public class ExaminationActivity extends SherlockActivity {
                 startActivityForResult(i, REQUEST_CODE);
             }
         });
-        greenidStatusImageButton.setVisibility(View.GONE);
+        greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("id", currentExamination.getPatientSsn());
+                i.putExtra("return", true);
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
 
         //Updates the verification buttons.
-        if(nameTextView.getText().toString().length() < 1){
+        greenidStatusImageButton.setVisibility(View.GONE);
+        if(idIsValidated()){
             idStatusImageButton.setVisibility(View.GONE);
             greenidStatusImageButton.setVisibility(View.VISIBLE);
 
@@ -114,6 +123,7 @@ public class ExaminationActivity extends SherlockActivity {
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!idIsValidated()) return;
                 // If activity started from HomeScreen, the examination should already
                 // exist in the database. In which case we should delete it first
                 if(activityStartedFrom().equals("HomeScreenActivity"))
@@ -195,6 +205,9 @@ public class ExaminationActivity extends SherlockActivity {
 
     }
 
+    private boolean idIsValidated() {
+        return currentExamination.getPatientName().length() > 0;
+    }
     private void updateEditorView() {
         if (currentExamination.getUltrasoundImages().size() > 0) {
             imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getUltrasoundImages().size());
