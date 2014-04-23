@@ -36,6 +36,7 @@
     <string name="identify_patient">Identify patient</string>
     <string name="manual">Manual</string>
     <string name="automatic">Automatic</string>
+    <string name="currently_offline">Currently in offline mode</string>
 
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
@@ -45,7 +46,10 @@
     <string name="upload">Upload!</string>
     <string name="edit">Edit</string>
 
-    <!-- Technical setup strings -->
+    <!-- Login -->
+    <string name="offline_mode">Offline mode</string>
+    <string name="network_unavailable">Network unavailable</string>
+
 
 
 

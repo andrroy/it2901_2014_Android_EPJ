@@ -32,7 +32,6 @@ public class ReviewUploadActivity extends SherlockActivity {
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

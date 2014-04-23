@@ -5,9 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import java.util.Date;
 
-/**
- * Created by Joakim.
- */
 public class SessionManager {
 
     private static final int SESSION_TIMEOUT_IN_MIN = 10;

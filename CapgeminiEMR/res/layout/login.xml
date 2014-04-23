@@ -49,16 +49,19 @@
     <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Offline Mode"
+            android:text="@string/offline_mode"
             android:id="@+id/offlineModeButton"
             android:layout_marginTop="66dp"
-            android:layout_below="@+id/loginButton" android:layout_centerHorizontal="true"/>
+            android:layout_below="@+id/loginButton"
+            android:layout_centerHorizontal="true"/>
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Network Unavailable"
+            android:text="@string/network_unavailable"
             android:id="@+id/networkStatusTextView"
-            android:layout_centerHorizontal="true" android:layout_below="@+id/loginButton" android:textColor="#f00"/>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/loginButton"
+            android:textColor="#f00"/>
 
 </RelativeLayout>
