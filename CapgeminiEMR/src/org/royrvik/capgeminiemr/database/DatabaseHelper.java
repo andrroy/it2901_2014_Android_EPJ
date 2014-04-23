@@ -223,9 +223,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void updateExamination(int id, Examination ex) {
 
-        // Shortcut..Delete the row and add the examination as a new examination
-        deleteExamination(id);
-        addExamination(ex);
+
     }
 
     /**

@@ -1,5 +1,8 @@
 package org.royrvik.capgeminiemr.data;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,7 +10,7 @@ import java.util.Date;
 /**
  * Representation of an Examination
  */
-public class Examination {
+public class Examination implements Parcelable {
 
     private String patientName, patientSsn;
     private ArrayList<UltrasoundImage> ultrasoundImages;
@@ -86,7 +89,7 @@ public class Examination {
     public ArrayList<String> getAllComments() {
         ArrayList<String> allComments = new ArrayList<String>();
 
-        for(UltrasoundImage us : ultrasoundImages) {
+        for (UltrasoundImage us : ultrasoundImages) {
             allComments.add(us.getComment());
         }
         return allComments;
@@ -95,7 +98,7 @@ public class Examination {
     public ArrayList<String> getAllImages() {
         ArrayList<String> allImages = new ArrayList<String>();
 
-        for(UltrasoundImage us : ultrasoundImages) {
+        for (UltrasoundImage us : ultrasoundImages) {
             allImages.add(us.getImageUri());
         }
         return allImages;
@@ -109,5 +112,39 @@ public class Examination {
                 ", ultrasoundImages=" + ultrasoundImages +
                 ", date='" + date + '\'' +
                 '}';
+    }
+
+    // Parcelable methods
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(patientName);
+        parcel.writeString(patientSsn);
+        parcel.writeList(ultrasoundImages);
+        parcel.writeString(date);
+        parcel.writeInt(id);
+    }
+
+    public static final Parcelable.Creator<Examination> CREATOR = new Parcelable.Creator<Examination>() {
+        public Examination createFromParcel(Parcel in) {
+            return new Examination(in);
+        }
+
+        public Examination[] newArray(int size) {
+            return new Examination[size];
+        }
+    };
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    private Examination(Parcel in) {
+        patientName = in.readString();
+        patientSsn = in.readString();
+        ultrasoundImages = new ArrayList<UltrasoundImage>();
+        in.readList(ultrasoundImages, null);
+        date = in.readString();
+        id = in.readInt();
     }
 }
