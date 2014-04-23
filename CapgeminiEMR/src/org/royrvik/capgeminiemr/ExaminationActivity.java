@@ -14,7 +14,6 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
-import org.royrvik.capgeminiemr.utils.FullScreenViewActivity;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -92,6 +91,9 @@ public class ExaminationActivity extends SherlockActivity {
                 if(activityStartedFrom().equals("HomeScreenActivity"))
                     dbHelper.deleteExamination(currentExamination.getId());
 
+                //What if the application crashes here?
+                // TODO: Use updateExamination() instead.
+
                 // Add examination to database and retrieve its examination_id
                 int exId = dbHelper.addExamination(currentExamination);
                 currentExamination.setId(exId);
@@ -110,7 +112,8 @@ public class ExaminationActivity extends SherlockActivity {
                 if (currentExamination.getUltrasoundImages().isEmpty()) {
                     Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to (this is not supposed to happen)", Style.ALERT).show();
                 } else {
-                    // Start FullScreenViewActivity here.
+
+                    // Start FullScreenViewActivity here. - Rix1
                     Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
                     i.putExtra("ex_images", currentExamination.getAllImages());
                     startActivity(i);
@@ -169,7 +172,6 @@ public class ExaminationActivity extends SherlockActivity {
     private void save() {
         // Sets the comment to the current UltrasoundImage to the text in commentEditText
         currentExamination.getUltrasoundImages().get(currentImageId).setComment(commentEditText.getText().toString());
-
     }
 
     private void updateEditorView() {
@@ -237,6 +239,7 @@ public class ExaminationActivity extends SherlockActivity {
     /**
      * Returns the name of the activity which started this activity
      */
+
     private String activityStartedFrom() {
         // get intent from last activity
         Intent intent = getIntent();

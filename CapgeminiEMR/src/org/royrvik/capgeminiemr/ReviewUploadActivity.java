@@ -69,6 +69,8 @@ public class ReviewUploadActivity extends SherlockActivity {
                 finish();
             }
         });
+
+
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +83,9 @@ public class ReviewUploadActivity extends SherlockActivity {
                     dbHelper.deleteExamination(examinationId);
                 }
                 else Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
+
+                //TODO: At this point, the application should save the data
+
                 Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();

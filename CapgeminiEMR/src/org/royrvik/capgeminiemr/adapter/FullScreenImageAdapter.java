@@ -1,5 +1,6 @@
 package org.royrvik.capgeminiemr.adapter;
 
+import android.view.MotionEvent;
 import org.royrvik.capgeminiemr.R;
 import java.util.ArrayList;
 import android.app.Activity;
@@ -40,7 +41,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
 
     public Object instantiateItem(ViewGroup container, int position){
         TouchImageView imgDisplay;
-        Button btnClose;
+        final Button btnClose;
+        final Button btnDelete;
 
         inflater = (LayoutInflater)_activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
@@ -48,11 +50,21 @@ public class FullScreenImageAdapter extends PagerAdapter{
         imgDisplay = (TouchImageView) viewLayout.findViewById(R.id.imgDisplay); // layout_fullscreen_image;
         btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
 
+        btnDelete = (Button) viewLayout.findViewById(R.id.btnDelete);
+
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         Bitmap bitmap = BitmapFactory.decodeFile(_imageURIs.get(position), options);
         imgDisplay.setImageBitmap(bitmap);
 
+
+
+
+
+
+        /**
+         * Button operations for close, delete and comment buttons.
+         */
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +72,23 @@ public class FullScreenImageAdapter extends PagerAdapter{
                 _activity.finish();
             }
         });
+
+        btnDelete.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                btnDelete.setBackgroundResource(R.drawable.ic_delete_up);
+                // Delete image
+            }
+
+        });
+
+        btnDelete.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                btnDelete.setBackgroundResource(R.drawable.ic_delete_down);
+                return false;
+            }
+        });
+
 
         ((ViewPager) container).addView(viewLayout);
 

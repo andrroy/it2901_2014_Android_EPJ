@@ -45,8 +45,8 @@
     <string name="upload">Upload!</string>
     <string name="edit">Edit</string>
 
-    <!-- Technical setup strings -->
-
+    <!-- Full screen image view strings -->
+    <string name="close">Close</string>
 
 
 
