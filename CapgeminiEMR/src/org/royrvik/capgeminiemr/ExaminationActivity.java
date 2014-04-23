@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import android.widget.Button;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -15,15 +16,15 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
-
 import java.util.ArrayList;
 
 
 public class ExaminationActivity extends SherlockActivity {
 
+    private static final int REQUEST_CODE = 5;
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton deleteButton;
+    private ImageButton deleteButton, idStatusImageButton, greenidStatusImageButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -53,15 +54,22 @@ public class ExaminationActivity extends SherlockActivity {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
-            currentExamination.setPatientName(infoArrayList.get(1));
+            if (infoArrayList.size() < 2) {
+                currentExamination.setPatientName("");
+            }
+            else {
+                currentExamination.setPatientName(infoArrayList.get(1));
+            }
             currentExamination.setPatientSsn(infoArrayList.get(0));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
         }
         else if(activityStartedFrom().equals("HomeScreenActivity")) {
-            int exId = intent.getIntExtra("ex_id", 0);
-            currentExamination = dbHelper.getExamination(exId);
+            int exId = intent.getIntExtra("ex_id", -1);
+            if (exId != -1) {
+                currentExamination = dbHelper.getExamination(exId);
+            } else finish();
         }
 
         // Initialize GUI elements
@@ -81,6 +89,26 @@ public class ExaminationActivity extends SherlockActivity {
         nameTextView = (TextView) findViewById(R.id.nameField);
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
+        idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
+        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
+
+        idStatusImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
+                i.putExtra("id", currentExamination.getPatientSsn());
+                i.putExtra("return", true);
+                startActivityForResult(i, REQUEST_CODE);
+            }
+        });
+        greenidStatusImageButton.setVisibility(View.GONE);
+
+        //Updates the verification buttons.
+        if(nameTextView.getText().toString().length() < 1){
+            idStatusImageButton.setVisibility(View.GONE);
+            greenidStatusImageButton.setVisibility(View.VISIBLE);
+
+        }
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
@@ -247,6 +275,18 @@ public class ExaminationActivity extends SherlockActivity {
         return null;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            ArrayList<String> info = data.getStringArrayListExtra("patient");
+            if (info.size() > 1) {
+                currentExamination.setPatientSsn(info.get(0));
+                currentExamination.setPatientName(info.get(1));
+            }
+            initFirstViewElements();
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

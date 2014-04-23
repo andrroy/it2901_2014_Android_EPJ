@@ -320,7 +320,12 @@ public class LauncherActivity extends Activity {
             }
             else patientData.add("No ID available.");
             patientIdTextView.setText(patientData.get(0));
-            Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
+            if (patientData.size() < 2) {
+                Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
+            }
+            else {
+                Toast.makeText(getApplicationContext(), "No data received, check connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
