@@ -76,13 +76,16 @@ public class ReviewUploadActivity extends SherlockActivity {
                 data.add(ex.getPatientSsn());
                 data.add(ex.getPatientName());
                 List<String> images = ex.getAllImages();
-                if (service.upload(data, images)) {
-                    // Do not delete for testing
-                    //dbHelper.deleteExamination(examinationId);
-                }
-                else
-                    Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
 
+                //Andreas Leker
+                List<String> notes = ex.getAllComments();
+
+
+                if (service.upload(data, images, notes)) {
+                    dbHelper.deleteExamination(examinationId);
+                }
+                else 
+                    Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
                 Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
