@@ -2,11 +2,6 @@
 <resources>
     <string name="app_name">CapgeminiEMR</string>
 
-    <string name="login_heading">Log in to DIPS</string>
-    <string name="username2">Username</string>
-    <string name="password">Password</string>
-    <string name="login">Login</string>
-
     <!-- Preference screen strings -->
     <string name="general">General</string>
     <string name="setup">Setup</string>
@@ -49,10 +44,12 @@
     <!-- Login -->
     <string name="offline_mode">Offline mode</string>
     <string name="network_unavailable">Network unavailable</string>
+    <string name="login_heading">Log in to DIPS</string>
+    <string name="username2">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 
-
-
-
-
+    <!-- Homescreen -->
+    <string name="empty_list">No examinations found</string>
 
 </resources>

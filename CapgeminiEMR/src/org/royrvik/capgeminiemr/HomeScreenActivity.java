@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
@@ -24,21 +25,17 @@ import java.util.ArrayList;
 
 public class HomeScreenActivity extends SherlockActivity {
 
-    private static final String TAG = "APP";
-
     private ListView homescreenListView;
-    private Context context;
     private DatabaseHelper dbHelper;
     private ArrayList<Examination> listOfExaminations;
     private SessionManager session;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
-        context = this;
+        Context context = this;
 
         dbHelper = new DatabaseHelper(this);
 
@@ -47,6 +44,10 @@ public class HomeScreenActivity extends SherlockActivity {
 
         // Get all examinations in the database
         listOfExaminations = dbHelper.getAllExaminations();
+        if(listOfExaminations.isEmpty()) {
+            TextView emptyListTextView = (TextView)findViewById(R.id.emptyListTextView);
+            emptyListTextView.setVisibility(View.VISIBLE);
+        }
 
         if(!session.isValid()) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
@@ -115,12 +116,9 @@ public class HomeScreenActivity extends SherlockActivity {
                     });
                     dialog.show();
 
-
                 }
             });
         }
-
-
 
     }
 
