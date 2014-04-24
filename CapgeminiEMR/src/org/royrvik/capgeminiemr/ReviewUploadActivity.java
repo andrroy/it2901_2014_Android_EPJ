@@ -76,7 +76,12 @@ public class ReviewUploadActivity extends SherlockActivity {
                 data.add(ex.getPatientSsn());
                 data.add(ex.getPatientName());
                 List<String> images = ex.getAllImages();
-                if (service.upload(data, images)) {
+
+                //Andreas Leker
+                List<String> notes = ex.getAllComments();
+
+
+                if (service.upload(data, images, notes)) {
                     dbHelper.deleteExamination(examinationId);
                 }
                 else Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);

@@ -64,9 +64,9 @@ public class RemoteServiceConnection implements ServiceConnection {
      * @param imagePaths An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
      * @return
      */
-    public boolean upload(List<String> patientData, List<String> imagePaths) {
+    public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes) {
         try {
-            return service.upload(patientData, imagePaths);
+            return service.upload(patientData, imagePaths, notes);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
