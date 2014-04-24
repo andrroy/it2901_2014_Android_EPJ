@@ -168,6 +168,8 @@ public class LauncherActivity extends Activity {
         Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
         Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
         Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
+        Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
+        Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
 
         ArrayList<String> fileList = getAllImages();
 
@@ -189,6 +191,12 @@ public class LauncherActivity extends Activity {
 
         if (!fileList.contains("ultrasound6"))
             saveImage(image6, "ultrasound6.jpg");
+
+        if (!fileList.contains("space1"))
+            saveImage(image7, "space1.png");
+
+        if (!fileList.contains("space2"))
+            saveImage(image8, "space2.png");
 
         // Refresh the image gallery
         // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
