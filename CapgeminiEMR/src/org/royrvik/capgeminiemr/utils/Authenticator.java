@@ -1,12 +1,17 @@
 package org.royrvik.capgeminiemr.utils;
 
-import android.util.Log;
+import java.util.ArrayList;
 
 public class Authenticator {
-    public static boolean AuthenticateWithLdap(String username, String password){
+    public static boolean AuthenticateWithLdap(String username, String password, ArrayList<String> ldapSettings) {
+        String[] params = new String[5];
+        params[0] = username;
+        params[1] = password;
+        params[2] = ldapSettings.get(0);
+        params[3] = ldapSettings.get(1);
+        params[4] = ldapSettings.get(2);
         try{
-
-            boolean authenticated = new AuthenticateWithLdapTask().execute(username,password).get();
+            boolean authenticated = new AuthenticateWithLdapTask().execute(params).get();
 
             return authenticated;
         }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,6 +82,15 @@ public class EMRApplication extends Application {
     public Map<String, ?> getAllPreferences() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         return preferences.getAll();
+    }
+
+
+    public ArrayList<String> getLDAPStrings() {
+        ArrayList<String> strings = new ArrayList<String>();
+        strings.add(getSettingsLDAPDC());
+        strings.add(getSettingsLDAPOU());
+        strings.add(getSettingsAuthenticationServerAddress());
+        return strings;
     }
 
 

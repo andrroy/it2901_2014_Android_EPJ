@@ -160,8 +160,7 @@ public class LoginActivity extends SherlockActivity {
      * Checks if the app is set up properly, if not, launch the tech setup.
      */
     private void checkSetup() {
-        //Removed for testing purposes.
-        //if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
+        if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
     }
 
     /**
