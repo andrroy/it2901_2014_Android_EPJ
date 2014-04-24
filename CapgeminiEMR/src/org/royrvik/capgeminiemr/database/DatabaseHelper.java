@@ -94,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Get the technical user password
      *
-     * @return
+     * @return The tech password
      */
     private String getTechUserPassword() {
         SQLiteDatabase.loadLibs(context);
@@ -112,7 +112,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Sets the technical user password
      *
-     * @param password
+     * @param password password to set
      */
     private void setTechUserPassword(String password) {
         SQLiteDatabase.loadLibs(context);
@@ -219,7 +219,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Updates an examination already stored in the database
      *
-     * @param ex Examination to replace the examination on row id
+     * @param ex Examination to update
      */
     public void updateExamination(Examination ex) {
 
@@ -232,10 +232,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_PATIENT_NAME, ex.getPatientName());
         values.put(KEY_DATE, ex.getDate());
 
-        int rowsAffected = db.update(TABLE_EXAMINATION, values, KEY_EX_ID  + " = ?",
+        // Update examination row
+        db.update(TABLE_EXAMINATION, values, KEY_EX_ID  + " = ?",
                 new String[]{String.valueOf(ex.getId())});
 
-        Log.d("APP", "Number of rows affected by update: " + Integer.toString(rowsAffected));
+        // Delete its corresponding images from the database
+        db.delete(TABLE_ULTRASOUNDIMAGE, "examination_id=" + ex.getId(), null);
 
         int examinationId = ex.getId();
 
@@ -283,7 +285,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
 
-            while (cursor.isAfterLast() == false) {
+            while (!cursor.isAfterLast()) {
                 // Get values from row
                 int id = cursor.getInt(cursor.getColumnIndex("examination_id"));
                 String name = cursor.getString(cursor.getColumnIndex("patient_name"));
@@ -310,7 +312,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * Fetches all ultrasoundimages from the UltrasoundImage table with foreign key id.
      * Used by getExamination()
      *
-     * @param id
+     * @param id id of examination
      * @return Arraylist with UltrasoundImages for this Examination
      */
     public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {

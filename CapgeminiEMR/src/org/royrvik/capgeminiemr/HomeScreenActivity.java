@@ -130,10 +130,7 @@ public class HomeScreenActivity extends SherlockActivity {
             case R.id.logout_button:
                 Log.d("APP", "logout");
                 session.logout();
-                // Return to login
-                Intent intent = new Intent(HomeScreenActivity.this, LoginActivity.class);
-                intent.putExtra("type", 2);
-                startActivity(intent);
+                // Exit the application
                 finish();
                 break;
         }
