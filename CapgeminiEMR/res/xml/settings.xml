@@ -9,7 +9,9 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="org.royrvik.capgeminiemr"
-                android:targetClass="org.royrvik.capgeminiemr.TechnicalSetupActivity"/>
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="1" />
+                </intent>
         </Preference>
 
         <Preference
@@ -17,7 +19,9 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="org.royrvik.capgeminiemr"
-                android:targetClass="org.royrvik.capgeminiemr.CurrentSetupActivity"/>
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="2" />
+            </intent>
         </Preference>
 
         <Preference

@@ -106,6 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 password = cursor.getString(cursor.getColumnIndex("password"));
             }
         }
+        cursor.close();
+        db.close();
         return password;
     }
 

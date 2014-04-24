@@ -49,10 +49,9 @@ public class LoginActivity extends SherlockActivity {
         offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
         networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
 
-        checkSetup();
-
         // get intent from launcher
         getInformationFromIntent(getIntent());
+
 
         //If the current session is still valid, forward to next activity
         if (session.isValid()) startApplication();
@@ -79,6 +78,7 @@ public class LoginActivity extends SherlockActivity {
      */
     private void getInformationFromIntent(Intent i) {
         launcherCommand = i.getIntExtra("type", 0);
+        if (launcherCommand != 0) checkSetup();
         switch (launcherCommand) {
             case 1: //Images
                 incomingImages = i.getStringArrayListExtra("chosen_images");
