@@ -48,9 +48,9 @@ public class RemoteServiceConnection implements ServiceConnection {
      * @param ssn The ssn for the person
      * @return An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
      */
-    public List<String> getPatientData(String ssn) {
+    public List<String> getPatientData(String ssn, String username, String password) {
         try {
-            List<String> data = service.getPatientData(ssn);
+            List<String> data = service.getPatientData(ssn, username, password);
             return data;
         } catch (RemoteException e) {
             e.printStackTrace();
@@ -64,9 +64,9 @@ public class RemoteServiceConnection implements ServiceConnection {
      * @param imagePaths An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
      * @return
      */
-    public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes) {
+    public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password) {
         try {
-            return service.upload(patientData, imagePaths, notes);
+            return service.upload(patientData, imagePaths, notes, username, password);
         } catch (RemoteException e) {
             e.printStackTrace();
         }

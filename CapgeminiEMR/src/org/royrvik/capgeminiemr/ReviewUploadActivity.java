@@ -79,9 +79,12 @@ public class ReviewUploadActivity extends SherlockActivity {
 
                 //Andreas Leker
                 List<String> notes = ex.getAllComments();
+                //TEMP data:
+                String username = "rikardbe_emr";
+                String password = "Paa5Eric";
 
 
-                if (service.upload(data, images, notes)) {
+                if (service.upload(data, images, notes, username, password)) {
                     dbHelper.deleteExamination(examinationId);
                 }
                 else 

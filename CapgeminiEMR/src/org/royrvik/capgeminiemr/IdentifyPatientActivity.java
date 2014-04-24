@@ -13,6 +13,7 @@ import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class IdentifyPatientActivity extends SherlockActivity {
@@ -114,7 +115,12 @@ public class IdentifyPatientActivity extends SherlockActivity {
         //TODO: Show that the app is working on something
         ArrayList<String> info = new ArrayList<String>();
         if (session.isValid()) {
-            info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString());
+
+            //TEMP data:
+            String username = "rikardbe_emr";
+            String password = "Paa5Eric";
+
+            info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString(), username, password);
         }
         else {
             info.add(patientIDEditText.getText().toString());
