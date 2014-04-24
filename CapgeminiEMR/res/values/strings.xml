@@ -51,13 +51,11 @@
     <string name="offline_mode">Offline mode</string>
     <string name="network_unavailable">Network unavailable</string>
 
-
     <!-- Fullscreen View -->
     <string name="close">Close</string>
-
-
-
-
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="writeComment">Write your comment here...</string>
 
 
 

@@ -2,7 +2,6 @@ package org.royrvik.capgeminiemr.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,6 +9,7 @@ import java.util.Date;
 /**
  * Representation of an Examination
  */
+
 public class Examination implements Parcelable {
 
     private String patientName, patientSsn;
@@ -147,7 +147,7 @@ public class Examination implements Parcelable {
         patientName = in.readString();
         patientSsn = in.readString();
         ultrasoundImages = new ArrayList<UltrasoundImage>();
-        in.readList(ultrasoundImages, null);
+        in.readList(ultrasoundImages, getClass().getClassLoader());
         date = in.readString();
         id = in.readInt();
     }

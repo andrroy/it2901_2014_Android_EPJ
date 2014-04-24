@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="darkgrey">#808080</color>
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFF</color>
+    <color name="whitegray">#F6F6F6</color>
+    <color name="lightgrey">#B2B2B1</color>
+    <color name="grey">#808080</color>
+    <color name="darkgrey">#3C3C3B</color>
+    <color name="red">#ff804445</color>
+    <color name="blue">#ff85adff</color>
+    <color name="navy">#ff113e80</color>
+    <color name="black">#000000</color>
 </resources>

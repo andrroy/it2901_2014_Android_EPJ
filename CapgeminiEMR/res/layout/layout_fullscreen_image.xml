@@ -4,7 +4,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
-    <org.royrvik.capgeminiemr.utils.TouchImageView
+    <ImageView
             android:id="@+id/imgDisplay"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
@@ -36,6 +36,16 @@
 
             ></RelativeLayout>
 
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#99B2B2B1"
+            />
+
     <Button
             android:id="@+id/btnDelete"
             android:layout_width="36dp"
@@ -57,7 +67,7 @@
             android:layout_alignBaseline="@id/btnDelete"
             android:layout_toRightOf="@id/btnDelete"
             android:layout_marginLeft="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp" />
 
@@ -68,9 +78,9 @@
             android:layout_height="36dp"
             android:background="@drawable/ic_tags"
             android:layout_toRightOf="@id/btnComment"
-            android:layout_alignBaseline="@id/btnComment"
+            android:layout_alignBaseline="@id/btnDelete"
             android:layout_marginLeft="15dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp" />
 
