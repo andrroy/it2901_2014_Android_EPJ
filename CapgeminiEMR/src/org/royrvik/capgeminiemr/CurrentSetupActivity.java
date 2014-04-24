@@ -14,26 +14,22 @@ import java.util.Map;
 
 public class CurrentSetupActivity extends SherlockActivity {
 
-    private EMRApplication globalApp;
-    private ListView currentSetupListView;
-    private Context context;
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewsetup);
 
-        context = this;
+        Context context = this;
 
-        globalApp = (EMRApplication) getApplicationContext();
+        EMRApplication globalApp = (EMRApplication) getApplicationContext();
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Get current settings from Application class
         ArrayList<SettingsItem> listOfSettings = buildData(globalApp.getAllPreferences());
 
-        currentSetupListView = (ListView) findViewById(R.id.currentSetupListView);
+        ListView currentSetupListView = (ListView) findViewById(R.id.currentSetupListView);
         currentSetupListView.setAdapter(new CurrentSetupListAdapter(context, R.layout.row_list_item_currentsetup, listOfSettings));
 
     }

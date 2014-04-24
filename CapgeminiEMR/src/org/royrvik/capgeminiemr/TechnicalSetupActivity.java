@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -22,7 +21,6 @@ import java.util.HashMap;
 public class TechnicalSetupActivity extends SherlockActivity {
 
     private TextView statusTextView;
-    private Button getConfigButton;
     private EditText pathToXmlEditText;
 
     private EMRApplication globalApp;
@@ -31,7 +29,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tech_setup);
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -45,7 +43,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
         else setStatusText("Application is not currently set up.", Color.RED);
 
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
-        getConfigButton = (Button) findViewById(R.id.getConfigButton);
+        Button getConfigButton = (Button) findViewById(R.id.getConfigButton);
 
         getConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +53,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
                     //If settings are already configured, process settings.xml but give warning that data will be deleted
                     //Else, just process settings.xml
-                    if(globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
+                    if (globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
                     else processSettings(settingsHashMap);
 
                 } catch (Exception e) {
@@ -71,7 +69,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     /**
      *
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
@@ -81,7 +79,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
     /**
      * Runs validation method, and saves to shared Preferences if settings are valid.
      * Also outputs relevant information to user.
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void processSettings(HashMap<String, String> settingsHashMap){
 
@@ -97,7 +95,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     /**
      *
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
 
@@ -122,8 +120,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     /**
      *
-     * @param text
-     * @param color
+     * @param text the text to show
+     * @param color the color of the text
      */
     private void setStatusText(String text, int color){
         statusTextView.setText(text);

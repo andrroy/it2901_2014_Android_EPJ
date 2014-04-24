@@ -7,7 +7,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class SettingsActivity extends SherlockPreferenceActivity {
 
-    private static final String TAG = "APP";
 
     @Override
     @SuppressWarnings("deprecation")
@@ -16,7 +15,7 @@ public class SettingsActivity extends SherlockPreferenceActivity {
 
         addPreferencesFromResource(R.xml.settings);
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 

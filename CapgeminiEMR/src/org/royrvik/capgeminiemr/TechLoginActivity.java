@@ -13,14 +13,13 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 /**
- * Created by Laxcor.
+ * Created by Joakim.
  */
 public class TechLoginActivity extends SherlockActivity {
     private TextView techLoginTextView;
     private TextView techLoginConfirmTextView;
     private EditText techLoginPasswordEditText;
     private EditText techLoginConfirmPasswordEditText;
-    private Button loginButton;
     private DatabaseHelper dbHelper;
     private Intent launchIntent;
 
@@ -28,7 +27,7 @@ public class TechLoginActivity extends SherlockActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tech_login);
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -38,14 +37,13 @@ public class TechLoginActivity extends SherlockActivity {
         techLoginConfirmTextView = (TextView) findViewById(R.id.techLoginConfirmTextView);
         techLoginPasswordEditText = (EditText) findViewById(R.id.techLoginPasswordEditText);
         techLoginConfirmPasswordEditText = (EditText) findViewById(R.id.techLoginConfirmPasswordEditText);
-        loginButton = (Button) findViewById(R.id.techLoginOkButton);
+        Button loginButton = (Button) findViewById(R.id.techLoginOkButton);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 checkTechPassword();
             }
         });
-        updateLoginView();
         switch (getIntent().getIntExtra("type", 0)) {
             case 1:
                 launchIntent = new Intent(TechLoginActivity.this, TechnicalSetupActivity.class);
@@ -54,9 +52,9 @@ public class TechLoginActivity extends SherlockActivity {
                 launchIntent = new Intent(TechLoginActivity.this, CurrentSetupActivity.class);
                 break;
             default:
-                System.out.println("No valid launch command.");
                 finish();
         }
+        updateLoginView();
     }
 
     /**

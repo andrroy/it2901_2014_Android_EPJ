@@ -124,7 +124,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_TECHPASSWORD, password);
         db.insert(TABLE_TECHPASSWORD, null, values);
         db.close();
-
     }
 
     /**
@@ -415,5 +414,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             setTechUserPassword(techPassword);
             return true;
         }
+    }
+
+
+    public void updateTechPassword(String techPassword) {
+
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = getWritableDatabase("test123");
+
+        db.execSQL("DROP TABLE IF EXISTS techpassword");
+        db.execSQL("CREATE TABLE techpassword (password TEXT)");
+        setTechUserPassword(techPassword);
     }
 }
