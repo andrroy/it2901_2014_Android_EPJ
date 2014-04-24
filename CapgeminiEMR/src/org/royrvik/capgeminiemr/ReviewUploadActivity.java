@@ -1,5 +1,6 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -83,13 +84,19 @@ public class ReviewUploadActivity extends SherlockActivity {
                 String username = "rikardbe_emr";
                 String password = "Paa5Eric";
 
+                Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
+
 
                 if (service.upload(data, images, notes, username, password)) {
                     dbHelper.deleteExamination(examinationId);
+                    i.putExtra("upload_success", "Examination successfully uploaded");
                 }
-                else 
-                    Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
-                Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
+                else{
+                    //Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
+                    i.putExtra("upload_fail", "Upload failed");
+                    // TODO: append reason for failure to "fail" string
+                }
+
                 startActivity(i);
                 finish();
             }

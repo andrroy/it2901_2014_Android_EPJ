@@ -36,6 +36,19 @@ public class HomeScreenActivity extends SherlockActivity {
         setContentView(R.layout.homescreen);
 
         Context context = this;
+        Intent i = getIntent();
+
+        //Alert dialog used throughout the view
+        AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
+
+        //Alert dialog that shows status of upload
+        if(i.hasExtra("upload_success")) dialog.setMessage("Examination was successfully uploaded");
+        else dialog.setMessage("Unable to upload examination. Please try again.");
+        dialog.setIcon(R.drawable.ic_info);
+        dialog.setNeutralButton("OK", null);
+        dialog.show();
+
+
 
         dbHelper = new DatabaseHelper(this);
 
@@ -50,7 +63,7 @@ public class HomeScreenActivity extends SherlockActivity {
         }
 
         if(!session.isValid()) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
+
             dialog.setMessage("This information is not available in offline mode");
             dialog.setIcon(R.drawable.ic_info);
             dialog.setNeutralButton("OK", null);
