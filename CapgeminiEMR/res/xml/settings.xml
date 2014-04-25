@@ -9,7 +9,9 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="org.royrvik.capgeminiemr"
-                android:targetClass="org.royrvik.capgeminiemr.TechnicalSetupActivity"/>
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="1" />
+                </intent>
         </Preference>
 
         <Preference
@@ -17,12 +19,21 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:targetPackage="org.royrvik.capgeminiemr"
-                android:targetClass="org.royrvik.capgeminiemr.CurrentSetupActivity"/>
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="2" />
+            </intent>
         </Preference>
 
         <Preference
             android:summary="@string/department_id_summary"
-            android:title="@string/department_userid_title"/>
+            android:title="@string/department_userid_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.royrvik.capgeminiemr"
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="3" />
+            </intent>
+        </Preference>
 
     </PreferenceCategory>
 
@@ -42,7 +53,13 @@
 
         <Preference
             android:summary="@string/change_password_summary"
-            android:title="@string/change_password_title"/>
+            android:title="@string/change_password_title">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="org.royrvik.capgeminiemr"
+                    android:targetClass="org.royrvik.capgeminiemr.TechPasswordChangeActivity">
+            </intent>
+        </Preference>
 
         <org.royrvik.capgeminiemr.preferences.YesNoPreference
             android:dialogMessage="@string/delete_data_message"

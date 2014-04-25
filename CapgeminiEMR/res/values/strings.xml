@@ -14,7 +14,7 @@
     <string name="language_title">Language settings</string>
     <string name="language_summary">Change language or download language packs</string>
     <string name="department_userid_title">Department authentication</string>
-    <string name="department_id_summary">Set or change department username/password</string>
+    <string name="department_id_summary">Change department username/password</string>
     <string name="change_password_title">Change password</string>
     <string name="change_password_summary">Change technical staff password. This will only affect the access to this menu</string>
     <string name="delete_data_title">Delete all data</string>

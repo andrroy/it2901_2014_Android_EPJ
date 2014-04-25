@@ -8,20 +8,39 @@ import com.unboundid.util.ssl.TrustAllTrustManager;
 
 import javax.net.ssl.SSLSocketFactory;
 import java.security.GeneralSecurityException;
+import java.util.regex.Pattern;
 
 class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
 
+    private String ldapDC1;
+    private String ldapDC2;
+    private String ldapOU;
+    private String ldapAddress;
+
     protected Boolean doInBackground(String... userInformation){
+        //  userInformation Layout:
+        //  0-username
+        //  1-password
+        //  2-ldapDC
+        //  3-ldapOU
+        //  4-ldapAddress
+
+        String[] ldapDC = userInformation[2].split(Pattern.quote("."));
+        ldapDC1 = ldapDC[0];
+        ldapDC2 = ldapDC[1];
+        ldapOU = userInformation[3];
+        ldapAddress = userInformation[4];
+
         try {
             SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
             SSLSocketFactory socketFactory;
             socketFactory = sslUtil.createSSLSocketFactory();
 
             //Connecting to ldap-server
-            LDAPConnection connection = new LDAPConnection(socketFactory, "at.ntnu.no", 636);
+            LDAPConnection connection = new LDAPConnection(socketFactory, ldapAddress, 636);
 
             //Authenticating (Will cast exception if authentication fails)
-            connection.bind("uid="+userInformation[0]+",ou=people,dc=ntnu,dc=no", userInformation[1]);
+            connection.bind("uid="+userInformation[0]+",ou="+ldapOU+",dc="+ldapDC1+",dc="+ldapDC2, userInformation[1]);
 
             return true;
         }

@@ -3,6 +3,8 @@ package org.royrvik.capgeminiemr.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import org.royrvik.capgeminiemr.EMRApplication;
+
 import java.util.Date;
 
 public class SessionManager {
@@ -62,16 +64,10 @@ public class SessionManager {
         String username = pref.getString(KEY_NAME, "");
         String passwordHash = pref.getString(KEY_PASS, "");
 
-        //FOR TESTING
-        if (username.equals("a")) {
-            startNewSession();
-            return;
-        }
-        //END FOR TESTING
-
+        EMRApplication settings = (EMRApplication) context.getApplicationContext();
         if (!username.equals("")) {
             if (!Encryption.decrypt(username, passwordHash).equals("")) {
-                if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash))) {
+                if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash), settings.getLDAPStrings())) {
                     startNewSession();
                 }
             }

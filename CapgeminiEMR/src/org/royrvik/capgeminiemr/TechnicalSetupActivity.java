@@ -2,13 +2,13 @@ package org.royrvik.capgeminiemr;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.ViewFlipper;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -21,26 +21,22 @@ import java.util.HashMap;
 
 public class TechnicalSetupActivity extends SherlockActivity {
 
-    private TextView statusTextView, techLoginTextView, techLoginConfirmTextView;
-    private Button getConfigButton, loginButton;
-    private EditText pathToXmlEditText, techLoginPasswordEditText, techLoginConfirmPasswordEditText;
-    private ViewFlipper flipper;
+    private TextView statusTextView;
+    private EditText pathToXmlEditText;
+    private Button confirmButton;
 
     private EMRApplication globalApp;
-    private DatabaseHelper dbHelper;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tech_setup);
 
-        //Actionbarsherlock back button
+        //ActionbarSherlock back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
         // Initialize Application (SharedPreferences controller)
         globalApp = (EMRApplication) getApplicationContext();
-
-        dbHelper = new DatabaseHelper(getApplicationContext());
 
         statusTextView = (TextView) findViewById(R.id.statusTextView);
 
@@ -48,23 +44,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
         if(globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.", Color.GREEN);
         else setStatusText("Application is not currently set up.", Color.RED);
 
-        flipper = (ViewFlipper) findViewById(R.id.techSetupTiewFlipper);
-        techLoginTextView = (TextView) findViewById(R.id.techLoginTextView);
-        techLoginConfirmTextView = (TextView) findViewById(R.id.techLoginConfirmTextView);
-        techLoginPasswordEditText = (EditText) findViewById(R.id.techLoginPasswordEditText);
-        techLoginConfirmPasswordEditText = (EditText) findViewById(R.id.techLoginConfirmPasswordEditText);
-        loginButton = (Button) findViewById(R.id.techLoginOkButton);
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                checkTechPassword();
-            }
-        });
-
-        updateLoginView();
-
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
-        getConfigButton = (Button) findViewById(R.id.getConfigButton);
+        Button getConfigButton = (Button) findViewById(R.id.getConfigButton);
 
         getConfigButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,69 +55,35 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
                     //If settings are already configured, process settings.xml but give warning that data will be deleted
                     //Else, just process settings.xml
-                    if(globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
+                    if (globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
                     else processSettings(settingsHashMap);
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Crouton.makeText(TechnicalSetupActivity.this, "Problem...", Style.ALERT).show();
-                    // TODO: Handle exceptions better...
+                    Crouton.makeText(TechnicalSetupActivity.this, "Invalid source.", Style.ALERT).show();
                 }
             }
         });
 
-    }
-
-    /**
-     *
-     */
-    private void checkTechPassword() {
-        if (isFirstSetup()) {
-            if (techLoginPasswordEditText.getText().toString().equals(techLoginConfirmPasswordEditText.getText().toString())) {
-                if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
-                    flipper.showNext();
-                    return;
-                }
-                else {
-                    Crouton.makeText(TechnicalSetupActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
-                }
+        confirmButton = (Button) findViewById(R.id.techSetupConfirmButton);
+        if (!globalApp.hasSettingsConfigured()) {
+            confirmButton.setVisibility(View.GONE);
+        }
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(TechnicalSetupActivity.this, TechDepartmentActivity.class);
+                i.putExtra("init", true);
+                startActivity(i);
+                finish();
             }
-            else {
-                Crouton.makeText(TechnicalSetupActivity.this, "The passwords does not match!", Style.ALERT).show();
-            }
-        }
-        if (dbHelper.isCorrectTechPassword(techLoginPasswordEditText.getText().toString())) {
-            flipper.showNext();
-        }
+        });
     }
+
 
     /**
      *
-     */
-    private void updateLoginView() {
-        if (isFirstSetup()) {
-            techLoginTextView.setText("Please choose a password for technical users");
-            techLoginConfirmPasswordEditText.setEnabled(true);
-            techLoginConfirmTextView.setText("Confirm new password");
-        }
-        else {
-            techLoginTextView.setText("Please enter technical user password");
-            techLoginConfirmPasswordEditText.setEnabled(false);
-            techLoginConfirmTextView.setText("");
-        }
-    }
-
-    /**
-     *
-     * @return True if the tech password is not set.
-     */
-    private boolean isFirstSetup() {
-        return !dbHelper.isTechPasswordSet();
-    }
-
-    /**
-     *
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void addSettingsToSharedPreferences(HashMap<String, String> settingsHashMap) {
 
@@ -146,13 +93,14 @@ public class TechnicalSetupActivity extends SherlockActivity {
     /**
      * Runs validation method, and saves to shared Preferences if settings are valid.
      * Also outputs relevant information to user.
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void processSettings(HashMap<String, String> settingsHashMap){
 
         if(Validator.validateSettings(settingsHashMap)){
             addSettingsToSharedPreferences(settingsHashMap);
             setStatusText("Settings imported", Color.GREEN);
+            confirmButton.setVisibility(View.VISIBLE);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
         } else{
             setStatusText("Settings invalid", Color.RED);
@@ -162,7 +110,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     /**
      *
-     * @param settingsHashMap
+     * @param settingsHashMap -
      */
     private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap){
 
@@ -187,8 +135,8 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     /**
      *
-     * @param text
-     * @param color
+     * @param text the text to show
+     * @param color the color of the text
      */
     private void setStatusText(String text, int color){
         statusTextView.setText(text);

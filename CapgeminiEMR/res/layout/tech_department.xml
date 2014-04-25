@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Change department authentication"
+            android:id="@+id/departmentHeaderTextView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/departmentUnameEditText" android:layout_below="@+id/departmentHeaderTextView"
+            android:layout_marginTop="75dp" android:layout_alignRight="@+id/departmentHeaderTextView"
+            android:layout_alignEnd="@+id/departmentHeaderTextView"
+            android:layout_alignLeft="@+id/departmentHeaderTextView"
+            android:layout_alignStart="@+id/departmentHeaderTextView"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Department Username"
+            android:id="@+id/departmentUnameTextView" android:layout_alignBottom="@+id/departmentUnameEditText"
+            android:layout_alignLeft="@+id/departmentUnameEditText" android:layout_alignStart="@+id/departmentUnameEditText"
+            android:layout_marginBottom="38dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Department Password"
+            android:id="@+id/departmentPwordTextView" android:layout_below="@+id/departmentUnameEditText"
+            android:layout_alignLeft="@+id/departmentUnameEditText"
+            android:layout_alignStart="@+id/departmentUnameEditText" android:layout_marginTop="40dp"/>
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/departmentPwordEditText" android:layout_below="@+id/departmentPwordTextView" android:layout_alignLeft="@+id/departmentPwordTextView"
+            android:layout_alignStart="@+id/departmentPwordTextView" android:layout_alignRight="@+id/departmentUnameEditText"
+            android:layout_alignEnd="@+id/departmentUnameEditText"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Confirm"
+            android:id="@+id/departmentConfirmButton" android:layout_below="@+id/departmentPwordEditText"
+            android:layout_alignRight="@+id/departmentPwordEditText"
+            android:layout_alignEnd="@+id/departmentPwordEditText" android:layout_marginTop="35dp"/>
+</RelativeLayout>

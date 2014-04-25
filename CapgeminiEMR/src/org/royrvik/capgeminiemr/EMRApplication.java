@@ -3,7 +3,9 @@ package org.royrvik.capgeminiemr;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +86,15 @@ public class EMRApplication extends Application {
     }
 
 
+    public ArrayList<String> getLDAPStrings() {
+        ArrayList<String> strings = new ArrayList<String>();
+        strings.add(getSettingsLDAPDC());
+        strings.add(getSettingsLDAPOU());
+        strings.add(getSettingsAuthenticationServerAddress());
+        return strings;
+    }
+
+
     /**
      * Checks if app is currently set up with working settings
      * @return true if all necessary settings are present in sharedPreferences
@@ -117,6 +128,13 @@ public class EMRApplication extends Application {
         //If some "core" settings NOT specified
         // OR authentication protocol NOT specified
         // return false
+        return false;
+    }
+
+    public boolean hasDepartmentAuthConfigured() {
+        if (new DatabaseHelper(getApplicationContext()).getDepartmentAuth().size() > 1) {
+            return true;
+        }
         return false;
     }
 

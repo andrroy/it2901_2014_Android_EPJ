@@ -48,10 +48,9 @@ public class LoginActivity extends SherlockActivity {
         offlineModeButton = (Button) findViewById(R.id.offlineModeButton);
         networkStatusTextView = (TextView) findViewById(R.id.networkStatusTextView);
 
-        checkSetup();
-
         // get intent from launcher
         getInformationFromIntent(getIntent());
+
 
         //If the current session is still valid, forward to next activity
         if (session.isValid()) startApplication();
@@ -78,6 +77,7 @@ public class LoginActivity extends SherlockActivity {
      */
     private void getInformationFromIntent(Intent i) {
         launcherCommand = i.getIntExtra("type", 0);
+        if (launcherCommand != 0) checkSetup();
         switch (launcherCommand) {
             case 1: //Images
                 incomingImages = i.getStringArrayListExtra("chosen_images");
@@ -95,7 +95,7 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO).show();
                 break;
             default:
-                finish();
+                checkSetup();
         }
         broadcastCode = i.getStringExtra("code");
     }
@@ -152,15 +152,18 @@ public class LoginActivity extends SherlockActivity {
      * Starts the technical setup activity.
      */
     private void startTechnicalSetup() {
-        startActivity(new Intent(LoginActivity.this, TechnicalSetupActivity.class));
+        Intent i = new Intent(LoginActivity.this, TechLoginActivity.class);
+        i.putExtra("type", 1);
+        startActivity(i);
+        finish();
     }
 
     /**
      * Checks if the app is set up properly, if not, launch the tech setup.
      */
     private void checkSetup() {
-        //Removed for testing purposes.
-        //if (!appSettings.hasSettingsConfigured()) startTechnicalSetup();
+        if (!appSettings.hasSettingsConfigured() || !appSettings.hasDepartmentAuthConfigured()) startTechnicalSetup();
+        else finish();
     }
 
     /**

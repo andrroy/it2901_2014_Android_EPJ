@@ -40,7 +40,10 @@
         <activity android:name=".ExaminationActivity"></activity>
         <activity android:name=".ReviewUploadActivity"/>
         <activity android:name=".CurrentSetupActivity"/>
-        
+        <activity android:name=".TechLoginActivity"/>
+        <activity android:name=".TechDepartmentActivity"/>
+        <activity android:name=".TechPasswordChangeActivity"/>
+
         <service android:name="com.example.EMRService.EMRService"/>
     </application>
 </manifest>

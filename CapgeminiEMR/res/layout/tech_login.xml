@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <RelativeLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                    android:id="@+id/relativeLayout">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Please enter technical user password" android:id="@+id/techLoginTextView"
+                  android:layout_marginTop="89dp" android:layout_alignParentTop="true"
+                  android:layout_centerHorizontal="true"/>
+        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:inputType="textPassword" android:ems="10" android:id="@+id/techLoginPasswordEditText"
+                  android:layout_below="@+id/techLoginTextView" android:layout_centerHorizontal="true"
+                  android:layout_marginTop="43dp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="Confirm new password" android:id="@+id/techLoginConfirmTextView"
+                  android:layout_centerVertical="true" android:layout_alignLeft="@+id/techLoginPasswordEditText"
+                  android:layout_alignStart="@+id/techLoginPasswordEditText"/>
+        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:inputType="textPassword" android:ems="10" android:id="@+id/techLoginConfirmPasswordEditText"
+                  android:layout_alignStart="@+id/techLoginPasswordEditText"
+                  android:layout_below="@+id/techLoginConfirmTextView"
+                  android:layout_alignLeft="@+id/techLoginPasswordEditText"/>
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK"
+                android:id="@+id/techLoginOkButton"
+                android:layout_marginTop="52dp" android:layout_below="@+id/techLoginConfirmPasswordEditText"
+                android:layout_alignRight="@+id/techLoginTextView" android:layout_alignEnd="@+id/techLoginTextView"/>
+    </RelativeLayout>
+</LinearLayout>
