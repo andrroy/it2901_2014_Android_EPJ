@@ -2,6 +2,7 @@ package org.royrvik.capgeminiemr;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
     private TextView statusTextView;
     private EditText pathToXmlEditText;
+    private Button confirmButton;
 
     private EMRApplication globalApp;
 
@@ -58,12 +60,24 @@ public class TechnicalSetupActivity extends SherlockActivity {
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Crouton.makeText(TechnicalSetupActivity.this, "Problem...", Style.ALERT).show();
-                    // TODO: Handle exceptions better...
+                    Crouton.makeText(TechnicalSetupActivity.this, "Invalid source.", Style.ALERT).show();
                 }
             }
         });
 
+        confirmButton = (Button) findViewById(R.id.techSetupConfirmButton);
+        if (!globalApp.hasSettingsConfigured()) {
+            confirmButton.setVisibility(View.GONE);
+        }
+        confirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(TechnicalSetupActivity.this, TechDepartmentActivity.class);
+                i.putExtra("init", true);
+                startActivity(i);
+                finish();
+            }
+        });
     }
 
 
@@ -86,6 +100,7 @@ public class TechnicalSetupActivity extends SherlockActivity {
         if(Validator.validateSettings(settingsHashMap)){
             addSettingsToSharedPreferences(settingsHashMap);
             setStatusText("Settings imported", Color.GREEN);
+            confirmButton.setVisibility(View.VISIBLE);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings successfully imported.", Style.CONFIRM).show();
         } else{
             setStatusText("Settings invalid", Color.RED);

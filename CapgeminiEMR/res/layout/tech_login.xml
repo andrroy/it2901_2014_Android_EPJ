@@ -25,8 +25,8 @@
                   android:layout_below="@+id/techLoginConfirmTextView"
                   android:layout_alignLeft="@+id/techLoginPasswordEditText"/>
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="OK"
-                android:id="@+id/techLoginOkButton" android:layout_below="@+id/techLoginConfirmPasswordEditText"
-                android:layout_alignRight="@+id/techLoginConfirmPasswordEditText"
-                android:layout_alignEnd="@+id/techLoginConfirmPasswordEditText" android:layout_marginTop="47dp"/>
+                android:id="@+id/techLoginOkButton"
+                android:layout_marginTop="52dp" android:layout_below="@+id/techLoginConfirmPasswordEditText"
+                android:layout_alignRight="@+id/techLoginTextView" android:layout_alignEnd="@+id/techLoginTextView"/>
     </RelativeLayout>
 </LinearLayout>

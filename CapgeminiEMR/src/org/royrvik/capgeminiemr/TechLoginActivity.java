@@ -100,6 +100,7 @@ public class TechLoginActivity extends SherlockActivity {
         else {
             techLoginTextView.setText("Please enter technical user password");
             techLoginConfirmPasswordEditText.setEnabled(false);
+            techLoginConfirmPasswordEditText.setVisibility(View.GONE);
             techLoginConfirmTextView.setText("");
         }
     }

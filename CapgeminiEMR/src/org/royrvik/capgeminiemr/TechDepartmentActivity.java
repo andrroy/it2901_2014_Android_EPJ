@@ -1,10 +1,14 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
@@ -12,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Joakim on 25.04.2014.
  */
-public class TechDepartmentActivity extends Activity {
+public class TechDepartmentActivity extends SherlockActivity {
 
     private EditText usernameEditText, passwordEditText;
     private Button confirmButton;
@@ -22,6 +26,10 @@ public class TechDepartmentActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tech_department);
+
+        //ActionbarSherlock back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         db = new DatabaseHelper(getApplicationContext());
         usernameEditText = (EditText) findViewById(R.id.departmentUnameEditText);
@@ -37,9 +45,29 @@ public class TechDepartmentActivity extends Activity {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                db.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
-                finish();
+                String username, password;
+                username = usernameEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                if (!username.equals("") && !password.equals("")) {
+                    db.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                    finish();
+                } else Crouton.makeText(TechDepartmentActivity.this, "One or more fields are empty.", Style.ALERT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                // Back button clicked.
+                if (getIntent().getBooleanExtra("init", false)) {
+                    startActivity(new Intent(TechDepartmentActivity.this, TechnicalSetupActivity.class));
+                }
+                // Exit activity and open previous in activity stack
+                finish();
+                break;
+        }
+        return true;
     }
 }
