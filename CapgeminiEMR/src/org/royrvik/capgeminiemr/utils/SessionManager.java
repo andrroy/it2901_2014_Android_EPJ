@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.util.Log;
 import org.royrvik.capgeminiemr.EMRApplication;
-
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class SessionManager {

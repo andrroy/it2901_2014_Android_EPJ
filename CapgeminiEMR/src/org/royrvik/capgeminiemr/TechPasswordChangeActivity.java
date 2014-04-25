@@ -1,6 +1,5 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,12 +11,11 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 /**
- * Created by Joakim on 25.04.2014.
+ * Created by Joakim.
  */
 public class TechPasswordChangeActivity extends SherlockActivity {
 
     private EditText oldPw, newPw, repPw;
-    private Button confirm;
     private DatabaseHelper db;
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,7 +31,7 @@ public class TechPasswordChangeActivity extends SherlockActivity {
         newPw = (EditText) findViewById(R.id.techNewPasswordChangeEditText);
         repPw = (EditText) findViewById(R.id.techRepPasswordChangeEditText);
 
-        confirm = (Button) findViewById(R.id.techConfirmChangeButton);
+        Button confirm = (Button) findViewById(R.id.techConfirmChangeButton);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

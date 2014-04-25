@@ -14,14 +14,12 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import java.util.ArrayList;
 
 /**
- * Created by Joakim on 25.04.2014.
+ * Created by Joakim.
  */
 public class TechDepartmentActivity extends SherlockActivity {
 
     private EditText usernameEditText, passwordEditText;
-    private Button confirmButton;
     private DatabaseHelper db;
-    private ArrayList<String> savedData;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,9 +32,9 @@ public class TechDepartmentActivity extends SherlockActivity {
         db = new DatabaseHelper(getApplicationContext());
         usernameEditText = (EditText) findViewById(R.id.departmentUnameEditText);
         passwordEditText = (EditText) findViewById(R.id.departmentPwordEditText);
-        confirmButton = (Button) findViewById(R.id.departmentConfirmButton);
+        Button confirmButton = (Button) findViewById(R.id.departmentConfirmButton);
 
-        savedData = db.getDepartmentAuth();
+        ArrayList<String> savedData = db.getDepartmentAuth();
         if (savedData.size() > 1) {
             usernameEditText.setText(savedData.get(0));
             passwordEditText.setText(savedData.get(1));
@@ -51,7 +49,8 @@ public class TechDepartmentActivity extends SherlockActivity {
                 if (!username.equals("") && !password.equals("")) {
                     db.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                     finish();
-                } else Crouton.makeText(TechDepartmentActivity.this, "One or more fields are empty.", Style.ALERT).show();
+                } else
+                    Crouton.makeText(TechDepartmentActivity.this, "One or more fields are empty.", Style.ALERT).show();
             }
         });
     }

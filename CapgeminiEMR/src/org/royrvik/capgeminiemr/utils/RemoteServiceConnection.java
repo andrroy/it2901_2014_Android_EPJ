@@ -7,12 +7,14 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 import com.example.EMRService.EMRRemoteInterface;
+import org.royrvik.capgeminiemr.EMRApplication;
 import java.util.List;
 
 public class RemoteServiceConnection implements ServiceConnection {
 
     private Context context;
     private EMRRemoteInterface service;
+    private EMRApplication settings;
 
     /**
      * Constructor
@@ -21,6 +23,7 @@ public class RemoteServiceConnection implements ServiceConnection {
     public RemoteServiceConnection(Context context) {
         super();
         this.context = context;
+        settings = (EMRApplication) context.getApplicationContext();
     }
 
     @Override
@@ -39,7 +42,7 @@ public class RemoteServiceConnection implements ServiceConnection {
      */
     public boolean bindService() {
         Intent i = new Intent();
-        i.setClassName("com.example.EMRService","com.example.EMRService.EMRService");
+        i.setClassName(settings.getSettingsPackageName(),settings.getSettingsPackageLocation());
         return context.bindService(i, RemoteServiceConnection.this, Context.BIND_AUTO_CREATE);
     }
 
@@ -50,8 +53,7 @@ public class RemoteServiceConnection implements ServiceConnection {
      */
     public List<String> getPatientData(String ssn, String username, String password) {
         try {
-            List<String> data = service.getPatientData(ssn, username, password);
-            return data;
+            return service.getPatientData(ssn, username, password);
         } catch (RemoteException e) {
             e.printStackTrace();
         }
@@ -62,7 +64,7 @@ public class RemoteServiceConnection implements ServiceConnection {
      * Upload data to the service
      * @param patientData An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
      * @param imagePaths An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
-     * @return
+     * @return true if the data was uploaded successfully.
      */
     public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password) {
         try {

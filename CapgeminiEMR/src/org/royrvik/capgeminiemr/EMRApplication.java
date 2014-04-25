@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class EMRApplication extends Application {
 
-    public final static String PACKAGE_NAME = "packageName";
-    public final static String PACKAGE_LOCATION = "packageLocation";
     public final static String PACKAGE_SERVER_PORT = "packageServerPort";
     public final static String HOSPITAL_SERVER_ADDRESS = "hospitalServerAddress";
     public final static String HOSPITAL_SERVER_PROTOCOL = "hospitalServerProtocol";
@@ -20,6 +18,12 @@ public class EMRApplication extends Application {
     public final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
     public final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
     public final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
+
+    //Service Package Strings
+    public final static String PACKAGE_NAME = "packageName";
+    public final static String PACKAGE_LOCATION = "packageLocation";
+
+    //LDAP Strings
     public final static String LDAP_USERID = "LDAPuserID";
     public final static String LDAP_OU = "LDAPOU";
     public final static String LDAP_DC = "LDAPDC";
@@ -132,94 +136,79 @@ public class EMRApplication extends Application {
     }
 
     public boolean hasDepartmentAuthConfigured() {
-        if (new DatabaseHelper(getApplicationContext()).getDepartmentAuth().size() > 1) {
-            return true;
-        }
-        return false;
+        return new DatabaseHelper(getApplicationContext()).getDepartmentAuth().size() > 1;
     }
 
     public String getSettingsPackageName() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(PACKAGE_NAME, "");
 
-        return s;
+        return appSharedPrefs.getString(PACKAGE_NAME, "");
     }
 
     public String getSettingsPackageLocation() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(PACKAGE_LOCATION, "");
 
-        return s;
+        return appSharedPrefs.getString(PACKAGE_LOCATION, "");
     }
 
     public String getSettingsPackageServerPort() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(PACKAGE_SERVER_PORT, "");
 
-        return s;
+        return appSharedPrefs.getString(PACKAGE_SERVER_PORT, "");
     }
 
     public String getSettingsHospitalServerAddress() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(HOSPITAL_SERVER_ADDRESS, "");
 
-        return s;
+        return appSharedPrefs.getString(HOSPITAL_SERVER_ADDRESS, "");
     }
 
     public String getSettingsHospitalServerProtocol() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(HOSPITAL_SERVER_PROTOCOL, "");
 
-        return s;
+        return appSharedPrefs.getString(HOSPITAL_SERVER_PROTOCOL, "");
     }
 
     public String getSettingsHospitalServerPort() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(HOSPITAL_SERVER_PORT, "");
 
-        return s;
+        return appSharedPrefs.getString(HOSPITAL_SERVER_PORT, "");
     }
 
     public String getSettingsAuthenticationProtocol() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(AUTHENTICATION_PROTOCOL, "");
 
-        return s;
+        return appSharedPrefs.getString(AUTHENTICATION_PROTOCOL, "");
     }
 
     public String getSettingsAuthenticationServerAddress() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(AUTHENTICATION_SERVER_ADDRESS, "");
 
-        return s;
+        return appSharedPrefs.getString(AUTHENTICATION_SERVER_ADDRESS, "");
     }
 
     public String getSettingsAuthenticationServerPort() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(AUTHENTICATION_SERVER_PORT, "");
 
-        return s;
+        return appSharedPrefs.getString(AUTHENTICATION_SERVER_PORT, "");
     }
 
     public String getSettingsLDAPUserID() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(LDAP_USERID, "");
 
-        return s;
+        return appSharedPrefs.getString(LDAP_USERID, "");
     }
 
     public String getSettingsLDAPOU() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(LDAP_OU, "");
 
-        return s;
+        return appSharedPrefs.getString(LDAP_OU, "");
     }
 
     public String getSettingsLDAPDC() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-        String s = appSharedPrefs.getString(LDAP_DC, "");
 
-        return s;
+        return appSharedPrefs.getString(LDAP_DC, "");
     }
 
 }
