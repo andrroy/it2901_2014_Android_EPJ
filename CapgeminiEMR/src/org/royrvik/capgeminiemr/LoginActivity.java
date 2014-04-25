@@ -96,6 +96,7 @@ public class LoginActivity extends SherlockActivity {
                 break;
             default:
                 checkSetup();
+                finish();
         }
         broadcastCode = i.getStringExtra("code");
     }
@@ -163,7 +164,6 @@ public class LoginActivity extends SherlockActivity {
      */
     private void checkSetup() {
         if (!appSettings.hasSettingsConfigured() || !appSettings.hasDepartmentAuthConfigured()) startTechnicalSetup();
-        else finish();
     }
 
     /**

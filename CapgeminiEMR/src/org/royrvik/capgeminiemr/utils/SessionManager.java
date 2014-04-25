@@ -75,6 +75,13 @@ public class SessionManager {
     }
 
     /**
+     * Updates the session timer
+     */
+    public void updateSession() {
+       validate();
+    }
+
+    /**
      * Sets the session start time.
      */
     private void startNewSession() {

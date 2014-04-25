@@ -183,4 +183,12 @@ public class IdentifyPatientActivity extends SherlockActivity {
         super.onDestroy();
         service.releaseService();
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (session.isValid()) {
+            session.updateSession();
+        }
+    }
 }
