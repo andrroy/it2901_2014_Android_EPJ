@@ -153,7 +153,9 @@ public class LoginActivity extends SherlockActivity {
      * Starts the technical setup activity.
      */
     private void startTechnicalSetup() {
-        startActivity(new Intent(LoginActivity.this, TechnicalSetupActivity.class));
+        Intent i = new Intent(LoginActivity.this, TechLoginActivity.class);
+        i.putExtra("type", 1);
+        startActivity(i);
     }
 
     /**

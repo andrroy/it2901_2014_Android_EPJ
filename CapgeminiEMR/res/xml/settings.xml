@@ -26,7 +26,14 @@
 
         <Preference
             android:summary="@string/department_id_summary"
-            android:title="@string/department_userid_title"/>
+            android:title="@string/department_userid_title">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:targetPackage="org.royrvik.capgeminiemr"
+                android:targetClass="org.royrvik.capgeminiemr.TechLoginActivity">
+                <extra android:name="type" android:value="3" />
+            </intent>
+        </Preference>
 
     </PreferenceCategory>
 

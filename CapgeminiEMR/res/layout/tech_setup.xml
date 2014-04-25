@@ -49,6 +49,12 @@
                 android:layout_alignStart="@+id/statusStaticTextView"
                 android:layout_marginTop="10dp"
                 android:maxWidth="100dp"/>
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm"
+                android:id="@+id/techSetupConfirmButton" android:layout_below="@+id/statusTextView"
+                android:layout_toRightOf="@+id/getConfigButton" android:layout_marginTop="38dp"/>
     </RelativeLayout>
 
 </RelativeLayout>

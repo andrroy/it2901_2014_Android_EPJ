@@ -20,6 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_EXAMINATION = "examination";
     private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
     private static final String TABLE_TECHPASSWORD = "techpassword";
+    private static final String TABLE_DEPARTMENT = "department";
 
     // Column names
     // Examination
@@ -35,6 +36,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Techpassword
     private static final String KEY_TECHPASSWORD = "password";
+
+    // Department
+    private static final String KEY_DEPARTMENTUSER = "username";
+    private static final String KEY_DEPARTMENTPWD = "password";
+
 
 
     private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN, KEY_DATE};
@@ -73,6 +79,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Create techpassword table
         db.execSQL("CREATE TABLE techpassword (password TEXT)");
+
+        // Create department table
+        db.execSQL("CREATE TABLE department (username TEXT, password TEXT)");
     }
 
     @Override
@@ -81,6 +90,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS examination");
         db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
         db.execSQL("DROP TABLE IF EXISTS techpassword");
+        db.execSQL("DROP TABLE IF EXISTS department");
 
         // Recreate the table
         this.onCreate(db);
@@ -114,7 +124,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /**
      * Sets the technical user password
      *
-     * @param password
+     * @param password the new tech password
      */
     private void setTechUserPassword(String password) {
         SQLiteDatabase.loadLibs(context);
@@ -124,6 +134,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_TECHPASSWORD, password);
         db.insert(TABLE_TECHPASSWORD, null, values);
         db.close();
+    }
+
+    public ArrayList<String> getDepartmentAuth() {
+        ArrayList<String> result = new ArrayList<String>();
+
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getReadableDatabase("test123");
+        Cursor cursor = db.rawQuery("SELECT * FROM department", null);
+        if (cursor != null) {
+            while (cursor.moveToNext()) {
+                result.add(cursor.getString(cursor.getColumnIndex("username")));
+                result.add(cursor.getString(cursor.getColumnIndex("password")));
+            }
+        }
+        cursor.close();
+        db.close();
+
+        return result;
+    }
+
+    public void setDepartmentAuth(String username, String password) {
+        SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase db = this.getWritableDatabase("test123");
+
+        //Recreate the department table
+        db.execSQL("DROP TABLE IF EXISTS department");
+        db.execSQL("CREATE TABLE department (username TEXT, password TEXT)");
+
+        ContentValues values = new ContentValues();
+        values.put(KEY_DEPARTMENTUSER, username);
+        values.put(KEY_DEPARTMENTPWD, password);
+        db.insert(TABLE_DEPARTMENT, null, values);
+        db.close();
+
     }
 
     /**

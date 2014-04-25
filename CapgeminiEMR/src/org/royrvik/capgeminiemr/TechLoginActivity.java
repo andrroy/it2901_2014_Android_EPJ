@@ -44,14 +44,20 @@ public class TechLoginActivity extends SherlockActivity {
                 checkTechPassword();
             }
         });
-        switch (getIntent().getIntExtra("type", 0)) {
+        int type = getIntent().getIntExtra("type", 0);
+        switch (type) {
             case 1:
                 launchIntent = new Intent(TechLoginActivity.this, TechnicalSetupActivity.class);
                 break;
             case 2:
                 launchIntent = new Intent(TechLoginActivity.this, CurrentSetupActivity.class);
                 break;
+            case 3:
+                launchIntent = new Intent(TechLoginActivity.this, TechDepartmentActivity.class);
+                break;
             default:
+                System.out.println("Unsupported launch command.");
+                System.out.println(getIntent().getIntExtra("type", 0));
                 finish();
         }
         updateLoginView();
