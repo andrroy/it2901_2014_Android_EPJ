@@ -157,4 +157,22 @@ public class HomeScreenActivity extends SherlockActivity {
         Crouton.cancelAllCroutons();
         super.onDestroy();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateSession();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateSession();
+    }
+
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
+    }
 }

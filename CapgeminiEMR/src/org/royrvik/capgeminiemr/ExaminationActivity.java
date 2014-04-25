@@ -337,5 +337,18 @@ public class ExaminationActivity extends SherlockActivity {
     protected void onResume() {
         super.onResume();
         updateElements();
+        updateSession();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateSession();
+    }
+
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
     }
 }

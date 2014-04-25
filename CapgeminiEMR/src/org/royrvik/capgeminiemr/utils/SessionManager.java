@@ -3,8 +3,10 @@ package org.royrvik.capgeminiemr.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 import org.royrvik.capgeminiemr.EMRApplication;
 
+import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class SessionManager {
@@ -78,7 +80,10 @@ public class SessionManager {
      * Updates the session timer
      */
     public void updateSession() {
-       validate();
+        Long prevTime = (pref.getLong(KEY_TIME, 0)+SESSION_TIMEOUT_IN_MIN*60000-new Date().getTime())/60000;
+        validate();
+        Long newtime = (pref.getLong(KEY_TIME, 0)+SESSION_TIMEOUT_IN_MIN*60000-new Date().getTime())/60000;
+        Log.d("SESSION", "Session updated. Previous time: "+prevTime+" min. New time: "+ newtime.toString()+" min");
     }
 
     /**

@@ -185,8 +185,18 @@ public class IdentifyPatientActivity extends SherlockActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        updateSession();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
+        updateSession();
+    }
+
+    private void updateSession() {
         if (session.isValid()) {
             session.updateSession();
         }

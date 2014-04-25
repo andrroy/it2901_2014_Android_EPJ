@@ -174,6 +174,19 @@ public class ReviewUploadActivity extends SherlockActivity {
     protected void onResume() {
         super.onResume();
         updateTextViews();
+        updateSession();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateSession();
+    }
+
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
     }
 
 }
