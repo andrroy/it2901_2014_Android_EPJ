@@ -2,13 +2,13 @@ package org.royrvik.capgeminiemr.adapter;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.*;
 import android.app.Dialog;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.content.Context;
-import org.royrvik.capgeminiemr.FullScreenViewActivity;
 import org.royrvik.capgeminiemr.R;
 
 import java.util.ArrayList;
@@ -18,11 +18,11 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.widget.Button;
 import org.royrvik.capgeminiemr.data.Examination;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+import android.view.ViewGroup.LayoutParams;
 
 /**
  * Created by rikardeide on 20/4/14.
@@ -34,6 +34,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     private Examination currentExamination;
     private Context mContext;
     private ImageView imageView;
+    private PhotoView photoView;
     private LayoutInflater inflater;
     private PhotoViewAttacher mAttacher;
     private TextView text;
@@ -53,16 +54,16 @@ public class FullScreenImageAdapter extends PagerAdapter{
         return view == object;
     }
 
-    public Object instantiateItem(ViewGroup container, final int position){
+    public Object instantiateItem(final ViewGroup container, final int position){
         final Button btnClose;
         final Button btnDelete;
         final Button btnComment;
         final Button btnTag;
 
-        PhotoView photoView = new PhotoView(container.getContext());
+        photoView = new PhotoView(container.getContext());
 
         inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
+        final View viewLayout = inflater.inflate(R.layout.layout_fullscreen_image, container, false);
 
         imageView = (ImageView) viewLayout.findViewById(R.id.imgDisplay);
 
@@ -77,19 +78,19 @@ public class FullScreenImageAdapter extends PagerAdapter{
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
         Bitmap bitmap = BitmapFactory.decodeFile(imageURIs.get(position), options);
-        String s = "photos in memory: " + position;
+        String s = "??????: " + position;
         Log.d("APP:", s);
 
+        // photoView.setImageBitmap(bitmap);
         imageView.setImageBitmap(bitmap);
 
         mAttacher = new PhotoViewAttacher(imageView);
 
-        /**
-         * Button operations for close, delete and comment buttons.
-         */
 
 
+        // *Button operations for close, delete and comment buttons*
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +147,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
             public void onClick(View view){
                 btnDelete.setBackgroundResource(R.drawable.ic_delete_up);
                 deleteImage();
+                destroyItem(container, 0, viewLayout);
+                notifyDataSetChanged();
             }
 
         });
@@ -159,7 +162,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
         });
 
 
-        ((ViewPager) container).addView(viewLayout);
+        container.addView(viewLayout);
+        //container.addView(photoView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
         return viewLayout;
     }
@@ -182,13 +186,11 @@ public class FullScreenImageAdapter extends PagerAdapter{
         } else {
             //For testing purposes! It always deletes the first image
             currentExamination.deleteImage(0);
-            mAttacher.update();
         }
     }
 
-
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
-        container.removeView((View)object);
+        ((ViewPager) container).removeView((View)object);
     }
 }
