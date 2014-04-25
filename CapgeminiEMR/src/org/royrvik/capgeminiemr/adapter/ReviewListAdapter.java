@@ -12,12 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
+import org.royrvik.capgeminiemr.utils.BitmapUtils;
 
 import java.util.List;
 
 public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
-
-    private static final String TAG = "APP";
 
     private int resource;
     private LayoutInflater inflater;
@@ -35,12 +34,11 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
 
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
-        //ultrasound image/data for THIS row
+        //Data for THIS row
         UltrasoundImage rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
-        rowImage.setImageBitmap(bitmap);
+        rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 100, 100));
 
         TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
         commentTextView.setText(rowItem.getComment());
