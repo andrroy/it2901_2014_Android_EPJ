@@ -14,6 +14,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
+import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -217,7 +218,12 @@ public class ExaminationActivity extends SherlockActivity {
     private void updateEditorView() {
         if (currentExamination.getUltrasoundImages().size() > 0) {
             imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getUltrasoundImages().size());
-            globalImageView.setImageBitmap(BitmapFactory.decodeFile(currentExamination.getUltrasoundImages().get(currentImageId).getImageUri()));
+            // Load bitmap
+            globalImageView.setImageBitmap(
+                    BitmapUtils.decodeSampledBitmapFromStorage(
+                            currentExamination.getUltrasoundImages().get(currentImageId).getImageUri(),
+                    globalImageView.getWidth(), globalImageView.getHeight()));
+
             commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
         }
 
