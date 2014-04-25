@@ -28,6 +28,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+                android:name=".FullScreenViewActivity"
+                android:theme="@android:style/Theme.Holo.NoActionBar">
+        </activity>
+
         <activity android:name="org.royrvik.capgeminiemr.SettingsActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.HomeScreenActivity"></activity>
         <activity android:name="org.royrvik.capgeminiemr.TechnicalSetupActivity"></activity>

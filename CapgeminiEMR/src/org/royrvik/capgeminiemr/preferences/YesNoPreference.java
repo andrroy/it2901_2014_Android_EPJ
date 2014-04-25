@@ -10,6 +10,7 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 /**
  * Dialog box with two options (positive and negative) used in settings.xml
  */
+
 public class YesNoPreference extends DialogPreference {
     private Context context;
     private DatabaseHelper dbHelper;

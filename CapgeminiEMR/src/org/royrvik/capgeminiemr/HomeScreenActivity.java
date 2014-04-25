@@ -84,7 +84,6 @@ public class HomeScreenActivity extends SherlockActivity {
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
                     infoString.append("Date: " + ex.getDate() + "\n");
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
-
                     dialog.setMessage(infoString);
                     dialog.setIcon(R.drawable.ic_info);
 
