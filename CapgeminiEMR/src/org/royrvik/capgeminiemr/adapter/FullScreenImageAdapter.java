@@ -3,8 +3,6 @@ package org.royrvik.capgeminiemr.adapter;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
@@ -15,14 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 import java.util.ArrayList;
-
-/**
- * Created by rikardeide on 20/4/14.
- */
 
 public class FullScreenImageAdapter extends PagerAdapter {
 
@@ -34,13 +29,14 @@ public class FullScreenImageAdapter extends PagerAdapter {
     private LayoutInflater inflater;
     private PhotoViewAttacher mAttacher;
     private TextView text;
+    private final static int IMAGE_HEIGHT = 300;
+    private final static int IMAGE_WIDTH = 300;
 
 
     public FullScreenImageAdapter(Context context, Examination currentExamination) {
         this.mContext = context;
         this.currentExamination = currentExamination;
         this.imageURIs = currentExamination.getAllImages();
-        Log.d("APP", "CALLED CONSTRUCTOR");
     }
 
     public int getCount() {
@@ -52,10 +48,6 @@ public class FullScreenImageAdapter extends PagerAdapter {
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
-        final Button btnClose;
-        final Button btnDelete;
-        final Button btnComment;
-        final Button btnTag;
 
         photoView = new PhotoView(container.getContext());
 
@@ -64,42 +56,34 @@ public class FullScreenImageAdapter extends PagerAdapter {
 
         imageView = (ImageView) viewLayout.findViewById(R.id.imgDisplay);
 
-        btnClose = (Button) viewLayout.findViewById(R.id.btnClose);
-        btnDelete = (Button) viewLayout.findViewById(R.id.btnDelete);
-        btnComment = (Button) viewLayout.findViewById(R.id.btnComment);
-        btnTag = (Button) viewLayout.findViewById(R.id.btnTag);
+        final Button closeButton = (Button) viewLayout.findViewById(R.id.btnClose);
+        final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
+        final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
+        final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
 
-        // TODO: Load a comprimized version of bitmap!
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-
-        Bitmap bitmap = BitmapFactory.decodeFile(imageURIs.get(position), options);
-
-        // photoView.setImageBitmap(bitmap);
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(BitmapUtils.
+                decodeSampledBitmapFromStorage(imageURIs.get(position), IMAGE_WIDTH, IMAGE_HEIGHT));
 
         mAttacher = new PhotoViewAttacher(imageView);
 
         // Button clicklisteners
-        btnClose.setOnClickListener(new View.OnClickListener() {
+        closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((Activity) mContext).finish();
             }
         });
 
-        btnComment.setOnClickListener(new View.OnClickListener() {
+        commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btnComment.setBackgroundResource(R.drawable.ic_comment);
+                commentButton.setBackgroundResource(R.drawable.ic_comment);
 
                 // Custom Dialog
                 final Dialog dialog = new Dialog(mContext);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
-                dialog.setContentView(R.layout.dialog_test);
+                dialog.setContentView(R.layout.dialog_comment);
 
                 // set the custom dialog components - text and button
                 text = (TextView) dialog.findViewById(R.id.text);
@@ -133,18 +117,18 @@ public class FullScreenImageAdapter extends PagerAdapter {
             }
         });
 
-        btnDelete.setOnClickListener(new View.OnClickListener() {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                btnDelete.setBackgroundResource(R.drawable.ic_delete_up);
+                deleteButton.setBackgroundResource(R.drawable.ic_delete_up);
                 Log.d("APP", "DELETE IMAGE POSITION " + position);
                 deleteImage(position);
             }
         });
 
-        btnDelete.setOnTouchListener(new View.OnTouchListener() {
+        deleteButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                btnDelete.setBackgroundResource(R.drawable.ic_delete_down);
+                deleteButton.setBackgroundResource(R.drawable.ic_delete_down);
                 return false;
             }
         });
@@ -186,6 +170,4 @@ public class FullScreenImageAdapter extends PagerAdapter {
         container.removeView((View) object);
         Log.d("APP", "destroyItem() " + position);
     }
-
-
 }
