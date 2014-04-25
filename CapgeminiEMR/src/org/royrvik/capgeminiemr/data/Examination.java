@@ -38,10 +38,6 @@ public class Examination implements Parcelable {
         this.date = dateFormat.format(new Date());
     }
 
-    public Examination getExamination(){
-        return this;
-    }
-
     public String getPatientSsn() {
         return patientSsn;
     }

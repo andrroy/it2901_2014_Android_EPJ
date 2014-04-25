@@ -11,12 +11,9 @@ import org.royrvik.capgeminiemr.utils.HackyViewPager;
 
 public class FullScreenViewActivity extends Activity {
 
-    // private Utils utils - Need a way to put URIs
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
     private Examination currentExamination;
-
-    private static final String ISLOCKED_ARG = "isLocked";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

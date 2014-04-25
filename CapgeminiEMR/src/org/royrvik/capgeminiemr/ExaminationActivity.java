@@ -156,7 +156,6 @@ public class ExaminationActivity extends SherlockActivity {
                     // Start FullScreenViewActivity here. - Rix1
                     Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
                     i.putExtra("examination", currentExamination);
-                    
                     startActivity(i);
                 }
                 updateEditorView();
