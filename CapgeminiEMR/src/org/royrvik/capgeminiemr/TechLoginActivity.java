@@ -56,8 +56,6 @@ public class TechLoginActivity extends SherlockActivity {
                 launchIntent = new Intent(TechLoginActivity.this, TechDepartmentActivity.class);
                 break;
             default:
-                System.out.println("Unsupported launch command.");
-                System.out.println(getIntent().getIntExtra("type", 0));
                 finish();
         }
         updateLoginView();
@@ -69,13 +67,18 @@ public class TechLoginActivity extends SherlockActivity {
     private void checkTechPassword() {
         if (isFirstSetup()) {
             if (techLoginPasswordEditText.getText().toString().equals(techLoginConfirmPasswordEditText.getText().toString())) {
-                if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
-                    startActivity(launchIntent);
-                    finish();
-                    return;
+                if (!techLoginPasswordEditText.getText().toString().equals("")) {
+                    if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
+                        startActivity(launchIntent);
+                        finish();
+                        return;
+                    }
+                    else {
+                        Crouton.makeText(TechLoginActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
+                    }
                 }
                 else {
-                    Crouton.makeText(TechLoginActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
+                    Crouton.makeText(TechLoginActivity.this, "Passwords can not be empty", Style.ALERT).show();
                 }
             }
             else {
@@ -85,7 +88,7 @@ public class TechLoginActivity extends SherlockActivity {
         if (dbHelper.isCorrectTechPassword(techLoginPasswordEditText.getText().toString())) {
             startActivity(launchIntent);
             finish();
-        }
+        } else Crouton.makeText(TechLoginActivity.this, "Wrong password.", Style.ALERT).show();
     }
 
     /**
@@ -94,7 +97,6 @@ public class TechLoginActivity extends SherlockActivity {
     private void updateLoginView() {
         if (isFirstSetup()) {
             techLoginTextView.setText("Please choose a password for technical users");
-            techLoginConfirmPasswordEditText.setEnabled(true);
             techLoginConfirmTextView.setText("Confirm new password");
         }
         else {

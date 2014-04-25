@@ -53,7 +53,13 @@
 
         <Preference
             android:summary="@string/change_password_summary"
-            android:title="@string/change_password_title"/>
+            android:title="@string/change_password_title">
+            <intent
+                    android:action="android.intent.action.VIEW"
+                    android:targetPackage="org.royrvik.capgeminiemr"
+                    android:targetClass="org.royrvik.capgeminiemr.TechPasswordChangeActivity">
+            </intent>
+        </Preference>
 
         <org.royrvik.capgeminiemr.preferences.YesNoPreference
             android:dialogMessage="@string/delete_data_message"

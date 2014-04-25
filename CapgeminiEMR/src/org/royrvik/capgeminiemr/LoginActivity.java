@@ -96,7 +96,7 @@ public class LoginActivity extends SherlockActivity {
                 Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO).show();
                 break;
             default:
-                finish();
+                checkSetup();
         }
         broadcastCode = i.getStringExtra("code");
     }
@@ -156,6 +156,7 @@ public class LoginActivity extends SherlockActivity {
         Intent i = new Intent(LoginActivity.this, TechLoginActivity.class);
         i.putExtra("type", 1);
         startActivity(i);
+        finish();
     }
 
     /**
@@ -163,6 +164,7 @@ public class LoginActivity extends SherlockActivity {
      */
     private void checkSetup() {
         if (!appSettings.hasSettingsConfigured() || !appSettings.hasDepartmentAuthConfigured()) startTechnicalSetup();
+        else finish();
     }
 
     /**

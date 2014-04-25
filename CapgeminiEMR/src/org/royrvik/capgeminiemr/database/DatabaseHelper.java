@@ -433,7 +433,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return True if the password is correct
      */
     public boolean isCorrectTechPassword(String techPassword) {
-        return techPassword.equals(getTechUserPassword());
+        return techPassword.equals(getTechUserPassword()) && !techPassword.equals("");
     }
 
     /**
