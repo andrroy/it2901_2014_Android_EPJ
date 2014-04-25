@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
+import org.royrvik.capgeminiemr.utils.BitmapUtils;
 
 import java.util.List;
 
@@ -37,8 +38,7 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         UltrasoundImage rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
-        Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getImageUri());
-        rowImage.setImageBitmap(bitmap);
+        rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 100, 100));
 
         TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
         commentTextView.setText(rowItem.getComment());

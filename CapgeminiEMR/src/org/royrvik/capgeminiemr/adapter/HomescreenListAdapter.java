@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.utils.BitmapUtils;
 
 import java.util.List;
 
@@ -45,8 +46,8 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
             rowImage.setImageResource(resID);
         }
         else {
-            Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
-            rowImage.setImageBitmap(bitmap);
+            rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(
+                    rowItem.getUltrasoundImages().get(0).getImageUri(), 100, 100));
         }
 
         TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
