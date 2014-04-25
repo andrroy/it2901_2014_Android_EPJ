@@ -94,7 +94,9 @@ public class IdentifyPatientActivity extends SherlockActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!patientIDEditText.getText().toString().trim().isEmpty()) checkPid();
+                if (!patientIDEditText.getText().toString().trim().isEmpty()){
+                    checkPid(patientIDEditText.getText().toString());
+                }
                 else error.setText("Invalid ID format.");
             }
         });
@@ -111,7 +113,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
      * Checks patients ID.
      * Starts ExaminationActivity or returns to the launcher if PID is accepted
      */
-    private void checkPid() {
+    private void checkPid(String ssn) {
         //TODO: Show that the app is working on something
         ArrayList<String> info = new ArrayList<String>();
         if (session.isValid()) {
@@ -120,7 +122,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
             String username = "rikardbe_emr";
             String password = "Paa5Eric";
 
-            info = (ArrayList<String>) service.getPatientData(patientIDEditText.getText().toString(), username, password);
+            info = (ArrayList<String>) service.getPatientData(ssn, username, password);
         }
         else {
             info.add(patientIDEditText.getText().toString());
@@ -160,21 +162,19 @@ public class IdentifyPatientActivity extends SherlockActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // QR code result format: xxxxxxxxxxx,Magnus Lund
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        Log.d("APP", "ANDREAS4LYYYFE:::: " + scanResult.getFormatName());
 
         if (scanResult != null) {
             if(scanResult.getFormatName().equals("QR_CODE")) {
-                Log.d("APP", scanResult.toString());
-
-                String[] patientData = scanResult.getContents().split(",");
-                String patientSsn = patientData[0];
-                String patientName = patientData[1];
-
-                Log.d("APP", "Format: " + scanResult.getFormatName());
-                Log.d("APP", "SSN: " + patientSsn);
-                Log.d("APP", "Name: " + patientName);
+                String ssn = scanResult.getContents();
+                checkPid(ssn);
+            }
+            else if(scanResult.getFormatName().equals("CODE_128")){
+                String ssn = scanResult.getContents();
+                checkPid(ssn);
             }
             else {
-                Log.d("APP", "Invalid format");
+                Log.d("APP", "Invalid format"); //Give user feedback
             }
         }
     }
