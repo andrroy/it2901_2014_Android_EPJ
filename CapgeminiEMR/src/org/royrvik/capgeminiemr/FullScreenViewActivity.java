@@ -31,7 +31,6 @@ public class FullScreenViewActivity extends Activity {
         setContentView(R.layout.activity_fullscreen_view);
 
         viewPager = (HackyViewPager) findViewById(R.id.pager);
-//        setContentView(viewPager);
 
         Intent i = getIntent();
         currentExamination = i.getParcelableExtra("examination");
