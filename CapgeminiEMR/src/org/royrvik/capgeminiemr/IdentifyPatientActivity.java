@@ -42,7 +42,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
         if (!service.bindService()) {
-            Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -97,7 +97,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
                 if (!patientIDEditText.getText().toString().trim().isEmpty()){
                     checkPid(patientIDEditText.getText().toString());
                 }
-                else error.setText("Invalid ID format.");
+                else Toast.makeText(getApplicationContext(), "Please enter a social security number", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -162,7 +162,6 @@ public class IdentifyPatientActivity extends SherlockActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         // QR code result format: xxxxxxxxxxx,Magnus Lund
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
-        Log.d("APP", "ANDREAS4LYYYFE:::: " + scanResult.getFormatName());
 
         if (scanResult != null) {
             if(scanResult.getFormatName().equals("QR_CODE")) {

@@ -106,6 +106,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 password = cursor.getString(cursor.getColumnIndex("password"));
             }
         }
+
+        db.close();
         return password;
     }
 
@@ -212,7 +214,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
 
         // Delete row in TABLE_EXAMINATION
-        return db.delete(TABLE_EXAMINATION, KEY_EX_ID + "=" + id, null) > 0;
+        boolean isDeleted = db.delete(TABLE_EXAMINATION, KEY_EX_ID + "=" + id, null) > 0;
+        db.close();
+        return isDeleted;
 
     }
 
@@ -267,6 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.delete(TABLE_EXAMINATION, null, null);
         db.delete(TABLE_ULTRASOUNDIMAGE, null, null);
+        db.close();
     }
 
     /**
@@ -304,6 +309,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
 
         return examinationList;
     }
@@ -342,6 +348,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
+        db.close();
 
         return usiList;
     }

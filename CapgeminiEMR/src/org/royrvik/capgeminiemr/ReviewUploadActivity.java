@@ -1,8 +1,10 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -72,33 +74,7 @@ public class ReviewUploadActivity extends SherlockActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                List<String> data = new ArrayList<String>();
-                Examination ex = dbHelper.getExamination(examinationId);
-                data.add(ex.getPatientSsn());
-                data.add(ex.getPatientName());
-                List<String> images = ex.getAllImages();
-
-                //Andreas Leker
-                List<String> notes = ex.getAllComments();
-                //TEMP data:
-                String username = "rikardbe_emr";
-                String password = "Paa5Eric";
-
-                Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
-
-
-                if (service.upload(data, images, notes, username, password)) {
-                    dbHelper.deleteExamination(examinationId);
-                    i.putExtra("upload_success", "Examination successfully uploaded");
-                }
-                else{
-                    //Crouton.makeText(ReviewUploadActivity.this, "Upload Failed", Style.ALERT);
-                    i.putExtra("upload_fail", "Upload failed");
-                    // TODO: append reason for failure to "fail" string
-                }
-
-                startActivity(i);
-                finish();
+                new UploadExaminationTask().execute();
             }
         });
 
@@ -109,18 +85,64 @@ public class ReviewUploadActivity extends SherlockActivity {
      * Updates the TextViews with sensitive information, based on the status of the current session.
      */
     private void updateTextViews() {
-        if(!session.isValid()){
+        if (!session.isValid()) {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: *******");
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
-        }
-        else {
+        } else {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: " + dbHelper.getExamination(examinationId).getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
             reviewNameTextView.setText("Name: " + dbHelper.getExamination(examinationId).getPatientName());
         }
+    }
+
+    private class UploadExaminationTask extends AsyncTask<String, String, String> {
+        ProgressDialog pDialog;
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Working...");
+            List<String> data = new ArrayList<String>();
+            Examination ex = dbHelper.getExamination(examinationId);
+            data.add(ex.getPatientSsn());
+            data.add(ex.getPatientName());
+            List<String> images = ex.getAllImages();
+
+            //Andreas Leker
+            List<String> notes = ex.getAllComments();
+            //TEMP data:
+            String username = "rikardbe_emr";
+            String password = "Paa5Eric";
+
+            Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
+
+            if (service.upload(data, images, notes, username, password)) {
+                dbHelper.deleteExamination(examinationId);
+                i.putExtra("upload_success", "Examination successfully uploaded");
+            } else {
+                i.putExtra("upload_fail", "Upload failed");
+                // TODO: append reason for failure to "fail" string
+            }
+
+            startActivity(i);
+            finish();
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(ReviewUploadActivity.this);
+            pDialog.setMessage("Working...");
+            pDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+        }
+
     }
 
     @Override

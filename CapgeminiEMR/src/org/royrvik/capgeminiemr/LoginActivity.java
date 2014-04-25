@@ -17,7 +17,6 @@ import org.royrvik.capgeminiemr.utils.NetworkChecker;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 import java.util.ArrayList;
 
-
 public class LoginActivity extends SherlockActivity {
 
     private static int RESULT_IDENTIFY_PATIENT = 2;
