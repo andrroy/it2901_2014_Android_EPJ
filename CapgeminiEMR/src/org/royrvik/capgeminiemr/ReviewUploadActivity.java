@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.actionbarsherlock.app.SherlockActivity;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -34,6 +35,12 @@ public class ReviewUploadActivity extends SherlockActivity {
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
+    //Temp
+    private List<String> data;
+    private List<String> images;
+    private List<String> notes;
+    private Examination ex;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +60,7 @@ public class ReviewUploadActivity extends SherlockActivity {
         // get intent from last activity
         Intent i = getIntent();
         examinationId = i.getIntExtra("ex_id", 0);
+        ex = dbHelper.getExamination(examinationId);
 
         // Fetch examination from database and show its images and comments in the listview
         final List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
@@ -74,7 +82,16 @@ public class ReviewUploadActivity extends SherlockActivity {
         uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UploadExaminationTask().execute();
+
+                //Check if all images have notes
+                boolean validNotes = true;
+                notes = ex.getAllComments();
+                for(String n : notes){
+                    if(n.equals(" ")) validNotes=false;
+                }
+                if(validNotes)new UploadExaminationTask().execute();
+                else Toast.makeText(getApplicationContext(), "Some images does not have notes attached", Toast.LENGTH_SHORT).show();
+
             }
         });
 
@@ -104,15 +121,15 @@ public class ReviewUploadActivity extends SherlockActivity {
         @Override
         protected String doInBackground(String... params) {
             publishProgress("Working...");
-            List<String> data = new ArrayList<String>();
-            Examination ex = dbHelper.getExamination(examinationId);
+
+            //Get patient data
+            data = new ArrayList<String>();
             data.add(ex.getPatientSsn());
             data.add(ex.getPatientName());
-            List<String> images = ex.getAllImages();
+            //Get images from examination
+            images = ex.getAllImages();
 
-            //Andreas Leker
-            List<String> notes = ex.getAllComments();
-            //TEMP data:
+            // TODO: Get credentials from database
             String username = "rikardbe_emr";
             String password = "Paa5Eric";
 
@@ -121,6 +138,7 @@ public class ReviewUploadActivity extends SherlockActivity {
             if (service.upload(data, images, notes, username, password)) {
                 dbHelper.deleteExamination(examinationId);
                 i.putExtra("upload_success", "Examination successfully uploaded");
+                // TODO: Delete images from device
             } else {
                 i.putExtra("upload_fail", "Upload failed");
                 // TODO: append reason for failure to "fail" string
