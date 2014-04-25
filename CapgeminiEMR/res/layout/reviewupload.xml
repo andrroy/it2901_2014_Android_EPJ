@@ -75,7 +75,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="false"
             android:text="@string/edit"
-            android:background="#f95d32"
             android:layout_weight="1"/>
 
         <Button
@@ -88,7 +87,6 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:text="@string/upload"
-            android:background="#3eff57"
             android:layout_weight="1"/>
 
 

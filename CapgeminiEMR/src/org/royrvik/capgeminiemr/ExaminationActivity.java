@@ -152,7 +152,11 @@ public class ExaminationActivity extends SherlockActivity {
                 if (currentExamination.getUltrasoundImages().isEmpty()) {
                     Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to (this is not supposed to happen)", Style.ALERT).show();
                 } else {
-                    examinationViewFlipper.showNext();
+                    // Start FullScreenViewActivity here. - Rix1
+                    Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
+                    i.putExtra("examination", currentExamination);
+                    
+                    startActivity(i);
                 }
                 updateEditorView();
 

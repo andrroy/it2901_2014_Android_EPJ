@@ -9,7 +9,14 @@
     <packaging>apk</packaging>
     <name>CapgeminiEMR</name>
 
+
     <dependencies>
+
+        <dependency>
+            <groupId>com.github.chrisbanes.photoview</groupId>
+            <artifactId>library</artifactId>
+            <version>1.2</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.android</groupId>
@@ -24,7 +31,6 @@
             <version>4.4.0</version>
             <type>apklib</type>
         </dependency>
-
 
         <dependency>
             <artifactId>crouton</artifactId>

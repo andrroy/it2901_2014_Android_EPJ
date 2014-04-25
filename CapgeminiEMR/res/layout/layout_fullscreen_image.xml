@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+    <ImageView
+            android:id="@+id/imgDisplay"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:scaleType="fitCenter"
+            android:background="#000"
+            />
+
+    <Button
+            android:id="@+id/btnClose"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="15dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffff"
+            android:text="@string/close" />
+
+
+    <RelativeLayout
+            android:id="@+id/btmGradient"
+            android:layout_width="fill_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bottomgradient"
+
+            ></RelativeLayout>
+
+    <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="#99B2B2B1"
+            />
+
+    <Button
+            android:id="@+id/btnDelete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_delete_up"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+
+
+    <Button
+            android:id="@+id/btnComment"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_comment"
+            android:layout_alignBaseline="@id/btnDelete"
+            android:layout_toRightOf="@id/btnDelete"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+
+
+    <Button
+            android:id="@+id/btnTag"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/ic_tags"
+            android:layout_toRightOf="@id/btnComment"
+            android:layout_alignBaseline="@id/btnDelete"
+            android:layout_marginLeft="15dp"
+            android:layout_marginBottom="5dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp" />
+
+
+</RelativeLayout>

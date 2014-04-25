@@ -35,6 +35,7 @@
 
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
+    <string name="patent_info">Patient info:</string>
 
     <!-- Review and upload strings -->
     <string name="patient_info">Patient info:</string>
@@ -48,6 +49,13 @@
     <string name="username2">Username</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+
+    <!-- Fullscreen View -->
+    <string name="close">Close</string>
+    <string name="save">Save</string>
+    <string name="discard">Discard</string>
+    <string name="writeComment">Write your comment here...</string>
+
 
     <!-- Homescreen -->
     <string name="empty_list">No examinations found</string>
