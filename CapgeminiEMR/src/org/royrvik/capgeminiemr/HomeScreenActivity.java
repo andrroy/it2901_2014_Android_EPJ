@@ -48,8 +48,6 @@ public class HomeScreenActivity extends SherlockActivity {
         dialog.setNeutralButton("OK", null);
         dialog.show();
 
-
-
         dbHelper = new DatabaseHelper(this);
 
         //Getting the session

@@ -17,8 +17,6 @@ import java.util.List;
 
 public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
-    private static final String TAG = "APP";
-
     private int resource;
     private LayoutInflater inflater;
     private Context context;
@@ -42,7 +40,7 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
         // Check if Examination has no images
         if(rowItem.getUltrasoundImages().size() < 1 || rowItem.getUltrasoundImages() == null) {
-            // Show dummy image
+            // Show "no images available"
             int resID = context.getResources().getIdentifier("no_image" , "drawable", context.getPackageName());
             rowImage.setImageResource(resID);
         }
@@ -50,7 +48,6 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
             Bitmap bitmap = BitmapFactory.decodeFile(rowItem.getUltrasoundImages().get(0).getImageUri());
             rowImage.setImageBitmap(bitmap);
         }
-
 
         TextView ssnTextView = (TextView) convertView.findViewById(R.id.homeListSsnTextView);
         ssnTextView.setText(rowItem.getPatientSsn());

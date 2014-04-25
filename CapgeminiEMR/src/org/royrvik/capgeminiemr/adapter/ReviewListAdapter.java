@@ -17,8 +17,6 @@ import java.util.List;
 
 public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
 
-    private static final String TAG = "APP";
-
     private int resource;
     private LayoutInflater inflater;
     private Context context;
@@ -35,7 +33,7 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
 
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
-        //ultrasound image/data for THIS row
+        //Data for THIS row
         UltrasoundImage rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
