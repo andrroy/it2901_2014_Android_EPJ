@@ -42,7 +42,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
         if (!service.bindService()) {
-            Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "Could not connect to the EMR service", Toast.LENGTH_SHORT).show();
             finish();
         }
 
