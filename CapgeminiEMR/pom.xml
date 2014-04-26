@@ -9,7 +9,6 @@
     <packaging>apk</packaging>
     <name>CapgeminiEMR</name>
 
-
     <dependencies>
 
         <dependency>

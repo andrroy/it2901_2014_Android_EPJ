@@ -158,7 +158,7 @@ public class LauncherActivity extends Activity {
     }
 
     /**
-     * Adds three test images to the device
+     * Adds test images to the device
      */
     private void updateImageLibrary() {
 

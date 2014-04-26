@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "emrdb";
 
-    // Table name
+    // Table names
     private static final String TABLE_EXAMINATION = "examination";
     private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
     private static final String TABLE_TECHPASSWORD = "techpassword";

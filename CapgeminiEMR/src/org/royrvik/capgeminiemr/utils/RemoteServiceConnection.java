@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
-import com.example.EMRService.EMRRemoteInterface;
 import org.royrvik.capgeminiemr.EMRApplication;
+import org.royrvik.capgeminiemr.service.EMRRemoteInterface;
+
 import java.util.List;
 
 public class RemoteServiceConnection implements ServiceConnection {

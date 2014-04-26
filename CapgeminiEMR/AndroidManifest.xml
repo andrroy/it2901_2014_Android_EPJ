@@ -44,6 +44,6 @@
         <activity android:name=".TechDepartmentActivity"/>
         <activity android:name=".TechPasswordChangeActivity"/>
 
-        <service android:name="com.example.EMRService.EMRService"/>
+        <service android:name="org.royrvik.emrservice.EMRService"/>
     </application>
 </manifest>
