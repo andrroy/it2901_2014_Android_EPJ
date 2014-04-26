@@ -16,6 +16,7 @@ class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
     private String ldapDC2;
     private String ldapOU;
     private String ldapAddress;
+    private int ldapPort;
 
     protected Boolean doInBackground(String... userInformation){
         //  userInformation Layout:
@@ -24,12 +25,14 @@ class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
         //  2-ldapDC
         //  3-ldapOU
         //  4-ldapAddress
+        //  5-ldapPort
 
         String[] ldapDC = userInformation[2].split(Pattern.quote("."));
         ldapDC1 = ldapDC[0];
         ldapDC2 = ldapDC[1];
         ldapOU = userInformation[3];
         ldapAddress = userInformation[4];
+        ldapPort = Integer.parseInt(userInformation[5]);
 
         try {
             SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
@@ -37,7 +40,7 @@ class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
             socketFactory = sslUtil.createSSLSocketFactory();
 
             //Connecting to ldap-server
-            LDAPConnection connection = new LDAPConnection(socketFactory, ldapAddress, 636);
+            LDAPConnection connection = new LDAPConnection(socketFactory, ldapAddress, ldapPort);
 
             //Authenticating (Will cast exception if authentication fails)
             connection.bind("uid="+userInformation[0]+",ou="+ldapOU+",dc="+ldapDC1+",dc="+ldapDC2, userInformation[1]);

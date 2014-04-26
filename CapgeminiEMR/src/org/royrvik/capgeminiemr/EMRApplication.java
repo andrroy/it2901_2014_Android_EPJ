@@ -95,6 +95,7 @@ public class EMRApplication extends Application {
         strings.add(getSettingsLDAPDC());
         strings.add(getSettingsLDAPOU());
         strings.add(getSettingsAuthenticationServerAddress());
+        strings.add(getSettingsAuthenticationServerPort());
         return strings;
     }
 
