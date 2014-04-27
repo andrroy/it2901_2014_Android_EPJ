@@ -1,81 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
-              android:background="@android:color/darker_gray"
-        >
+                xmlns:flatui="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/bg">
 
 
+    <com.cengalabs.flatui.views.FlatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View saved examinations"
+        android:id="@+id/launchSavedExButton"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        />
 
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="View saved examinations"
-            android:id="@+id/launchSavedExButton"
-            android:layout_margin="20dp"
-            android:layout_centerHorizontal="true"
-            />
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start EMR application"
-            android:id="@+id/launchOtherAppButton"
-            android:layout_margin="5dp"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/launchSavedExButton"
-            />
-
-
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start EMR with images and ID"
-            android:id="@+id/launchWithIdButton"
-            android:layout_below="@+id/launchOtherAppButton" android:layout_centerHorizontal="true"
-
-            />
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="No ID available"
-            android:id="@+id/patientIdTextView"
-            android:layout_below="@+id/launchWithIdButton"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/background_light"
-            />
-
-    <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Start EMR: Identify Patient"
-            android:id="@+id/identifyPatientButton"
-            android:layout_below="@+id/launchWithIdButton"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            />
+    <com.cengalabs.flatui.views.FlatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start EMR application"
+        android:id="@+id/launchOtherAppButton"
+        android:layout_margin="5dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/launchSavedExButton"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        />
 
 
-    <Button android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose pictures"
-            android:id="@+id/openGalleryButton"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@+id/identifyPatientButton"
-            android:layout_marginTop="5dp"
-            />
+    <com.cengalabs.flatui.views.FlatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start EMR with images and ID"
+        android:id="@+id/launchWithIdButton"
+        android:layout_below="@+id/launchOtherAppButton"
+        android:layout_centerHorizontal="true"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        />
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/imagesChosenTextView"
-            android:layout_below="@id/openGalleryButton"
-            android:layout_centerHorizontal="true"
-            android:textColor="@android:color/background_light"
-            />
+    <com.cengalabs.flatui.views.FlatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No ID available"
+        android:id="@+id/patientIdTextView"
+        android:layout_below="@+id/launchWithIdButton"
+        android:layout_centerHorizontal="true"
+        flatui:textColor="main"
+        flatui:fontWeight="regular"
+        />
+
+    <com.cengalabs.flatui.views.FlatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start EMR: Identify Patient"
+        android:id="@+id/identifyPatientButton"
+        android:layout_below="@+id/launchWithIdButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        />
+
+
+    <com.cengalabs.flatui.views.FlatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose pictures"
+        android:id="@+id/openGalleryButton"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/identifyPatientButton"
+        android:layout_marginTop="5dp"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        />
+
+    <com.cengalabs.flatui.views.FlatTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/imagesChosenTextView"
+        android:layout_below="@id/openGalleryButton"
+        android:layout_centerHorizontal="true"
+        flatui:textColor="main"
+        flatui:fontWeight="regular"
+        />
 
 </RelativeLayout>

@@ -41,5 +41,7 @@ android {
 }
 
 dependencies {
-       compile 'com.android.support:appcompat-v7:+'
+    compile 'com.android.support:appcompat-v7:+'
+    compile 'com.github.eluleci:flatui:0.1.3'
+
 }

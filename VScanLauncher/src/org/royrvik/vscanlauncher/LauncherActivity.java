@@ -1,7 +1,9 @@
 package org.royrvik.vscanlauncher;
 
-import android.app.Activity;
-import android.content.*;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,11 +12,13 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.cengalabs.flatui.FlatUI;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -38,7 +42,14 @@ public class LauncherActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.ORANGE);
         setContentView(R.layout.main);
+
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
 
         updateImageLibrary();
 
@@ -96,7 +107,7 @@ public class LauncherActivity extends ActionBarActivity {
     /**
      * Launch straight to the home screen.
      */
-    private void launchHomeScreen(){
+    private void launchHomeScreen() {
         new EMRLauncher(getApplicationContext()).start();
     }
 
@@ -104,8 +115,10 @@ public class LauncherActivity extends ActionBarActivity {
      * Launches the main EMR application with images.
      */
     private void startOtherApplication() {
-        if (selectedImagesPath.size() > 0) new EMRLauncher(getApplicationContext(), selectedImagesPath).start(); //Images are chosen
-        else Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
+        if (selectedImagesPath.size() > 0)
+            new EMRLauncher(getApplicationContext(), selectedImagesPath).start(); //Images are chosen
+        else
+            Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
     }
 
     /**
@@ -113,10 +126,11 @@ public class LauncherActivity extends ActionBarActivity {
      */
     private void startOtherAppWithId() {
         if (patientData.size() > 1) {
-            if (selectedImagesPath.size() > 0) new EMRLauncher(getApplicationContext(), selectedImagesPath, patientData).start(); //Images are chosen
-            else Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
-        }
-        else Toast.makeText(getApplicationContext(), "No ID available.", Toast.LENGTH_SHORT).show();
+            if (selectedImagesPath.size() > 0)
+                new EMRLauncher(getApplicationContext(), selectedImagesPath, patientData).start(); //Images are chosen
+            else
+                Toast.makeText(getApplicationContext(), "Please select images", Toast.LENGTH_SHORT).show(); //No images chosen
+        } else Toast.makeText(getApplicationContext(), "No ID available.", Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -203,8 +217,7 @@ public class LauncherActivity extends ActionBarActivity {
         // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
         try {
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        }
-        catch(SecurityException secException) {
+        } catch (SecurityException secException) {
             Log.d(TAG, "KitKat doesn't like this :(");
         }
 
@@ -214,6 +227,7 @@ public class LauncherActivity extends ActionBarActivity {
             }
         });*/
     }
+
     /**
      * @param context
      * @param contentUri Uri to get absolute path from
@@ -326,13 +340,11 @@ public class LauncherActivity extends ActionBarActivity {
                 for (String item : data) {
                     patientData.add(item);
                 }
-            }
-            else patientData.add("No ID available.");
+            } else patientData.add("No ID available.");
             patientIdTextView.setText(patientData.get(0));
             if (patientData.size() > 1) {
                 Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
-            }
-            else {
+            } else {
                 Toast.makeText(getApplicationContext(), "No data received, check connection", Toast.LENGTH_SHORT).show();
             }
         }
