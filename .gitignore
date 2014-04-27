@@ -32,3 +32,8 @@ proguard/
 log/
 target/
 gen-external-apklibs
+
+# Gradle
+.gradle/
+build/
+out/
