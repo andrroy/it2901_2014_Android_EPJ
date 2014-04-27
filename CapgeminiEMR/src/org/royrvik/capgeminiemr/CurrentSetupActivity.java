@@ -2,9 +2,9 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.widget.ListView;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.royrvik.capgeminiemr.adapter.CurrentSetupListAdapter;
 import org.royrvik.capgeminiemr.data.SettingsItem;
@@ -12,7 +12,7 @@ import org.royrvik.capgeminiemr.data.SettingsItem;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class CurrentSetupActivity extends SherlockActivity {
+public class CurrentSetupActivity extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

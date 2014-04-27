@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-public class LauncherActivity extends Activity {
+public class LauncherActivity extends ActionBarActivity {
 
     private static final String TAG = "APP";
     private static int RESULT_LOAD_IMAGE = 1;

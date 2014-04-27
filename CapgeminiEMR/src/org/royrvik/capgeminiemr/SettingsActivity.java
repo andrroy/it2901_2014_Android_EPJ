@@ -1,11 +1,11 @@
 package org.royrvik.capgeminiemr;
 
 import android.os.Bundle;
-import com.actionbarsherlock.app.SherlockPreferenceActivity;
-import com.actionbarsherlock.view.MenuItem;
+import android.preference.PreferenceActivity;
+import android.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
-public class SettingsActivity extends SherlockPreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
 
     @Override
@@ -16,8 +16,8 @@ public class SettingsActivity extends SherlockPreferenceActivity {
         addPreferencesFromResource(R.xml.settings);
 
         //ActionbarSherlock back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(true);
+        //getActionBar().setHomeButtonEnabled(true);
 
     }
 

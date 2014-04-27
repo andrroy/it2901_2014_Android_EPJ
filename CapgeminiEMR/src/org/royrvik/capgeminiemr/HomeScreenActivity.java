@@ -5,15 +5,15 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
@@ -23,7 +23,7 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 
-public class HomeScreenActivity extends SherlockActivity {
+public class HomeScreenActivity extends ActionBarActivity {
 
     private ListView homescreenListView;
     private DatabaseHelper dbHelper;
@@ -42,7 +42,7 @@ public class HomeScreenActivity extends SherlockActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
 
         //Alert dialog that shows status of upload
-        if(i.hasExtra("upload_success")) dialog.setMessage("Examination was successfully uploaded");
+        if (i.hasExtra("upload_success")) dialog.setMessage("Examination was successfully uploaded");
         else dialog.setMessage("Unable to upload examination. Please try again.");
         dialog.setIcon(R.drawable.ic_info);
         dialog.setNeutralButton("OK", null);
@@ -55,26 +55,25 @@ public class HomeScreenActivity extends SherlockActivity {
 
         // Get all examinations in the database
         listOfExaminations = dbHelper.getAllExaminations();
-        if(listOfExaminations.isEmpty()) {
-            TextView emptyListTextView = (TextView)findViewById(R.id.emptyListTextView);
+        if (listOfExaminations.isEmpty()) {
+            TextView emptyListTextView = (TextView) findViewById(R.id.emptyListTextView);
             emptyListTextView.setVisibility(View.VISIBLE);
         }
 
-        if(!session.isValid()) {
+        if (!session.isValid()) {
 
             dialog.setMessage("This information is not available in offline mode");
             dialog.setIcon(R.drawable.ic_info);
             dialog.setNeutralButton("OK", null);
             dialog.show();
-        }
-        else {
+        } else {
             homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
             final HomescreenListAdapter homescreenListAdapter = new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations);
             homescreenListView.setAdapter(homescreenListAdapter);
             homescreenListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    final Examination ex = (Examination)parent.getItemAtPosition(position);
+                    final Examination ex = (Examination) parent.getItemAtPosition(position);
 
                     // Build and show popup
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
@@ -100,7 +99,7 @@ public class HomeScreenActivity extends SherlockActivity {
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Delete the Examination from the database
                                     boolean deleted = dbHelper.deleteExamination(ex.getId());
-                                    if(deleted)
+                                    if (deleted)
                                         Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
 
                                     // Update data set and notify the adapter of the changes
@@ -147,7 +146,7 @@ public class HomeScreenActivity extends SherlockActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.xml.menu_homescreen, menu);
         return super.onCreateOptionsMenu(menu);
     }

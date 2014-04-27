@@ -2,11 +2,11 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
@@ -15,7 +15,7 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import java.util.ArrayList;
 
 
-public class IdentifyPatientActivity extends SherlockActivity {
+public class IdentifyPatientActivity extends ActionBarActivity {
 
     private Button backButton, okButton;
     private ImageButton manualButton, automaticButton;

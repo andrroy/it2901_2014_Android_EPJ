@@ -2,12 +2,12 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -15,7 +15,7 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 /**
  * Created by Joakim.
  */
-public class TechLoginActivity extends SherlockActivity {
+public class TechLoginActivity extends ActionBarActivity {
     private TextView techLoginTextView;
     private TextView techLoginConfirmTextView;
     private EditText techLoginPasswordEditText;
@@ -72,16 +72,13 @@ public class TechLoginActivity extends SherlockActivity {
                         startActivity(launchIntent);
                         finish();
                         return;
-                    }
-                    else {
+                    } else {
                         Crouton.makeText(TechLoginActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
                     }
-                }
-                else {
+                } else {
                     Crouton.makeText(TechLoginActivity.this, "Passwords can not be empty", Style.ALERT).show();
                 }
-            }
-            else {
+            } else {
                 Crouton.makeText(TechLoginActivity.this, "The passwords does not match!", Style.ALERT).show();
             }
         }
@@ -98,8 +95,7 @@ public class TechLoginActivity extends SherlockActivity {
         if (isFirstSetup()) {
             techLoginTextView.setText("Please choose a password for technical users");
             techLoginConfirmTextView.setText("Confirm new password");
-        }
-        else {
+        } else {
             techLoginTextView.setText("Please enter technical user password");
             techLoginConfirmPasswordEditText.setEnabled(false);
             techLoginConfirmPasswordEditText.setVisibility(View.GONE);
@@ -108,7 +104,6 @@ public class TechLoginActivity extends SherlockActivity {
     }
 
     /**
-     *
      * @return True if the tech password is not set.
      */
     private boolean isFirstSetup() {

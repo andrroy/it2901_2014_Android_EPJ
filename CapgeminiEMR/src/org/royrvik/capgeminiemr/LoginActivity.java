@@ -2,22 +2,23 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.utils.Encryption;
 import org.royrvik.capgeminiemr.utils.NetworkChecker;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+
 import java.util.ArrayList;
 
-public class LoginActivity extends SherlockActivity {
+public class LoginActivity extends ActionBarActivity {
 
     private static int RESULT_IDENTIFY_PATIENT = 2;
 
@@ -73,6 +74,7 @@ public class LoginActivity extends SherlockActivity {
 
     /**
      * Gathers information from the intent.
+     *
      * @param i The {@linkplain android.content.Intent} from the activity.
      */
     private void getInformationFromIntent(Intent i) {
@@ -114,12 +116,10 @@ public class LoginActivity extends SherlockActivity {
         //Check if the credentials are correct, and forwarding to next view if true
         if (session.isValid()) {
             startApplication();
-        }
-        else{
+        } else {
             if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
                 Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
-            }
-            else {
+            } else {
                 Crouton.makeText(LoginActivity.this, "Check your network settings", Style.ALERT).show();
                 recheckNetwork();
             }
@@ -138,8 +138,7 @@ public class LoginActivity extends SherlockActivity {
             passwordEditText.setEnabled(true);
             loginButton.setEnabled(true);
             offlineModeButton.setEnabled(false);
-        }
-        else {
+        } else {
             networkStatusTextView.setText("Network Unavailable");
             usernameEditText.setEnabled(false);
             passwordEditText.setEnabled(false);
@@ -214,7 +213,7 @@ public class LoginActivity extends SherlockActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getSupportMenuInflater();
+        MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.xml.menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
