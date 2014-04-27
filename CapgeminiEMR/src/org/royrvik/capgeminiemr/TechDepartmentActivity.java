@@ -2,11 +2,11 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 /**
  * Created by Joakim.
  */
-public class TechDepartmentActivity extends SherlockActivity {
+public class TechDepartmentActivity extends ActionBarActivity {
 
     private EditText usernameEditText, passwordEditText;
     private DatabaseHelper db;

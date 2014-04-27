@@ -18,7 +18,7 @@
         android:name="org.royrvik.capgeminiemr.EMRApplication"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.Holo.Light">
+        android:theme="@style/Theme.AppCompat.Light">
         <activity
             android:name="org.royrvik.capgeminiemr.LoginActivity"
             android:label="@string/app_name">
@@ -44,6 +44,6 @@
         <activity android:name=".TechDepartmentActivity"/>
         <activity android:name=".TechPasswordChangeActivity"/>
 
-        <service android:name="com.example.EMRService.EMRService"/>
+        <service android:name="org.royrvik.emrservice.EMRService"/>
     </application>
 </manifest>

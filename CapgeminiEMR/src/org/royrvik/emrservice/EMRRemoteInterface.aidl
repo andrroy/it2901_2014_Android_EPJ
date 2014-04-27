@@ -1,4 +1,4 @@
-package com.example.EMRService;
+package org.royrvik.emrservice;
 
 /**
  * Created by Joakim.

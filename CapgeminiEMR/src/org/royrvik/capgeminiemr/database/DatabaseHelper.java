@@ -16,7 +16,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "emrdb";
 
-    // Table name
+    // Table names
     private static final String TABLE_EXAMINATION = "examination";
     private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
     private static final String TABLE_TECHPASSWORD = "techpassword";
@@ -107,7 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return The tech password
      */
     private String getTechUserPassword() {
-            SQLiteDatabase.loadLibs(context);
+        SQLiteDatabase.loadLibs(context);
         SQLiteDatabase db = this.getReadableDatabase("test123");
         String password = "";
         Cursor cursor = db.rawQuery("SELECT * FROM techpassword", null);
@@ -477,7 +477,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS techpassword");
         db.execSQL("CREATE TABLE techpassword (password TEXT)");
         setTechUserPassword(techPassword);
-        
+
         db.close();
     }
 }

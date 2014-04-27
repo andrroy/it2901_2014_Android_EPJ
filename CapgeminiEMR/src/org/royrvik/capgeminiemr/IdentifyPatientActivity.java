@@ -2,21 +2,20 @@ package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
-import java.util.List;
 
 
-public class IdentifyPatientActivity extends SherlockActivity {
+public class IdentifyPatientActivity extends ActionBarActivity {
 
     private Button backButton, okButton;
     private ImageButton manualButton, automaticButton;
@@ -58,8 +57,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
 
         if (session.isValid()) {
             offlineMessage.setText("");
-        }
-        else {
+        } else {
             offlineMessage.setText("Currently in offline mode");
         }
 
@@ -94,10 +92,10 @@ public class IdentifyPatientActivity extends SherlockActivity {
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!patientIDEditText.getText().toString().trim().isEmpty()){
+                if (!patientIDEditText.getText().toString().trim().isEmpty()) {
                     checkPid(patientIDEditText.getText().toString());
-                }
-                else Toast.makeText(getApplicationContext(), "Please enter a social security number", Toast.LENGTH_SHORT).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "Please enter a social security number", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -123,8 +121,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
             String password = "Paa5Eric";
 
             info = (ArrayList<String>) service.getPatientData(ssn, username, password);
-        }
-        else {
+        } else {
             info.add(patientIDEditText.getText().toString());
         }
         if (info != null) {
@@ -133,7 +130,7 @@ public class IdentifyPatientActivity extends SherlockActivity {
                 data.putStringArrayListExtra("patient", info);
                 setResult(RESULT_OK, data);
                 returnAfter = false;
-            }else {
+            } else {
                 Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
                 i.putStringArrayListExtra("info", info);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
@@ -164,15 +161,13 @@ public class IdentifyPatientActivity extends SherlockActivity {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
         if (scanResult != null) {
-            if(scanResult.getFormatName().equals("QR_CODE")) {
+            if (scanResult.getFormatName().equals("QR_CODE")) {
                 String ssn = scanResult.getContents();
                 checkPid(ssn);
-            }
-            else if(scanResult.getFormatName().equals("CODE_128")){
+            } else if (scanResult.getFormatName().equals("CODE_128")) {
                 String ssn = scanResult.getContents();
                 checkPid(ssn);
-            }
-            else {
+            } else {
                 Log.d("APP", "Invalid format"); //Give user feedback
             }
         }

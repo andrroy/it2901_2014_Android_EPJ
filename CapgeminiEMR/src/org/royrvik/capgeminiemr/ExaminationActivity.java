@@ -1,13 +1,12 @@
 package org.royrvik.capgeminiemr;
 
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.MenuItem;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import net.sqlcipher.database.SQLiteDatabase;
@@ -20,7 +19,7 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import java.util.ArrayList;
 
 
-public class ExaminationActivity extends SherlockActivity {
+public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private ViewFlipper examinationViewFlipper;
@@ -79,7 +78,7 @@ public class ExaminationActivity extends SherlockActivity {
         initSecondViewElements();
         updateElements();
 
-        //ActionbarSherlock back button
+        //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
@@ -129,13 +128,12 @@ public class ExaminationActivity extends SherlockActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                if(activityStartedForAction().equals("new_examination"))
+                if (activityStartedForAction().equals("new_examination"))
                     exId = dbHelper.addExamination(currentExamination);
-                else if(activityStartedForAction().equals("edit_examination")) {
+                else if (activityStartedForAction().equals("edit_examination")) {
                     dbHelper.updateExamination(currentExamination);
                     exId = currentExamination.getId();
-                }
-                else
+                } else
                     return;
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
@@ -225,7 +223,8 @@ public class ExaminationActivity extends SherlockActivity {
             globalImageView.setImageBitmap(
                     BitmapUtils.decodeSampledBitmapFromStorage(
                             currentExamination.getUltrasoundImages().get(currentImageId).getImageUri(),
-                    globalImageView.getWidth(), globalImageView.getHeight()));
+                            globalImageView.getWidth(), globalImageView.getHeight())
+            );
 
             commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
         }
