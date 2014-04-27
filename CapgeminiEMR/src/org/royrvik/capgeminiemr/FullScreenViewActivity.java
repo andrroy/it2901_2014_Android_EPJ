@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import org.royrvik.capgeminiemr.adapter.FullScreenImageAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.HackyViewPager;
+import uk.co.senab.photoview.PhotoView;
 
 
 public class FullScreenViewActivity extends Activity {
