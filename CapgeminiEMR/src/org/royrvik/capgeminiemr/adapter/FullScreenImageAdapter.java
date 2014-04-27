@@ -16,7 +16,6 @@ import android.widget.Toast;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
-import org.royrvik.capgeminiemr.utils.dialogs.CommentDialog;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -182,17 +181,13 @@ public class FullScreenImageAdapter extends PagerAdapter{
         // newFragment = newInstance(comment);
         // newFragment.show(((Activity) context).getFragmentManager(), "commentDialog");
 
-        newFragment = CommentDialog.newInstance(comment);
-        newFragment.show(((Activity)context).getFragmentManager(), "commentDialog");
     }
 
-    @Override
     public void onDialogPositiveClick(DialogFragment dialog) {
-        saveComment(currentImage);
+//        saveComment(currentImage);
     }
 
-    @Override
     public void onDialogNegativeClick(DialogFragment dialog) {
-        newFragment.dismiss();
+  //      newFragment.dismiss();
     }
 }
