@@ -43,5 +43,6 @@ android {
 
 dependencies {
     compile 'com.jcraft:jsch:0.1.51'
+    compile 'com.itextpdf:itextpdf:5.0.6'
     compile fileTree(dir: 'libs')
 }
