@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.royrvik.capgeminiemr.FullScreenViewActivity;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
@@ -21,7 +20,7 @@ import org.royrvik.capgeminiemr.utils.dialogs.CommentDialog;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class FullScreenImageAdapter extends PagerAdapter implements CommentDialog.CommentDialogListnener{
+public class FullScreenImageAdapter extends PagerAdapter{
 
     private Examination currentExamination;
     private Context context;
@@ -115,7 +114,7 @@ public class FullScreenImageAdapter extends PagerAdapter implements CommentDialo
                 dialogSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        saveComment(position);
+                        // saveComment(position);
                         dialog.dismiss();
                     }
                 });
@@ -150,11 +149,8 @@ public class FullScreenImageAdapter extends PagerAdapter implements CommentDialo
         return viewLayout;
     }
 
-    private void saveComment(int index) {
-        currentExamination.getUltrasoundImages().get(index).setComment(commentTextView.getText().toString());
-    }
-
-    public void setComment(String comment){
+    private void saveComment(int index, String comment) {
+        currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
     public void deleteImage(int index) {
@@ -183,6 +179,9 @@ public class FullScreenImageAdapter extends PagerAdapter implements CommentDialo
 
 
     private void showCommentDialog(String comment){
+        // newFragment = newInstance(comment);
+        // newFragment.show(((Activity) context).getFragmentManager(), "commentDialog");
+
         newFragment = CommentDialog.newInstance(comment);
         newFragment.show(((Activity)context).getFragmentManager(), "commentDialog");
     }
