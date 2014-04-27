@@ -7,7 +7,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.RemoteException;
 import org.royrvik.capgeminiemr.EMRApplication;
-import org.royrvik.capgeminiemr.service.EMRRemoteInterface;
+import org.royrvik.emrservice.EMRRemoteInterface;
 
 import java.util.List;
 

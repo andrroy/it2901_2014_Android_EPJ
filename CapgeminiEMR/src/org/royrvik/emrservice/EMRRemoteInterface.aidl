@@ -1,4 +1,4 @@
-package org.royrvik.capgeminiemr.service;
+package org.royrvik.emrservice;
 
 /**
  * Created by Joakim.
