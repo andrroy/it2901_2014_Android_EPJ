@@ -60,7 +60,7 @@ public class EMRLauncher extends Intent {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
         putExtra("type", START_IMAGES_ID);
         putStringArrayListExtra("chosen_images", images);
-        putExtra("id", patientData.get(0));
+        putStringArrayListExtra("patientData", patientData);
         this.context = context;
     }
 

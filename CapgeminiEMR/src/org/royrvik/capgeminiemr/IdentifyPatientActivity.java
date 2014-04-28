@@ -34,9 +34,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
-        //Actionbarsherlock back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
+
 
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
@@ -98,13 +96,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(), "Please enter a social security number", Toast.LENGTH_SHORT).show();
             }
         });
-
-        //If activity was started with id
-        String id = i.getStringExtra("id");
-        if (id != null) {
-            patientIDEditText.setText(id);
-            flipper.showNext();
-        }
     }
 
     /**
