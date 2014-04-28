@@ -25,7 +25,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="42dp"
         android:hint="@string/username2"
-        flatui:fieldStyle="flat"
+        flatui:fieldStyle="box"
         flatui:cornerRadius="3dip"
         flatui:fontFamily="Roboto"/>
 
@@ -39,7 +39,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="29dp"
         android:hint="@string/password"
-        flatui:fieldStyle="flat"
+        flatui:fieldStyle="box"
         flatui:cornerRadius="3dip"
         flatui:fontFamily="Roboto"/>
 

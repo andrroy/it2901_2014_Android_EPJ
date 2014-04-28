@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:flatui="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -9,58 +10,98 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Change technical user password"
-            android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Current password"
-            android:id="@+id/textView2" android:layout_below="@+id/textView" android:layout_alignLeft="@+id/textView"
-            android:layout_alignStart="@+id/textView" android:layout_marginTop="35dp"/>
-    <EditText
+            android:id="@+id/textView2"
+            android:layout_below="@+id/textView"
+            android:layout_alignLeft="@+id/textView"
+            android:layout_alignStart="@+id/textView"
+            android:layout_marginTop="35dp"/>
+
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/techOldPasswordChangeEditText" android:layout_below="@+id/textView2" android:layout_alignLeft="@+id/textView2"
-            android:layout_alignStart="@+id/textView2" android:layout_alignRight="@+id/textView"
-            android:layout_alignEnd="@+id/textView"/>
+            android:id="@+id/techOldPasswordChangeEditText"
+            android:layout_below="@+id/textView2"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_alignRight="@+id/textView"
+            android:layout_alignEnd="@+id/textView"
+            flatui:fieldStyle="box"
+            flatui:cornerRadius="3dip"
+            flatui:fontFamily="Roboto"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="New password"
-            android:id="@+id/textView3" android:layout_centerVertical="true" android:layout_alignLeft="@+id/techOldPasswordChangeEditText"
+            android:id="@+id/textView3"
+            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/techOldPasswordChangeEditText"
             android:layout_alignStart="@+id/techOldPasswordChangeEditText"/>
-    <EditText
+
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/techNewPasswordChangeEditText" android:layout_below="@+id/textView3" android:layout_alignLeft="@+id/textView3"
-            android:layout_alignStart="@+id/textView3" android:layout_alignRight="@+id/techOldPasswordChangeEditText"
-            android:layout_alignEnd="@+id/techOldPasswordChangeEditText"/>
+            android:id="@+id/techNewPasswordChangeEditText"
+            android:layout_below="@+id/textView3"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_alignRight="@+id/techOldPasswordChangeEditText"
+            android:layout_alignEnd="@+id/techOldPasswordChangeEditText"
+            flatui:fieldStyle="box"
+            flatui:cornerRadius="3dip"
+            flatui:fontFamily="Roboto"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Repeat new password"
             android:id="@+id/textView4"
-            android:layout_below="@+id/techNewPasswordChangeEditText" android:layout_alignLeft="@+id/techNewPasswordChangeEditText"
-            android:layout_alignStart="@+id/techNewPasswordChangeEditText" android:layout_marginTop="29dp"/>
-    <EditText
+            android:layout_below="@+id/techNewPasswordChangeEditText"
+            android:layout_alignLeft="@+id/techNewPasswordChangeEditText"
+            android:layout_alignStart="@+id/techNewPasswordChangeEditText"
+            android:layout_marginTop="29dp"/>
+
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/techRepPasswordChangeEditText" android:layout_below="@+id/textView4" android:layout_alignLeft="@+id/textView4"
-            android:layout_alignStart="@+id/textView4" android:layout_alignRight="@+id/techNewPasswordChangeEditText"
-            android:layout_alignEnd="@+id/techNewPasswordChangeEditText"/>
-    <Button
+            android:id="@+id/techRepPasswordChangeEditText"
+            android:layout_below="@+id/textView4"
+            android:layout_alignLeft="@+id/textView4"
+            android:layout_alignStart="@+id/textView4"
+            android:layout_alignRight="@+id/techNewPasswordChangeEditText"
+            android:layout_alignEnd="@+id/techNewPasswordChangeEditText"
+            flatui:fieldStyle="box"
+            flatui:cornerRadius="3dip"
+            flatui:fontFamily="Roboto"/>
+
+    <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm"
-            android:id="@+id/techConfirmChangeButton" android:layout_alignParentBottom="true" android:layout_alignRight="@+id/techRepPasswordChangeEditText"
-            android:layout_alignEnd="@+id/techRepPasswordChangeEditText" android:layout_marginBottom="35dp"/>
+            android:id="@+id/techConfirmChangeButton"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@+id/techRepPasswordChangeEditText"
+            android:layout_alignEnd="@+id/techRepPasswordChangeEditText"
+            android:layout_marginBottom="35dp"
+            flatui:textAppearance="none"
+            flatui:fontWeight="light"
+            flatui:fontFamily="Roboto"/>
 </RelativeLayout>
