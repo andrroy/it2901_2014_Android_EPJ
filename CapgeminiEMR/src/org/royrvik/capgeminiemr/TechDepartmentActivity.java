@@ -15,9 +15,6 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
-/**
- * Created by Joakim.
- */
 public class TechDepartmentActivity extends ActionBarActivity {
 
     private EditText usernameEditText, passwordEditText;
@@ -34,7 +31,7 @@ public class TechDepartmentActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        //ActionbarSherlock back button
+        //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 

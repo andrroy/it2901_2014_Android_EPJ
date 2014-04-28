@@ -15,7 +15,7 @@ public class SettingsActivity extends PreferenceActivity {
 
         addPreferencesFromResource(R.xml.settings);
 
-        //ActionbarSherlock back button
+        //Actionbar back button
         getActionBar().setDisplayHomeAsUpEnabled(true);
         //getActionBar().setHomeButtonEnabled(true);
 

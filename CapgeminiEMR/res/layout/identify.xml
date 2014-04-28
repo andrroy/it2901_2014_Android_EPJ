@@ -25,6 +25,7 @@
                 android:id="@+id/textView3"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
+                android:fontFamily="sans-serif-light"
                 android:layout_marginTop="113dp"/>
 
             <ImageButton
@@ -53,6 +54,7 @@
                 android:id="@+id/textView"
                 android:layout_alignTop="@+id/textView4"
                 android:layout_alignLeft="@+id/manualButton"
+                android:fontFamily="sans-serif-light"
                 android:layout_alignStart="@+id/manualButton"/>
 
             <TextView
@@ -63,6 +65,7 @@
                 android:id="@+id/textView4"
                 android:layout_below="@+id/automaticButton"
                 android:layout_alignLeft="@+id/automaticButton"
+                android:fontFamily="sans-serif-light"
                 android:layout_alignStart="@+id/automaticButton"/>
             <TextView
                     android:layout_width="wrap_content"

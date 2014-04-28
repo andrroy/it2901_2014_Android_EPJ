@@ -14,9 +14,6 @@ import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
-/**
- * Created by Joakim.
- */
 public class TechLoginActivity extends ActionBarActivity {
     private TextView techLoginTextView;
     private TextView techLoginConfirmTextView;
@@ -36,7 +33,7 @@ public class TechLoginActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        //ActionbarSherlock back button
+        //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 

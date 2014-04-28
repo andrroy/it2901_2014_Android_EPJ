@@ -7,117 +7,118 @@
               android:weightSum="1">
 
     <ViewFlipper
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/examinationFlipper">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/examinationFlipper">
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:background="#b8b8b8"
-                android:layout_alignBottom="@+id/patientViewHeaderHackImageButton"
-                android:id="@+id/relativeLayout">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:background="#b8b8b8"
+                    android:layout_alignBottom="@+id/patientViewHeaderHackImageButton"
+                    android:id="@+id/relativeLayout">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/patent_info"
-                    android:id="@+id/header"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="@string/patent_info"
+                        android:id="@+id/header"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"/>
 
             </RelativeLayout>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/patientViewHeaderHackImageButton"
-                android:src="@android:drawable/ic_media_previous"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" android:clickable="false"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/patientViewHeaderHackImageButton"
+                    android:src="@android:drawable/ic_media_previous"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" android:clickable="false"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Patient info:"
-                android:id="@+id/textView"
-                android:layout_marginTop="28dp"
-                android:layout_below="@+id/relativeLayout"
-                android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Patient info:"
+                    android:id="@+id/textView"
+                    android:layout_marginTop="28dp"
+                    android:layout_below="@+id/relativeLayout"
+                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="-no ID found-"
-                android:id="@+id/idField"
-                android:layout_alignStart="@+id/textView"
-                android:layout_below="@+id/textView"
-                android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="-no ID found-"
+                    android:id="@+id/idField"
+                    android:layout_alignStart="@+id/textView"
+                    android:layout_below="@+id/textView"
+                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
 
             <org.royrvik.capgeminiemr.utils.AutoResizeTextView
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:text="-no name found-"
-                android:id="@+id/nameField"
-                android:textSize="18dp"
-                android:maxLines="1"
-                android:layout_alignStart="@+id/idField"
-                android:layout_below="@+id/idField"
-                android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp"
+                    android:text="-no name found-"
+                    android:id="@+id/nameField"
+                    android:textSize="18dp"
+                    android:maxLines="1"
+                    android:layout_alignStart="@+id/idField"
+                    android:layout_below="@+id/idField"
+                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="-no images found-"
-                android:id="@+id/images2"
-                android:layout_alignStart="@+id/nameField"
-                android:layout_above="@+id/images1"
-                android:layout_alignLeft="@+id/nameField"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="-no images found-"
+                    android:id="@+id/images2"
+                    android:layout_alignStart="@+id/nameField"
+                    android:layout_above="@+id/images1"
+                    android:layout_alignLeft="@+id/nameField"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View images"
-                android:id="@+id/addCommentsButton"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View images"
+                    android:id="@+id/addCommentsButton"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/reviewAndUploadButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:src="@android:drawable/ic_menu_upload"
-                android:clickable="false"
-                android:text="Review and upload"
-                />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/reviewAndUploadButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@android:drawable/ic_menu_upload"
+                    android:clickable="false"
+                    android:text="Review and upload"
+                    />
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18dp"
-                android:text="-no images found-"
-                android:id="@+id/images1"
-                android:layout_above="@+id/addCommentsButton"
-                android:layout_alignLeft="@+id/nameField"
-                android:layout_alignStart="@+id/nameField"
-                android:layout_marginBottom="28dp"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="-no images found-"
+                    android:id="@+id/images1"
+                    android:layout_above="@+id/addCommentsButton"
+                    android:layout_alignLeft="@+id/nameField"
+                    android:layout_alignStart="@+id/nameField"
+                    android:layout_marginBottom="28dp"/>
+
             <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -136,111 +137,111 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentTop="true"
-                android:layout_alignRight="@+id/doneButton"
-                android:layout_alignEnd="@+id/doneButton"
-                android:background="#b8b8b8"
-                android:id="@+id/relativeLayout2"
-                android:layout_alignBottom="@+id/doneButton">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignRight="@+id/doneButton"
+                    android:layout_alignEnd="@+id/doneButton"
+                    android:background="#b8b8b8"
+                    android:id="@+id/relativeLayout2"
+                    android:layout_alignBottom="@+id/doneButton">
 
                 <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="- / -"
+                        android:id="@+id/imageHeader"
+                        android:layout_centerVertical="true"
+                        android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
+
+            <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="- / -"
-                    android:id="@+id/imageHeader"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
-            </RelativeLayout>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Done"
-                android:id="@+id/doneButton"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:background="#13ff3b"/>
+                    android:text="Done"
+                    android:id="@+id/doneButton"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:background="#13ff3b"/>
 
             <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/prevButton"
-                android:background="#b8b8b8"
-                android:id="@+id/relativeLayout3">
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignTop="@+id/prevButton"
+                    android:background="#b8b8b8"
+                    android:id="@+id/relativeLayout3">
             </RelativeLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Prev"
-                android:id="@+id/prevButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Prev"
+                    android:id="@+id/prevButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Next"
-                android:id="@+id/nextButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:id="@+id/nextButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/deleteButton"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:src="@android:drawable/ic_menu_delete"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/deleteButton"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@android:drawable/ic_menu_delete"/>
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageArea"
-                android:layout_below="@+id/relativeLayout2"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_above="@+id/textView2"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageArea"
+                    android:layout_below="@+id/relativeLayout2"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:layout_above="@+id/textView2"/>
 
             <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:ems="10"
-                android:id="@+id/commentField"
-                android:layout_above="@+id/relativeLayout3"
-                android:layout_alignRight="@+id/doneButton"
-                android:layout_alignEnd="@+id/doneButton"
-                android:editable="true"
-                android:clickable="true"
-                android:background="#eeeeee"
-                android:layout_below="@+id/textView2"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="textMultiLine"
+                    android:ems="10"
+                    android:id="@+id/commentField"
+                    android:layout_above="@+id/relativeLayout3"
+                    android:layout_alignRight="@+id/doneButton"
+                    android:layout_alignEnd="@+id/doneButton"
+                    android:editable="true"
+                    android:clickable="true"
+                    android:background="#eeeeee"
+                    android:layout_below="@+id/textView2"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Comment"
-                android:id="@+id/textView2"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Comment"
+                    android:id="@+id/textView2"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"/>
         </RelativeLayout>
 
     </ViewFlipper>
