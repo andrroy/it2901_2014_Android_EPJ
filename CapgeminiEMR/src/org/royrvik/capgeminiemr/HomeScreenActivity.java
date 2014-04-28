@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
@@ -35,13 +37,19 @@ public class HomeScreenActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homescreen);
 
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
+
         Context context = this;
-        Intent i = getIntent();
 
         //Alert dialog used throughout the view
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
 
         //Alert dialog that shows status of upload
+        Intent i = getIntent();
         if (i.hasExtra("upload_success")) dialog.setMessage("Examination was successfully uploaded");
         else dialog.setMessage("Unable to upload examination. Please try again.");
         dialog.setIcon(R.drawable.ic_info);
@@ -146,8 +154,7 @@ public class HomeScreenActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.xml.menu_homescreen, menu);
+        getMenuInflater().inflate(R.menu.menu_homescreen, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
