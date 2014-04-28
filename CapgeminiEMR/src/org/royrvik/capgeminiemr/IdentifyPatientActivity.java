@@ -3,10 +3,12 @@ package org.royrvik.capgeminiemr;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
+import com.cengalabs.flatui.FlatUI;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
@@ -30,7 +32,14 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.identify);
+
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
