@@ -115,7 +115,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         //TODO: Show that the app is working on something
         ArrayList<String> info = new ArrayList<String>();
         if (session.isValid()) {
-
+            // TODO: Remove hard coded password
             //TEMP data:
             String username = "rikardbe_emr";
             String password = "Paa5Eric";

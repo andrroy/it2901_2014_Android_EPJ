@@ -2,10 +2,13 @@ package org.royrvik.capgeminiemr.adapter;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.*;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,11 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class FullScreenImageAdapter extends PagerAdapter {
+public class FullScreenImageAdapter extends PagerAdapter{
 
     private Examination currentExamination;
     private Context context;
@@ -28,6 +32,9 @@ public class FullScreenImageAdapter extends PagerAdapter {
     private TextView commentTextView;
     private final static int IMAGE_HEIGHT = 300;
     private final static int IMAGE_WIDTH = 300;
+    private int currentImage;
+    private DialogFragment newFragment;
+    private DatabaseHelper dbHelper;
 
 
     public FullScreenImageAdapter(Context context, Examination currentExamination) {
@@ -44,6 +51,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
+        dbHelper = new DatabaseHelper(context);
 
         photoView = new PhotoView(container.getContext());
 
@@ -67,15 +75,33 @@ public class FullScreenImageAdapter extends PagerAdapter {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((Activity) context).finish();
+                dbHelper.updateExamination(currentExamination);
+                dbHelper.close();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("examination", currentExamination);
+                ((Activity)context).setResult(Activity.RESULT_OK, returnIntent);
+                ((Activity) context). finish();
+            }
+        });
+
+        tagButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Currently not in use
             }
         });
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                currentImage = position;
+                Log.d("APP:", "Actual current image: " + position);
+                Log.d("APP:", "Supposed current image: " + currentImage);
+
+
                 commentButton.setBackgroundResource(R.drawable.ic_comment);
 
+                // showCommentDialog();
                 // Custom Dialog
                 final Dialog dialog = new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -89,7 +115,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
                     commentTextView.append(currentExamination.getUltrasoundImages().get(position).getComment());
                 }
 
-                commentTextView.setFocusable(true);
+                // commentTextView.setFocusable(true);
 
                 Button dialogSave = (Button) dialog.findViewById(R.id.dialogButtonOK);
                 Button dialogCancel = (Button) dialog.findViewById(R.id.dialogCancel);
@@ -97,7 +123,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
                 dialogSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        saveComment(position);
+                        saveComment(position, commentTextView.getText().toString());
                         dialog.dismiss();
                     }
                 });
@@ -132,8 +158,8 @@ public class FullScreenImageAdapter extends PagerAdapter {
         return viewLayout;
     }
 
-    private void saveComment(int index) {
-        currentExamination.getUltrasoundImages().get(index).setComment(commentTextView.getText().toString());
+    private void saveComment(int index, String comment) {
+        currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
     public void deleteImage(int index) {
@@ -146,6 +172,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
         }
     }
 
+
     @Override
     public int getItemPosition(Object object) {
         return POSITION_NONE;
@@ -154,5 +181,20 @@ public class FullScreenImageAdapter extends PagerAdapter {
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
+    }
+
+
+    private void showCommentDialog(String comment){
+        // newFragment = newInstance(comment);
+        // newFragment.show(((Activity) context).getFragmentManager(), "commentDialog");
+
+    }
+
+    public void onDialogPositiveClick(DialogFragment dialog) {
+//        saveComment(currentImage);
+    }
+
+    public void onDialogNegativeClick(DialogFragment dialog) {
+  //      newFragment.dismiss();
     }
 }
