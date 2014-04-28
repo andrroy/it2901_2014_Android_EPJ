@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:flatui="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -9,43 +10,70 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Change department authentication"
-            android:id="@+id/departmentHeaderTextView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
+            android:id="@+id/departmentHeaderTextView"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="50dp"/>
-    <EditText
+
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/departmentUnameEditText" android:layout_below="@+id/departmentHeaderTextView"
-            android:layout_marginTop="75dp" android:layout_alignRight="@+id/departmentHeaderTextView"
+            android:id="@+id/departmentUnameEditText"
+            android:layout_below="@+id/departmentHeaderTextView"
+            android:layout_marginTop="75dp"
+            android:layout_alignRight="@+id/departmentHeaderTextView"
             android:layout_alignEnd="@+id/departmentHeaderTextView"
             android:layout_alignLeft="@+id/departmentHeaderTextView"
-            android:layout_alignStart="@+id/departmentHeaderTextView"/>
+            android:layout_alignStart="@+id/departmentHeaderTextView"
+            flatui:fieldStyle="box"
+            flatui:cornerRadius="3dip"
+            flatui:fontFamily="Roboto"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Department Username"
-            android:id="@+id/departmentUnameTextView" android:layout_alignBottom="@+id/departmentUnameEditText"
-            android:layout_alignLeft="@+id/departmentUnameEditText" android:layout_alignStart="@+id/departmentUnameEditText"
+            android:id="@+id/departmentUnameTextView"
+            android:layout_alignBottom="@+id/departmentUnameEditText"
+            android:layout_alignLeft="@+id/departmentUnameEditText"
+            android:layout_alignStart="@+id/departmentUnameEditText"
             android:layout_marginBottom="38dp"/>
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Department Password"
-            android:id="@+id/departmentPwordTextView" android:layout_below="@+id/departmentUnameEditText"
+            android:id="@+id/departmentPwordTextView"
+            android:layout_below="@+id/departmentUnameEditText"
             android:layout_alignLeft="@+id/departmentUnameEditText"
-            android:layout_alignStart="@+id/departmentUnameEditText" android:layout_marginTop="40dp"/>
-    <EditText
+            android:layout_alignStart="@+id/departmentUnameEditText"
+            android:layout_marginTop="40dp"/>
+
+    <com.cengalabs.flatui.views.FlatEditText
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/departmentPwordEditText" android:layout_below="@+id/departmentPwordTextView" android:layout_alignLeft="@+id/departmentPwordTextView"
-            android:layout_alignStart="@+id/departmentPwordTextView" android:layout_alignRight="@+id/departmentUnameEditText"
-            android:layout_alignEnd="@+id/departmentUnameEditText"/>
-    <Button
+            android:id="@+id/departmentPwordEditText"
+            android:layout_below="@+id/departmentPwordTextView"
+            android:layout_alignLeft="@+id/departmentPwordTextView"
+            android:layout_alignStart="@+id/departmentPwordTextView"
+            android:layout_alignRight="@+id/departmentUnameEditText"
+            android:layout_alignEnd="@+id/departmentUnameEditText"
+            flatui:fieldStyle="box"
+            flatui:cornerRadius="3dip"
+            flatui:fontFamily="Roboto"/>
+
+    <com.cengalabs.flatui.views.FlatButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Confirm"
-            android:id="@+id/departmentConfirmButton" android:layout_below="@+id/departmentPwordEditText"
+            android:id="@+id/departmentConfirmButton"
+            android:layout_below="@+id/departmentPwordEditText"
             android:layout_alignRight="@+id/departmentPwordEditText"
-            android:layout_alignEnd="@+id/departmentPwordEditText" android:layout_marginTop="35dp"/>
+            android:layout_alignEnd="@+id/departmentPwordEditText"
+            android:layout_marginTop="35dp"
+            flatui:textAppearance="none"
+            flatui:fontWeight="light"
+            flatui:fontFamily="Roboto"/>
 </RelativeLayout>
