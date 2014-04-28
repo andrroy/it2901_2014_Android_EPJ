@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v4.view.PagerAdapter;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -32,6 +34,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     private final static int IMAGE_WIDTH = 300;
     private int currentImage;
     private DialogFragment newFragment;
+    private DatabaseHelper dbHelper;
 
 
     public FullScreenImageAdapter(Context context, Examination currentExamination) {
@@ -48,6 +51,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
+        dbHelper = new DatabaseHelper(context);
+
         photoView = new PhotoView(container.getContext());
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -70,7 +75,12 @@ public class FullScreenImageAdapter extends PagerAdapter{
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((Activity) context).finish();
+                dbHelper.updateExamination(currentExamination);
+                dbHelper.close();
+                Intent returnIntent = new Intent();
+                returnIntent.putExtra("examination", currentExamination);
+                ((Activity)context).setResult(Activity.RESULT_OK, returnIntent);
+                ((Activity) context). finish();
             }
         });
 
@@ -113,7 +123,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
                 dialogSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        // saveComment(position);
+                        saveComment(position, commentTextView.getText().toString());
                         dialog.dismiss();
                     }
                 });
@@ -172,9 +182,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
     }
-
-
-
 
 
     private void showCommentDialog(String comment){

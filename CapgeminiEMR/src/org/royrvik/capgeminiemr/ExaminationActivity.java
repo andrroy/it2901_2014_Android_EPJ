@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
+    private static final int FULLSCREEN_REQUEST_CODE = 15;
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
     private ImageButton deleteButton, idStatusImageButton, greenidStatusImageButton;
@@ -154,13 +155,15 @@ public class ExaminationActivity extends ActionBarActivity {
                     // Start FullScreenViewActivity here. - Rix1
                     Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
                     i.putExtra("examination", currentExamination);
-                    startActivity(i);
+                    startActivityForResult(i, FULLSCREEN_REQUEST_CODE);
                 }
                 updateEditorView();
 
             }
         });
     }
+
+
 
     private void initSecondViewElements() {
         deleteButton = (ImageButton) findViewById(R.id.deleteButton);
@@ -311,6 +314,10 @@ public class ExaminationActivity extends ActionBarActivity {
                 currentExamination.setPatientName(info.get(1));
             }
             initFirstViewElements();
+        }
+        if(resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE){
+            currentExamination = data.getParcelableExtra("examination");
+            updateElements();
         }
     }
 

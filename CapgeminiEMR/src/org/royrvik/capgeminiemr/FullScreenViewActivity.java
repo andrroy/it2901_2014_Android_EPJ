@@ -31,4 +31,13 @@ public class FullScreenViewActivity extends Activity {
         adapter = new FullScreenImageAdapter(this, currentExamination);
         viewPager.setAdapter(adapter);
     }
+
+    protected void onDestroy(){
+        super.onDestroy();
+    }
+
+    protected void onPause(){
+        super.onPause();
+        // We should probably save the examination here
+    }
 }
