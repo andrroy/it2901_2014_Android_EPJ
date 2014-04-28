@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -43,8 +44,10 @@ public class EMRService extends Service {
         @Override
         public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password){
 
+            ByteArrayOutputStream pdf = PDFCreator.createPDF(patientData,imagePaths, notes);
+
             try {
-                return new UploadImagesTask(patientData, imagePaths, notes, username, password).execute().get();
+                return new UploadImagesTask(pdf, imagePaths, username, password).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
