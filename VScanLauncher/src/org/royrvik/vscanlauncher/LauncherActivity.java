@@ -183,8 +183,8 @@ public class LauncherActivity extends ActionBarActivity {
         Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
         Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
         Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
-        Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
-        Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
+        //Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
+        //Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
 
         ArrayList<String> fileList = getAllImages();
 
@@ -206,13 +206,13 @@ public class LauncherActivity extends ActionBarActivity {
 
         if (!fileList.contains("ultrasound6"))
             saveImage(image6, "ultrasound6.jpg");
-
+/*
         if (!fileList.contains("space1"))
             saveImage(image7, "space1.png");
 
         if (!fileList.contains("space2"))
             saveImage(image8, "space2.png");
-
+*/
         // Refresh the image gallery
         // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
         try {
@@ -335,13 +335,10 @@ public class LauncherActivity extends ActionBarActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             ArrayList<String> data = intent.getStringArrayListExtra("patient");
-            patientData = new ArrayList<String>();
             if (data != null && data.size() > 0) {
-                for (String item : data) {
-                    patientData.add(item);
-                }
+                patientData = data;
             } else patientData.add("No ID available.");
-            patientIdTextView.setText(patientData.get(0));
+            patientIdTextView.setText(patientData.get(1));
             if (patientData.size() > 1) {
                 Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
             } else {

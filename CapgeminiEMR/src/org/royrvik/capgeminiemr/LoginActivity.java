@@ -28,7 +28,7 @@ public class LoginActivity extends ActionBarActivity {
     private Button loginButton, offlineModeButton;
     private TextView networkStatusTextView;
     private ArrayList<String> incomingImages;
-    private String patientId;
+    private ArrayList patientData;
     private int launcherCommand;
     private String broadcastCode = "";
     private SessionManager session;
@@ -100,7 +100,8 @@ public class LoginActivity extends ActionBarActivity {
             case 3: //Images and ID
                 incomingImages = i.getStringArrayListExtra("chosen_images");
                 Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from launcher", Style.INFO).show();
-                patientId = i.getStringExtra("id");
+                patientData = i.getStringArrayListExtra("patientData");
+                // patientId = i.getStringExtra("id");
                 break;
             case 4: //Identify
                 Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO).show();
@@ -192,9 +193,10 @@ public class LoginActivity extends ActionBarActivity {
                 finish();
                 break;
             case 3: //Images and ID
-                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
+                i = new Intent(LoginActivity.this, ExaminationActivity.class);
                 i.putStringArrayListExtra("chosen_images", incomingImages);
-                i.putExtra("id", patientId);
+                i.putStringArrayListExtra("info", patientData);
+                // i.putExtra("id", patientId);
                 startActivity(i);
                 finish();
                 break;
