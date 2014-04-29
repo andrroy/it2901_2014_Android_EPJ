@@ -12,27 +12,21 @@ import java.util.regex.Pattern;
 
 class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
 
-    private String ldapDC1;
-    private String ldapDC2;
-    private String ldapOU;
-    private String ldapAddress;
-    private int ldapPort;
-
     protected Boolean doInBackground(String... userInformation){
         //  userInformation Layout:
         //  0-username
-        //  1-password
+        //  1-passwordHash
         //  2-ldapDC
         //  3-ldapOU
         //  4-ldapAddress
         //  5-ldapPort
 
         String[] ldapDC = userInformation[2].split(Pattern.quote("."));
-        ldapDC1 = ldapDC[0];
-        ldapDC2 = ldapDC[1];
-        ldapOU = userInformation[3];
-        ldapAddress = userInformation[4];
-        ldapPort = Integer.parseInt(userInformation[5]);
+        String ldapDC1 = ldapDC[0];
+        String ldapDC2 = ldapDC[1];
+        String ldapOU = userInformation[3];
+        String ldapAddress = userInformation[4];
+        int ldapPort = Integer.parseInt(userInformation[5]);
 
         try {
             SSLUtil sslUtil = new SSLUtil(new TrustAllTrustManager());
@@ -43,7 +37,8 @@ class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
             LDAPConnection connection = new LDAPConnection(socketFactory, ldapAddress, ldapPort);
 
             //Authenticating (Will cast exception if authentication fails)
-            connection.bind("uid="+userInformation[0]+",ou="+ldapOU+",dc="+ldapDC1+",dc="+ldapDC2, userInformation[1]);
+            connection.bind("uid="+userInformation[0]+",ou="+ ldapOU +",dc="+ ldapDC1 +",dc="+ ldapDC2,
+                    Encryption.decrypt(userInformation[0], userInformation[1]));
 
             return true;
         }
