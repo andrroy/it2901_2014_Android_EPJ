@@ -24,6 +24,7 @@ public class Examination implements Parcelable {
         this.patientSsn = patientSsn;
         this.patientName = patientName;
         this.ultrasoundImages = ultrasoundImages;
+        this.id = -1; // Should have this value until its set
     }
 
     public Examination(String patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages, String date) {
@@ -31,11 +32,13 @@ public class Examination implements Parcelable {
         this.patientSsn = patientSsn;
         this.patientName = patientName;
         this.ultrasoundImages = ultrasoundImages;
+        this.id = -1;
     }
 
     public Examination() {
         ultrasoundImages = new ArrayList<UltrasoundImage>();
         this.date = dateFormat.format(new Date());
+        this.id = -1;
     }
 
     public String getPatientSsn() {
@@ -70,11 +73,11 @@ public class Examination implements Parcelable {
         this.ultrasoundImages = ultrasoundImages;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 

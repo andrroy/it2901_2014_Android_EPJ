@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
@@ -129,19 +130,23 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                if (activityStartedForAction().equals("new_examination"))
+                Log.d("APP:", "Current exID: " + currentExamination.getId());
+                if (currentExamination.getId() == -1) {
                     exId = dbHelper.addExamination(currentExamination);
-                else if (activityStartedForAction().equals("edit_examination")) {
+                    Log.d("APP:", "saved new examination");
+                    currentExamination.setId(exId);
+                }
+                else{
                     dbHelper.updateExamination(currentExamination);
+                    Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getId();
-                } else
-                    return;
+                }
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("ex_id", exId);
                 startActivity(i);
-                finish();
+                //finish();
             }
         });
 
