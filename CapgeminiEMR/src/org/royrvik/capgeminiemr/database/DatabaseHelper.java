@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "emrdb";
+    private String password = "emrdm";
 
     // Table names
     private static final String TABLE_EXAMINATION = "examination";
@@ -55,10 +56,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
+    private DatabaseHelper(Context context, ArrayList<String> databaseInfo) {
+        super(context, databaseInfo.get(0), null, DATABASE_VERSION);
+        this.password = databaseInfo.get(1);
+        this.context = context;
+    }
+
+    /**
+     *  Creates a database instance with a default database.
+     * @param con
+     * @return
+     */
     public static synchronized DatabaseHelper getInstance(Context con){
         if(instance == null){
             SQLiteDatabase.loadLibs(con);
             instance = new DatabaseHelper(con);
+        }
+        return instance;
+    }
+
+    public static synchronized DatabaseHelper getInstance(Context con, ArrayList<String> databaseInfo){
+        if(instance == null){
+            SQLiteDatabase.loadLibs(con);
+            instance = new DatabaseHelper(con, databaseInfo);
         }
         return instance;
     }
@@ -104,6 +124,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Recreate the table
         this.onCreate(db);
+    }
+
+    /**
+     * Method to check if the database password is correct.
+     * @return true if the password is correct.
+     */
+    public boolean checkDatabasePassword() {
+        SQLiteDatabase.loadLibs(context);
+        try {
+            getReadableDatabase(password).close();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Updates the database to use a new password.
+     * @param oldPassword the previous password used with the database.
+     * @return false if the old password was incorrect.
+     */
+    public boolean updateDatabasePassword(String oldPassword) {
+        SQLiteDatabase.loadLibs(context);
+        try {
+            SQLiteDatabase db = getWritableDatabase(oldPassword);
+            db.execSQL("PRAGMA key = '"+oldPassword+"'");
+            db.execSQL("PRAGMA rekey = '"+password+"'");
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
 
