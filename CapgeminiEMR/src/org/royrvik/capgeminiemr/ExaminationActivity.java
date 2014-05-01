@@ -28,7 +28,7 @@ public class ExaminationActivity extends ActionBarActivity {
     private ViewFlipper examinationViewFlipper;
     private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
     private ImageButton deleteButton;
-    // private ImageButton greenidStatusImageButton, idStatusImageButton;
+    private ImageButton greenidStatusImageButton, idStatusImageButton;
     private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
     private EditText commentEditText;
     private ImageView globalImageView;
@@ -95,10 +95,10 @@ public class ExaminationActivity extends ActionBarActivity {
         nameTextView = (TextView) findViewById(R.id.nameField);
         imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
- //       idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
-//        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
+        idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
+        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
 
-        /*
+
         idStatusImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -118,13 +118,13 @@ public class ExaminationActivity extends ActionBarActivity {
                 startActivityForResult(i, REQUEST_CODE);
             }
         });
-    */
+
 
         //Updates the verification buttons.
-  //      greenidStatusImageButton.setVisibility(View.GONE);
+        greenidStatusImageButton.setVisibility(View.GONE);
         if (idIsValidated()) {
-//            idStatusImageButton.setVisibility(View.GONE);
-  //          greenidStatusImageButton.setVisibility(View.VISIBLE);
+            idStatusImageButton.setVisibility(View.GONE);
+            greenidStatusImageButton.setVisibility(View.VISIBLE);
         }
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
