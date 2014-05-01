@@ -1,17 +1,17 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -46,6 +46,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.reviewupload);
 
         // Actionbar style
@@ -94,11 +95,31 @@ public class ReviewUploadActivity extends ActionBarActivity {
                 //Check if all images have notes
                 boolean validNotes = true;
                 notes = ex.getAllComments();
-                for(String n : notes){
-                    if(n.equals(" ")) validNotes=false;
+                for (String n : notes) {
+                    if (n.equals(" "))
+                        validNotes = false;
                 }
-                if(validNotes)new UploadExaminationTask().execute();
-                else Toast.makeText(getApplicationContext(), "Some images does not have notes attached", Toast.LENGTH_SHORT).show();
+
+
+                if (validNotes)
+                    new UploadExaminationTask().execute();
+                else {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ReviewUploadActivity.this);
+                    builder.setMessage("Some images does not have notes attached. Are you sure you want to upload?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            new UploadExaminationTask().execute();
+                        }
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
 
             }
         });
