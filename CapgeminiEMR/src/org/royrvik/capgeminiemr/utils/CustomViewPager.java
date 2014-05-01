@@ -25,16 +25,16 @@ import android.view.MotionEvent;
  *
  * @author Chris Banes
  */
-public class HackyViewPager extends ViewPager {
+public class CustomViewPager extends ViewPager {
 
 	private boolean isLocked;
 	
-    public HackyViewPager(Context context) {
+    public CustomViewPager(Context context) {
         super(context);
         isLocked = false;
     }
 
-    public HackyViewPager(Context context, AttributeSet attrs) {
+    public CustomViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         isLocked = false;
     }

@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.cengalabs.flatui.FlatUI;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
@@ -160,7 +161,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         // QR code result format: xxxxxxxxxxx,Magnus Lund
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
 
-        if (scanResult != null) {
+        if (scanResult.getContents() != null) {
             if (scanResult.getFormatName().equals("QR_CODE")) {
                 String ssn = scanResult.getContents();
                 checkPid(ssn);
