@@ -114,7 +114,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
         });
 
-       greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
+        greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
