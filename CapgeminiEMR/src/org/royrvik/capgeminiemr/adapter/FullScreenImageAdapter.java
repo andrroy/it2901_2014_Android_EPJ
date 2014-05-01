@@ -111,11 +111,16 @@ public class FullScreenImageAdapter extends PagerAdapter{
                 // Set the custom dialog components - text and button
                 commentTextView = (TextView) dialog.findViewById(R.id.commentEditText);
                 if (!currentExamination.getUltrasoundImages().get(position).getComment().isEmpty()) {
-                    // Set comment
-                    commentTextView.append(currentExamination.getUltrasoundImages().get(position).getComment());
+
+                    if(currentExamination.getUltrasoundImages().get(position).getComment().equals(" ")){
+                        commentTextView.setText("");
+                        Log.d("APP:", "Comment text should be removed");
+                    }else {
+                        commentTextView.append(currentExamination.getUltrasoundImages().get(position).getComment());
+                    }
                 }
 
-                // commentTextView.setFocusable(true);
+                commentTextView.setFocusable(true);
 
                 Button dialogSave = (Button) dialog.findViewById(R.id.dialogButtonOK);
                 Button dialogCancel = (Button) dialog.findViewById(R.id.dialogCancel);
@@ -135,6 +140,14 @@ public class FullScreenImageAdapter extends PagerAdapter{
                     }
                 });
                 dialog.show();
+            }
+        });
+
+        commentButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                commentButton.setBackgroundResource(R.drawable.ic_comment_down);
+                return false;
             }
         });
 

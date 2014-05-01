@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.*;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -40,6 +41,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
@@ -274,7 +276,7 @@ public class ExaminationActivity extends ActionBarActivity {
         int imagesWithComment = 0;
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
-            if (usi.getComment().equals(" "))
+            if (usi.getComment().equals(" ") || usi.getComment().isEmpty())
                 imagesWithoutComment++;
             else
                 imagesWithComment++;
@@ -294,7 +296,6 @@ public class ExaminationActivity extends ActionBarActivity {
     /**
      * Returns the type of action this activity was started to do
      */
-
     private String activityStartedForAction() {
         // get intent from last activity
         Intent intent = getIntent();

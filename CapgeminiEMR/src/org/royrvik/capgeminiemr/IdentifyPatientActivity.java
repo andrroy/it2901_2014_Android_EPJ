@@ -15,6 +15,7 @@ import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -29,12 +30,15 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private boolean returnAfter = false;
     private SessionManager session;
     private RemoteServiceConnection service;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.identify);
+
+        dbHelper = new DatabaseHelper(this);
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
@@ -116,12 +120,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         //TODO: Show that the app is working on something
         ArrayList<String> info = new ArrayList<String>();
         if (session.isValid()) {
-            // TODO: Remove hard coded password
-            //TEMP data:
-            String username = "rikardbe_emr";
-            String password = "Paa5Eric";
-
-            info = (ArrayList<String>) service.getPatientData(ssn, username, password);
+            ArrayList<String> auth = dbHelper.getDepartmentAuth();
+            info = (ArrayList<String>) service.getPatientData(ssn, auth.get(0), auth.get(1));
         } else {
             info.add(patientIDEditText.getText().toString());
         }

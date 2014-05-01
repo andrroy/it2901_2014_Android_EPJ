@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.ListView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import org.royrvik.capgeminiemr.adapter.CurrentSetupListAdapter;
@@ -15,6 +16,7 @@ import java.util.Map;
 public class CurrentSetupActivity extends ActionBarActivity {
 
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.viewsetup);
 
