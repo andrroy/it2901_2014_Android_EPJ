@@ -274,7 +274,7 @@ public class ExaminationActivity extends ActionBarActivity {
         int imagesWithComment = 0;
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
-            if (usi.getComment().equals(" "))
+            if (usi.getComment().equals(" ") || usi.getComment().isEmpty())
                 imagesWithoutComment++;
             else
                 imagesWithComment++;
