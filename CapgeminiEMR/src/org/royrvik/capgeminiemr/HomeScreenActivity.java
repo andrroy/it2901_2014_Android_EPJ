@@ -48,13 +48,21 @@ public class HomeScreenActivity extends ActionBarActivity {
         //Alert dialog used throughout the view
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
 
-        //Alert dialog that shows status of upload
+
         Intent i = getIntent();
-        if (i.hasExtra("upload_success")) dialog.setMessage("Examination was successfully uploaded");
-        else dialog.setMessage("Unable to upload examination. Please try again.");
-        dialog.setIcon(R.drawable.ic_info);
-        dialog.setNeutralButton("OK", null);
-        dialog.show();
+
+        //Alert dialog that shows status of upload if the users has just uploaded an examination
+        if(i.hasExtra("upload_success") || i.hasExtra("upload_fail")){
+            if (i.hasExtra("upload_success")) {
+                dialog.setMessage("Examination was successfully uploaded");
+            }
+            else {
+                dialog.setMessage("Unable to upload examination. Please try again.");
+            }
+            dialog.setIcon(R.drawable.ic_info);
+            dialog.setNeutralButton("OK", null);
+            dialog.show();
+        }
 
         dbHelper = new DatabaseHelper(this);
 
