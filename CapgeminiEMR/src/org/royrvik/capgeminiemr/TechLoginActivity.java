@@ -37,7 +37,7 @@ public class TechLoginActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        dbHelper = new DatabaseHelper(getApplicationContext());
+        dbHelper = DatabaseHelper.getInstance(this);
 
         techLoginTextView = (TextView) findViewById(R.id.techLoginTextView);
         techLoginConfirmTextView = (TextView) findViewById(R.id.techLoginConfirmTextView);

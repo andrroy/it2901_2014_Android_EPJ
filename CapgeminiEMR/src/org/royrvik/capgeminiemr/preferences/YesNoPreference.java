@@ -19,7 +19,7 @@ public class YesNoPreference extends DialogPreference {
     public YesNoPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;
-        dbHelper = new DatabaseHelper(context);
+        dbHelper = DatabaseHelper.getInstance(context);
         globalApp = (EMRApplication) context.getApplicationContext();
     }
 

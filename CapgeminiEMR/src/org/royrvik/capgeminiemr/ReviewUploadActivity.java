@@ -42,7 +42,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private List<String> data;
     private List<String> images;
     private List<String> notes;
-    private Examination ex;
+    private Examination currentExamination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +57,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        dbHelper = new DatabaseHelper(this);
+        dbHelper = DatabaseHelper.getInstance(this);
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
@@ -70,11 +70,11 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
         // get intent from last activity
         Intent i = getIntent();
-        examinationId = i.getIntExtra("ex_id", 0);
-        ex = dbHelper.getExamination(examinationId);
+
+        currentExamination = i.getParcelableExtra("examination");
 
         // Fetch examination from database and show its images and comments in the listview
-        final List<UltrasoundImage> examinationImages = dbHelper.getExamination(examinationId).getUltrasoundImages();
+        final List<UltrasoundImage> examinationImages = currentExamination.getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
 
@@ -85,7 +85,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ReviewUploadActivity.this, ExaminationActivity.class);
-                i.putExtra("ex_id", examinationId);
+                i.putExtra("examination", currentExamination);
                 startActivity(i);
                 finish();
             }
@@ -96,7 +96,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
                 //Check if all images have notes
                 boolean validNotes = true;
-                notes = ex.getAllComments();
+                notes = currentExamination.getAllComments();
                 for (String n : notes) {
                     if (n.equals(" "))
                         validNotes = false;
@@ -140,9 +140,9 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
-            reviewIdTextView.setText("ID: " + dbHelper.getExamination(examinationId).getPatientSsn());
+            reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: " + dbHelper.getExamination(examinationId).getPatientName());
+            reviewNameTextView.setText("Name: " + currentExamination.getPatientName());
         }
     }
 
@@ -155,10 +155,10 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
             //Get patient data
             data = new ArrayList<String>();
-            data.add(ex.getPatientSsn());
-            data.add(ex.getPatientName());
+            data.add(currentExamination.getPatientSsn());
+            data.add(currentExamination.getPatientName());
             //Get images from examination
-            images = ex.getAllImages();
+            images = currentExamination.getAllImages();
 
             ArrayList<String> auth = dbHelper.getDepartmentAuth();
             Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);

@@ -51,7 +51,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
-        dbHelper = new DatabaseHelper(context);
+        dbHelper = DatabaseHelper.getInstance(context);
 
         photoView = new PhotoView(container.getContext());
 

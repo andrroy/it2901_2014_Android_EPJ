@@ -41,7 +41,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.identify);
 
-        dbHelper = new DatabaseHelper(this);
+        dbHelper = DatabaseHelper.getInstance(this);
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);

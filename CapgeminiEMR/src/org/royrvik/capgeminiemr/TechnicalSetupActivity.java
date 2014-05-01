@@ -131,7 +131,7 @@ public class TechnicalSetupActivity extends ActionBarActivity {
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        DatabaseHelper dbHelper = new DatabaseHelper(getApplicationContext());
+                        DatabaseHelper dbHelper = DatabaseHelper.getInstance(TechnicalSetupActivity.this);
                         dbHelper.deleteAllExaminations();
                         processSettings(settingsHashMap);
                     }

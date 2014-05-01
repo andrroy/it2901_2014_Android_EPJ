@@ -19,7 +19,7 @@ import java.util.ArrayList;
 public class TechDepartmentActivity extends ActionBarActivity {
 
     private EditText usernameEditText, passwordEditText;
-    private DatabaseHelper db;
+    private DatabaseHelper dbHelper;
 
     public void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -37,12 +37,12 @@ public class TechDepartmentActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        db = new DatabaseHelper(getApplicationContext());
+        dbHelper = DatabaseHelper.getInstance(this);
         usernameEditText = (EditText) findViewById(R.id.departmentUnameEditText);
         passwordEditText = (EditText) findViewById(R.id.departmentPwordEditText);
         Button confirmButton = (Button) findViewById(R.id.departmentConfirmButton);
 
-        ArrayList<String> savedData = db.getDepartmentAuth();
+        ArrayList<String> savedData = dbHelper.getDepartmentAuth();
         if (savedData.size() > 1) {
             usernameEditText.setText(savedData.get(0));
             passwordEditText.setText(savedData.get(1));
@@ -55,7 +55,7 @@ public class TechDepartmentActivity extends ActionBarActivity {
                 username = usernameEditText.getText().toString();
                 password = passwordEditText.getText().toString();
                 if (!username.equals("") && !password.equals("")) {
-                    db.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                    dbHelper.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                     finish();
                 } else
                     Crouton.makeText(TechDepartmentActivity.this, "One or more fields are empty.", Style.ALERT).show();

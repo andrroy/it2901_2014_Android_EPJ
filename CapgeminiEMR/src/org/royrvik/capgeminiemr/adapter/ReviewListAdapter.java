@@ -37,7 +37,9 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         //Data for THIS row
         UltrasoundImage rowItem = getItem(position);
 
+
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
+
         rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 100, 100));
 
         TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
