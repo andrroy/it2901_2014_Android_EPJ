@@ -38,7 +38,6 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
-    //Temp
     private List<String> data;
     private List<String> images;
     private List<String> notes;

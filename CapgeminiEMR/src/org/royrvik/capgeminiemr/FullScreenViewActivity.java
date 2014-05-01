@@ -9,14 +9,11 @@ import org.royrvik.capgeminiemr.adapter.FullScreenImageAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.CustomViewPager;
 
-
 public class FullScreenViewActivity extends Activity {
 
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
     private Examination currentExamination;
-
-    private static final String ISLOCKED_ARG = "isLocked";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +36,5 @@ public class FullScreenViewActivity extends Activity {
 
     protected void onPause(){
         super.onPause();
-        // We should probably save the examination here
     }
 }

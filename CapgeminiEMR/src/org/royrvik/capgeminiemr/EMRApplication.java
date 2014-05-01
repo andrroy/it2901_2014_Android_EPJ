@@ -70,7 +70,6 @@ public class EMRApplication extends Application {
         preferencesEditor.putString(LDAP_OU, settingsHashMap.get(LDAP_OU));
         preferencesEditor.putString(LDAP_DC, settingsHashMap.get(LDAP_DC));
 
-
         // Commit changes
         preferencesEditor.commit();
 

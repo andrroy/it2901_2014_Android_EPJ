@@ -6,11 +6,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
 import com.cengalabs.flatui.FlatUI;
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
@@ -119,7 +120,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     /**
      * Checks patients ID.
      * Starts ExaminationActivity or returns to the launcher if PID is accepted.
-     *
      */
     private class CheckPidTask extends AsyncTask<String, String, String> {
 
@@ -148,8 +148,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                     startActivity(i);
                 }
                 finish();
-            }
-            else {
+            } else {
                 // Run Toast on UI thread
                 runOnUiThread(new Runnable() {
                     public void run() {
@@ -159,6 +158,11 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             }
 
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(String... values) {
+            super.onProgressUpdate(values);
         }
 
         @Override
@@ -204,7 +208,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 String ssn = scanResult.getContents();
                 new CheckPidTask().execute(ssn);
             } else {
-                Log.d("APP", "Invalid format"); //Give user feedback
+                Crouton.makeText(IdentifyPatientActivity.this, "Invalid format", Style.ALERT).show();
             }
         }
     }
@@ -236,7 +240,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if(pDialog != null) {
+        if (pDialog != null) {
             pDialog.dismiss();
             pDialog = null;
         }
