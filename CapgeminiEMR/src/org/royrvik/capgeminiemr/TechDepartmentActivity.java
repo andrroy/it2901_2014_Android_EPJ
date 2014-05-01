@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import com.cengalabs.flatui.FlatUI;
@@ -21,6 +22,7 @@ public class TechDepartmentActivity extends ActionBarActivity {
     private DatabaseHelper db;
 
     public void onCreate(Bundle savedInstanceState) {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.tech_department);
