@@ -16,9 +16,11 @@ in the libs folder.
 4. Run the VScanLauncher module.
 5. Run the CapgeminiEMR module.
 6. When prompted to setup the application, the following setup config can be used: http://folk.ntnu.no/magnlu/settings.xml
-7. To login, use username "a" with blank password
+
 
 ### Known issues
 * Android 4.4 (KitKat) doesn't like the gallery to be refreshed and will either show
 an empty gallery or will force application to crash
 * SQLCipher might be unstable on certain devices
+* Stacktrace printed with Log.w when providing invalid source in setup.
+* Stacktrace printed with Log.w when providing wrong password on Login.

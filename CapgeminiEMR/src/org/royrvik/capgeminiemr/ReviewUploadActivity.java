@@ -38,11 +38,13 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Button editButton, uploadButton;
     private TextView reviewIdTextView, reviewNameTextView;
 
-    //Temp
     private List<String> data;
     private List<String> images;
     private List<String> notes;
     private Examination currentExamination;
+    private Intent intent;
+    private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,7 +149,6 @@ public class ReviewUploadActivity extends ActionBarActivity {
     }
 
     private class UploadExaminationTask extends AsyncTask<String, String, String> {
-        ProgressDialog pDialog;
 
         @Override
         protected String doInBackground(String... params) {
@@ -161,19 +162,16 @@ public class ReviewUploadActivity extends ActionBarActivity {
             images = currentExamination.getAllImages();
 
             ArrayList<String> auth = dbHelper.getDepartmentAuth();
-            Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
+            intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
-                dbHelper.deleteExamination(examinationId);
-                i.putExtra("upload_success", "Examination successfully uploaded");
+                dbHelper.deleteExamination(currentExamination.getId());
+                intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
             } else {
-                i.putExtra("upload_fail", "Upload failed");
+                intent.putExtra("upload_fail", "Upload failed");
                 // TODO: append reason for failure to "fail" string
             }
-
-            startActivity(i);
-            finish();
             return null;
         }
 
@@ -187,8 +185,9 @@ public class ReviewUploadActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(String result) {
             pDialog.dismiss();
+            startActivity(intent);
+            finish();
         }
-
     }
 
     @Override
@@ -209,6 +208,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
     protected void onStart() {
         super.onStart();
         updateSession();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
+        }
     }
 
     private void updateSession() {

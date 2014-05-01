@@ -14,17 +14,13 @@ import java.util.ArrayList;
 
 public class CurrentSetupListAdapter extends ArrayAdapter<SettingsItem> {
 
-    private static final String TAG = "APP";
-
     private int resource;
     private LayoutInflater inflater;
-    private Context context;
 
     public CurrentSetupListAdapter(Context context, int resourceId, ArrayList<SettingsItem> objects) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @Override
