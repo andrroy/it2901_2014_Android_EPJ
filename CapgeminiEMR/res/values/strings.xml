@@ -59,5 +59,6 @@
 
     <!-- Homescreen -->
     <string name="empty_list">No examinations found</string>
+    <string name="logout">Log out</string>
 
 </resources>

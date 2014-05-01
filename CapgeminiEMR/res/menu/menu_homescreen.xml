@@ -3,6 +3,6 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/logout_button"
-          android:title="Logout"
+          android:title="@string/logout"
           app:showAsAction="ifRoom|collapseActionView"/>
 </menu>
