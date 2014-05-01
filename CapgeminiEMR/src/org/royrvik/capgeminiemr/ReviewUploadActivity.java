@@ -160,13 +160,10 @@ public class ReviewUploadActivity extends ActionBarActivity {
             //Get images from examination
             images = ex.getAllImages();
 
-            // TODO: Get credentials from database
-            String username = "rikardbe_emr";
-            String password = "Paa5Eric";
-
+            ArrayList<String> auth = dbHelper.getDepartmentAuth();
             Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
-            if (service.upload(data, images, notes, username, password)) {
+            if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
                 dbHelper.deleteExamination(examinationId);
                 i.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
