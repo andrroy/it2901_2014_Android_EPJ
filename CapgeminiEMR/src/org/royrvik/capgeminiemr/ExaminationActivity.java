@@ -276,7 +276,7 @@ public class ExaminationActivity extends ActionBarActivity {
         int imagesWithComment = 0;
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
-            if (usi.getComment().equals(" "))
+            if (usi.getComment().equals(" ") || usi.getComment().isEmpty())
                 imagesWithoutComment++;
             else
                 imagesWithComment++;
@@ -296,7 +296,6 @@ public class ExaminationActivity extends ActionBarActivity {
     /**
      * Returns the type of action this activity was started to do
      */
-
     private String activityStartedForAction() {
         // get intent from last activity
         Intent intent = getIntent();
