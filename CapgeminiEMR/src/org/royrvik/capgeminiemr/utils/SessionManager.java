@@ -67,7 +67,7 @@ public class SessionManager {
         EMRApplication settings = (EMRApplication) context.getApplicationContext();
         if (!username.equals("")) {
             if (!Encryption.decrypt(username, passwordHash).equals("")) {
-                if (Authenticator.AuthenticateWithLdap( username, Encryption.decrypt(username, passwordHash), settings.getLDAPStrings())) {
+                if (Authenticator.AuthenticateWithLdap( username, passwordHash, settings.getLDAPStrings())) {
                     startNewSession();
                 }
             }

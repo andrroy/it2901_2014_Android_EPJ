@@ -2,7 +2,9 @@ package org.royrvik.capgeminiemr;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
+import android.text.Html;
 import android.view.MenuItem;
+import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 
 public class SettingsActivity extends PreferenceActivity {
@@ -14,6 +16,12 @@ public class SettingsActivity extends PreferenceActivity {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.settings);
+
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
 
         //Actionbar back button
         getActionBar().setDisplayHomeAsUpEnabled(true);
