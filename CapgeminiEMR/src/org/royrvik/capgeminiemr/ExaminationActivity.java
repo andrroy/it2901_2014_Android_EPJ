@@ -294,7 +294,6 @@ public class ExaminationActivity extends ActionBarActivity {
     /**
      * Returns the type of action this activity was started to do
      */
-
     private String activityStartedForAction() {
         // get intent from last activity
         Intent intent = getIntent();

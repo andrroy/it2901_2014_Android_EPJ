@@ -146,7 +146,7 @@ public class Examination implements Parcelable {
         patientName = in.readString();
         patientSsn = in.readString();
         ultrasoundImages = new ArrayList<UltrasoundImage>();
-        in.readList(ultrasoundImages, getClass().getClassLoader());
+        in.readList(ultrasoundImages, ((Object) this).getClass().getClassLoader());
         date = in.readString();
         id = in.readInt();
     }
