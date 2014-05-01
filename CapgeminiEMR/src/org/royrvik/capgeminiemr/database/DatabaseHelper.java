@@ -66,6 +66,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
+
+
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
@@ -126,7 +128,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
         return password;
     }
 
@@ -142,7 +143,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TECHPASSWORD, password);
         db.insert(TABLE_TECHPASSWORD, null, values);
-        db.close();
     }
 
     public ArrayList<String> getDepartmentAuth() {
@@ -158,7 +158,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             }
         }
         cursor.close();
-        db.close();
 
         return result;
     }
@@ -175,7 +174,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_DEPARTMENTUSER, username);
         values.put(KEY_DEPARTMENTPWD, password);
         db.insert(TABLE_DEPARTMENT, null, values);
-        db.close();
 
     }
 
@@ -212,7 +210,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
 
-        db.close();
         return examinationId;
 
     }
@@ -244,7 +241,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         examination.setDate(cursor.getString(3));
         examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
 
-        db.close();
         cursor.close();
 
         return examination;
@@ -281,7 +277,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         t4 -= t1;
 
         Log.d("APP:", "Time to execute T4: " + t4 + " - T3: " + t3 + " t2: " + t2);
-        db.close();
         return isDeleted;
 
     }
@@ -292,6 +287,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param ex Examination to update
      */
     public void updateExamination(Examination ex) {
+
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         // Build query
@@ -321,7 +318,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
 
-        db.close();
 
     }
 
@@ -335,7 +331,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         db.delete(TABLE_EXAMINATION, null, null);
         db.delete(TABLE_ULTRASOUNDIMAGE, null, null);
-        db.close();
     }
 
     /**
@@ -373,7 +368,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
 
         return examinationList;
     }
@@ -412,7 +406,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
 
         return usiList;
     }
@@ -497,7 +490,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS techpassword");
         db.execSQL("CREATE TABLE techpassword (password TEXT)");
         setTechUserPassword(techPassword);
-
-        db.close();
     }
 }

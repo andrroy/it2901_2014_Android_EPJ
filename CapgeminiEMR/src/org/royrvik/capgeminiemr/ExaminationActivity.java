@@ -156,7 +156,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("examination", currentExamination);
                 startActivity(i);
-                //finish();
+                //  finish();
             }
         });
 
@@ -344,6 +344,7 @@ public class ExaminationActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Back button clicked. Exit activity and open previous in activity stack
+                dbHelper.updateExamination(currentExamination);
                 startActivity(new Intent(this, HomeScreenActivity.class));
                 finish();
                 break;
