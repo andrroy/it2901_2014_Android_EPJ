@@ -23,3 +23,4 @@ in the libs folder.
 an empty gallery or will force application to crash
 * SQLCipher might be unstable on certain devices
 * Stacktrace printed with Log.w when providing invalid source in setup.
+* Stacktrace printed with Log.w when providing wrong password on Login.
