@@ -1,6 +1,8 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
@@ -15,7 +17,6 @@ import org.royrvik.capgeminiemr.qrscan.IntentResult;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -31,6 +32,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private SessionManager session;
     private RemoteServiceConnection service;
     private DatabaseHelper dbHelper;
+    private ProgressDialog pDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +108,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 if (!patientIDEditText.getText().toString().trim().isEmpty()) {
-                    checkPid(patientIDEditText.getText().toString());
+                    new CheckPidTask().execute(patientIDEditText.getText().toString());
+
                 } else
                     Toast.makeText(getApplicationContext(), "Please enter a social security number", Toast.LENGTH_SHORT).show();
             }
@@ -114,31 +118,61 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
     /**
      * Checks patients ID.
-     * Starts ExaminationActivity or returns to the launcher if PID is accepted
+     * Starts ExaminationActivity or returns to the launcher if PID is accepted.
+     *
      */
-    private void checkPid(String ssn) {
-        //TODO: Show that the app is working on something
-        ArrayList<String> info = new ArrayList<String>();
-        if (session.isValid()) {
-            ArrayList<String> auth = dbHelper.getDepartmentAuth();
-            info = (ArrayList<String>) service.getPatientData(ssn, auth.get(0), auth.get(1));
-        } else {
-            info.add(patientIDEditText.getText().toString());
-        }
-        if (info != null) {
-            if (returnAfter) {
-                Intent data = new Intent();
-                data.putStringArrayListExtra("patient", info);
-                setResult(RESULT_OK, data);
-                returnAfter = false;
+    private class CheckPidTask extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            publishProgress("Working...");
+
+            ArrayList<String> info = new ArrayList<String>();
+            if (session.isValid()) {
+                ArrayList<String> auth = dbHelper.getDepartmentAuth();
+                info = (ArrayList<String>) service.getPatientData(params[0], auth.get(0), auth.get(1));
             } else {
-                Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
-                i.putStringArrayListExtra("info", info);
-                i.putStringArrayListExtra("chosen_images", incomingImages);
-                startActivity(i);
+                info.add(patientIDEditText.getText().toString());
             }
-            finish();
-        } else Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
+
+            if (info != null) {
+                if (returnAfter) {
+                    Intent data = new Intent();
+                    data.putStringArrayListExtra("patient", info);
+                    setResult(RESULT_OK, data);
+                    returnAfter = false;
+                } else {
+                    Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
+                    i.putStringArrayListExtra("info", info);
+                    i.putStringArrayListExtra("chosen_images", incomingImages);
+                    startActivity(i);
+                }
+                finish();
+            }
+            else {
+                // Run Toast on UI thread
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            pDialog = new ProgressDialog(IdentifyPatientActivity.this);
+            pDialog.setMessage("Working...");
+            pDialog.show();
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            pDialog.dismiss();
+        }
+
     }
 
     @Override
@@ -164,10 +198,11 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         if (scanResult.getContents() != null) {
             if (scanResult.getFormatName().equals("QR_CODE")) {
                 String ssn = scanResult.getContents();
-                checkPid(ssn);
+                new CheckPidTask().execute(ssn);
+
             } else if (scanResult.getFormatName().equals("CODE_128")) {
                 String ssn = scanResult.getContents();
-                checkPid(ssn);
+                new CheckPidTask().execute(ssn);
             } else {
                 Log.d("APP", "Invalid format"); //Give user feedback
             }
@@ -195,6 +230,15 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private void updateSession() {
         if (session.isValid()) {
             session.updateSession();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(pDialog != null) {
+            pDialog.dismiss();
+            pDialog = null;
         }
     }
 }
