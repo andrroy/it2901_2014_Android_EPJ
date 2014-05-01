@@ -12,12 +12,14 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
  */
 
 public class YesNoPreference extends DialogPreference {
+    private Context context;
     private DatabaseHelper dbHelper;
     private EMRApplication globalApp;
 
     public YesNoPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        dbHelper = new DatabaseHelper(context);
+        this.context = context;
+        dbHelper = DatabaseHelper.getInstance(context);
         globalApp = (EMRApplication) context.getApplicationContext();
     }
 

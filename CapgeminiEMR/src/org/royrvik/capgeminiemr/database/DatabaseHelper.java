@@ -13,6 +13,8 @@ import java.util.ArrayList;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+    private static DatabaseHelper instance = null;
+
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "emrdb";
 
@@ -48,15 +50,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private Context context;
 
-    public DatabaseHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
+    }
+
+    public static synchronized DatabaseHelper getInstance(Context con){
+        if(instance == null){
+            SQLiteDatabase.loadLibs(con);
+            instance = new DatabaseHelper(con);
+        }
+        return instance;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        SQLiteDatabase.loadLibs(context);
+
 
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -107,7 +117,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return The tech password
      */
     private String getTechUserPassword() {
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
         String password = "";
         Cursor cursor = db.rawQuery("SELECT * FROM techpassword", null);
@@ -128,7 +138,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @param password password to set
      */
     private void setTechUserPassword(String password) {
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getWritableDatabase("test123");
 
         ContentValues values = new ContentValues();
@@ -140,7 +150,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public ArrayList<String> getDepartmentAuth() {
         ArrayList<String> result = new ArrayList<String>();
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
         Cursor cursor = db.rawQuery("SELECT * FROM department", null);
         if (cursor != null) {
@@ -156,7 +166,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void setDepartmentAuth(String username, String password) {
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getWritableDatabase("test123");
 
         //Recreate the department table
@@ -180,7 +190,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public int addExamination(Examination ex) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getWritableDatabase("test123");
 
         // Build query
@@ -217,7 +227,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public Examination getExamination(int id) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         Cursor cursor = db.query(TABLE_EXAMINATION, COLUMNS_EX, " examination_id = ?",
@@ -251,7 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public boolean deleteExamination(int id) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
@@ -271,7 +281,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void updateExamination(Examination ex) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         // Build query
@@ -310,7 +320,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public void deleteAllExaminations() {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         db.delete(TABLE_EXAMINATION, null, null);
@@ -325,7 +335,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Examination> getAllExaminations() {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         Cursor cursor = db.rawQuery("select * from examination", null);
@@ -367,7 +377,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = this.getReadableDatabase("test123");
 
         ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
@@ -471,7 +481,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public void updateTechPassword(String techPassword) {
 
-        SQLiteDatabase.loadLibs(context);
+
         SQLiteDatabase db = getWritableDatabase("test123");
 
         db.execSQL("DROP TABLE IF EXISTS techpassword");

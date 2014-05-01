@@ -47,8 +47,8 @@ public class ExaminationActivity extends ActionBarActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-        SQLiteDatabase.loadLibs(getApplicationContext());
-        dbHelper = new DatabaseHelper(this);
+
+        dbHelper = DatabaseHelper.getInstance(this);
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
@@ -70,6 +70,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
         }
+
         // Activity was started to edit an existing examination
         else if (activityStartedForAction().equals("edit_examination")) {
             int exId = intent.getIntExtra("ex_id", -1);
@@ -77,6 +78,10 @@ public class ExaminationActivity extends ActionBarActivity {
                 currentExamination = dbHelper.getExamination(exId);
             } else finish();
         }
+        else if(activityStartedForAction().equals("edit_examinationObject")){
+            currentExamination = intent.getParcelableExtra("examination");
+        }
+
 
         // Initialize GUI elements
         initFirstViewElements();
@@ -149,7 +154,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
-                i.putExtra("ex_id", exId);
+                i.putExtra("examination", currentExamination);
                 startActivity(i);
                 //finish();
             }
@@ -309,7 +314,11 @@ public class ExaminationActivity extends ActionBarActivity {
         } else if (intent.hasExtra("ex_id")) {
             // Activity was started to edit an examination
             return "edit_examination";
+        }else if(intent.hasExtra("examination")){
+            // Activity was started to edit an examinationObject
+            return "edit_examinationObject";
         }
+
         return null;
     }
 

@@ -1,6 +1,7 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.Application;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -28,8 +29,6 @@ public class EMRApplication extends Application {
     public final static String LDAP_OU = "LDAPOU";
     public final static String LDAP_DC = "LDAPDC";
 
-
-
     /*
         USAGE:
         private EMRApplication globalApp;
@@ -46,6 +45,7 @@ public class EMRApplication extends Application {
     public void onCreate() {
         super.onCreate();
     }
+
 
     public void setExternalPackageSettings(HashMap<String, String> settingsHashMap) {
 
@@ -136,7 +136,7 @@ public class EMRApplication extends Application {
     }
 
     public boolean hasDepartmentAuthConfigured() {
-        return new DatabaseHelper(getApplicationContext()).getDepartmentAuth().size() > 1;
+        return DatabaseHelper.getInstance(getApplicationContext()).getDepartmentAuth().size() > 1;
     }
 
     public String getSettingsPackageName() {

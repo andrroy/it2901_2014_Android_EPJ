@@ -62,7 +62,7 @@ public class HomeScreenActivity extends ActionBarActivity {
             dialog.show();
         }
 
-        dbHelper = new DatabaseHelper(this);
+        dbHelper = DatabaseHelper.getInstance(this);
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
