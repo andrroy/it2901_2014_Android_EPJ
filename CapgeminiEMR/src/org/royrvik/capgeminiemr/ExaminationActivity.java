@@ -57,10 +57,10 @@ public class ExaminationActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
+
+        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
