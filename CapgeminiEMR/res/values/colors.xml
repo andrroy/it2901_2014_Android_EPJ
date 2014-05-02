@@ -2,6 +2,7 @@
 <resources>
     <color name="transparent">#00000000</color>
     <color name="white">#FFF</color>
+
     <color name="whitegray">#F6F6F6</color>
     <color name="lightgrey">#B2B2B1</color>
     <color name="grey">#808080</color>
@@ -10,4 +11,6 @@
     <color name="blue">#ff85adff</color>
     <color name="navy">#ff113e80</color>
     <color name="black">#000000</color>
+
+    <color name="bg">#dfdfdf</color>
 </resources>

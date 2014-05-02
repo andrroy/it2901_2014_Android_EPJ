@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -25,6 +26,7 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 
 public class ReviewUploadActivity extends ActionBarActivity {
@@ -51,7 +53,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
-        setContentView(R.layout.reviewupload);
+        setContentView(R.layout.reviewupload_test);
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
@@ -78,11 +80,18 @@ public class ReviewUploadActivity extends ActionBarActivity {
         // Fetch examination from database and show its images and comments in the listview
         final List<UltrasoundImage> examinationImages = currentExamination.getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View buttonGroup = inflater.inflate(R.layout.review_n_upload_buttons, null);
+
+        reviewListView.addFooterView(buttonGroup);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
+
 
         // Buttons
         editButton = (Button) findViewById(R.id.editButton);
         uploadButton = (Button) findViewById(R.id.uploadButton);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +137,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             }
         });
 
-        updateTextViews();
+   //     updateTextViews();
     }
 
     /**
@@ -200,7 +209,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateTextViews();
+        // updateTextViews();
         updateSession();
     }
 

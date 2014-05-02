@@ -94,10 +94,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
             @Override
             public void onClick(View view) {
                 currentImage = position;
-                Log.d("APP:", "Actual current image: " + position);
-                Log.d("APP:", "Supposed current image: " + currentImage);
-
-
                 commentButton.setBackgroundResource(R.drawable.ic_comment);
 
                 // showCommentDialog();

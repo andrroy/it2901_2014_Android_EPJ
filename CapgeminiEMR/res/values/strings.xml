@@ -41,6 +41,7 @@
     <string name="patient_info">Patient info:</string>
     <string name="upload">Upload!</string>
     <string name="edit">Edit</string>
+    <string name="comment">Comment:</string>
 
     <!-- Login -->
     <string name="offline_mode">Offline mode</string>

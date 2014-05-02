@@ -2,22 +2,64 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
-              android:layout_height="wrap_content">
+              android:layout_height="wrap_content"
+              android:background="@drawable/cmt_background"
+              android:layout_margin="5dp"
+              android:layout_centerVertical="true"
+              android:paddingBottom="10dp"
 
-    <ImageView
-        android:layout_width="180dp"
-        android:layout_height="180dp"
-        android:id="@+id/reviewImageImageView"
-        />
+        >
 
     <TextView
-        android:layout_width="wrap_content"
+            android:id="@+id/imageDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="3dp"
+            android:text="image captured: 2010-01-06 16:01:31"
+            android:textStyle="italic"
+            android:textColor="@color/lightgrey"
+            android:layout_alignParentTop="true"
+            />
+
+
+    <ImageView
+            android:id="@+id/reviewImageImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:scaleType="centerCrop"
+            android:layout_below="@id/imageDate"
+            />
+
+
+    <TextView
+            android:id="@+id/commentHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/comment"
+            android:textStyle="bold"
+            android:textColor="@color/darkgrey"
+            android:layout_below="@id/reviewImageImageView"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            />
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/imageCommentTextView"
         android:layout_centerVertical="true"
-        android:text="asda"
-        android:layout_toRightOf="@+id/reviewImageImageView"/>
+        android:text="Frank og jeg gikk en tur i skogen"
+        android:textColor="@color/darkgrey"
+        android:layout_below="@id/commentHeader"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginBottom="15dp"
+        />
 
 
 </RelativeLayout>
