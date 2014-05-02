@@ -1,9 +1,12 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.Encryption;
 import org.royrvik.capgeminiemr.utils.NetworkChecker;
 import org.royrvik.capgeminiemr.utils.SessionManager;
@@ -113,6 +117,7 @@ public class LoginActivity extends ActionBarActivity {
         broadcastCode = i.getStringExtra("code");
     }
 
+
     /**
      * Creates a new login session, and validates the credentials.
      */
@@ -125,7 +130,30 @@ public class LoginActivity extends ActionBarActivity {
 
         //Check if the credentials are correct, and forwarding to next view if true
         if (session.isValid()) {
-            startApplication();
+            final DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext(), session.getDatabaseInfo());
+            if (db.checkDatabasePassword()) {
+                passwordEditText.setText("");
+                startApplication();
+            } else {
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                new AlertDialog.Builder(LoginActivity.this)
+                        .setTitle("Password has changed.")
+                        .setMessage("Please enter the password that was last used with this applicationn.")
+                        .setView(input)
+                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (!db.updateDatabasePassword(Encryption.encrypt(session.getDatabaseInfo().get(0), input.getText().toString()))) {
+                                    Crouton.makeText(LoginActivity.this, "Wrong previous password.", Style.ALERT).show();
+                                }
+                                login();
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //Do nothing
+                    }
+                }).show();
+            }
         } else {
             if (NetworkChecker.isNetworkAvailable(getApplicationContext())) {
                 Crouton.makeText(LoginActivity.this, "Wrong username and/or password", Style.ALERT).show();
@@ -133,8 +161,8 @@ public class LoginActivity extends ActionBarActivity {
                 Crouton.makeText(LoginActivity.this, "Check your network settings", Style.ALERT).show();
                 recheckNetwork();
             }
+            passwordEditText.setText("");
         }
-        passwordEditText.setText("");
     }
 
     /**

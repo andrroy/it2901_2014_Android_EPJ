@@ -12,14 +12,12 @@ import android.widget.EditText;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
 
 public class TechDepartmentActivity extends ActionBarActivity {
 
     private EditText usernameEditText, passwordEditText;
-    private DatabaseHelper dbHelper;
 
     public void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -37,12 +35,12 @@ public class TechDepartmentActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        dbHelper = DatabaseHelper.getInstance(this);
         usernameEditText = (EditText) findViewById(R.id.departmentUnameEditText);
         passwordEditText = (EditText) findViewById(R.id.departmentPwordEditText);
         Button confirmButton = (Button) findViewById(R.id.departmentConfirmButton);
 
-        ArrayList<String> savedData = dbHelper.getDepartmentAuth();
+        final EMRApplication settings = (EMRApplication) getApplicationContext();
+        ArrayList<String> savedData = settings.getDepartmentAuth();
         if (savedData.size() > 1) {
             usernameEditText.setText(savedData.get(0));
             passwordEditText.setText(savedData.get(1));
@@ -55,7 +53,7 @@ public class TechDepartmentActivity extends ActionBarActivity {
                 username = usernameEditText.getText().toString();
                 password = passwordEditText.getText().toString();
                 if (!username.equals("") && !password.equals("")) {
-                    dbHelper.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
+                    settings.setDepartmentAuth(usernameEditText.getText().toString(), passwordEditText.getText().toString());
                     finish();
                 } else
                     Crouton.makeText(TechDepartmentActivity.this, "One or more fields are empty.", Style.ALERT).show();

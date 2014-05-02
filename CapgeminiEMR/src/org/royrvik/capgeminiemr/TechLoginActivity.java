@@ -12,20 +12,21 @@ import android.widget.TextView;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 public class TechLoginActivity extends ActionBarActivity {
     private TextView techLoginTextView;
     private TextView techLoginConfirmTextView;
     private EditText techLoginPasswordEditText;
     private EditText techLoginConfirmPasswordEditText;
-    private DatabaseHelper dbHelper;
     private Intent launchIntent;
+    private EMRApplication settings;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.tech_login);
+
+        settings = (EMRApplication) getApplicationContext();
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
@@ -36,8 +37,6 @@ public class TechLoginActivity extends ActionBarActivity {
         //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
-
-        dbHelper = DatabaseHelper.getInstance(this);
 
         techLoginTextView = (TextView) findViewById(R.id.techLoginTextView);
         techLoginConfirmTextView = (TextView) findViewById(R.id.techLoginConfirmTextView);
@@ -74,13 +73,10 @@ public class TechLoginActivity extends ActionBarActivity {
         if (isFirstSetup()) {
             if (techLoginPasswordEditText.getText().toString().equals(techLoginConfirmPasswordEditText.getText().toString())) {
                 if (!techLoginPasswordEditText.getText().toString().equals("")) {
-                    if (dbHelper.saveTechPassword(techLoginPasswordEditText.getText().toString())) {
-                        startActivity(launchIntent);
-                        finish();
-                        return;
-                    } else {
-                        Crouton.makeText(TechLoginActivity.this, "Something went wrong: A tech user password is already saved to th database.", Style.ALERT).show();
-                    }
+                    settings.saveTechPassword(techLoginPasswordEditText.getText().toString());
+                    startActivity(launchIntent);
+                    finish();
+                    return;
                 } else {
                     Crouton.makeText(TechLoginActivity.this, "Passwords can not be empty", Style.ALERT).show();
                 }
@@ -88,7 +84,7 @@ public class TechLoginActivity extends ActionBarActivity {
                 Crouton.makeText(TechLoginActivity.this, "The passwords does not match!", Style.ALERT).show();
             }
         }
-        if (dbHelper.isCorrectTechPassword(techLoginPasswordEditText.getText().toString())) {
+        if (settings.checkTechPassword(techLoginPasswordEditText.getText().toString())) {
             startActivity(launchIntent);
             finish();
         } else Crouton.makeText(TechLoginActivity.this, "Wrong password.", Style.ALERT).show();
@@ -113,7 +109,7 @@ public class TechLoginActivity extends ActionBarActivity {
      * @return True if the tech password is not set.
      */
     private boolean isFirstSetup() {
-        return !dbHelper.isTechPasswordSet();
+        return !settings.isTechPasswordSet();
     }
 
     @Override

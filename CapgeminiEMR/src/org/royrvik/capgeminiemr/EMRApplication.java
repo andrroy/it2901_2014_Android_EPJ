@@ -29,6 +29,11 @@ public class EMRApplication extends Application {
     public final static String LDAP_OU = "LDAPOU";
     public final static String LDAP_DC = "LDAPDC";
 
+    //Shared user credentials
+    private final static String DEPUSER = "departmentUsername";
+    private final static String DEPPWD = "departmentPassword";
+    private final static String TECHPWD = "techPassword";
+
     /*
         USAGE:
         private EMRApplication globalApp;
@@ -136,7 +141,33 @@ public class EMRApplication extends Application {
     }
 
     public boolean hasDepartmentAuthConfigured() {
-        return DatabaseHelper.getInstance(getApplicationContext()).getDepartmentAuth().size() > 1;
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        return !appSharedPrefs.getString(DEPUSER, "").equals("") && !appSharedPrefs.getString(DEPPWD, "").equals("");
+    }
+
+    public ArrayList<String> getDepartmentAuth() {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        ArrayList<String> result = new ArrayList<String>();
+        result.add(appSharedPrefs.getString(DEPUSER, ""));
+        result.add(appSharedPrefs.getString(DEPPWD, ""));
+        return result;
+    }
+
+    public boolean isTechPasswordSet() {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        return !appSharedPrefs.getString(TECHPWD, "").equals("");
+    }
+
+    public boolean checkTechPassword(String password) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+
+        return !password.equals("") && appSharedPrefs.getString(TECHPWD, "").equals(password);
+    }
+
+    public void saveTechPassword(String password) {
+        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
+        appSharedPrefs.edit().putString(TECHPWD, password).commit();
     }
 
     public String getSettingsPackageName() {
@@ -211,4 +242,10 @@ public class EMRApplication extends Application {
         return appSharedPrefs.getString(LDAP_DC, "");
     }
 
+    public void setDepartmentAuth(String username, String password) {
+        SharedPreferences.Editor pref = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).edit();
+        pref.putString(DEPUSER, username);
+        pref.putString(DEPPWD, password);
+        pref.commit();
+    }
 }
