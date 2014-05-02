@@ -156,7 +156,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("examination", currentExamination);
                 startActivity(i);
-                //finish();
+                finish();
             }
         });
 
