@@ -121,7 +121,7 @@
                         android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="Examination comment: \nKOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR"
+                        android:text="Examination comment:"
                         android:id="@+id/examCommentTextView"
                         android:layout_below="@+id/examPatientDobTextView"
                         android:textColor="@color/black"/>

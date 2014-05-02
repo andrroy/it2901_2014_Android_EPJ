@@ -123,10 +123,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
                     });
                     builder.show();
                 }
-
             }
         });
-
         updateTextViews();
     }
 
@@ -231,6 +229,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        dbHelper.updateExamination(currentExamination);
+        Intent i = new Intent(this, ExaminationActivity.class);
+        i.putExtra("examination", currentExamination);
+        startActivity(i);
+        finish();
     }
 
     private void updateSession() {
