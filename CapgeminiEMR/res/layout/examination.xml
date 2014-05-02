@@ -3,7 +3,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="#808080">
+        android:background="@color/lightgrey">
 
 
     <RelativeLayout
@@ -22,7 +22,7 @@
                 android:textSize="40dp"
                 android:fontFamily="sans-serif-thin"
                 android:layout_centerHorizontal="true"
-                android:id="@+id/textView"
+                android:id="@+id/examNumberTextView"
                 android:textColor="@color/black"/>
 
         <TextView
@@ -30,16 +30,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:text="Conducted 12.04.2014 13:36"
-                android:id="@+id/textView2"
+                android:id="@+id/examDateTextView"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@+id/textView"
+                android:layout_below="@+id/examNumberTextView"
                 android:textColor="@color/grey"/>
 
         <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_below="@+id/textView2">
+                android:layout_below="@+id/examDateTextView">
             <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
@@ -59,16 +59,18 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Patient ID: 27069049988"
-                        android:id="@+id/textView3"
+                        android:id="@+id/examPatientIDTextView"
                         android:textColor="@color/black"/>
 
                 <ImageButton android:layout_height="wrap_content"
                              android:layout_width="wrap_content"
+                             android:id="@+id/editPatientIDButton"
                              android:src="@drawable/ic_content_edit"
                              android:background="@android:color/transparent"
-                             android:layout_alignTop="@+id/textView3"
+                             android:layout_alignTop="@+id/examPatientIDTextView"
                              android:layout_alignParentLeft="true"
-                             android:layout_alignParentStart="true"></ImageButton>
+                             android:layout_alignParentStart="true">
+                </ImageButton>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -76,8 +78,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Last name: Eriksen"
-                        android:id="@+id/textView4"
-                        android:layout_below="@+id/textView3"
+                        android:id="@+id/examPatientLastNameTextView"
+                        android:layout_below="@+id/examPatientIDTextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -86,8 +88,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="First name: Erik"
-                        android:id="@+id/textView5"
-                        android:layout_below="@+id/textView4"
+                        android:id="@+id/examPatientFirstNameTextView"
+                        android:layout_below="@+id/examPatientLastNameTextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -96,8 +98,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Date of birth: 29.04.1965"
-                        android:id="@+id/textView6"
-                        android:layout_below="@+id/textView5"
+                        android:id="@+id/examPatientDobTextView"
+                        android:layout_below="@+id/examPatientFirstNameTextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -105,16 +107,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="Examination comment: HeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHei"
-                        android:id="@+id/textView7"
-                        android:layout_below="@+id/textView6"
+                        android:text="Examination comment: \nKOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR"
+                        android:id="@+id/examCommentTextView"
+                        android:layout_below="@+id/examPatientDobTextView"
                         android:textColor="@color/black"/>
 
                 <ImageButton android:layout_height="wrap_content"
                              android:layout_width="wrap_content"
+                             android:id="@+id/editExamCommentButton"
                              android:src="@drawable/ic_content_edit"
                              android:background="@android:color/transparent"
-                             android:layout_alignTop="@+id/textView7"
+                             android:layout_alignTop="@+id/examCommentTextView"
                              android:layout_alignParentLeft="true"
                              android:layout_alignParentStart="true"></ImageButton>
             </RelativeLayout>
@@ -135,7 +138,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="View images"
-                android:id="@+id/button2"
+                android:id="@+id/examViewImagesButton"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"/>
 
@@ -144,8 +147,8 @@
                 android:layout_height="wrap_content"
                 android:text="5 images without comment"
                 android:layout_centerHorizontal="true"
-                android:layout_below="@id/button2"
-                android:id="@+id/lol"/>
+                android:layout_below="@+id/examViewImagesButton"
+                android:id="@+id/imagesWithoutCommentTextView"/>
     </RelativeLayout>
 
 
@@ -159,7 +162,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="70dp"
                 android:text="KNAPP"
-                android:id="@+id/button"
+                android:id="@+id/reviewUploadButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"/>
