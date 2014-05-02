@@ -54,10 +54,10 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         ssnTextView.setText(rowItem.getPatientSsn());
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.homeListNameTextView);
-        nameTextView.setText(rowItem.getPatientName());
+        nameTextView.setText(rowItem.getPatientFirstName()); //Todo: Whole name
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
-        dateTextView.setText(rowItem.getDate());
+        dateTextView.setText(rowItem.getExaminationTime()); //Todo: Convert to date
 
         return convertView;
 

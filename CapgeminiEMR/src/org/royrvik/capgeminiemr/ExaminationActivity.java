@@ -61,9 +61,9 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
             if (infoArrayList.size() < 2) {
-                currentExamination.setPatientName("");
+                currentExamination.setPatientFirstNameName(""); //Todo: Fix for whole name
             } else {
-                currentExamination.setPatientName(infoArrayList.get(1));
+                currentExamination.setPatientFirstNameName(infoArrayList.get(1)); //Todo: Fix for whole name
             }
             currentExamination.setPatientSsn(infoArrayList.get(0));
             for (String uri : incomingImages) {
@@ -140,16 +140,16 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                Log.d("APP:", "Current exID: " + currentExamination.getId());
-                if (currentExamination.getId() == -1) {
+                Log.d("APP:", "Current exID: " + currentExamination.getDatabaseId());
+                if (currentExamination.getDatabaseId() == -1) {
                     exId = dbHelper.addExamination(currentExamination);
                     Log.d("APP:", "saved new examination");
-                    currentExamination.setId(exId);
+                    currentExamination.setDatabaseId(exId);
                 }
                 else{
                     dbHelper.updateExamination(currentExamination);
                     Log.d("APP:", "Updated existing examination");
-                    exId = currentExamination.getId();
+                    exId = currentExamination.getDatabaseId();
                 }
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
@@ -230,9 +230,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
     }
 
-    private boolean idIsValidated() {
-        return currentExamination.getPatientName().length() > 0;
-    }
+    private boolean idIsValidated() {return currentExamination.getPatientFirstName().length() > 0;} //Todo: Fix whole name
 
     private void updateEditorView() {
         if (currentExamination.getUltrasoundImages().size() > 0) {
@@ -278,7 +276,7 @@ public class ExaminationActivity extends ActionBarActivity {
         } else {
             headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
             idTextView.setText(currentExamination.getPatientSsn());
-            nameTextView.setText(currentExamination.getPatientName());
+            nameTextView.setText(currentExamination.getPatientFirstName()); //Todo: Fix for whole name
         }
 
         int imagesWithComment = 0;
@@ -329,7 +327,7 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
-                currentExamination.setPatientName(info.get(1));
+                currentExamination.setPatientFirstNameName(info.get(1)); //Todo: Fix for whole name
             }
             initFirstViewElements();
         }
