@@ -68,6 +68,7 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
+            Log.d("APP", "LAG NY EX med id " + currentExamination.getDatabaseId());
             if (infoArrayList.size() < 2) {
                 currentExamination.setPatientFirstName("");
             } else {
@@ -140,12 +141,14 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                Log.d("APP:", "Current exID: " + currentExamination.getDatabaseId());
+                Log.d("APP:", "Current dbID: " + currentExamination.getDatabaseId());
                 if (currentExamination.getDatabaseId() == -1) {
+                    Log.d("APP", "ADD NEW EX");
                     exId = dbHelper.addExamination(currentExamination);
-                    Log.d("APP:", "saved new examination");
+                    Log.d("APP:", "saved new examination: " + exId);
                     currentExamination.setDatabaseId(exId);
                 } else {
+                    Log.d("APP", "UPDATE EX");
                     dbHelper.updateExamination(currentExamination);
                     Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getDatabaseId();

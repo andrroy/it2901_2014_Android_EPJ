@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "patient_first_name TEXT, " +
                 "patient_last_name TEXT, " +
                 "patient_ssn TEXT, " +
-                "examination_date TEXT" +
+                "examination_date TEXT, " +
                 "examination_comment TEXT )";
 
         // Create examination table
@@ -152,12 +152,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Execute query and get the auto incremented id value
         int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
+        Log.d("APP", "ANDREAS:::::::::::::::::::::" + examinationId);
 
         // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
-            ultrasoundImageValues.put(KEY_DB_ID, examinationId);
+            ultrasoundImageValues.put(KEY_EX_ID, examinationId);
             ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
             ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
 
@@ -203,6 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         cursor.close();
 
+        Log.d("APP", "ANDREAS:::::::::::::::::::::" + examination.getDatabaseId());
         return examination;
 
     }
@@ -214,6 +216,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true if an examination was deleted, false if not
      */
     public boolean deleteExamination(int id) {
+        Log.d("APP", "ANDREAS::::::::::::DELETE: " + id);
         long t1 = System.currentTimeMillis();
         long t2, t3, t4;
 
@@ -226,7 +229,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
-        Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_DB_ID + "=" + id, null)));
+        Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
 
         t3 = System.currentTimeMillis();
         t3 -= t1;
@@ -252,6 +255,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         SQLiteDatabase db = this.getReadableDatabase(this.password);
+        Log.d("APP", "ANDREAS:::::::::UPDATE: " + ex.getDatabaseId());
 
         // Build query
         ContentValues values = new ContentValues();
@@ -275,7 +279,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
-            ultrasoundImageValues.put(KEY_DB_ID, databaseId);
+            ultrasoundImageValues.put(KEY_EX_ID, databaseId);
             ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
             ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
 
