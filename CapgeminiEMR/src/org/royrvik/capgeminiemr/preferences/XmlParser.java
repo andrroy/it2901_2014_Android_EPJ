@@ -18,25 +18,20 @@ public class XmlParser {
      * @param url URL to the XML
      * @return HashMap containing XML node name as key and node value as value
      */
-    public static HashMap<String, String> parse(String url) {
+    public static HashMap<String, String> parse(String url)throws Exception{
         String xml = "";
         // Hashmap containing the fetched values from XML as "nodeName:nodeValue"
         HashMap<String, String> xmlNodeHashMap = new HashMap<String, String>();
 
         // Download the XML file with helper class
-        try {
-            xml = new DownloadXmlTask().execute(url).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        xml = new DownloadXmlTask().execute(url).get();
+
 
         // Parse the XML and save it in the HashMap
         Document xmlDocument = null;
-        try {
-            xmlDocument = loadXMLFromString(xml);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        xmlDocument = loadXMLFromString(xml);
+
 
         NodeList entries = xmlDocument.getElementsByTagName("*");
 

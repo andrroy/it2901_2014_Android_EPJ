@@ -43,12 +43,12 @@ class AuthenticateWithLdapTask extends AsyncTask<String, Void, Boolean> {
             return true;
         }
         catch (GeneralSecurityException e) {
-            e.printStackTrace();
+            return false;
 
         }
         catch (LDAPException e) {
-            e.printStackTrace();
+            return false;
         }
-        return false;
+
     }
 }
