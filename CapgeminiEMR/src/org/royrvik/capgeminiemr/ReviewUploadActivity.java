@@ -26,7 +26,6 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 
 public class ReviewUploadActivity extends ActionBarActivity {
@@ -81,9 +80,11 @@ public class ReviewUploadActivity extends ActionBarActivity {
         reviewListView = (ListView) findViewById(R.id.reviewListView);
         LayoutInflater inflater = LayoutInflater.from(this);
 
-        View buttonGroup = inflater.inflate(R.layout.review_n_upload_buttons, null);
+        View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
+        View listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
 
-        reviewListView.addFooterView(buttonGroup);
+        reviewListView.addFooterView(listFooter);
+        reviewListView.addHeaderView(listHeader);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
 
 
@@ -233,5 +234,4 @@ public class ReviewUploadActivity extends ActionBarActivity {
             session.updateSession();
         }
     }
-
 }
