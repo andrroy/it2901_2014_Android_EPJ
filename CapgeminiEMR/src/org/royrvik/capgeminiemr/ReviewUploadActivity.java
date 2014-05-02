@@ -154,10 +154,26 @@ public class ReviewUploadActivity extends ActionBarActivity {
         protected String doInBackground(String... params) {
             publishProgress("Working...");
 
-            //Get patient data
+            //Get examination data
+            //Standard format:
+            /*
+            * 0 PID
+            * 1 PAS-ID
+            * 2 firstName
+            * 3 lastName
+            * 4 ExamNumber
+            * 5 ExamTime
+            * 6 ExamComment
+            * */
             data = new ArrayList<String>();
             data.add(currentExamination.getPatientSsn());
-            data.add(currentExamination.getPatientName());
+            data.add(currentExamination.getPasId());
+            data.add(currentExamination.getPatientFirstName());
+            data.add(currentExamination.getPatientLastName());
+            data.add(currentExamination.getExamNumber());
+            data.add(currentExamination.getExamTime());
+            data.add(currentExamination.getExamComment());
+
             //Get images from examination
             images = currentExamination.getAllImages();
 
