@@ -46,7 +46,7 @@ public class SessionManager {
 
     /**
      *
-     * @return
+     * @return An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with the database name and password.
      */
     public ArrayList<String> getDatabaseInfo() {
         ArrayList<String> result = new ArrayList<String>();

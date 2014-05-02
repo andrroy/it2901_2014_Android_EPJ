@@ -271,19 +271,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
-     * Deletes all examinations stored in the database
-     */
-    public void deleteAllExaminations() {
-
-
-        SQLiteDatabase db = this.getReadableDatabase("test123");
-
-        db.delete(TABLE_EXAMINATION, null, null);
-        db.delete(TABLE_ULTRASOUNDIMAGE, null, null);
-        db.close();
-    }
-
-    /**
      * Gets all Examinations stored in the database.
      *
      * @return ArrayList of all Examinations
