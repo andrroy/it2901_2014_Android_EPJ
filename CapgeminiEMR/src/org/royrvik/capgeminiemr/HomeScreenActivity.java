@@ -151,6 +151,7 @@ public class HomeScreenActivity extends ActionBarActivity {
             case R.id.logout_button:
                 Log.d("APP", "logout");
                 session.logout();
+                dbHelper.logout();
                 // Exit the application
                 finish();
                 break;

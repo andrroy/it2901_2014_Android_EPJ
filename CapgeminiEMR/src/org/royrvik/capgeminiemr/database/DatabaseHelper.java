@@ -16,14 +16,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static DatabaseHelper instance = null;
 
     private static final int DATABASE_VERSION = 1;
-    private static final String DATABASE_NAME = "emrdb";
-    private String password = "emrdm";
+    private String password;
 
     // Table names
     private static final String TABLE_EXAMINATION = "examination";
     private static final String TABLE_ULTRASOUNDIMAGE = "ultrasoundimage";
-    private static final String TABLE_TECHPASSWORD = "techpassword";
-    private static final String TABLE_DEPARTMENT = "department";
 
     // Column names
     // Examination
@@ -33,46 +30,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String KEY_DATE = "date";
 
     // Ultrasoundimage
-    private static final String KEY_USI_ID = "ultrasoundimage_id";
     private static final String KEY_COMMENT = "comment";
     private static final String KEY_URI = "uri";
 
-    // Techpassword
-    private static final String KEY_TECHPASSWORD = "password";
-
-    // Department
-    private static final String KEY_DEPARTMENTUSER = "username";
-    private static final String KEY_DEPARTMENTPWD = "password";
-
-
-
     private static final String[] COLUMNS_EX = {KEY_EX_ID, KEY_PATIENT_NAME, KEY_SSN, KEY_DATE};
-    private static final String[] COLUMNS_USI = {KEY_USI_ID, KEY_EX_ID, KEY_URI, KEY_COMMENT};
-
-    private Context context;
-
-    private DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.context = context;
-    }
 
     private DatabaseHelper(Context context, ArrayList<String> databaseInfo) {
         super(context, databaseInfo.get(0), null, DATABASE_VERSION);
         this.password = databaseInfo.get(1);
-        this.context = context;
-    }
-
-    /**
-     *  Creates a database instance with a default database.
-     * @param con
-     * @return
-     */
-    public static synchronized DatabaseHelper getInstance(Context con){
-        if(instance == null){
-            SQLiteDatabase.loadLibs(con);
-            instance = new DatabaseHelper(con);
-        }
-        return instance;
     }
 
     public static synchronized DatabaseHelper getInstance(Context con, ArrayList<String> databaseInfo){
@@ -106,12 +71,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Create ultrasoundimage table
         db.execSQL(CREATE_ULTRASOUNDIMAGE_TABLE);
-
-        // Create techpassword table
-        db.execSQL("CREATE TABLE techpassword (password TEXT)");
-
-        // Create department table
-        db.execSQL("CREATE TABLE department (username TEXT, password TEXT)");
     }
 
     @Override
@@ -119,11 +78,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Drop table
         db.execSQL("DROP TABLE IF EXISTS examination");
         db.execSQL("DROP TABLE IF EXISTS ultrasoundimage");
-        db.execSQL("DROP TABLE IF EXISTS techpassword");
-        db.execSQL("DROP TABLE IF EXISTS department");
 
         // Recreate the table
         this.onCreate(db);
+    }
+
+    public void logout() {
+        instance.close();
+        instance = null;
     }
 
     /**
@@ -159,76 +121,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     /*
             CREATE, READ, UPDATE, DELETE OPERATIONS
      */
-
-    /**
-     * Get the technical user password
-     *
-     * @return The tech password
-     */
-    private String getTechUserPassword() {
-
-        SQLiteDatabase db = this.getReadableDatabase(this.password);
-        String password = "";
-        Cursor cursor = db.rawQuery("SELECT * FROM techpassword", null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                password = cursor.getString(cursor.getColumnIndex("password"));
-            }
-        }
-
-        cursor.close();
-        db.close();
-        return password;
-    }
-
-    /**
-     * Sets the technical user password
-     *
-     * @param password password to set
-     */
-    private void setTechUserPassword(String password) {
-
-        SQLiteDatabase db = this.getWritableDatabase(this.password);
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_TECHPASSWORD, password);
-        db.insert(TABLE_TECHPASSWORD, null, values);
-        db.close();
-    }
-
-    public ArrayList<String> getDepartmentAuth() {
-        ArrayList<String> result = new ArrayList<String>();
-
-
-        SQLiteDatabase db = this.getReadableDatabase(this.password);
-        Cursor cursor = db.rawQuery("SELECT * FROM department", null);
-        if (cursor != null) {
-            while (cursor.moveToNext()) {
-                result.add(cursor.getString(cursor.getColumnIndex("username")));
-                result.add(cursor.getString(cursor.getColumnIndex("password")));
-            }
-        }
-        cursor.close();
-        db.close();
-
-        return result;
-    }
-
-    public void setDepartmentAuth(String username, String password) {
-
-        SQLiteDatabase db = this.getWritableDatabase(this.password);
-
-        //Recreate the department table
-        db.execSQL("DROP TABLE IF EXISTS department");
-        db.execSQL("CREATE TABLE department (username TEXT, password TEXT)");
-
-        ContentValues values = new ContentValues();
-        values.put(KEY_DEPARTMENTUSER, username);
-        values.put(KEY_DEPARTMENTPWD, password);
-        db.insert(TABLE_DEPARTMENT, null, values);
-        db.close();
-
-    }
 
     /**
      * Adds an Examination to the database. The ultrasoundimages for the Examination
@@ -275,7 +167,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return Examination with this ID
      */
     public Examination getExamination(int id) {
-
 
         SQLiteDatabase db = this.getReadableDatabase(this.password);
 
@@ -456,31 +347,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return usiList;
     }
 
-
-    /*
-            Helper methods for converting string arrays to/from string
-     */
-
-    public static String convertArrayToString(String[] array) {
-        String stringSeparator = "__,__";
-        String str = "";
-        for (int i = 0; i < array.length; i++) {
-            str = str + array[i];
-            // Do not append comma at the end of last element
-            if (i < array.length - 1) {
-                str = str + stringSeparator;
-            }
-        }
-        return str;
-    }
-
-    public static String[] convertStringToArray(String str) {
-        String stringSeparator = "__,__";
-        String[] arr = str.split(stringSeparator);
-        return arr;
-    }
-
-
     /**
      * @param l long to be converted
      * @return long as integer if possible
@@ -491,52 +357,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     (l + " cannot be cast to int without changing its value.");
         }
         return (int) l;
-    }
-
-    /**
-     * Checks if the entered password is correct.
-     *
-     * @param techPassword The password entered by the user.
-     * @return True if the password is correct
-     */
-    public boolean isCorrectTechPassword(String techPassword) {
-        return techPassword.equals(getTechUserPassword()) && !techPassword.equals("");
-    }
-
-    /**
-     * Checks to see if the tech password is set.
-     *
-     * @return True is the tech password is set.
-     */
-    public boolean isTechPasswordSet() {
-        return !getTechUserPassword().equals("");
-    }
-
-    /**
-     * Saves the tech password to the database
-     *
-     * @param techPassword The password entered by the user.
-     * @return True if the password was saved successfully
-     */
-    public boolean saveTechPassword(String techPassword) {
-        if (isTechPasswordSet()) {
-            return false;
-        } else {
-            setTechUserPassword(techPassword);
-            return true;
-        }
-    }
-
-
-    public void updateTechPassword(String techPassword) {
-
-
-        SQLiteDatabase db = getWritableDatabase(this.password);
-
-        db.execSQL("DROP TABLE IF EXISTS techpassword");
-        db.execSQL("CREATE TABLE techpassword (password TEXT)");
-        setTechUserPassword(techPassword);
-
-        db.close();
     }
 }

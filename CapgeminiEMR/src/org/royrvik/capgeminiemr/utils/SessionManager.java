@@ -51,7 +51,7 @@ public class SessionManager {
     public ArrayList<String> getDatabaseInfo() {
         ArrayList<String> result = new ArrayList<String>();
         result.add(pref.getString(KEY_NAME, ""));
-        //result.add(pref.getString(KEY_PASS, ""));
+        result.add(pref.getString(KEY_PASS, ""));
         result.add(Encryption.encrypt(result.get(0), "newPassword"));
         return result;
     }

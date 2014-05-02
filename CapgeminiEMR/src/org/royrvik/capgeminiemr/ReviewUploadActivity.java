@@ -159,7 +159,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
             //Get images from examination
             images = currentExamination.getAllImages();
 
-            ArrayList<String> auth = dbHelper.getDepartmentAuth();
+            EMRApplication settings = (EMRApplication) getApplicationContext();
+            ArrayList<String> auth = settings.getDepartmentAuth();
             Intent i = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {

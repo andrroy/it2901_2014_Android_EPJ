@@ -12,14 +12,10 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
  */
 
 public class YesNoPreference extends DialogPreference {
-    private Context context;
-    private DatabaseHelper dbHelper;
     private EMRApplication globalApp;
 
     public YesNoPreference(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        dbHelper = DatabaseHelper.getInstance(context);
         globalApp = (EMRApplication) context.getApplicationContext();
     }
 
@@ -29,7 +25,6 @@ public class YesNoPreference extends DialogPreference {
         if (positiveResult) {
             // Delete everything
             Log.d("APP", "Delete everything");
-            dbHelper.deleteAllExaminations();
             globalApp.clearSharedPreferences();
         }
         else {

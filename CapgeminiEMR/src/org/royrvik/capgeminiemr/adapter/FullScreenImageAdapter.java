@@ -14,10 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.royrvik.capgeminiemr.EMRApplication;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -51,7 +53,8 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
-        dbHelper = DatabaseHelper.getInstance(context);
+        SessionManager session =  new SessionManager(context);
+        dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
 
         photoView = new PhotoView(container.getContext());
 
