@@ -137,7 +137,7 @@
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="View images"
+                android:text="@string/view_images"
                 android:id="@+id/examViewImagesButton"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"/>
@@ -161,7 +161,7 @@
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="70dp"
-                android:text="KNAPP"
+                android:text="@string/review_and_upload"
                 android:id="@+id/reviewUploadButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"

@@ -36,6 +36,8 @@
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
     <string name="patent_info">Patient info:</string>
+    <string name="review_and_upload">Review and upload</string>
+    <string name="view_images">View images</string>
 
     <!-- Review and upload strings -->
     <string name="patient_info">Patient info:</string>
