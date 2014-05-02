@@ -27,9 +27,9 @@ class DownloadXmlTask extends AsyncTask<String, Void, String> {
             in.close();
 
         } catch (MalformedURLException e) {
-            e.printStackTrace();
+            return "";
         } catch (IOException e) {
-            e.printStackTrace();
+            return "";
         }
 
         return output;

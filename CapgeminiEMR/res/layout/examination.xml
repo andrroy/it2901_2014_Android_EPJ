@@ -1,248 +1,197 @@
-<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:flatui="http://schemas.android.com/apk/res-auto"
+        android:background="@color/bg">
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:weightSum="1">
 
-    <ViewFlipper
+    <RelativeLayout
+            android:layout_marginTop="@dimen/examination_base_container_margin"
+            android:layout_marginRight="@dimen/examination_base_container_margin"
+            android:layout_marginLeft="@dimen/examination_base_container_margin"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/examinationFlipper">
+            android:layout_height="0dip"
+            android:layout_weight="9"
+            android:background="@drawable/cmt_background">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Exam: 12"
+                android:textSize="40dp"
+                android:fontFamily="sans-serif-light"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/examNumberTextView"
+                android:textColor="@color/black"/>
 
-        <RelativeLayout
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-light"
+                android:text="Conducted 12.04.2014 13:36"
+                android:id="@+id/examDateTextView"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/examNumberTextView"
+                android:textColor="@color/grey"/>
+
+        <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
+                android:layout_height="fill_parent"
+                android:layout_below="@+id/examDateTextView">
+            <TextView
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
 
             <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:background="#b8b8b8"
-                    android:layout_alignBottom="@+id/patientViewHeaderHackImageButton"
-                    android:id="@+id/relativeLayout">
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="@dimen/examination_inner_container_margin"
+                    android:layout_weight="20"
+                    android:layout_width="0dip"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true">
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="@string/patient_id"
+                        android:id="@+id/examPatientIDTextView"
+                        android:textColor="@color/black"/>
+
+                <ImageButton android:layout_height="wrap_content"
+                             android:layout_width="wrap_content"
+                             android:id="@+id/editIDImageButton"
+                             android:src="@drawable/ic_content_edit"
+                             android:background="@android:color/transparent"
+                             android:layout_alignTop="@+id/examPatientIDTextView"
+                             android:layout_alignParentLeft="true"
+                             android:layout_alignParentStart="true">
+                </ImageButton>
+
+                <ImageView android:layout_height="wrap_content"
+                           android:layout_width="wrap_content"
+                           android:id="@+id/isVerifiedImageView"
+                           android:src="@drawable/ic_navigation_accept"
+                           android:layout_alignTop="@+id/examPatientIDTextView"
+                           android:layout_toRightOf="@+id/examPatientIDTextView"/>
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/patent_info"
-                        android:id="@+id/header"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"/>
-
-            </RelativeLayout>
-
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/patientViewHeaderHackImageButton"
-                    android:src="@android:drawable/ic_media_previous"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true" android:clickable="false"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Patient info:"
-                    android:id="@+id/textView"
-                    android:layout_marginTop="28dp"
-                    android:layout_below="@+id/relativeLayout"
-                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:text="-no ID found-"
-                    android:id="@+id/idField"
-                    android:layout_alignStart="@+id/textView"
-                    android:layout_below="@+id/textView"
-                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
-
-            <org.royrvik.capgeminiemr.utils.AutoResizeTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="25dp"
-                    android:text="-no name found-"
-                    android:id="@+id/nameField"
-                    android:textSize="18dp"
-                    android:maxLines="1"
-                    android:layout_alignStart="@+id/idField"
-                    android:layout_below="@+id/idField"
-                    android:layout_toRightOf="@+id/patientViewHeaderHackImageButton"/>
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:text="-no images found-"
-                    android:id="@+id/images2"
-                    android:layout_alignStart="@+id/nameField"
-                    android:layout_above="@+id/images1"
-                    android:layout_alignLeft="@+id/nameField"/>
-
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View images"
-                    android:id="@+id/addCommentsButton"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"/>
-
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/reviewAndUploadButton"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:src="@android:drawable/ic_menu_upload"
-                    android:clickable="false"
-                    android:text="Review and upload"
-                    />
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="18dp"
-                    android:text="-no images found-"
-                    android:id="@+id/images1"
-                    android:layout_above="@+id/addCommentsButton"
-                    android:layout_alignLeft="@+id/nameField"
-                    android:layout_alignStart="@+id/nameField"
-                    android:layout_marginBottom="28dp"/>
-
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/idstatusImageButton"
-                    android:clickable="true" android:visibility="visible" android:cropToPadding="false"
-                    android:focusable="false" android:src="@android:drawable/checkbox_off_background"
-                    android:background="#ff392e"
-                    android:layout_above="@+id/nameField" android:layout_toLeftOf="@+id/idField"/>
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/idstatusGreenImageButton"
-                    android:background="#35ff34"
-                    android:src="@android:drawable/checkbox_on_background"
-                    android:layout_above="@+id/nameField" android:layout_toLeftOf="@id/idstatusImageButton"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-
-            <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignRight="@+id/doneButton"
-                    android:layout_alignEnd="@+id/doneButton"
-                    android:background="#b8b8b8"
-                    android:id="@+id/relativeLayout2"
-                    android:layout_alignBottom="@+id/doneButton">
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="@string/last_name"
+                        android:id="@+id/examPatientLastNameTextView"
+                        android:layout_below="@+id/examPatientIDTextView"
+                        android:textColor="@color/black"/>
 
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="- / -"
-                        android:id="@+id/imageHeader"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"/>
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="@string/first_name"
+                        android:id="@+id/examPatientFirstNameTextView"
+                        android:layout_below="@+id/examPatientLastNameTextView"
+                        android:textColor="@color/black"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="@string/date_of_birth"
+                        android:id="@+id/examPatientDobTextView"
+                        android:layout_below="@+id/examPatientFirstNameTextView"
+                        android:textColor="@color/black"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="Examination comment: \nKOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR"
+                        android:id="@+id/examCommentTextView"
+                        android:layout_below="@+id/examPatientDobTextView"
+                        android:textColor="@color/black"/>
+
+                <ImageButton android:layout_height="wrap_content"
+                             android:layout_width="wrap_content"
+                             android:id="@+id/editExamCommentButton"
+                             android:src="@drawable/ic_content_edit"
+                             android:background="@android:color/transparent"
+                             android:layout_alignTop="@+id/examCommentTextView"
+                             android:layout_alignParentLeft="true"
+                             android:layout_alignParentStart="true"></ImageButton>
             </RelativeLayout>
-
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Done"
-                    android:id="@+id/doneButton"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:background="#13ff3b"/>
-
-            <RelativeLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignTop="@+id/prevButton"
-                    android:background="#b8b8b8"
-                    android:id="@+id/relativeLayout3">
-            </RelativeLayout>
-
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Prev"
-                    android:id="@+id/prevButton"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
-
-            <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Next"
-                    android:id="@+id/nextButton"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"/>
-
-            <ImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/deleteButton"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:src="@android:drawable/ic_menu_delete"/>
-
-            <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageArea"
-                    android:layout_below="@+id/relativeLayout2"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_above="@+id/textView2"/>
-
-            <EditText
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:ems="10"
-                    android:id="@+id/commentField"
-                    android:layout_above="@+id/relativeLayout3"
-                    android:layout_alignRight="@+id/doneButton"
-                    android:layout_alignEnd="@+id/doneButton"
-                    android:editable="true"
-                    android:clickable="true"
-                    android:background="#eeeeee"
-                    android:layout_below="@+id/textView2"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
-
             <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dip"
                     android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="Comment"
-                    android:id="@+id/textView2"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentStart="true"/>
-        </RelativeLayout>
+                    android:layout_weight="1"/>
+        </LinearLayout>
 
-    </ViewFlipper>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="4">
+        <com.cengalabs.flatui.views.FlatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/view_images"
+                android:id="@+id/examViewImagesButton"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                flatui:textAppearance="none"
+                flatui:fontWeight="light"
+                flatui:fontFamily="Roboto"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="8dp"
+                android:text="5 images without comment"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/examViewImagesButton"
+                android:id="@+id/imagesWithoutCommentTextView"/>
+    </RelativeLayout>
+
+
+    <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="2">
+
+        <com.cengalabs.flatui.views.FlatButton
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:text="@string/review_and_upload"
+                android:layout_marginRight="@dimen/examination_base_container_margin"
+                android:layout_marginBottom="3dp"
+                android:id="@+id/reviewUploadButton"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"
+                flatui:theme="Grass"
+                flatui:textAppearance="none"
+                flatui:fontWeight="light"
+                flatui:fontFamily="Roboto"/>
+    </RelativeLayout>
+
+
 </LinearLayout>

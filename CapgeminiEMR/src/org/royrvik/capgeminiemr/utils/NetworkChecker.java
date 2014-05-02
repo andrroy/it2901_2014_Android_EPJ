@@ -8,8 +8,8 @@ public class    NetworkChecker {
 
     /**
      * Utility for checking the status of the internet connection
-     * @param context
-     * @return true if the device is connected to the internet, false if it isn't
+     * @param context A context to gain network privileges.
+     * @return True if the device is connected to the internet.
      */
     public static boolean isNetworkAvailable(Context context) {
         boolean isConnectedWifi = false;

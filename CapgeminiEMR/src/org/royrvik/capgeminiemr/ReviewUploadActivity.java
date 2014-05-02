@@ -47,7 +47,6 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Intent intent;
     private ProgressDialog pDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -61,10 +60,10 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
+
+        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
@@ -170,7 +169,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
             //Get images from examination
             images = currentExamination.getAllImages();
 
-            ArrayList<String> auth = dbHelper.getDepartmentAuth();
+            EMRApplication settings = (EMRApplication) getApplicationContext();
+            ArrayList<String> auth = settings.getDepartmentAuth();
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {

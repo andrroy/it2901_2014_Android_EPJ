@@ -15,7 +15,7 @@ import org.royrvik.capgeminiemr.database.DatabaseHelper;
 public class TechPasswordChangeActivity extends ActionBarActivity {
 
     private EditText oldPw, newPw, repPw;
-    private DatabaseHelper dbHelper;
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
@@ -31,8 +31,6 @@ public class TechPasswordChangeActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         oldPw = (EditText) findViewById(R.id.techOldPasswordChangeEditText);
         newPw = (EditText) findViewById(R.id.techNewPasswordChangeEditText);
         repPw = (EditText) findViewById(R.id.techRepPasswordChangeEditText);
@@ -47,10 +45,11 @@ public class TechPasswordChangeActivity extends ActionBarActivity {
     }
 
     private void confirmChange() {
-        if (dbHelper.isCorrectTechPassword(oldPw.getText().toString())) {
+        EMRApplication settings = (EMRApplication) getApplicationContext();
+        if (settings.checkTechPassword(oldPw.getText().toString())) {
             if (newPw.getText().toString().equals(repPw.getText().toString())) {
                 if (!newPw.getText().toString().equals("")) {
-                    dbHelper.updateTechPassword(newPw.getText().toString());
+                    settings.saveTechPassword(newPw.getText().toString());
                     finish();
                 } else Crouton.makeText(TechPasswordChangeActivity.this, "New password can not be empty.", Style.ALERT).show();
             } else Crouton.makeText(TechPasswordChangeActivity.this, "New passwords do not match.", Style.ALERT).show();

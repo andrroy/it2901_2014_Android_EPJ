@@ -35,7 +35,14 @@
 
     <!-- Examination string -->
     <string name="patient_id">Patient ID:</string>
-    <string name="patent_info">Patient info:</string>
+    <string name="review_and_upload">Review and upload</string>
+    <string name="view_images">View images</string>
+    <string name="exam">Exam</string>
+    <string name="conducted">Conducted</string>
+    <string name="last_name">Last name:</string>
+    <string name="first_name">First name:</string>
+    <string name="date_of_birth">Date of birth:</string>
+    <string name="images_without_comment">image(s) without comment</string>
 
     <!-- Review and upload strings -->
     <string name="patient_info">Patient info:</string>
