@@ -1,10 +1,8 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.Application;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,19 +10,14 @@ import java.util.Map;
 
 public class EMRApplication extends Application {
 
-    public final static String PACKAGE_SERVER_PORT = "packageServerPort";
-    public final static String HOSPITAL_SERVER_ADDRESS = "hospitalServerAddress";
-    public final static String HOSPITAL_SERVER_PROTOCOL = "hospitalServerProtocol";
-    public final static String HOSPITAL_SERVER_PORT = "hospitalServerPort";
-    public final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
-    public final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
-    public final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
-
     //Service Package Strings
-    public final static String PACKAGE_NAME = "packageName";
-    public final static String PACKAGE_LOCATION = "packageLocation";
+    public final static String AIDL_LOCATION = "aidlLocation";
+    public final static String SERVICE_PATH = "servicePath";
 
     //LDAP Strings
+    public final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
+    public final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
+    public final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
     public final static String LDAP_USERID = "LDAPuserID";
     public final static String LDAP_OU = "LDAPOU";
     public final static String LDAP_DC = "LDAPDC";
@@ -61,13 +54,8 @@ public class EMRApplication extends Application {
         SharedPreferences.Editor preferencesEditor = appSharedPrefs.edit();
 
         // Add preferences
-        preferencesEditor.putString(PACKAGE_NAME, settingsHashMap.get(PACKAGE_NAME));
-        preferencesEditor.putString(PACKAGE_LOCATION, settingsHashMap.get(PACKAGE_LOCATION));
-        preferencesEditor.putString(PACKAGE_SERVER_PORT, settingsHashMap.get(PACKAGE_SERVER_PORT));
-        preferencesEditor.putString(PACKAGE_SERVER_PORT, settingsHashMap.get(PACKAGE_SERVER_PORT));
-        preferencesEditor.putString(HOSPITAL_SERVER_ADDRESS, settingsHashMap.get(HOSPITAL_SERVER_ADDRESS));
-        preferencesEditor.putString(HOSPITAL_SERVER_PROTOCOL, settingsHashMap.get(HOSPITAL_SERVER_PROTOCOL));
-        preferencesEditor.putString(HOSPITAL_SERVER_PORT, settingsHashMap.get(HOSPITAL_SERVER_PORT));
+        preferencesEditor.putString(AIDL_LOCATION, settingsHashMap.get(AIDL_LOCATION));
+        preferencesEditor.putString(SERVICE_PATH, settingsHashMap.get(SERVICE_PATH));
         preferencesEditor.putString(AUTHENTICATION_PROTOCOL, settingsHashMap.get(AUTHENTICATION_PROTOCOL));
         preferencesEditor.putString(AUTHENTICATION_SERVER_ADDRESS, settingsHashMap.get(AUTHENTICATION_SERVER_ADDRESS));
         preferencesEditor.putString(AUTHENTICATION_SERVER_PORT, settingsHashMap.get(AUTHENTICATION_SERVER_PORT));
@@ -114,10 +102,6 @@ public class EMRApplication extends Application {
         if(
                 !(getSettingsPackageName().isEmpty()) &&
                 !(getSettingsPackageLocation().isEmpty()) &&
-                !(getSettingsPackageServerPort().isEmpty()) &&
-                !(getSettingsHospitalServerAddress().isEmpty()) &&
-                !(getSettingsHospitalServerProtocol().isEmpty()) &&
-                !(getSettingsHospitalServerPort().isEmpty()) &&
                 !(getSettingsAuthenticationProtocol().isEmpty()) &&
                 !(getSettingsAuthenticationServerAddress().isEmpty()) &&
                 !(getSettingsAuthenticationServerPort().isEmpty())
@@ -173,37 +157,13 @@ public class EMRApplication extends Application {
     public String getSettingsPackageName() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        return appSharedPrefs.getString(PACKAGE_NAME, "");
+        return appSharedPrefs.getString(AIDL_LOCATION, "");
     }
 
     public String getSettingsPackageLocation() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
-        return appSharedPrefs.getString(PACKAGE_LOCATION, "");
-    }
-
-    public String getSettingsPackageServerPort() {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        return appSharedPrefs.getString(PACKAGE_SERVER_PORT, "");
-    }
-
-    public String getSettingsHospitalServerAddress() {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        return appSharedPrefs.getString(HOSPITAL_SERVER_ADDRESS, "");
-    }
-
-    public String getSettingsHospitalServerProtocol() {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        return appSharedPrefs.getString(HOSPITAL_SERVER_PROTOCOL, "");
-    }
-
-    public String getSettingsHospitalServerPort() {
-        SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
-
-        return appSharedPrefs.getString(HOSPITAL_SERVER_PORT, "");
+        return appSharedPrefs.getString(SERVICE_PATH, "");
     }
 
     public String getSettingsAuthenticationProtocol() {
