@@ -57,9 +57,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "patient_name TEXT, " +
+                "examination_id INTEGER, " +
+                "patient_first_name TEXT, " +
+                "patient_last_name TEXT, " +
                 "patient_ssn TEXT, " +
-                "date TEXT )";
+                "examination_date TEXT )" +
+                "examination_comment TEXT )";
 
         // Create examination table
         db.execSQL(CREATE_EXAMINATION_TABLE);
