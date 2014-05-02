@@ -7,9 +7,9 @@
 
 
     <RelativeLayout
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginTop="@dimen/examination_base_container_margin"
+            android:layout_marginRight="@dimen/examination_base_container_margin"
+            android:layout_marginLeft="@dimen/examination_base_container_margin"
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="9"
@@ -17,7 +17,7 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:text="Exam: 12"
                 android:textSize="40dp"
                 android:fontFamily="sans-serif-thin"
@@ -39,24 +39,24 @@
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:layout_below="@+id/textView2"
-                android:background="@color/blue">
+                android:layout_below="@+id/textView2">
             <TextView
                     android:layout_width="0dip"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"/>
             <RelativeLayout
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="@dimen/examination_inner_container_margin"
                     android:layout_weight="20"
                     android:layout_width="0dip"
                     android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:background="#cc3333">
+                    android:layout_centerHorizontal="true">
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Patient ID: 27069049988"
                         android:id="@+id/textView3"
                         android:textColor="@color/black"/>
@@ -65,6 +65,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Last name: Eriksen"
                         android:id="@+id/textView4"
                         android:layout_below="@+id/textView3"
@@ -74,6 +75,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="First name: Erik"
                         android:id="@+id/textView5"
                         android:layout_below="@+id/textView4"
@@ -83,9 +85,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
-                        android:text="Date of birth: 29.04.1991"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="Date of birth: 29.04.1965"
                         android:id="@+id/textView6"
                         android:layout_below="@+id/textView5"
+                        android:textColor="@color/black"/>
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/examination_inner_container_margin"
+                        android:layout_marginRight="@dimen/examination_inner_container_margin"
+                        android:text="Examination comment: HeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHeiHei"
+                        android:id="@+id/textView7"
+                        android:layout_below="@+id/textView6"
                         android:textColor="@color/black"/>
             </RelativeLayout>
             <TextView
@@ -100,8 +113,22 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="4"
-            android:background="#008000">
+            android:layout_weight="4">
+        <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="View images"
+                android:id="@+id/button2"
+                android:layout_centerHorizontal="true"
+                android:layout_weight="1"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="5 images without comment"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/button2"
+                android:id="@+id/lol"/>
     </RelativeLayout>
 
 
@@ -109,8 +136,7 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="0dip"
-            android:layout_weight="2"
-            android:background="#ffcb05">
+            android:layout_weight="2">
 
         <Button
                 android:layout_width="fill_parent"
