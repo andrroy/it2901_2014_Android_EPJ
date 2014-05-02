@@ -82,8 +82,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void logout() {
-        instance.close();
-        instance = null;
+        if (instance != null) {
+            instance.close();
+            instance = null;
+        }
     }
 
     /**

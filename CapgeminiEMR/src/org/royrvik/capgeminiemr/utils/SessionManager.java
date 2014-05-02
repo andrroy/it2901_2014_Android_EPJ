@@ -52,7 +52,11 @@ public class SessionManager {
         ArrayList<String> result = new ArrayList<String>();
         result.add(pref.getString(KEY_NAME, ""));
         result.add(pref.getString(KEY_PASS, ""));
+
+        //To test password change
         result.add(Encryption.encrypt(result.get(0), "newPassword"));
+        //End
+
         return result;
     }
 
