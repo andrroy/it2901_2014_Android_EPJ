@@ -58,11 +58,13 @@ public class ExaminationActivity extends ActionBarActivity {
         if (activityStartedForAction().equals("new_examination")) {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
+            Log.d("APP", "Attempting create new examination");
             currentExamination = new Examination();
+            Log.d("APP", "Attempting create new examination DONE DONE");
             if (infoArrayList.size() < 2) {
-                currentExamination.setPatientFirstNameName(""); //Todo: Fix for whole name
+                currentExamination.setPatientFirstName("juuy"); //Todo: Fix for whole name
             } else {
-                currentExamination.setPatientFirstNameName(infoArrayList.get(1)); //Todo: Fix for whole name
+                currentExamination.setPatientFirstName(infoArrayList.get(1)); //Todo: Fix for whole name
             }
             currentExamination.setPatientSsn(infoArrayList.get(0));
             for (String uri : incomingImages) {
@@ -229,7 +231,8 @@ public class ExaminationActivity extends ActionBarActivity {
 
     }
 
-    private boolean idIsValidated() {return currentExamination.getPatientFirstName().length() > 0;} //Todo: Fix whole name
+    private boolean idIsValidated() {
+        return currentExamination.getPatientFirstName().length() > 0;} //Todo: Fix whole name
 
     private void updateEditorView() {
         if (currentExamination.getUltrasoundImages().size() > 0) {
@@ -326,7 +329,7 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
-                currentExamination.setPatientFirstNameName(info.get(1)); //Todo: Fix for whole name
+                currentExamination.setPatientFirstName(info.get(1)); //Todo: Fix for whole name
             }
             initFirstViewElements();
         }

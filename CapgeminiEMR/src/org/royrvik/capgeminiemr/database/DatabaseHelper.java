@@ -61,7 +61,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "patient_first_name TEXT, " +
                 "patient_last_name TEXT, " +
                 "patient_ssn TEXT, " +
-                "examination_date TEXT )" +
+                "examination_date TEXT" +
                 "examination_comment TEXT )";
 
         // Create examination table
@@ -143,9 +143,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Build query
         ContentValues values = new ContentValues();
+        values.put(KEY_EX_ID, ex.getExaminationId());
+        values.put(KEY_PATIENT_FIRST_NAME, ex.getPatientFirstName());
+        values.put(KEY_PATIENT_LAST_NAME, ex.getPatientLastName());
         values.put(KEY_SSN, ex.getPatientSsn());
-        values.put(KEY_PATIENT_NAME, ex.getPatientName());
-        values.put(KEY_EXAMINATION_DATE, ex.getDate());
+        values.put(KEY_EXAMINATION_DATE, ex.getExaminationTime());
+        values.put(KEY_EXAMINATION_COMMENT, ex.getExaminationComment());
 
         // Execute query and get the auto incremented id value
         int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
@@ -186,12 +189,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Build Examination with result
         Examination examination = new Examination();
-        int exId = Integer.parseInt(cursor.getString(0));
-        examination.setId(exId);
-        examination.setPatientName(cursor.getString(1));
-        examination.setPatientSsn(cursor.getString(2));
-        examination.setDate(cursor.getString(3));
-        examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(exId));
+        int databaseId = Integer.parseInt(cursor.getString(0));
+        examination.setDatabaseId(databaseId);
+        examination.setExaminationId(cursor.getInt(1));
+        examination.setPatientFirstName(cursor.getString(2));
+        examination.setPatientLastName(cursor.getString(3));
+        examination.setPatientSsn(cursor.getString(4));
+        examination.setExaminationTime(cursor.getLong(5));
+        examination.setExaminationComment(cursor.getString(6));
+
+        examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(databaseId));
 
         db.close();
         cursor.close();
@@ -248,24 +255,27 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Build query
         ContentValues values = new ContentValues();
+        values.put(KEY_EX_ID, ex.getExaminationId());
+        values.put(KEY_PATIENT_FIRST_NAME, ex.getPatientFirstName());
+        values.put(KEY_PATIENT_LAST_NAME, ex.getPatientLastName());
         values.put(KEY_SSN, ex.getPatientSsn());
-        values.put(KEY_PATIENT_NAME, ex.getPatientName());
-        values.put(KEY_EXAMINATION_DATE, ex.getDate());
+        values.put(KEY_EXAMINATION_DATE, ex.getExaminationTime());
+        values.put(KEY_EXAMINATION_COMMENT, ex.getExaminationComment());
 
         // Update examination row
         db.update(TABLE_EXAMINATION, values, KEY_DB_ID + " = ?",
-                new String[]{String.valueOf(ex.getId())});
+                new String[]{String.valueOf(ex.getDatabaseId())});
 
         // Delete its corresponding images from the database
-        db.delete(TABLE_ULTRASOUNDIMAGE, "id=" + ex.getId(), null);
+        db.delete(TABLE_ULTRASOUNDIMAGE, "id=" + ex.getDatabaseId(), null);
 
-        int examinationId = ex.getId();
+        int databaseId = ex.getDatabaseId();
 
         // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
-            ultrasoundImageValues.put(KEY_DB_ID, examinationId);
+            ultrasoundImageValues.put(KEY_DB_ID, databaseId);
             ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
             ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
 
@@ -295,15 +305,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
             while (!cursor.isAfterLast()) {
                 // Get values from row
-                int id = cursor.getInt(cursor.getColumnIndex("id"));
-                String name = cursor.getString(cursor.getColumnIndex("patient_name"));
+                int databaseId = cursor.getInt(cursor.getColumnIndex("id"));
+                int examinationId = cursor.getInt(cursor.getColumnIndex("examination_id"));
+                String firstName = cursor.getString(cursor.getColumnIndex("patient_first_name"));
+                String lastName = cursor.getString(cursor.getColumnIndex("patient_Last_name"));
                 String ssn = cursor.getString(cursor.getColumnIndex("patient_ssn"));
-                String date = cursor.getString(cursor.getColumnIndex("date"));
+                Long date = Long.parseLong(cursor.getString(cursor.getColumnIndex("examination_data")));
+                String comment = cursor.getString(cursor.getColumnIndex("examination_comment"));
                 // Get Ultrasoundimages from appropriate table for this Examination
-                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(id);
+                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(databaseId);
                 // Create examination with data from this row
-                Examination ex = new Examination(ssn, name, usiList, date);
-                ex.setId(id);
+                Examination ex = new Examination(examinationId, firstName, lastName, ssn,
+                        date, comment, usiList);
+                ex.setDatabaseId(databaseId);
                 // Add it to the list
                 examinationList.add(ex);
 

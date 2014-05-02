@@ -26,8 +26,8 @@ public class Examination implements Parcelable {
 //        this.databaseId = -1; // Should have this value until its set
 //    }
 
-    public Examination(String patientSsn, String patientFirstName, String patientLastName,
-                       ArrayList<UltrasoundImage> ultrasoundImages, long examinationTime, String examinationComment, int examinationId) {
+    public Examination(int examinationId, String patientFirstName, String patientLastName, String patientSsn,
+                        long examinationTime, String examinationComment, ArrayList<UltrasoundImage> ultrasoundImages) {
         this.examinationTime = examinationTime; //TODO: Create function that gets examinationTime based on image metadata
         this.patientSsn = patientSsn;
         this.patientFirstName = patientFirstName;
@@ -65,7 +65,7 @@ public class Examination implements Parcelable {
 
     public String getPatientFirstName() {return patientFirstName;}
 
-    public void setPatientFirstNameName(String patientFirstNameName) {
+    public void setPatientFirstName(String patientFirstName) {
         this.patientFirstName= patientFirstName;
     }
 
