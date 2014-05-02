@@ -45,7 +45,7 @@ public class RemoteServiceConnection implements ServiceConnection {
      */
     public boolean bindService() {
         Intent i = new Intent();
-        i.setClassName(settings.getSettingsPackageName(), settings.getSettingsPackageLocation());
+        i.setClassName(settings.getSettingsAIDLLocation(), settings.getSettingsServicePath());
         return context.bindService(i, RemoteServiceConnection.this, Context.BIND_AUTO_CREATE);
     }
 

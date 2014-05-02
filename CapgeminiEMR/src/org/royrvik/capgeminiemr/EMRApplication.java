@@ -3,47 +3,50 @@ package org.royrvik.capgeminiemr;
 import android.app.Application;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Class to manage application settings.
+ *
+ * <pre>
+ * Usage:
+ *     {@code private EMRApplication globalApp;
+
+
+        globalApp = (EMRApplication) getApplicationContext();
+        String aidlLocation = globalApp.getSettingsAIDLLocation();
+ *     }
+ * </pre>
+ */
 public class EMRApplication extends Application {
 
-    //Service Package Strings
+    // Service Package Strings
     public final static String AIDL_LOCATION = "aidlLocation";
     public final static String SERVICE_PATH = "servicePath";
 
-    //LDAP Strings
+    // Authentication Strings
     public final static String AUTHENTICATION_SERVER_ADDRESS = "authenticationServerAddress";
     public final static String AUTHENTICATION_SERVER_PORT = "authenticationServerPort";
     public final static String AUTHENTICATION_PROTOCOL = "authenticationProtocol";
+
+    // LDAP Strings
     public final static String LDAP_USERID = "LDAPuserID";
     public final static String LDAP_OU = "LDAPOU";
     public final static String LDAP_DC = "LDAPDC";
 
-    //Shared user credentials
+    // Shared user credentials
     private final static String DEPUSER = "departmentUsername";
     private final static String DEPPWD = "departmentPassword";
     private final static String TECHPWD = "techPassword";
-
-    /*
-        USAGE:
-        private EMRApplication globalApp;
-        .
-        .
-        globalApp = (EMRApplication) getApplicationContext();
-        String olol = globalApp.getSettingsPackageName();
-
-
-     */
-
 
     @Override
     public void onCreate() {
         super.onCreate();
     }
-
 
     public void setExternalPackageSettings(HashMap<String, String> settingsHashMap) {
 
@@ -100,8 +103,8 @@ public class EMRApplication extends Application {
 
         //Check that "core" settings are specified
         if(
-                !(getSettingsPackageName().isEmpty()) &&
-                !(getSettingsPackageLocation().isEmpty()) &&
+                !(getSettingsAIDLLocation().isEmpty()) &&
+                !(getSettingsServicePath().isEmpty()) &&
                 !(getSettingsAuthenticationProtocol().isEmpty()) &&
                 !(getSettingsAuthenticationServerAddress().isEmpty()) &&
                 !(getSettingsAuthenticationServerPort().isEmpty())
@@ -109,14 +112,18 @@ public class EMRApplication extends Application {
 
             //Check settings for specific authentication protocol
             //In this case, LDAP
-            if (
-                    !(getSettingsLDAPUserID().isEmpty()) &&
-                            !(getSettingsLDAPOU().isEmpty()) &&
-                            !(getSettingsLDAPDC().isEmpty())
-                    ) {
-                return true;
+            if (getSettingsAuthenticationProtocol().equals("ldaps")) {
+                if (
+                        !(getSettingsLDAPUserID().isEmpty()) &&
+                                !(getSettingsLDAPOU().isEmpty()) &&
+                                !(getSettingsLDAPDC().isEmpty())
+                        ) {
+                    return true;
+                }
             }
-
+            else {
+                Log.d("SETTINGS", "Unsupported Authentication Protocol.");
+            }
         }
         //If some "core" settings NOT specified
         // OR authentication protocol NOT specified
@@ -154,13 +161,13 @@ public class EMRApplication extends Application {
         appSharedPrefs.edit().putString(TECHPWD, password).commit();
     }
 
-    public String getSettingsPackageName() {
+    public String getSettingsAIDLLocation() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
         return appSharedPrefs.getString(AIDL_LOCATION, "");
     }
 
-    public String getSettingsPackageLocation() {
+    public String getSettingsServicePath() {
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
 
         return appSharedPrefs.getString(SERVICE_PATH, "");
