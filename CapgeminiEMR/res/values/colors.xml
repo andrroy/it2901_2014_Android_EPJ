@@ -10,4 +10,6 @@
     <color name="blue">#ff85adff</color>
     <color name="navy">#ff113e80</color>
     <color name="black">#000000</color>
+
+    <color name="actionbarfontcolor">#f2f2f2</color>
 </resources>
