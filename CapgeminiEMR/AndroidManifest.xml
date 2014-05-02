@@ -5,7 +5,6 @@
           android:versionName="1.0">
 
     <uses-sdk
-        android:minSdkVersion="11"
         android:targetSdkVersion="17"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -18,7 +17,7 @@
         android:name="org.royrvik.capgeminiemr.EMRApplication"
         android:label="@string/app_name"
         android:icon="@drawable/ic_launcher"
-        android:theme="@style/Theme.AppCompat.Light">
+        android:theme="@style/EMRTheme">
         <activity
             android:name="org.royrvik.capgeminiemr.LoginActivity"
             android:label="@string/app_name">

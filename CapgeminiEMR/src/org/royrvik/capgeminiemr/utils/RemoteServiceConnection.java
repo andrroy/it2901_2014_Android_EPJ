@@ -20,7 +20,7 @@ public class RemoteServiceConnection implements ServiceConnection {
     /**
      * Constructor
      *
-     * @param context The {@linkplain android.content.Context} used to bind to the service
+     * @param context The {@linkplain android.content.Context} used to bind to the service.
      */
     public RemoteServiceConnection(Context context) {
         super();
@@ -39,20 +39,20 @@ public class RemoteServiceConnection implements ServiceConnection {
     }
 
     /**
-     * Binds the context to the service
+     * Binds the context to the service.
      *
-     * @return True if the connection was successful
+     * @return True if the connection was successful.
      */
     public boolean bindService() {
         Intent i = new Intent();
-        i.setClassName(settings.getSettingsPackageName(), settings.getSettingsPackageLocation());
+        i.setClassName(settings.getSettingsAIDLLocation(), settings.getSettingsServicePath());
         return context.bindService(i, RemoteServiceConnection.this, Context.BIND_AUTO_CREATE);
     }
 
     /**
-     * Get patient data from the service
+     * Get patient data from the service.
      *
-     * @param ssn The ssn for the person
+     * @param ssn The ssn for the person.
      * @return An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
      */
     public List<String> getPatientData(String ssn, String username, String password) {
@@ -65,7 +65,7 @@ public class RemoteServiceConnection implements ServiceConnection {
     }
 
     /**
-     * Upload data to the service
+     * Upload data to the service.
      *
      * @param patientData An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with patient data.
      * @param imagePaths  An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
@@ -81,7 +81,7 @@ public class RemoteServiceConnection implements ServiceConnection {
     }
 
     /**
-     * Unbinds from the service
+     * Unbind from the service.
      */
     public void releaseService() {
         context.unbindService(this);

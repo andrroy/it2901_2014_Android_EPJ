@@ -47,11 +47,10 @@ public class ExaminationActivity extends ActionBarActivity {
         setContentView(R.layout.examination);
         examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
 
-
-        dbHelper = DatabaseHelper.getInstance(this);
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
+
+        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
@@ -156,7 +155,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("examination", currentExamination);
                 startActivity(i);
-                //finish();
+                finish();
             }
         });
 

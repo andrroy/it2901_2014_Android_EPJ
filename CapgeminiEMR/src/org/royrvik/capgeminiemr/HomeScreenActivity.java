@@ -62,10 +62,10 @@ public class HomeScreenActivity extends ActionBarActivity {
             dialog.show();
         }
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
+
+        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         // Get all examinations in the database
         listOfExaminations = dbHelper.getAllExaminations();
@@ -151,6 +151,7 @@ public class HomeScreenActivity extends ActionBarActivity {
             case R.id.logout_button:
                 Log.d("APP", "logout");
                 session.logout();
+                dbHelper.logout();
                 // Exit the application
                 finish();
                 break;
