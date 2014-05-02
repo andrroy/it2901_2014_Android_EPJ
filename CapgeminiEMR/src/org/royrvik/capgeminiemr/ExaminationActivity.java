@@ -11,7 +11,9 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.data.Examination;
@@ -28,7 +30,9 @@ public class ExaminationActivity extends ActionBarActivity {
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
             imagesWithoutCommentTextView, dateOfBirthTextView;
-    private ImageButton greenidStatusImageButton, editIDImageButton;
+    //private ImageButton greenidStatusImageButton;
+    private ImageButton editIDImageButton;
+    private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
     //private EditText examinationCommentEditText;
     private Examination currentExamination;
@@ -40,7 +44,18 @@ public class ExaminationActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.examination);
+
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
+
+        //Actionbar back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         dbHelper = DatabaseHelper.getInstance(this);
 
@@ -75,14 +90,9 @@ public class ExaminationActivity extends ActionBarActivity {
             currentExamination = intent.getParcelableExtra("examination");
         }
 
-
         // Initialize GUI elements
         initFirstViewElements();
         updateElements();
-
-        //Actionbar back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
@@ -91,12 +101,11 @@ public class ExaminationActivity extends ActionBarActivity {
         firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
         lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
-        editIDImageButton = (ImageButton) findViewById(R.id.editPatientIDButton);
+        editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
         dateOfBirthTextView = (TextView) findViewById(R.id.examDateTextView);
-        //greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
+        isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
 
-
-/*        editIDImageButton.setOnClickListener(new View.OnClickListener() {
+        editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
@@ -106,7 +115,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
         });
 
-        greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
+        /*greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
@@ -117,12 +126,12 @@ public class ExaminationActivity extends ActionBarActivity {
         });*/
 
 
-        /*//Updates the verification buttons.
-        greenidStatusImageButton.setVisibility(View.GONE);
+        //Updates the verification imageview.
+        isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         if (idIsValidated()) {
-            editIDImageButton.setVisibility(View.GONE);
-            greenidStatusImageButton.setVisibility(View.VISIBLE);
-        }*/
+            Log.d("APP", "isValidated");
+            isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
+        }
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {

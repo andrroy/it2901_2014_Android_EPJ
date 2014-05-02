@@ -41,8 +41,6 @@ public class HomeScreenActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        Context context = this;
-
         //Alert dialog used throughout the view
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
 
@@ -82,7 +80,7 @@ public class HomeScreenActivity extends ActionBarActivity {
             dialog.show();
         } else {
             homescreenListView = (ListView) findViewById(R.id.homeScreenListView);
-            final HomescreenListAdapter homescreenListAdapter = new HomescreenListAdapter(context, R.layout.row_list_item_homescreen, listOfExaminations);
+            final HomescreenListAdapter homescreenListAdapter = new HomescreenListAdapter(this, R.layout.row_list_item_homescreen, listOfExaminations);
             homescreenListView.setAdapter(homescreenListAdapter);
             homescreenListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

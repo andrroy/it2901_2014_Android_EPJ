@@ -67,13 +67,20 @@
 
                 <ImageButton android:layout_height="wrap_content"
                              android:layout_width="wrap_content"
-                             android:id="@+id/editPatientIDButton"
+                             android:id="@+id/editIDImageButton"
                              android:src="@drawable/ic_content_edit"
                              android:background="@android:color/transparent"
                              android:layout_alignTop="@+id/examPatientIDTextView"
                              android:layout_alignParentLeft="true"
                              android:layout_alignParentStart="true">
                 </ImageButton>
+
+                <ImageView android:layout_height="wrap_content"
+                           android:layout_width="wrap_content"
+                           android:id="@+id/isVerifiedImageView"
+                           android:src="@drawable/ic_navigation_accept"
+                           android:layout_alignTop="@+id/examPatientIDTextView"
+                           android:layout_toRightOf="@+id/examPatientIDTextView"/>
 
                 <TextView
                         android:layout_width="wrap_content"
