@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
@@ -143,6 +144,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
                 }
+
                 finish();
             } else {
                 // Run Toast on UI thread

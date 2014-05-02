@@ -143,7 +143,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: " + currentExamination.getPatientName());
+            reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
 
@@ -153,10 +153,24 @@ public class ReviewUploadActivity extends ActionBarActivity {
         protected String doInBackground(String... params) {
             publishProgress("Working...");
 
-            //Get patient data
+            //Get examination data
+            //Standard format:
+            /*
+            * 0 PID
+            * 1 firstName
+            * 2 lastName
+            * 3 ExamNumber
+            * 4 ExamTime
+            * 5 ExamComment
+            * */
             data = new ArrayList<String>();
             data.add(currentExamination.getPatientSsn());
-            data.add(currentExamination.getPatientName());
+            data.add(currentExamination.getPatientFirstName());
+            data.add(currentExamination.getPatientLastName());
+            data.add(currentExamination.getExaminationId().toString());
+            data.add(Long.toString(currentExamination.getExaminationTime()));
+            data.add(currentExamination.getExaminationComment());
+
             //Get images from examination
             images = currentExamination.getAllImages();
 
@@ -165,7 +179,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
-                dbHelper.deleteExamination(currentExamination.getId());
+                dbHelper.deleteExamination(currentExamination.getDatabaseId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
             } else {
