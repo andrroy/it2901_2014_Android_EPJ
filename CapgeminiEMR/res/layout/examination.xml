@@ -30,6 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
+                android:fontFamily="sans-serif-light"
                 android:text="Conducted 12.04.2014 13:36"
                 android:id="@+id/examDateTextView"
                 android:layout_centerHorizontal="true"
@@ -57,6 +58,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/patient_id"
@@ -76,6 +78,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/last_name"
@@ -86,6 +89,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/first_name"
@@ -96,6 +100,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/date_of_birth"
@@ -106,6 +111,7 @@
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-light"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Examination comment: \nKOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR KOMMENTAR"
@@ -149,6 +155,8 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginTop="8dp"
                 android:text="5 images without comment"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/examViewImagesButton"
@@ -164,12 +172,15 @@
 
         <com.cengalabs.flatui.views.FlatButton
                 android:layout_width="fill_parent"
-                android:layout_height="70dp"
+                android:layout_height="50dp"
                 android:text="@string/review_and_upload"
+                android:layout_marginRight="@dimen/examination_base_container_margin"
+                android:layout_marginBottom="3dp"
                 android:id="@+id/reviewUploadButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
                 android:layout_weight="1"
+                flatui:theme="Grass"
                 flatui:textAppearance="none"
                 flatui:fontWeight="light"
                 flatui:fontFamily="Roboto"/>

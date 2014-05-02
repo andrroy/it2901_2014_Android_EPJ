@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
-import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -69,8 +71,7 @@ public class ExaminationActivity extends ActionBarActivity {
             if (exId != -1) {
                 currentExamination = dbHelper.getExamination(exId);
             } else finish();
-        }
-        else if(activityStartedForAction().equals("edit_examinationObject")){
+        } else if (activityStartedForAction().equals("edit_examinationObject")) {
             currentExamination = intent.getParcelableExtra("examination");
         }
 
@@ -136,8 +137,7 @@ public class ExaminationActivity extends ActionBarActivity {
                     exId = dbHelper.addExamination(currentExamination);
                     Log.d("APP:", "saved new examination");
                     currentExamination.setId(exId);
-                }
-                else{
+                } else {
                     dbHelper.updateExamination(currentExamination);
                     Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getId();
@@ -180,9 +180,12 @@ public class ExaminationActivity extends ActionBarActivity {
             lastNameTextView.setText("Name: not available in offline mode");
             idTextView.setText("*******");
         } else {
-            idTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
-            firstNameTextView.setText(currentExamination.getPatientName());
-            lastNameTextView.setText(currentExamination.getPatientName());
+            idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
+                    currentExamination.getPatientSsn()));
+            lastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
+                    currentExamination.getPatientName()));
+            firstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
+                    currentExamination.getPatientName()));
         }
 
         // TODO: show birth date
@@ -218,7 +221,7 @@ public class ExaminationActivity extends ActionBarActivity {
         } else if (intent.hasExtra("ex_id")) {
             // Activity was started to edit an examination
             return "edit_examination";
-        }else if(intent.hasExtra("examination")){
+        } else if (intent.hasExtra("examination")) {
             // Activity was started to edit an examinationObject
             return "edit_examinationObject";
         }
@@ -237,7 +240,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
             initFirstViewElements();
         }
-        if(resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE){
+        if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
             updateElements();
         }
