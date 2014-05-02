@@ -51,8 +51,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-
-
         String CREATE_EXAMINATION_TABLE = "CREATE TABLE examination ( " +
                 "examination_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "patient_name TEXT, " +
@@ -200,15 +198,30 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true if an examination was deleted, false if not
      */
     public boolean deleteExamination(int id) {
+        long t1 = System.currentTimeMillis();
+        long t2, t3, t4;
 
 
         SQLiteDatabase db = this.getReadableDatabase(this.password);
+        t2 = System.currentTimeMillis();
+        t2 -= t1;
+        t1 = System.currentTimeMillis();
+
+
 
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
         Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
 
+        t3 = System.currentTimeMillis();
+        t3 -= t1;
+        t1 = System.currentTimeMillis();
+
         // Delete row in TABLE_EXAMINATION
         boolean isDeleted = db.delete(TABLE_EXAMINATION, KEY_EX_ID + "=" + id, null) > 0;
+        t4 = System.currentTimeMillis();
+        t4 -= t1;
+
+        Log.d("APP:", "Time to execute T4: " + t4 + " - T3: " + t3 + " t2: " + t2);
         db.close();
         return isDeleted;
 
@@ -261,7 +274,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void deleteAllExaminations() {
 
 
-        SQLiteDatabase db = this.getReadableDatabase(this.password);
+        SQLiteDatabase db = this.getReadableDatabase("test123");
 
         db.delete(TABLE_EXAMINATION, null, null);
         db.delete(TABLE_ULTRASOUNDIMAGE, null, null);

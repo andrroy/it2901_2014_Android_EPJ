@@ -79,7 +79,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
             @Override
             public void onClick(View view) {
                 dbHelper.updateExamination(currentExamination);
-                dbHelper.close();
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("examination", currentExamination);
                 ((Activity)context).setResult(Activity.RESULT_OK, returnIntent);
