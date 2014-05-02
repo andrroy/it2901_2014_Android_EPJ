@@ -29,13 +29,10 @@ public class ExaminationActivity extends ActionBarActivity {
     private ImageButton greenidStatusImageButton, editIDImageButton;
     private Button viewImagesButton, reviewAndUploadButton;
     //private EditText examinationCommentEditText;
-    private int currentImageId = 0;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
 
-    // For logging
-    private static final String TAG = "APP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,6 +185,9 @@ public class ExaminationActivity extends ActionBarActivity {
             lastNameTextView.setText(currentExamination.getPatientName());
         }
 
+        // TODO: show birth date
+        //dateOfBirthTextView.setText();
+
         // Count number of images without comment
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
@@ -201,7 +201,7 @@ public class ExaminationActivity extends ActionBarActivity {
         imagesWithoutCommentTextView.setTextColor(Color.BLACK);
 
         if (imagesWithoutComment > 0)
-            imagesWithoutCommentTextView.setTextColor(Color.RED);
+            imagesWithoutCommentTextView.setTextColor(getResources().getColor(R.color.red));
 
     }
 

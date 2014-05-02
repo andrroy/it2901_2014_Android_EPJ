@@ -3,7 +3,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:background="@color/lightgrey">
+        xmlns:flatui="http://schemas.android.com/apk/res-auto"
+        android:background="@color/bg">
 
 
     <RelativeLayout
@@ -13,14 +14,14 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="9"
-            android:background="#ffffff">
+            android:background="@drawable/cmt_background">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="Exam: 12"
                 android:textSize="40dp"
-                android:fontFamily="sans-serif-thin"
+                android:fontFamily="sans-serif-light"
                 android:layout_centerHorizontal="true"
                 android:id="@+id/examNumberTextView"
                 android:textColor="@color/black"/>
@@ -58,7 +59,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="Patient ID: 27069049988"
+                        android:text="@string/patient_id"
                         android:id="@+id/examPatientIDTextView"
                         android:textColor="@color/black"/>
 
@@ -77,7 +78,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="Last name: Eriksen"
+                        android:text="@string/last_name"
                         android:id="@+id/examPatientLastNameTextView"
                         android:layout_below="@+id/examPatientIDTextView"
                         android:textColor="@color/black"/>
@@ -87,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="First name: Erik"
+                        android:text="@string/first_name"
                         android:id="@+id/examPatientFirstNameTextView"
                         android:layout_below="@+id/examPatientLastNameTextView"
                         android:textColor="@color/black"/>
@@ -97,7 +98,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
-                        android:text="Date of birth: 29.04.1965"
+                        android:text="@string/date_of_birth"
                         android:id="@+id/examPatientDobTextView"
                         android:layout_below="@+id/examPatientFirstNameTextView"
                         android:textColor="@color/black"/>
@@ -134,13 +135,16 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:layout_weight="4">
-        <Button
+        <com.cengalabs.flatui.views.FlatButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/view_images"
                 android:id="@+id/examViewImagesButton"
                 android:layout_centerHorizontal="true"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                flatui:textAppearance="none"
+                flatui:fontWeight="light"
+                flatui:fontFamily="Roboto"/>
 
         <TextView
                 android:layout_width="wrap_content"
@@ -158,14 +162,17 @@
             android:layout_height="0dip"
             android:layout_weight="2">
 
-        <Button
+        <com.cengalabs.flatui.views.FlatButton
                 android:layout_width="fill_parent"
                 android:layout_height="70dp"
                 android:text="@string/review_and_upload"
                 android:id="@+id/reviewUploadButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                flatui:textAppearance="none"
+                flatui:fontWeight="light"
+                flatui:fontFamily="Roboto"/>
     </RelativeLayout>
 
 
