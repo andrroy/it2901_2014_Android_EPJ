@@ -6,10 +6,14 @@
     <color name="lightgrey">#B2B2B1</color>
     <color name="grey">#808080</color>
     <color name="darkgrey">#3C3C3B</color>
-    <color name="red">#ff804445</color>
     <color name="blue">#ff85adff</color>
     <color name="navy">#ff113e80</color>
     <color name="black">#000000</color>
+
+    <color name="bg">#dfdfdf</color>
+
+    <color name="green">#2ab081</color>
+    <color name="red">#d94130</color>
 
     <color name="actionbarfontcolor">#f2f2f2</color>
 </resources>

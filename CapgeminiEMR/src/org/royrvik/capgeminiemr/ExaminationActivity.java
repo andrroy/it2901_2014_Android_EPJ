@@ -4,18 +4,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import net.sqlcipher.database.SQLiteDatabase;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
-import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 
 import java.util.ArrayList;
@@ -25,32 +28,39 @@ public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private static final int FULLSCREEN_REQUEST_CODE = 15;
-    private ViewFlipper examinationViewFlipper;
-    private TextView headerTextView, idTextView, nameTextView, imagesWithCommentTextView, imagesWithoutCommentTextView, imageHeaderTextView;
-    private ImageButton deleteButton;
-    private ImageButton greenidStatusImageButton, idStatusImageButton;
-    private Button addCommentsButton, nextButton, prevButton, doneButton, reviewAndUploadButton;
-    private EditText commentEditText;
-    private ImageView globalImageView;
-    private int currentImageId = 0;
+    private TextView idTextView, firstNameTextView, lastNameTextView,
+            imagesWithoutCommentTextView, dateOfBirthTextView;
+    //private ImageButton greenidStatusImageButton;
+    private ImageButton editIDImageButton;
+    private ImageView isVerifiedImageView;
+    private Button viewImagesButton, reviewAndUploadButton;
+    //private EditText examinationCommentEditText;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
 
-    // For logging
-    private static final String TAG = "APP";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
+        FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.examination);
-        examinationViewFlipper = (ViewFlipper) findViewById(R.id.examinationFlipper);
+
+        // Actionbar style
+        FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
+        getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
+                + "</font>"));
+
+        //Actionbar back button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
+        dbHelper = DatabaseHelper.getInstance(this);
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
-
-        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         // Check where the activity was launched from and choose appropriate action based on result
         Intent intent = getIntent();
@@ -76,34 +86,26 @@ public class ExaminationActivity extends ActionBarActivity {
             if (exId != -1) {
                 currentExamination = dbHelper.getExamination(exId);
             } else finish();
-        }
-        else if(activityStartedForAction().equals("edit_examinationObject")){
+        } else if (activityStartedForAction().equals("edit_examinationObject")) {
             currentExamination = intent.getParcelableExtra("examination");
         }
 
-
         // Initialize GUI elements
         initFirstViewElements();
-        initSecondViewElements();
         updateElements();
-
-        //Actionbar back button
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
 
     }
 
     private void initFirstViewElements() {
-        headerTextView = (TextView) findViewById(R.id.header);
-        idTextView = (TextView) findViewById(R.id.idField);
-        nameTextView = (TextView) findViewById(R.id.nameField);
-        imagesWithCommentTextView = (TextView) findViewById(R.id.images1);
-        imagesWithoutCommentTextView = (TextView) findViewById(R.id.images2);
-        idStatusImageButton = (ImageButton) findViewById(R.id.idstatusImageButton);
-        greenidStatusImageButton = (ImageButton) findViewById(R.id.idstatusGreenImageButton);
+        idTextView = (TextView) findViewById(R.id.examPatientIDTextView);
+        firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
+        lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
+        imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
+        editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
+        dateOfBirthTextView = (TextView) findViewById(R.id.examDateTextView);
+        isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
 
-
-        idStatusImageButton.setOnClickListener(new View.OnClickListener() {
+        editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
@@ -113,7 +115,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
         });
 
-        greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
+        /*greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
@@ -121,17 +123,17 @@ public class ExaminationActivity extends ActionBarActivity {
                 i.putExtra("return", true);
                 startActivityForResult(i, REQUEST_CODE);
             }
-        });
+        });*/
 
 
-        //Updates the verification buttons.
-        greenidStatusImageButton.setVisibility(View.GONE);
+        //Updates the verification imageview.
+        isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         if (idIsValidated()) {
-            idStatusImageButton.setVisibility(View.GONE);
-            greenidStatusImageButton.setVisibility(View.VISIBLE);
+            Log.d("APP", "isValidated");
+            isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
         }
 
-        reviewAndUploadButton = (Button) findViewById(R.id.reviewAndUploadButton);
+        reviewAndUploadButton = (Button) findViewById(R.id.reviewUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,8 +146,7 @@ public class ExaminationActivity extends ActionBarActivity {
                     exId = dbHelper.addExamination(currentExamination);
                     Log.d("APP:", "saved new examination");
                     currentExamination.setId(exId);
-                }
-                else{
+                } else {
                     dbHelper.updateExamination(currentExamination);
                     Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getId();
@@ -155,148 +156,64 @@ public class ExaminationActivity extends ActionBarActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("examination", currentExamination);
                 startActivity(i);
-                finish();
+                //finish();
             }
         });
 
-        addCommentsButton = (Button) findViewById(R.id.addCommentsButton);
-        addCommentsButton.setOnClickListener(new View.OnClickListener() {
+        viewImagesButton = (Button) findViewById(R.id.examViewImagesButton);
+        viewImagesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (currentExamination.getUltrasoundImages().isEmpty()) {
-                    Crouton.makeText(ExaminationActivity.this, "You don't have any images to add comments to (this is not supposed to happen)", Style.ALERT).show();
+                    Crouton.makeText(ExaminationActivity.this,
+                            "You don't have any images to add comments to (this is not supposed to happen)",
+                            Style.ALERT).show();
                 } else {
                     // Start FullScreenViewActivity here. - Rix1
                     Intent i = new Intent(ExaminationActivity.this, FullScreenViewActivity.class);
                     i.putExtra("examination", currentExamination);
                     startActivityForResult(i, FULLSCREEN_REQUEST_CODE);
                 }
-                updateEditorView();
-
             }
         });
-    }
-
-
-
-    private void initSecondViewElements() {
-        deleteButton = (ImageButton) findViewById(R.id.deleteButton);
-        deleteButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                deleteImage();
-            }
-        });
-
-        nextButton = (Button) findViewById(R.id.nextButton);
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-                currentImageId++;
-                updateEditorView();
-            }
-        });
-
-        prevButton = (Button) findViewById(R.id.prevButton);
-        prevButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-                currentImageId--;
-                updateEditorView();
-            }
-        });
-
-        doneButton = (Button) findViewById(R.id.doneButton);
-        doneButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                save();
-                examinationViewFlipper.showPrevious();
-                updateElements();
-            }
-        });
-
-        commentEditText = (EditText) findViewById(R.id.commentField);
-        globalImageView = (ImageView) findViewById(R.id.imageArea);
-        imageHeaderTextView = (TextView) findViewById(R.id.imageHeader);
-    }
-
-    private void save() {
-        // Sets the comment to the current UltrasoundImage to the text in commentEditText
-        currentExamination.getUltrasoundImages().get(currentImageId).setComment(commentEditText.getText().toString());
-
     }
 
     private boolean idIsValidated() {
         return currentExamination.getPatientName().length() > 0;
     }
 
-    private void updateEditorView() {
-        if (currentExamination.getUltrasoundImages().size() > 0) {
-            imageHeaderTextView.setText(currentImageId + 1 + " / " + currentExamination.getUltrasoundImages().size());
-            // Load bitmap
-            globalImageView.setImageBitmap(
-                    BitmapUtils.decodeSampledBitmapFromStorage(
-                            currentExamination.getUltrasoundImages().get(currentImageId).getImageUri(),
-                            globalImageView.getWidth(), globalImageView.getHeight())
-            );
-
-            commentEditText.setText(currentExamination.getUltrasoundImages().get(currentImageId).getComment());
-        }
-
-        //Disable prevButton if current image is the first.
-        if (currentImageId == 0) prevButton.setClickable(false);
-        else prevButton.setClickable(true);
-
-        //Disable nextButton if current image is the last.
-        if (currentExamination.getUltrasoundImages().size() == currentImageId + 1) nextButton.setClickable(false);
-        else nextButton.setClickable(true);
-    }
-
-    private void deleteImage() {
-
-        if (currentExamination.getUltrasoundImages().size() <= 1) {
-            Crouton.makeText(this, "You can't delete your only image!", Style.ALERT).show();
-        } else {
-            currentExamination.deleteImage(currentImageId);
-            if (currentImageId > 0)
-                currentImageId--;
-            Crouton.makeText(this, "Image deleted", Style.CONFIRM).show();
-            updateEditorView();
-        }
-
-    }
-
     private void updateElements() {
         if (!session.isValid()) {
-            headerTextView.setText("Patient ID: *******");
-            nameTextView.setText("Name: not available in offline mode");
+            idTextView.setText("Patient ID: *******");
+            firstNameTextView.setText("Name: not available in offline mode");
+            lastNameTextView.setText("Name: not available in offline mode");
             idTextView.setText("*******");
         } else {
-            headerTextView.setText("Patient ID: " + currentExamination.getPatientSsn());
-            idTextView.setText(currentExamination.getPatientSsn());
-            nameTextView.setText(currentExamination.getPatientName());
+            idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
+                    currentExamination.getPatientSsn()));
+            lastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
+                    currentExamination.getPatientName()));
+            firstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
+                    currentExamination.getPatientName()));
         }
 
-        int imagesWithComment = 0;
+        // TODO: show birth date
+        //dateOfBirthTextView.setText();
+
+        // Count number of images without comment
         int imagesWithoutComment = 0;
         for (UltrasoundImage usi : currentExamination.getUltrasoundImages()) {
             if (usi.getComment().equals(" ") || usi.getComment().isEmpty())
                 imagesWithoutComment++;
-            else
-                imagesWithComment++;
         }
 
         imagesWithoutCommentTextView.setText(imagesWithoutComment + " image(s) without comment");
-        imagesWithCommentTextView.setText(imagesWithComment + " image(s) with comment");
 
         // Reset font color
         imagesWithoutCommentTextView.setTextColor(Color.BLACK);
 
         if (imagesWithoutComment > 0)
-            imagesWithoutCommentTextView.setTextColor(Color.RED);
+            imagesWithoutCommentTextView.setTextColor(getResources().getColor(R.color.red));
 
     }
 
@@ -313,7 +230,7 @@ public class ExaminationActivity extends ActionBarActivity {
         } else if (intent.hasExtra("ex_id")) {
             // Activity was started to edit an examination
             return "edit_examination";
-        }else if(intent.hasExtra("examination")){
+        } else if (intent.hasExtra("examination")) {
             // Activity was started to edit an examinationObject
             return "edit_examinationObject";
         }
@@ -332,7 +249,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
             initFirstViewElements();
         }
-        if(resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE){
+        if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
             updateElements();
         }
