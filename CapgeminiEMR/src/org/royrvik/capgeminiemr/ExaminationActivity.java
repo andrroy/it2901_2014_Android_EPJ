@@ -72,9 +72,10 @@ public class ExaminationActivity extends ActionBarActivity {
             if (infoArrayList.size() < 2) {
                 currentExamination.setPatientFirstName("");
             } else {
-                currentExamination.setPatientFirstName(infoArrayList.get(1));
+                currentExamination.setPatientFirstName(infoArrayList.get(2));
+                currentExamination.setPatientLastName(infoArrayList.get(3));
             }
-            currentExamination.setPatientSsn(infoArrayList.get(0));
+            currentExamination.setPatientSsn(infoArrayList.get(1));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
@@ -188,7 +189,7 @@ public class ExaminationActivity extends ActionBarActivity {
             idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
                     currentExamination.getPatientSsn()));
             lastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
-                    currentExamination.getPatientFirstName()));
+                    currentExamination.getPatientLastName()));
             firstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
                     currentExamination.getPatientFirstName()));
         }

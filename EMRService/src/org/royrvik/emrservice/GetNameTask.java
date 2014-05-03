@@ -4,16 +4,15 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.sql.*;
+import java.util.ArrayList;
 
-public class GetNameTask extends AsyncTask<String, Void, String> {
+public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
 
-    //private static final String server = "jdbc:mysql://mysql.stud.ntnu.no:3306/rikardbe_emrDB";
     private static final String server = "jdbc:mysql://royrvik.org:3306/rikardbe_emrDB";
     private String username;
     private String password;
 
     private static final String driver = "com.mysql.jdbc.Driver";
-    private static String query;
     private String ssn;
 
 
@@ -24,41 +23,56 @@ public class GetNameTask extends AsyncTask<String, Void, String> {
 
     }
 
-    protected String doInBackground(String... pid){
+    protected ArrayList<String> doInBackground(String... args){
 
-        String name = null;
+        String firstName = null;
+        String lastName = null;
+        String errorMessage = null;
 
         try {
             Class.forName(driver).newInstance();
             Connection conn = DriverManager.getConnection(server, username, password);
 
-            query = "SELECT name FROM patients WHERE pid=?";
+            String query = "SELECT first_name, last_name FROM patients WHERE pid=?";
             PreparedStatement statement = conn.prepareStatement(query);
-            statement.setString(1, ssn); //change to Input
+            statement.setString(1, ssn);
 
             ResultSet results = statement.executeQuery();
             while (results.next()){
-                name = results.getString(1);
+                firstName = results.getString(1);
+                lastName = results.getString(2);
             }
             results.close();
             statement.close();
             conn.close();
 
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-            Log.d("APP", "Error:::::::: " + e.toString());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-            Log.d("APP", "Error:::::::: " + e.toString());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            Log.d("APP", "Error:::::::: " + e.toString());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            Log.d("APP", "Error:::::::: " + e.toString());
         }
+        catch (InstantiationException e) { errorMessage = e.getMessage(); }
+        catch (IllegalAccessException e) { errorMessage = e.getMessage(); }
+        catch (ClassNotFoundException e) { errorMessage = e.getMessage(); }
+        catch (SQLException e) { errorMessage = e.getMessage(); }
 
-        return name;
+
+        /* Preparing returnMessage
+        * ---------------------
+        * Boolean didWork
+        * SSN
+        * FirstName
+        * LastName
+        * ErrorMessage
+        */
+        ArrayList<String> returnMessage = new ArrayList<String>();
+        //Sets didWorkField
+        if(errorMessage == null) returnMessage.add(Boolean.toString(true));
+        else returnMessage.add(Boolean.toString(false));
+
+        returnMessage.add(ssn);
+        returnMessage.add(firstName);
+        returnMessage.add(lastName);
+        returnMessage.add(errorMessage);
+
+        return returnMessage;
+
     }
 }
 

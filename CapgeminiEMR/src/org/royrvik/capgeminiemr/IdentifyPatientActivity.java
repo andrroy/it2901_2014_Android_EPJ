@@ -132,7 +132,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 info.add(patientIDEditText.getText().toString());
             }
 
-            if (info != null) {
+            if (info != null && Boolean.valueOf(info.get(0))) {
                 if (returnAfter) {
                     Intent data = new Intent();
                     data.putStringArrayListExtra("patient", info);
@@ -150,7 +150,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 // Run Toast on UI thread
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        Toast.makeText(getApplicationContext(), "Invalid ID", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(), "Error: " + info.get(4), Toast.LENGTH_SHORT).show(); //Todo: Fix error
+                        Toast.makeText(getApplicationContext(), "Error: Andreas should do his job", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
