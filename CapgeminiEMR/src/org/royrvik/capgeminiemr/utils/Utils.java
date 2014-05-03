@@ -25,7 +25,7 @@ public class Utils {
     }
 
     /**
-     * Formats a unix timestamp to a readable date on the form "HH:mm:ss dd.MM.yyyy"
+     * Formats an unix timestamp to a readable date on the form "HH:mm:ss dd.MM.yyyy"
      * @param timestamp Unix timestamp
      * @return A formatted string
      */

@@ -23,8 +23,6 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-
 
 public class ExaminationActivity extends ActionBarActivity {
 
