@@ -49,7 +49,7 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
         imageDataView.setText(date);
 
-        rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 100, 100));
+        rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 800, 100)); // TODO: This value is too high.
 
         TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
         commentTextView.setText(rowItem.getComment());

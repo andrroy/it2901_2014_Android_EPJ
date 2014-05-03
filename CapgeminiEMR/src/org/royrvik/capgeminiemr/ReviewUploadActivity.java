@@ -46,6 +46,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Examination currentExamination;
     private Intent intent;
     private ProgressDialog pDialog;
+    private View listHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +84,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
-        View listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
+        listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
+
 
         reviewListView.addFooterView(listFooter);
         reviewListView.addHeaderView(listHeader);
@@ -150,7 +152,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
             reviewIdTextView.setText("Exam: " + currentExamination.getExaminationNumber());
             reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
