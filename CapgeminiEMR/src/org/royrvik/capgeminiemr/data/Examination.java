@@ -158,4 +158,18 @@ public class Examination implements Parcelable {
         examinationComment = in.readString();
         id = in.readInt();
     }
+
+    @Override
+    public String toString() {
+        return "Examination{" +
+                "patientFirstName='" + patientFirstName + '\'' +
+                ", patientLastName='" + patientLastName + '\'' +
+                ", patientSsn='" + patientSsn + '\'' +
+                ", examinationComment='" + examinationComment + '\'' +
+                ", ultrasoundImages=" + ultrasoundImages +
+                ", examinationTime=" + examinationTime +
+                ", id=" + id +
+                ", examinationNumber=" + examinationNumber +
+                '}';
+    }
 }

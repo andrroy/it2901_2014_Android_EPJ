@@ -62,7 +62,7 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/patient_id"
-                        android:id="@+id/examPatientIDTextView"
+                        android:id="@+id/reviewSSNtextView"
                         android:textColor="@color/black"/>
 
                 <ImageButton android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
                              android:layout_marginTop="1dp"
                              android:src="@drawable/ic_content_edit"
                              android:background="@android:color/transparent"
-                             android:layout_alignTop="@+id/examPatientIDTextView"
+                             android:layout_alignTop="@+id/reviewSSNtextView"
                              android:layout_alignParentLeft="true"
                              android:layout_alignParentStart="true">
                 </ImageButton>
@@ -81,8 +81,8 @@
                            android:layout_marginLeft="-18dp"
                            android:id="@+id/isVerifiedImageView"
                            android:src="@drawable/ic_navigation_accept"
-                           android:layout_alignTop="@+id/examPatientIDTextView"
-                           android:layout_toRightOf="@+id/examPatientIDTextView"/>
+                           android:layout_alignTop="@+id/reviewSSNtextView"
+                           android:layout_toRightOf="@+id/reviewSSNtextView"/>
 
                 <TextView
                         android:layout_width="wrap_content"
@@ -91,8 +91,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/last_name"
-                        android:id="@+id/examPatientLastNameTextView"
-                        android:layout_below="@+id/examPatientIDTextView"
+                        android:id="@+id/reviewPatientLastNameTextView"
+                        android:layout_below="@+id/reviewSSNtextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -102,8 +102,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/first_name"
-                        android:id="@+id/examPatientFirstNameTextView"
-                        android:layout_below="@+id/examPatientLastNameTextView"
+                        android:id="@+id/reviewPatientFirstNameTextView"
+                        android:layout_below="@+id/reviewPatientLastNameTextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -113,8 +113,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="@string/date_of_birth"
-                        android:id="@+id/examPatientDobTextView"
-                        android:layout_below="@+id/examPatientFirstNameTextView"
+                        android:id="@+id/reviewPatientDobTextView"
+                        android:layout_below="@+id/reviewPatientFirstNameTextView"
                         android:textColor="@color/black"/>
 
                 <TextView
@@ -124,8 +124,8 @@
                         android:layout_marginLeft="@dimen/examination_inner_container_margin"
                         android:layout_marginRight="@dimen/examination_inner_container_margin"
                         android:text="Examination comment:"
-                        android:id="@+id/examCommentTextView"
-                        android:layout_below="@+id/examPatientDobTextView"
+                        android:id="@+id/reviewCommentTextView"
+                        android:layout_below="@+id/reviewPatientDobTextView"
                         android:textColor="@color/black"/>
 
                 <ImageButton android:layout_height="wrap_content"
@@ -134,7 +134,7 @@
                              android:layout_marginTop="1dp"
                              android:src="@drawable/ic_content_edit"
                              android:background="@android:color/transparent"
-                             android:layout_alignTop="@+id/examCommentTextView"
+                             android:layout_alignTop="@+id/reviewCommentTextView"
                              android:layout_alignParentLeft="true"
                              android:layout_alignParentStart="true"></ImageButton>
             </RelativeLayout>

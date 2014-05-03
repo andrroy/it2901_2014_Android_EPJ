@@ -164,7 +164,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
 
-        db.close();
         return examinationId;
 
     }
@@ -199,7 +198,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         examination.setUltrasoundImages(getAllUltrasoundImagesFromExamination(databaseId));
 
-        db.close();
         cursor.close();
 
         return examination;
@@ -235,7 +233,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         t4 -= t1;
 
         Log.d("APP:", "Time to execute T4: " + t4 + " - T3: " + t3 + " t2: " + t2);
-        db.close();
         return isDeleted;
 
     }
@@ -323,7 +320,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
 
         return examinationList;
     }
@@ -359,7 +355,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         cursor.close();
-        db.close();
 
         return usiList;
     }
