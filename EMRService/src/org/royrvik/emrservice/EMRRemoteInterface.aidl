@@ -8,5 +8,5 @@ interface EMRRemoteInterface {
     List<String> getPatientData(in String ssn, in String username, in String password);
 
     /** Upload the provided data **/
-    boolean upload(in List<String> patientData, in List<String> imagePaths, in List<String> notes, in String username, in String password);
+    List<String> upload(in List<String> examinationData, in List<String> imagePaths, in List<String> notes, in String username, in String password);
 }

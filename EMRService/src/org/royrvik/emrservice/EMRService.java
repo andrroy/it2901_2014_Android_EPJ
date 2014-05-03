@@ -51,18 +51,20 @@ public class EMRService extends Service {
         }
 
         @Override
-        public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password){
+        public List<String> upload(List<String> examinationData, List<String> imagePaths, List<String> notes, String username, String password){
 
-            ByteArrayOutputStream pdf = PDFCreator.createPDF(patientData,imagePaths, notes);
+            ByteArrayOutputStream pdf = PDFCreator.createPDF(examinationData,imagePaths, notes);
+
+            ArrayList<String> returnMessage = null;
 
             try {
-                return new UploadImagesTask(pdf, imagePaths, username, password).execute().get();
+                returnMessage =  new UploadImagesTask(pdf, imagePaths, username, password).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            return false;
+            return returnMessage;
         }
 
     };

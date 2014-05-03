@@ -9,6 +9,7 @@ import android.os.RemoteException;
 import org.royrvik.capgeminiemr.EMRApplication;
 import org.royrvik.emrservice.EMRRemoteInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RemoteServiceConnection implements ServiceConnection {
@@ -71,13 +72,13 @@ public class RemoteServiceConnection implements ServiceConnection {
      * @param imagePaths  An {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> with image paths.
      * @return true if the data was uploaded successfully.
      */
-    public boolean upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password) {
+    public List<String> upload(List<String> patientData, List<String> imagePaths, List<String> notes, String username, String password) {
         try {
             return service.upload(patientData, imagePaths, notes, username, password);
         } catch (RemoteException e) {
-            e.printStackTrace();
+
         }
-        return false;
+        return null;
     }
 
     /**

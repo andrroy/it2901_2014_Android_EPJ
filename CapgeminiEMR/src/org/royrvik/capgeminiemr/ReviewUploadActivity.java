@@ -176,13 +176,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
             ArrayList<String> auth = settings.getDepartmentAuth();
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
-            if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
+            List<String> uploadResponse = null;
+            uploadResponse = service.upload(data, images, notes, auth.get(0), auth.get(1));
+            if (uploadResponse==null || !Boolean.valueOf(uploadResponse.get(0))) {
+                intent.putExtra("upload_fail", "Upload failed");
+                // TODO: append reason for failure to "fail" string
+            } else {
                 dbHelper.deleteExamination(currentExamination.getDatabaseId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
-            } else {
-                intent.putExtra("upload_fail", "Upload failed");
-                // TODO: append reason for failure to "fail" string
             }
             return null;
         }

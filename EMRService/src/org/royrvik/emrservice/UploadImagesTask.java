@@ -8,10 +8,11 @@ import com.jcraft.jsch.JSch;
 import com.jcraft.jsch.Session;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class UploadImagesTask extends AsyncTask<String, Void, Boolean> {
+public class UploadImagesTask extends AsyncTask<String, Void, ArrayList<String>> {
 
     private ByteArrayOutputStream pdf;
     private List<String> imagePaths;
@@ -28,7 +29,7 @@ public class UploadImagesTask extends AsyncTask<String, Void, Boolean> {
         this.password = password;
     }
 
-    protected Boolean doInBackground(String... userInformation){
+    protected ArrayList<String> doInBackground(String... args){
 
         String imageServer = "royrvik.org";
         int serverPort = 22;
@@ -37,6 +38,8 @@ public class UploadImagesTask extends AsyncTask<String, Void, Boolean> {
         Session session = null;
         Channel channel = null;
         ChannelSftp channelSftp = null;
+
+        String errorMessage = null;
 
         try{
             //Setting up connection to sftp server
@@ -80,13 +83,16 @@ public class UploadImagesTask extends AsyncTask<String, Void, Boolean> {
             channelSftp.exit();
             session.disconnect();
 
-            //Returning true, since no exception was cast and upload was successful
-            return true;
 
         }catch (Exception e){
-            Log.d("APP", "Unable to upload image error: " + e.toString());
+            errorMessage = e.getMessage();
         }
 
-        return false;
+        ArrayList<String> returnMessage = new ArrayList<String>();
+        if(errorMessage == null) returnMessage.add(Boolean.toString(true));
+        else returnMessage.add(Boolean.toString(false));
+        returnMessage.add(errorMessage);
+
+        return returnMessage;
     }
 }
