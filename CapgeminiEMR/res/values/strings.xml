@@ -43,6 +43,7 @@
     <string name="first_name">First name:</string>
     <string name="date_of_birth">Date of birth:</string>
     <string name="images_without_comment">image(s) without comment</string>
+    <string name="exam_comment">Examination comment: </string>
 
     <!-- Review and upload strings -->
     <string name="patient_info">Patient info:</string>
