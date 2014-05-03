@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -95,7 +96,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
         // Initialize GUI elements
         initFirstViewElements();
-        updateElements();
+  //      updateElements();
 
     }
 
@@ -247,13 +248,14 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
+                Log.d("APP", "SHIT");
                 currentExamination.setPatientFirstName(info.get(1));
             }
             initFirstViewElements();
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
-            updateElements();
+            //updateElements();
         }
     }
 
@@ -286,7 +288,7 @@ public class ExaminationActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateElements();
+        // updateElements();
         updateSession();
     }
 
