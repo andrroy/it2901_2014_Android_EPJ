@@ -53,7 +53,7 @@ public class EMRService extends Service {
         @Override
         public List<String> upload(List<String> examinationData, List<String> imagePaths, List<String> notes, String username, String password){
 
-            ByteArrayOutputStream pdf = PDFCreator.createPDF(examinationData,imagePaths, notes);
+            ByteArrayOutputStream pdf = PDFCreator.createPDF(examinationData,imagePaths, notes, username);
 
             ArrayList<String> returnMessage = null;
 
