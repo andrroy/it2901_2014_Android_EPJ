@@ -17,6 +17,8 @@ public class PDFCreator {
             Font.BOLD);
     private static Font smallerBold = new Font(Font.FontFamily.HELVETICA, 10,
             Font.BOLD);
+    private static Font smallerItalic = new Font(Font.FontFamily.HELVETICA, 12,
+            Font.NORMAL);
 
     private static java.util.List<String> examinationdata;
     private static java.util.List<String> imagePaths;
@@ -73,34 +75,127 @@ public class PDFCreator {
 
         // TABLE GENERATION STARTS HERE
         // Needs getMethods for names and info to populate table cells.
+        /*
+        PdfPTable tbl = new PdfPTable(2);
+        tbl.setWidthPercentage(100);
+
+        Phrase phrase = new Phrase();
+        phrase.add(new Chunk("First name: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(1), smallerItalic));
+        PdfPCell cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Patient ID: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(0), smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Last name: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(2), smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.disableBorderSide(Rectangle.BOX);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(3), smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Date of birth: ", smallBold));
+        //phrase.add(new Chunk(ssnToDateOfBirth(examinationdata.get(0)), smallerItalic));
+        phrase.add(new Chunk("lol", smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam time: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(4), smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam comment: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(5), smallerItalic));
+        cell = new PdfPCell(phrase);
+        cell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+
+        cell = new PdfPCell(new Phrase("", smallBold));
+        cell.disableBorderSide(Rectangle.BOX);
+        tbl.addCell(cell);
+        */
 
         PdfPTable tbl = new PdfPTable(2);
         tbl.setWidthPercentage(100);
-        PdfPCell cell = new PdfPCell(new Phrase("First name: " + examinationdata.get(1), smallBold));
+        //
+        Phrase phrase = new Phrase();
+        phrase.add(new Chunk("First name: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(1), smallerItalic));
+        PdfPCell cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Patient ID: " + examinationdata.get(0), smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Patient ID: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(0), smallerItalic));
+        cell = new PdfPCell(phrase);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Last name: " + examinationdata.get(2), smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Last name: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(2), smallerItalic));
+        cell = new PdfPCell(phrase);
         cell.disableBorderSide(Rectangle.BOX);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Exam: " + examinationdata.get(3), smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(3), smallerItalic));
+        cell = new PdfPCell(phrase);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Date of birth: " + "", smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Date of birth: ", smallBold));
+        phrase.add(new Chunk("09.10.1991", smallerItalic)); //Todo: Fix!
+        cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Exam time: " + examinationdata.get(4), smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam time: ", smallBold));
+        phrase.add(new Chunk(examinationdata.get(4), smallerItalic));
+        cell = new PdfPCell(phrase);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
-        cell = new PdfPCell(new Phrase("Exam comment: " + examinationdata.get(5), smallBold));
+        //
+        phrase = new Phrase();
+        phrase.add(new Chunk("Exam comment: ", smallBold));
+        if(examinationdata.get(5) == null) phrase.add(new Chunk("", smallerItalic));
+        else phrase.add(new Chunk(examinationdata.get(5), smallerItalic));
+        cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
+        //
         cell = new PdfPCell(new Phrase("", smallBold));
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
@@ -163,6 +258,18 @@ public class PDFCreator {
         for (int i = 0; i < number; i++) {
             paragraph.add(new Paragraph(" "));
         }
+    }
+
+    private static String ssnToDateOfBirth(String ssn) {
+        String dateOfBirth = ssn.substring(0, 6);
+        String dateOfBirthFormatted = "";
+        for (int i = 0; i < dateOfBirth.length(); i++) {
+            dateOfBirthFormatted += dateOfBirth.charAt(i);
+            if (i == 1 || i == 3) {
+                dateOfBirthFormatted += ".";
+            }
+        }
+        return dateOfBirthFormatted;
     }
 
 }
