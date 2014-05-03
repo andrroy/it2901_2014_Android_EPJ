@@ -20,6 +20,7 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -68,7 +69,6 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
-            Log.d("APP", "LAG NY EX med id " + currentExamination.getDatabaseId());
             if (infoArrayList.size() < 2) {
                 currentExamination.setPatientFirstName("");
             } else {
@@ -102,7 +102,7 @@ public class ExaminationActivity extends ActionBarActivity {
         lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
-        dateOfBirthTextView = (TextView) findViewById(R.id.examDateTextView);
+        dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,6 @@ public class ExaminationActivity extends ActionBarActivity {
         //Updates the verification imageview.
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         if (idIsValidated()) {
-            Log.d("APP", "isValidated");
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
         }
 
@@ -141,16 +140,11 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                Log.d("APP:", "Current dbID: " + currentExamination.getDatabaseId());
                 if (currentExamination.getDatabaseId() == -1) {
-                    Log.d("APP", "ADD NEW EX");
                     exId = dbHelper.addExamination(currentExamination);
-                    Log.d("APP:", "saved new examination: " + exId);
                     currentExamination.setDatabaseId(exId);
                 } else {
-                    Log.d("APP", "UPDATE EX");
                     dbHelper.updateExamination(currentExamination);
-                    Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getDatabaseId();
                 }
 
@@ -198,6 +192,9 @@ public class ExaminationActivity extends ActionBarActivity {
             firstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
                     currentExamination.getPatientFirstName()));
         }
+
+        dateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
+        Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
 
         // TODO: show birth date
         //dateOfBirthTextView.setText();
