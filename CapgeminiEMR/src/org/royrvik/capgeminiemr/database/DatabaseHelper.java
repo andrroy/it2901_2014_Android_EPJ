@@ -152,7 +152,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Execute query and get the auto incremented id value
         int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
-        Log.d("APP", "ANDREAS:::::::::::::::::::::" + examinationId);
 
         // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
@@ -204,7 +203,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         cursor.close();
 
-        Log.d("APP", "ANDREAS:::::::::::::::::::::" + examination.getDatabaseId());
         return examination;
 
     }
@@ -216,7 +214,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * @return true if an examination was deleted, false if not
      */
     public boolean deleteExamination(int id) {
-        Log.d("APP", "ANDREAS::::::::::::DELETE: " + id);
         long t1 = System.currentTimeMillis();
         long t2, t3, t4;
 
@@ -255,7 +252,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         SQLiteDatabase db = this.getReadableDatabase(this.password);
-        Log.d("APP", "ANDREAS:::::::::UPDATE: " + ex.getDatabaseId());
 
         // Build query
         ContentValues values = new ContentValues();
@@ -271,7 +267,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(ex.getDatabaseId())});
 
         // Delete its corresponding images from the database
-        db.delete(TABLE_ULTRASOUNDIMAGE, "id=" + ex.getDatabaseId(), null);
+        db.delete(TABLE_ULTRASOUNDIMAGE, "examination_id=" + ex.getDatabaseId(), null);
 
         int databaseId = ex.getDatabaseId();
 
