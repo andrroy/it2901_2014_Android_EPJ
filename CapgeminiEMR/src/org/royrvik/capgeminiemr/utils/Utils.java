@@ -32,7 +32,7 @@ public class Utils {
     public static String formattedDate(long timestamp) {
         Calendar cal = Calendar.getInstance();
         cal.setTimeInMillis(timestamp*1000);
-        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         return dateFormat.format(cal.getTime());
 
 

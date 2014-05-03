@@ -90,7 +90,7 @@ public class HomeScreenActivity extends ActionBarActivity {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
                     dialog.setTitle("Examination ID " + ex.getId());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientFirstName() + "\n"); //Todo: Whole name
+                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName());
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
                     infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");

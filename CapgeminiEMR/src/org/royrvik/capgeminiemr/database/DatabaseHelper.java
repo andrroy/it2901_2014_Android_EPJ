@@ -307,7 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 Long date = Long.parseLong(cursor.getString(cursor.getColumnIndex(KEY_EXAMINATION_DATE)));
                 String comment = cursor.getString(cursor.getColumnIndex(KEY_EXAMINATION_COMMENT));
                 // Get Ultrasoundimages from appropriate table for this Examination
-                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(examinationNumber);
+                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(databaseId);
                 // Create examination with data from this row
                 Examination ex = new Examination(examinationNumber, firstName, lastName, ssn,
                         date, comment, usiList);
