@@ -204,7 +204,6 @@ public class ExaminationActivity extends ActionBarActivity {
         examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
                 currentExamination.getExaminationComment()));
 
-
         examDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
                 Utils.formattedDate(currentExamination.getExaminationTime())));
 
@@ -216,13 +215,18 @@ public class ExaminationActivity extends ActionBarActivity {
                 imagesWithoutComment++;
         }
 
-        imagesWithoutCommentTextView.setText(imagesWithoutComment + " image(s) without comment");
+        if(imagesWithoutComment == 1)
+            imagesWithoutCommentTextView.setText(imagesWithoutComment + " image without comment");
+        else
+            imagesWithoutCommentTextView.setText(imagesWithoutComment + " images without comment");
+
 
         // Reset font color
         imagesWithoutCommentTextView.setTextColor(Color.BLACK);
 
-        if (imagesWithoutComment > 0)
+        if (imagesWithoutComment > 0) {
             imagesWithoutCommentTextView.setTextColor(getResources().getColor(R.color.red));
+        }
 
     }
 
