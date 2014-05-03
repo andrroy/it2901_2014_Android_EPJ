@@ -2,9 +2,8 @@ package org.royrvik.capgeminiemr.data;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  * Representation of an Examination
@@ -12,33 +11,34 @@ import java.util.Date;
 
 public class Examination implements Parcelable {
 
-    private String patientName, patientSsn;
+    private String patientFirstName, patientLastName, patientSsn, examinationComment;
     private ArrayList<UltrasoundImage> ultrasoundImages;
-    private String date;
-    private int id;
+    private long examinationTime;
+    private int id, examinationNumber;
 
-    SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd.MMM yy");
-
-    public Examination(String patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages) {
-        this.date = dateFormat.format(new Date());
+    public Examination(int examinationNumber, String patientFirstName, String patientLastName, String patientSsn,
+                        long examinationTime, String examinationComment, ArrayList<UltrasoundImage> ultrasoundImages) {
+        this.examinationTime = examinationTime; //TODO: Create method that gets examinationTime based on image metadata
         this.patientSsn = patientSsn;
-        this.patientName = patientName;
+        this.patientFirstName = patientFirstName;
+        this.patientLastName = patientLastName;
         this.ultrasoundImages = ultrasoundImages;
-        this.id = -1; // Should have this value until its set
-    }
-
-    public Examination(String patientSsn, String patientName, ArrayList<UltrasoundImage> ultrasoundImages, String date) {
-        this.date = date;
-        this.patientSsn = patientSsn;
-        this.patientName = patientName;
-        this.ultrasoundImages = ultrasoundImages;
+        this.examinationComment = examinationComment;
+        this.examinationNumber = examinationNumber;
         this.id = -1;
     }
 
     public Examination() {
         ultrasoundImages = new ArrayList<UltrasoundImage>();
-        this.date = dateFormat.format(new Date());
         this.id = -1;
+
+        //ANDREAS TESTER
+//        this.examinationTime = 123455432; //TODO: Create function that gets examinationTime based on image metadata
+//        this.patientSsn = "lol";
+//        this.patientFirstName = "lol";
+//        this.patientLastName = "lol";
+//        this.examinationComment = "lol";
+//        this.examinationNumber = 12;
     }
 
     public String getPatientSsn() {
@@ -49,27 +49,34 @@ public class Examination implements Parcelable {
         this.patientSsn = patientSsn;
     }
 
-    public String getDate() {
-        return date;
+    public long getExaminationTime() {
+        return examinationTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setExaminationTime(long examinationTime) {
+        this.examinationTime= examinationTime;
     }
 
-    public String getPatientName() {
-        return patientName;
+    public String getExaminationComment() { return examinationComment; }
+
+    public void setExaminationComment(String note) { this.examinationComment = note; }
+
+    public String getPatientFirstName() {return patientFirstName;}
+
+    public void setPatientFirstName(String patientFirstName) {
+        this.patientFirstName= patientFirstName;
     }
 
-    public void setPatientName(String patientName) {
-        this.patientName = patientName;
-    }
+    public String getPatientLastName() {return patientLastName;}
+
+    public void setPatientLastName(String patientLastName) { this.patientLastName = patientLastName; }
 
     public ArrayList<UltrasoundImage> getUltrasoundImages() {
         return ultrasoundImages;
     }
 
     public void setUltrasoundImages(ArrayList<UltrasoundImage> ultrasoundImages) {
+        examinationTime = 1398973142; //TODO: Get date from metadata
         this.ultrasoundImages = ultrasoundImages;
     }
 
@@ -80,6 +87,10 @@ public class Examination implements Parcelable {
     public Integer getId() {
         return id;
     }
+
+    public void setExaminationNumber(Integer examinationNumber) { this.examinationNumber = examinationNumber; }
+
+    public Integer getExaminationNumber() { return examinationNumber; }
 
     public void addUltrasoundImage(UltrasoundImage usImage) {
         this.ultrasoundImages.add(usImage);
@@ -107,23 +118,17 @@ public class Examination implements Parcelable {
         return allImages;
     }
 
-    @Override
-    public String toString() {
-        return "Examination{" +
-                "patientName='" + patientName + '\'' +
-                ", patientSsn='" + patientSsn + '\'' +
-                ", ultrasoundImages=" + ultrasoundImages +
-                ", date='" + date + '\'' +
-                '}';
-    }
 
     // Parcelable methods
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(patientName);
+        parcel.writeString(patientFirstName);
+        parcel.writeString(patientLastName);
         parcel.writeString(patientSsn);
         parcel.writeList(ultrasoundImages);
-        parcel.writeString(date);
+        parcel.writeLong(examinationTime);
+        parcel.writeInt(examinationNumber);
+        parcel.writeString(examinationComment);
         parcel.writeInt(id);
     }
 
@@ -143,11 +148,14 @@ public class Examination implements Parcelable {
     }
 
     private Examination(Parcel in) {
-        patientName = in.readString();
+        patientFirstName = in.readString();
+        patientLastName = in.readString();
         patientSsn = in.readString();
         ultrasoundImages = new ArrayList<UltrasoundImage>();
         in.readList(ultrasoundImages, ((Object) this).getClass().getClassLoader());
-        date = in.readString();
+        examinationTime = in.readLong();
+        examinationNumber = in.readInt();
+        examinationComment = in.readString();
         id = in.readInt();
     }
 }

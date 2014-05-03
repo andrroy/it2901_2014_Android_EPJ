@@ -1,7 +1,6 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -91,9 +90,9 @@ public class HomeScreenActivity extends ActionBarActivity {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
                     dialog.setTitle("Examination ID " + ex.getId());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientName() + "\n");
+                    infoString.append("Name: " + ex.getPatientFirstName() + "\n"); //Todo: Whole name
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
-                    infoString.append("Date: " + ex.getDate() + "\n");
+                    infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
                     dialog.setMessage(infoString);
                     dialog.setIcon(R.drawable.ic_info);
@@ -173,6 +172,11 @@ public class HomeScreenActivity extends ActionBarActivity {
     protected void onResume() {
         super.onResume();
         updateSession();
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
     @Override

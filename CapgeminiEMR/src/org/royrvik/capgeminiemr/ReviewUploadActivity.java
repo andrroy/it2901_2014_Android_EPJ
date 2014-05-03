@@ -133,11 +133,9 @@ public class ReviewUploadActivity extends ActionBarActivity {
                     });
                     builder.show();
                 }
-
             }
         });
-
-   //     updateTextViews();
+        updateTextViews();
     }
 
     /**
@@ -153,7 +151,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: " + currentExamination.getPatientName());
+            reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
 
@@ -163,10 +161,24 @@ public class ReviewUploadActivity extends ActionBarActivity {
         protected String doInBackground(String... params) {
             publishProgress("Working...");
 
-            //Get patient data
+            //Get examination data
+            //Standard format:
+            /*
+            * 0 PID
+            * 1 firstName
+            * 2 lastName
+            * 3 ExamNumber
+            * 4 ExamTime
+            * 5 ExamComment
+            * */
             data = new ArrayList<String>();
             data.add(currentExamination.getPatientSsn());
-            data.add(currentExamination.getPatientName());
+            data.add(currentExamination.getPatientFirstName());
+            data.add(currentExamination.getPatientLastName());
+            data.add(currentExamination.getExaminationNumber().toString());
+            data.add(Long.toString(currentExamination.getExaminationTime()));
+            data.add(currentExamination.getExaminationComment());
+
             //Get images from examination
             images = currentExamination.getAllImages();
 
@@ -174,13 +186,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
             ArrayList<String> auth = settings.getDepartmentAuth();
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
-            if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
+            List<String> uploadResponse = null;
+            uploadResponse = service.upload(data, images, notes, auth.get(0), auth.get(1));
+            if (uploadResponse==null || !Boolean.valueOf(uploadResponse.get(0))) {
+                intent.putExtra("upload_fail", "Upload failed");
+                // TODO: append reason for failure to "fail" string
+            } else {
                 dbHelper.deleteExamination(currentExamination.getId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
-            } else {
-                intent.putExtra("upload_fail", "Upload failed");
-                // TODO: append reason for failure to "fail" string
             }
             return null;
         }
@@ -210,7 +224,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // updateTextViews();
+        updateTextViews();
         updateSession();
     }
 
@@ -227,6 +241,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        dbHelper.updateExamination(currentExamination);
+        Intent i = new Intent(this, ExaminationActivity.class);
+        i.putExtra("examination", currentExamination);
+        startActivity(i);
+        finish();
     }
 
     private void updateSession() {

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,21 +19,20 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
-
 
 public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
-            imagesWithoutCommentTextView, dateOfBirthTextView;
+            imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView;
     //private ImageButton greenidStatusImageButton;
     private ImageButton editIDImageButton;
     private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
-    //private EditText examinationCommentEditText;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
@@ -59,7 +57,6 @@ public class ExaminationActivity extends ActionBarActivity {
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
-
         dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         // Check where the activity was launched from and choose appropriate action based on result
@@ -70,11 +67,12 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
             if (infoArrayList.size() < 2) {
-                currentExamination.setPatientName("");
+                currentExamination.setPatientFirstName("");
             } else {
-                currentExamination.setPatientName(infoArrayList.get(1));
+                currentExamination.setPatientFirstName(infoArrayList.get(2));
+                currentExamination.setPatientLastName(infoArrayList.get(3));
             }
-            currentExamination.setPatientSsn(infoArrayList.get(0));
+            currentExamination.setPatientSsn(infoArrayList.get(1));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
@@ -90,6 +88,11 @@ public class ExaminationActivity extends ActionBarActivity {
             currentExamination = intent.getParcelableExtra("examination");
         }
 
+        //Set exam time
+        // TODO: get time from launcher?
+        long unixTime = System.currentTimeMillis() / 1000L;
+        currentExamination.setExaminationTime(unixTime);
+
         // Initialize GUI elements
         initFirstViewElements();
         updateElements();
@@ -101,9 +104,11 @@ public class ExaminationActivity extends ActionBarActivity {
         firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
         lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
+        examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
-        dateOfBirthTextView = (TextView) findViewById(R.id.examDateTextView);
+        dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
+        examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,7 +134,6 @@ public class ExaminationActivity extends ActionBarActivity {
         //Updates the verification imageview.
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         if (idIsValidated()) {
-            Log.d("APP", "isValidated");
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
         }
 
@@ -141,14 +145,11 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                Log.d("APP:", "Current exID: " + currentExamination.getId());
                 if (currentExamination.getId() == -1) {
                     exId = dbHelper.addExamination(currentExamination);
-                    Log.d("APP:", "saved new examination");
                     currentExamination.setId(exId);
                 } else {
                     dbHelper.updateExamination(currentExamination);
-                    Log.d("APP:", "Updated existing examination");
                     exId = currentExamination.getId();
                 }
 
@@ -156,7 +157,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
                 i.putExtra("examination", currentExamination);
                 startActivity(i);
-                //  finish();
+                finish();
             }
         });
 
@@ -179,7 +180,7 @@ public class ExaminationActivity extends ActionBarActivity {
     }
 
     private boolean idIsValidated() {
-        return currentExamination.getPatientName().length() > 0;
+        return currentExamination.getPatientFirstName().length() > 0;
     }
 
     private void updateElements() {
@@ -192,13 +193,21 @@ public class ExaminationActivity extends ActionBarActivity {
             idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
                     currentExamination.getPatientSsn()));
             lastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
-                    currentExamination.getPatientName()));
+                    currentExamination.getPatientLastName()));
             firstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
-                    currentExamination.getPatientName()));
+                    currentExamination.getPatientFirstName()));
         }
 
-        // TODO: show birth date
-        //dateOfBirthTextView.setText();
+        dateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
+                Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
+
+        examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                currentExamination.getExaminationComment()));
+
+
+        examDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
+                Utils.formattedDate(currentExamination.getExaminationTime())));
+
 
         // Count number of images without comment
         int imagesWithoutComment = 0;
@@ -245,7 +254,7 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
-                currentExamination.setPatientName(info.get(1));
+                currentExamination.setPatientFirstName(info.get(1));
             }
             initFirstViewElements();
         }
@@ -259,13 +268,20 @@ public class ExaminationActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                // Back button clicked. Exit activity and open previous in activity stack
+                // Back button in actionbar clicked. Exit activity and open previous in activity stack
                 dbHelper.updateExamination(currentExamination);
                 startActivity(new Intent(this, HomeScreenActivity.class));
                 finish();
                 break;
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed(){
+        dbHelper.updateExamination(currentExamination);
+        startActivity(new Intent(this, HomeScreenActivity.class));
+        finish();
     }
 
     @Override
