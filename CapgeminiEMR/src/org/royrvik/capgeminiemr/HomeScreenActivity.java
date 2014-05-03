@@ -88,9 +88,9 @@ public class HomeScreenActivity extends ActionBarActivity {
 
                     // Build and show popup
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
-                    dialog.setTitle("Examination ID " + ex.getId());
+                    dialog.setTitle("Examination ID " + ex.getExaminationNumber());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName());
+                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName() + "\n");
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
                     infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");

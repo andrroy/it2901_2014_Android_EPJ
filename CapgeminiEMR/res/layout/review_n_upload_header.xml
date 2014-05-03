@@ -24,7 +24,7 @@
             android:layout_marginTop="2dp"
             android:fontFamily="sans-serif-light"
             android:text="Conducted 12.04.2014 13:36"
-            android:id="@+id/examDateTextView"
+            android:id="@+id/reviewExamDateTextView"
             android:layout_centerHorizontal="true"
             android:layout_below="@id/reviewExamNumberTextView"
             android:textColor="@color/grey"/>
@@ -33,7 +33,7 @@
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/examDateTextView">
+            android:layout_below="@id/reviewExamDateTextView">
         <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"

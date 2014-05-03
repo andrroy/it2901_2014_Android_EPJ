@@ -96,20 +96,20 @@ public class ExaminationActivity extends ActionBarActivity {
 
         // Initialize GUI elements
         initFirstViewElements();
-  //      updateElements();
+        updateElements();
 
     }
 
     private void initFirstViewElements() {
-        idTextView = (TextView) findViewById(R.id.reviewSSNtextView);
-        firstNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
-        lastNameTextView = (TextView) findViewById(R.id.reviewPatientLastNameTextView);
+        idTextView = (TextView) findViewById(R.id.examSSNtextView);
+        firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
+        lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
         examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
-        dateOfBirthTextView = (TextView) findViewById(R.id.reviewPatientDobTextView);
+        dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
-        examinationCommentTextView = (TextView)findViewById(R.id.reviewCommentTextView);
+        examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -255,7 +255,7 @@ public class ExaminationActivity extends ActionBarActivity {
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
-            //updateElements();
+            updateElements();
         }
     }
 
@@ -288,7 +288,7 @@ public class ExaminationActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // updateElements();
+        updateElements();
         updateSession();
     }
 
