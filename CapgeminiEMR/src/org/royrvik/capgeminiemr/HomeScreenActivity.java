@@ -1,7 +1,6 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -89,7 +88,7 @@ public class HomeScreenActivity extends ActionBarActivity {
 
                     // Build and show popup
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
-                    dialog.setTitle("Examination ID " + ex.getDatabaseId());
+                    dialog.setTitle("Examination ID " + ex.getId());
                     StringBuilder infoString = new StringBuilder();
                     infoString.append("Name: " + ex.getPatientFirstName() + "\n"); //Todo: Whole name
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
@@ -110,7 +109,7 @@ public class HomeScreenActivity extends ActionBarActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     // Delete the Examination from the database
-                                    boolean deleted = dbHelper.deleteExamination(ex.getDatabaseId());
+                                    boolean deleted = dbHelper.deleteExamination(ex.getId());
                                     if (deleted)
                                         Crouton.makeText(HomeScreenActivity.this, "Examination deleted", Style.CONFIRM).show();
 
@@ -131,7 +130,7 @@ public class HomeScreenActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // Start ExaminationActivity
                             Intent i = new Intent(HomeScreenActivity.this, ExaminationActivity.class);
-                            i.putExtra("ex_id", ex.getDatabaseId());
+                            i.putExtra("ex_id", ex.getId());
                             startActivity(i);
                         }
                     });

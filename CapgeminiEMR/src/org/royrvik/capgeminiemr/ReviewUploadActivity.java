@@ -165,7 +165,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             data.add(currentExamination.getPatientSsn());
             data.add(currentExamination.getPatientFirstName());
             data.add(currentExamination.getPatientLastName());
-            data.add(currentExamination.getExaminationId().toString());
+            data.add(currentExamination.getExaminationNumber().toString());
             data.add(Long.toString(currentExamination.getExaminationTime()));
             data.add(currentExamination.getExaminationComment());
 
@@ -185,6 +185,9 @@ public class ReviewUploadActivity extends ActionBarActivity {
                 dbHelper.deleteExamination(currentExamination.getDatabaseId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
+            } else {
+                intent.putExtra("upload_fail", "Upload failed");
+                // TODO: append reason for failure to "fail" string
             }
             return null;
         }

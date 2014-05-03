@@ -14,33 +14,23 @@ public class Examination implements Parcelable {
     private String patientFirstName, patientLastName, patientSsn, examinationComment;
     private ArrayList<UltrasoundImage> ultrasoundImages;
     private long examinationTime;
-    private int databaseId, examinationId;
+    private int id, examinationNumber;
 
-//    public Examination(String patientSsn, String patientFirstName, String patientLastName, ArrayList<UltrasoundImage> ultrasoundImages) {
-//        this.patientSsn = patientSsn;
-//        this.dateOfBirth = patientSsn.substring(0,5);
-//        this.patientFirstName = patientFirstName;
-//        this.patientLastName = patientLastName;
-//        this.ultrasoundImages = ultrasoundImages;
-//        this.examinationTime = new Date().getTime(); //TODO: Create function that gets examinationTime based on image metadata
-//        this.databaseId = -1; // Should have this value until its set
-//    }
-
-    public Examination(int examinationId, String patientFirstName, String patientLastName, String patientSsn,
+    public Examination(int examinationNumber, String patientFirstName, String patientLastName, String patientSsn,
                         long examinationTime, String examinationComment, ArrayList<UltrasoundImage> ultrasoundImages) {
-        this.examinationTime = examinationTime; //TODO: Create function that gets examinationTime based on image metadata
+        this.examinationTime = examinationTime; //TODO: Create method that gets examinationTime based on image metadata
         this.patientSsn = patientSsn;
         this.patientFirstName = patientFirstName;
         this.patientLastName = patientLastName;
         this.ultrasoundImages = ultrasoundImages;
         this.examinationComment = examinationComment;
-        this.examinationId = examinationId;
-        this.databaseId = -1;
+        this.examinationNumber = examinationNumber;
+        this.id = -1;
     }
 
     public Examination() {
         ultrasoundImages = new ArrayList<UltrasoundImage>();
-        this.databaseId = -1;
+        this.id = -1;
 
         //ANDREAS TESTER
 //        this.examinationTime = 123455432; //TODO: Create function that gets examinationTime based on image metadata
@@ -48,7 +38,7 @@ public class Examination implements Parcelable {
 //        this.patientFirstName = "lol";
 //        this.patientLastName = "lol";
 //        this.examinationComment = "lol";
-//        this.examinationId = 12;
+//        this.examinationNumber = 12;
     }
 
     public String getPatientSsn() {
@@ -90,17 +80,17 @@ public class Examination implements Parcelable {
         this.ultrasoundImages = ultrasoundImages;
     }
 
-    public void setDatabaseId(Integer databaseId) {
-        this.databaseId = databaseId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
-    public Integer getDatabaseId() {
-        return databaseId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setExaminationId(Integer examinationId) { this.examinationId = examinationId; }
+    public void setExaminationNumber(Integer examinationNumber) { this.examinationNumber = examinationNumber; }
 
-    public Integer getExaminationId() { return examinationId; }
+    public Integer getExaminationNumber() { return examinationNumber; }
 
     public void addUltrasoundImage(UltrasoundImage usImage) {
         this.ultrasoundImages.add(usImage);
@@ -137,9 +127,9 @@ public class Examination implements Parcelable {
         parcel.writeString(patientSsn);
         parcel.writeList(ultrasoundImages);
         parcel.writeLong(examinationTime);
-        parcel.writeInt(examinationId);
+        parcel.writeInt(examinationNumber);
         parcel.writeString(examinationComment);
-        parcel.writeInt(databaseId);
+        parcel.writeInt(id);
     }
 
     public static final Parcelable.Creator<Examination> CREATOR = new Parcelable.Creator<Examination>() {
@@ -164,8 +154,8 @@ public class Examination implements Parcelable {
         ultrasoundImages = new ArrayList<UltrasoundImage>();
         in.readList(ultrasoundImages, ((Object) this).getClass().getClassLoader());
         examinationTime = in.readLong();
-        examinationId = in.readInt();
+        examinationNumber = in.readInt();
         examinationComment = in.readString();
-        databaseId = in.readInt();
+        id = in.readInt();
     }
 }
