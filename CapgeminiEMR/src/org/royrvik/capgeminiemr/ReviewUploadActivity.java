@@ -165,7 +165,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             data.add(currentExamination.getPatientSsn());
             data.add(currentExamination.getPatientFirstName());
             data.add(currentExamination.getPatientLastName());
-            data.add(currentExamination.getExaminationId().toString());
+            data.add(currentExamination.getExaminationNumber().toString());
             data.add(Long.toString(currentExamination.getExaminationTime()));
             data.add(currentExamination.getExaminationComment());
 
@@ -177,7 +177,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
-                dbHelper.deleteExamination(currentExamination.getDatabaseId());
+                dbHelper.deleteExamination(currentExamination.getId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
             } else {

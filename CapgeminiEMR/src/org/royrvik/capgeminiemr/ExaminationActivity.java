@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -145,12 +144,12 @@ public class ExaminationActivity extends ActionBarActivity {
 
                 // Choose action based on why this activity was started
                 int exId;
-                if (currentExamination.getDatabaseId() == -1) {
+                if (currentExamination.getId() == -1) {
                     exId = dbHelper.addExamination(currentExamination);
-                    currentExamination.setDatabaseId(exId);
+                    currentExamination.setId(exId);
                 } else {
                     dbHelper.updateExamination(currentExamination);
-                    exId = currentExamination.getDatabaseId();
+                    exId = currentExamination.getId();
                 }
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
