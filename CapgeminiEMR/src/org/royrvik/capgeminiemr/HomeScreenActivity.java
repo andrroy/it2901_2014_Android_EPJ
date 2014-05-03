@@ -176,6 +176,11 @@ public class HomeScreenActivity extends ActionBarActivity {
     }
 
     @Override
+    public void onBackPressed(){
+        finish();
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         updateSession();
