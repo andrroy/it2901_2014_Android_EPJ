@@ -14,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.royrvik.capgeminiemr.EMRApplication;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;

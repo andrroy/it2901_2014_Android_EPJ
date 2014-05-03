@@ -120,17 +120,6 @@ public class ExaminationActivity extends ActionBarActivity {
             }
         });
 
-        /*greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("id", currentExamination.getPatientSsn());
-                i.putExtra("return", true);
-                startActivityForResult(i, REQUEST_CODE);
-            }
-        });*/
-
-
         //Updates the verification imageview.
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         if (idIsValidated()) {
@@ -144,13 +133,13 @@ public class ExaminationActivity extends ActionBarActivity {
                 //if (!idIsValidated()) return;
 
                 // Choose action based on why this activity was started
-                int exId;
+                int dbID;
                 if (currentExamination.getId() == -1) {
-                    exId = dbHelper.addExamination(currentExamination);
-                    currentExamination.setId(exId);
+                   dbID = dbHelper.addExamination(currentExamination);
+                    currentExamination.setId(dbID);
                 } else {
                     dbHelper.updateExamination(currentExamination);
-                    exId = currentExamination.getId();
+                    dbID = currentExamination.getId();
                 }
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
