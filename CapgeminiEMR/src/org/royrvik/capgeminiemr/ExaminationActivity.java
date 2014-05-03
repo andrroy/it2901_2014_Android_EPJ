@@ -29,14 +29,12 @@ public class ExaminationActivity extends ActionBarActivity {
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
             imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView;
-    //private ImageButton greenidStatusImageButton;
     private ImageButton editIDImageButton;
     private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

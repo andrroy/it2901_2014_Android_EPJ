@@ -31,7 +31,6 @@ import java.util.List;
 
 public class ReviewUploadActivity extends ActionBarActivity {
 
-    private int examinationId;
     private DatabaseHelper dbHelper;
     private SessionManager session;
     private RemoteServiceConnection service;
@@ -120,7 +119,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
                     new UploadExaminationTask().execute();
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReviewUploadActivity.this);
-                    builder.setMessage("Some images does not have notes attached. Are you sure you want to upload?");
+                    builder.setMessage("Some images does not have comments attached. \n\nAre you sure you want to upload?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -144,6 +143,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
      * Updates the TextViews with sensitive information, based on the status of the current session.
      */
     private void updateTextViews() {
+        // TODO: FIX THIS MESS
         if (!session.isValid()) {
             reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
             reviewIdTextView.setText("ID: *******");
@@ -151,7 +151,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
             reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
-            reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
+            reviewIdTextView.setText(getResources().getString(R.string.exam) + ": " + currentExamination.getExaminationNumber());
             reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }

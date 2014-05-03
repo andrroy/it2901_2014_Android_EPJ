@@ -150,7 +150,6 @@ public class LoginActivity extends ActionBarActivity {
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //Do nothing
                     }
                 }).show();
             }
