@@ -3,6 +3,7 @@ package org.royrvik.capgeminiemr.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
+import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
 
         convertView = (RelativeLayout) inflater.inflate(resource, null);
 
-        //ultrasound image/data for THIS row
+        // Ultrasound image/data for THIS row
         Examination rowItem = getItem(position);
 
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.homeListImageView);
@@ -42,6 +44,7 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         // Check if Examination has no images
         if(rowItem.getUltrasoundImages().size() < 1 || rowItem.getUltrasoundImages() == null) {
             // Show "no images available"
+            Log.d("APP", "NO IMAGES IN THIS EXAMINATION");
             int resID = context.getResources().getIdentifier("no_image" , "drawable", context.getPackageName());
             rowImage.setImageResource(resID);
         }
@@ -54,11 +57,10 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         ssnTextView.setText(rowItem.getPatientSsn());
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.homeListNameTextView);
-        nameTextView.setText(rowItem.getPatientFirstName()); //Todo: Whole name
+        nameTextView.setText(rowItem.getPatientLastName() + ", " + rowItem.getPatientFirstName());
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
-        //dateTextView.setText(rowItem.getExaminationTime()); //Todo: Convert to date
-        dateTextView.setText("HomeScreenListAdapter:61"); //Todo: Convert to date
+        dateTextView.setText(Utils.formattedDate(rowItem.getExaminationTime()));
 
         return convertView;
 
