@@ -6,6 +6,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class PDFCreator {
@@ -174,7 +177,7 @@ public class PDFCreator {
         //
         phrase = new Phrase();
         phrase.add(new Chunk("Date of birth: ", smallBold));
-        phrase.add(new Chunk("09.10.1991", smallerItalic)); //Todo: Fix!
+        phrase.add(new Chunk(ssnToDateOfBirth(examinationdata.get(0)), smallerItalic)); //Todo: Fixed!!!!!
         cell = new PdfPCell(phrase);
         cell.setHorizontalAlignment(Element.ALIGN_LEFT);
         cell.disableBorderSide(Rectangle.BOX);
@@ -182,7 +185,7 @@ public class PDFCreator {
         //
         phrase = new Phrase();
         phrase.add(new Chunk("Exam time: ", smallBold));
-        phrase.add(new Chunk(examinationdata.get(4), smallerItalic));
+        phrase.add(new Chunk(formattedDate(Long.parseLong(examinationdata.get(4))), smallerItalic)); //TOdo: FIXED!!
         cell = new PdfPCell(phrase);
         cell.disableBorderSide(Rectangle.BOX);
         tbl.addCell(cell);
@@ -270,6 +273,15 @@ public class PDFCreator {
             }
         }
         return dateOfBirthFormatted;
+    }
+
+    public static String formattedDate(long timestamp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp*1000);
+        DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss dd.MM.yyyy");
+        return dateFormat.format(cal.getTime());
+
+
     }
 
 }
