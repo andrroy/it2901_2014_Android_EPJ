@@ -20,25 +20,34 @@ public class EMRService extends Service {
         return service;
     }
 
+//    private List<String> getPatientReturnMessage;
+//    private List<String> uploadImagesReturnMessage;
+//
+//    public void setGetPatientReturnMessage(List<String> getPatientReturnMessage){
+//        this.getPatientReturnMessage = getPatientReturnMessage;
+//    }
+//
+//    public void setUploadImagesReturnMessage(List<String> uploadImagesReturnMessage){
+//        this.uploadImagesReturnMessage = uploadImagesReturnMessage;
+//    }
+
+
+
+
     private final EMRRemoteInterface.Stub service = new EMRRemoteInterface.Stub() {
+
         @Override
         public List<String> getPatientData(String ssn, String username, String password) throws RemoteException {
-
-            List<String> patientData = new ArrayList<String>();
-            patientData.add(ssn);
-
+            ArrayList<String> returnMessage = null;
             try {
-                String name = new GetNameTask(ssn,username,password).execute().get();
-                if(name == null) return null;
-                patientData.add(name);
-                return patientData;
+                returnMessage = new GetNameTask(ssn,username,password).execute().get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+            return returnMessage;
 
-            return null;
         }
 
         @Override
