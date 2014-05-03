@@ -6,6 +6,7 @@
 
     <TextView
         android:layout_width="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:layout_height="wrap_content"
         android:id="@+id/currentSetupKeyTextView"
         android:text="asda"
@@ -15,6 +16,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:id="@+id/currentSetupValueTextView"
         android:layout_below="@id/currentSetupKeyTextView"
         android:layout_marginLeft="12dp"

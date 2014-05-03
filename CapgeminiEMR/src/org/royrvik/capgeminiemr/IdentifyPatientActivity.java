@@ -173,9 +173,9 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            pDialog.dismiss();
+            if(!(pDialog == null))
+                pDialog.dismiss();
         }
-
     }
 
     @Override

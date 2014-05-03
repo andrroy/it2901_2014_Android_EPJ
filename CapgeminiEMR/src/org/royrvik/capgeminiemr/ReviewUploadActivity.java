@@ -8,6 +8,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -73,15 +75,25 @@ public class ReviewUploadActivity extends ActionBarActivity {
         Intent i = getIntent();
 
         currentExamination = i.getParcelableExtra("examination");
+        Log.d("APP:", "Current examination: " + currentExamination.toString());
 
         // Fetch examination from database and show its images and comments in the listview
         final List<UltrasoundImage> examinationImages = currentExamination.getUltrasoundImages();
         reviewListView = (ListView) findViewById(R.id.reviewListView);
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+        View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
+        View listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
+
+        reviewListView.addFooterView(listFooter);
+        reviewListView.addHeaderView(listHeader);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
+
 
         // Buttons
         editButton = (Button) findViewById(R.id.editButton);
         uploadButton = (Button) findViewById(R.id.uploadButton);
+
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,14 +145,14 @@ public class ReviewUploadActivity extends ActionBarActivity {
      */
     private void updateTextViews() {
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
             reviewIdTextView.setText("ID: *******");
-            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
             reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
-            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
@@ -247,5 +259,4 @@ public class ReviewUploadActivity extends ActionBarActivity {
             session.updateSession();
         }
     }
-
 }
