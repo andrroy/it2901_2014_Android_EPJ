@@ -132,7 +132,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 info.add(patientIDEditText.getText().toString());
             }
 
-            if (info != null && Boolean.valueOf(info.get(0))) {
+            if (info != null || !Boolean.valueOf(info.get(0))) {
                 if (returnAfter) {
                     Intent data = new Intent();
                     data.putStringArrayListExtra("patient", info);
