@@ -276,9 +276,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // Execute query
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
-
-        db.close();
-
     }
 
     /**

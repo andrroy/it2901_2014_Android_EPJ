@@ -83,7 +83,7 @@ public class ExaminationActivity extends ActionBarActivity {
         else if (activityStartedForAction().equals("edit_examination")) {
             int exId = intent.getIntExtra("ex_id", -1);
             if (exId != -1) {
-                currentExamination = dbHelper.getExamination(exId);
+                currentExamination = dbHelper.getExamination(exId); // This should never be used - Rix1
             } else finish();
         } else if (activityStartedForAction().equals("edit_examinationObject")) {
             currentExamination = intent.getParcelableExtra("examination");
