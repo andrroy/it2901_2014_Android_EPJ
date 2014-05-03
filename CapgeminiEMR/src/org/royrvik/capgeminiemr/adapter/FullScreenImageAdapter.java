@@ -23,7 +23,7 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class FullScreenImageAdapter extends PagerAdapter{
+public class FullScreenImageAdapter extends PagerAdapter {
 
     private Examination currentExamination;
     private Context context;
@@ -54,6 +54,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
 
     public Object instantiateItem(final ViewGroup container, final int position) {
         SessionManager session =  new SessionManager(context);
+
         dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
 
         photoView = new PhotoView(container.getContext());
