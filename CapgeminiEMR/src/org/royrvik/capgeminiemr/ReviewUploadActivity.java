@@ -182,12 +182,9 @@ public class ReviewUploadActivity extends ActionBarActivity {
                 intent.putExtra("upload_fail", "Upload failed");
                 // TODO: append reason for failure to "fail" string
             } else {
-                dbHelper.deleteExamination(currentExamination.getDatabaseId());
+                dbHelper.deleteExamination(currentExamination.getId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
-            } else {
-                intent.putExtra("upload_fail", "Upload failed");
-                // TODO: append reason for failure to "fail" string
             }
             return null;
         }
