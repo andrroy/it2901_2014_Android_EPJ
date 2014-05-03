@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -51,7 +52,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
-        setContentView(R.layout.reviewupload_test);
+        setContentView(R.layout.reviewupload);
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
@@ -74,6 +75,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         Intent i = getIntent();
 
         currentExamination = i.getParcelableExtra("examination");
+        Log.d("APP:", "Current examination: " + currentExamination.toString());
 
         // Fetch examination from database and show its images and comments in the listview
         final List<UltrasoundImage> examinationImages = currentExamination.getUltrasoundImages();
@@ -143,14 +145,14 @@ public class ReviewUploadActivity extends ActionBarActivity {
      */
     private void updateTextViews() {
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
             reviewIdTextView.setText("ID: *******");
-            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
+            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
             reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
-            reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
+            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }

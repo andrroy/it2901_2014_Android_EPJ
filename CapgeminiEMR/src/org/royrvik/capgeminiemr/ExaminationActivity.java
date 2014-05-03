@@ -100,15 +100,15 @@ public class ExaminationActivity extends ActionBarActivity {
     }
 
     private void initFirstViewElements() {
-        idTextView = (TextView) findViewById(R.id.examPatientIDTextView);
-        firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
-        lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
+        idTextView = (TextView) findViewById(R.id.reviewSSNtextView);
+        firstNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
+        lastNameTextView = (TextView) findViewById(R.id.reviewPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
         examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
-        dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
+        dateOfBirthTextView = (TextView) findViewById(R.id.reviewPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
-        examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
+        examinationCommentTextView = (TextView)findViewById(R.id.reviewCommentTextView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
