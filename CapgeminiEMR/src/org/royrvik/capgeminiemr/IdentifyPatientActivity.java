@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.*;
@@ -32,7 +33,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private boolean returnAfter = false;
     private SessionManager session;
     private RemoteServiceConnection service;
-    private DatabaseHelper dbHelper;
     private ProgressDialog pDialog;
 
 
@@ -42,8 +42,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         FlatUI.setDefaultTheme(FlatUI.BLOOD);
         setContentView(R.layout.identify);
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
@@ -52,7 +50,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
-
 
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
@@ -129,7 +126,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
             ArrayList<String> info = new ArrayList<String>();
             if (session.isValid()) {
-                ArrayList<String> auth = dbHelper.getDepartmentAuth();
+                ArrayList<String> auth = ((EMRApplication) getApplicationContext()).getDepartmentAuth();
                 info = (ArrayList<String>) service.getPatientData(params[0], auth.get(0), auth.get(1));
             } else {
                 info.add(patientIDEditText.getText().toString());
@@ -147,6 +144,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
                 }
+
                 finish();
             } else {
                 // Run Toast on UI thread

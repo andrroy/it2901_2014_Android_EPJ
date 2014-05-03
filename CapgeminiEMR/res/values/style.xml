@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EMRTheme" parent="@style/Theme.AppCompat.Light">
+        <item name="actionMenuTextColor">@color/actionbarfontcolor</item>
+        <item name="android:actionMenuTextColor">@color/actionbarfontcolor</item>
+        <item name="android:titleTextStyle">@style/AtextTheme</item>
+    </style>
+
+    <style name="AtextTheme" parent="@style/TextAppearance.AppCompat.Widget.Base.ActionBar.Title">
+        <item name="android:textColor">@color/actionbarfontcolor</item>
+    </style>
+</resources>

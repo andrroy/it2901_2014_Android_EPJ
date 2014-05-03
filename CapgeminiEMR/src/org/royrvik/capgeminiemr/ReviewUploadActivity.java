@@ -45,7 +45,6 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Intent intent;
     private ProgressDialog pDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -59,10 +58,10 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        dbHelper = DatabaseHelper.getInstance(this);
-
         //Getting the session
         session = new SessionManager(getApplicationContext());
+
+        dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
         //Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
@@ -124,10 +123,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
                     });
                     builder.show();
                 }
-
             }
         });
-
         updateTextViews();
     }
 
@@ -144,7 +141,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
             reviewIdTextView = (TextView) findViewById(R.id.reviewIdTextView);
             reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
             reviewNameTextView = (TextView) findViewById(R.id.reviewNameTextView);
-            reviewNameTextView.setText("Name: " + currentExamination.getPatientName());
+            reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
 
@@ -154,18 +151,33 @@ public class ReviewUploadActivity extends ActionBarActivity {
         protected String doInBackground(String... params) {
             publishProgress("Working...");
 
-            //Get patient data
+            //Get examination data
+            //Standard format:
+            /*
+            * 0 PID
+            * 1 firstName
+            * 2 lastName
+            * 3 ExamNumber
+            * 4 ExamTime
+            * 5 ExamComment
+            * */
             data = new ArrayList<String>();
             data.add(currentExamination.getPatientSsn());
-            data.add(currentExamination.getPatientName());
+            data.add(currentExamination.getPatientFirstName());
+            data.add(currentExamination.getPatientLastName());
+            data.add(currentExamination.getExaminationId().toString());
+            data.add(Long.toString(currentExamination.getExaminationTime()));
+            data.add(currentExamination.getExaminationComment());
+
             //Get images from examination
             images = currentExamination.getAllImages();
 
-            ArrayList<String> auth = dbHelper.getDepartmentAuth();
+            EMRApplication settings = (EMRApplication) getApplicationContext();
+            ArrayList<String> auth = settings.getDepartmentAuth();
             intent = new Intent(ReviewUploadActivity.this, HomeScreenActivity.class);
 
             if (service.upload(data, images, notes, auth.get(0), auth.get(1))) {
-                dbHelper.deleteExamination(currentExamination.getId());
+                dbHelper.deleteExamination(currentExamination.getDatabaseId());
                 intent.putExtra("upload_success", "Examination successfully uploaded");
                 // TODO: Delete images from device
             } else {
@@ -217,6 +229,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
             pDialog.dismiss();
             pDialog = null;
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        dbHelper.updateExamination(currentExamination);
+        Intent i = new Intent(this, ExaminationActivity.class);
+        i.putExtra("examination", currentExamination);
+        startActivity(i);
+        finish();
     }
 
     private void updateSession() {

@@ -1,7 +1,5 @@
 package org.royrvik.capgeminiemr;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,7 +14,6 @@ import android.widget.TextView;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.preferences.Validator;
 import org.royrvik.capgeminiemr.preferences.XmlParser;
 
@@ -64,10 +61,7 @@ public class TechnicalSetupActivity extends ActionBarActivity {
                 try {
                     HashMap<String, String> settingsHashMap = XmlParser.parse(pathToXmlEditText.getText().toString());
 
-                    //If settings are already configured, process settings.xml but give warning that data will be deleted
-                    //Else, just process settings.xml
-                    if (globalApp.hasSettingsConfigured()) processUserRequestWithWarning(settingsHashMap);
-                    else processSettings(settingsHashMap);
+                    processSettings(settingsHashMap);
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -117,30 +111,6 @@ public class TechnicalSetupActivity extends ActionBarActivity {
             setStatusText("Settings invalid", Color.RED);
             Crouton.makeText(TechnicalSetupActivity.this, "Settings was not imported.", Style.ALERT).show();
         }
-    }
-
-    /**
-     * @param settingsHashMap -
-     */
-    private void processUserRequestWithWarning(final HashMap<String, String> settingsHashMap) {
-
-        //Displays alertDialog notifying user that examinations will be lost if user proceeds with setup
-        new AlertDialog.Builder(TechnicalSetupActivity.this)
-                .setTitle("Delete local examinations")
-                .setMessage("This procedure will delete all examinations waiting to be uploaded. Are you sure you want to do this?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        DatabaseHelper dbHelper = DatabaseHelper.getInstance(TechnicalSetupActivity.this);
-                        dbHelper.deleteAllExaminations();
-                        processSettings(settingsHashMap);
-                    }
-                }).setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing
-            }
-        }).show();
     }
 
     /**
