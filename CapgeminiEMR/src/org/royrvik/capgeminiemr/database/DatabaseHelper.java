@@ -271,7 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 new String[]{String.valueOf(ex.getDatabaseId())});
 
         // Delete its corresponding images from the database
-        db.delete(TABLE_ULTRASOUNDIMAGE, "id=" + ex.getDatabaseId(), null);
+        db.delete(TABLE_ULTRASOUNDIMAGE, "examination_id=" + ex.getDatabaseId(), null);
 
         int databaseId = ex.getDatabaseId();
 
