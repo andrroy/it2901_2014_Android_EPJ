@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import org.royrvik.capgeminiemr.EMRApplication;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
@@ -21,6 +22,10 @@ import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import org.royrvik.capgeminiemr.utils.SessionManager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class FullScreenImageAdapter extends PagerAdapter{
 
@@ -67,6 +72,13 @@ public class FullScreenImageAdapter extends PagerAdapter{
         final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
         final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
         final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
+
+        // Display image data
+        File file = new File(currentExamination.getAllImages().get(position));
+        Date fileDate = new Date(file.lastModified());
+        TextView imageDataView = (TextView) imageView.findViewById(R.id.imageData);
+        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        imageDataView.setText(date);
 
         imageView.setImageBitmap(BitmapUtils.
                 decodeSampledBitmapFromStorage(currentExamination.getAllImages().get(position),
@@ -170,12 +182,12 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     private void saveComment(int index, String comment) {
-        updateSession();
+        session.updateSession();
         currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
     public void deleteImage(int index) {
-        updateSession();
+        session.updateSession();
         if (currentExamination.getUltrasoundImages().size() <= 1) {
             Toast.makeText(context, "You can't delete your only image!", Toast.LENGTH_LONG).show();
         } else {

@@ -15,6 +15,7 @@ import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -23,7 +24,6 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
     private int resource;
     private LayoutInflater inflater;
     private Context context;
-    private final String imageData = "image captured: ";
 
     public ReviewListAdapter(Context context, int resourceId, List<UltrasoundImage> objects) {
         super(context, resourceId, objects);
@@ -43,10 +43,11 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
 
         File file = new File(rowItem.getImageUri());
-        //TODO: You probably have to format the date
-        Date filedDate = new Date(file.lastModified());
+        Date fileDate = new Date(file.lastModified());
         TextView imageDataView = (TextView) convertView.findViewById(R.id.imageDate);
-        imageDataView.setText(imageData + filedDate.toString());
+
+        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        imageDataView.setText(date);
 
         rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 300, 300));
 

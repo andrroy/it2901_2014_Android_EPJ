@@ -15,7 +15,7 @@
             android:textSize="40dp"
             android:fontFamily="sans-serif-light"
             android:layout_centerHorizontal="true"
-            android:id="@+id/examNumberTextView"
+            android:id="@+id/reviewExamNumberTextView"
             android:textColor="@color/black"/>
 
     <TextView
@@ -26,14 +26,14 @@
             android:text="Conducted 12.04.2014 13:36"
             android:id="@+id/examDateTextView"
             android:layout_centerHorizontal="true"
-            android:layout_below="@+id/examNumberTextView"
+            android:layout_below="@id/reviewExamNumberTextView"
             android:textColor="@color/grey"/>
 
     <LinearLayout
             android:orientation="horizontal"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_below="@+id/examDateTextView">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/examDateTextView">
         <TextView
                 android:layout_width="0dip"
                 android:layout_height="wrap_content"
@@ -44,7 +44,7 @@
                 android:layout_marginBottom="@dimen/examination_inner_container_margin"
                 android:layout_weight="20"
                 android:layout_width="0dip"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true">
 
             <TextView
@@ -63,7 +63,7 @@
                          android:id="@+id/editIDImageButton"
                          android:src="@drawable/ic_content_edit"
                          android:background="@android:color/transparent"
-                         android:layout_alignTop="@+id/reviewSSNtextView"
+                         android:layout_alignTop="@id/reviewSSNtextView"
                          android:layout_alignParentLeft="true"
                          android:layout_alignParentStart="true">
             </ImageButton>
@@ -72,8 +72,8 @@
                        android:layout_width="wrap_content"
                        android:id="@+id/isVerifiedImageView"
                        android:src="@drawable/ic_navigation_accept"
-                       android:layout_alignTop="@+id/reviewSSNtextView"
-                       android:layout_toRightOf="@+id/reviewSSNtextView"/>
+                       android:layout_alignTop="@id/reviewSSNtextView"
+                       android:layout_toRightOf="@id/reviewSSNtextView"/>
 
             <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                     android:layout_marginRight="@dimen/examination_inner_container_margin"
                     android:text="@string/last_name"
                     android:id="@+id/reviewPatientLastNameTextView"
-                    android:layout_below="@+id/reviewSSNtextView"
+                    android:layout_below="@id/reviewSSNtextView"
                     android:textColor="@color/black"/>
 
             <TextView
@@ -94,7 +94,7 @@
                     android:layout_marginRight="@dimen/examination_inner_container_margin"
                     android:text="@string/first_name"
                     android:id="@+id/reviewPatientFirstNameTextView"
-                    android:layout_below="@+id/reviewPatientLastNameTextView"
+                    android:layout_below="@id/reviewPatientLastNameTextView"
                     android:textColor="@color/black"/>
 
             <TextView
@@ -105,7 +105,7 @@
                     android:layout_marginRight="@dimen/examination_inner_container_margin"
                     android:text="@string/date_of_birth"
                     android:id="@+id/reviewPatientDobTextView"
-                    android:layout_below="@+id/reviewPatientFirstNameTextView"
+                    android:layout_below="@id/reviewPatientFirstNameTextView"
                     android:textColor="@color/black"/>
 
             <TextView
@@ -116,7 +116,7 @@
                     android:layout_marginRight="@dimen/examination_inner_container_margin"
                     android:text="Examination comment: "
                     android:id="@+id/reviewCommentTextView"
-                    android:layout_below="@+id/reviewPatientDobTextView"
+                    android:layout_below="@id/reviewPatientDobTextView"
                     android:textColor="@color/black"/>
 
             <ImageButton android:layout_height="wrap_content"
@@ -124,9 +124,10 @@
                          android:id="@+id/editExamCommentButton"
                          android:src="@drawable/ic_content_edit"
                          android:background="@android:color/transparent"
-                         android:layout_alignTop="@+id/reviewCommentTextView"
+                         android:layout_alignTop="@id/reviewCommentTextView"
                          android:layout_alignParentLeft="true"
-                         android:layout_alignParentStart="true"></ImageButton>
+                         android:layout_alignParentStart="true"/>
+
         </RelativeLayout>
         <TextView
                 android:layout_width="0dip"

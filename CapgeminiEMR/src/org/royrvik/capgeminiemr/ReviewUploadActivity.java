@@ -145,13 +145,13 @@ public class ReviewUploadActivity extends ActionBarActivity {
      */
     private void updateTextViews() {
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
-            reviewIdTextView.setText("ID: *******");
+            reviewIdTextView = (TextView) findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView.setText("Exam: *******");
             reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
-            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
-            reviewIdTextView.setText("ID: " + currentExamination.getPatientSsn());
+            reviewIdTextView = (TextView) findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView.setText("Exam: " + currentExamination.getExaminationNumber());
             reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
