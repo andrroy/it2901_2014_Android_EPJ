@@ -37,6 +37,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     private int currentImage;
     private DialogFragment newFragment;
     private DatabaseHelper dbHelper;
+    private SessionManager session;
 
 
     public FullScreenImageAdapter(Context context, Examination currentExamination) {
@@ -53,7 +54,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
-        SessionManager session =  new SessionManager(context);
+        session =  new SessionManager(context);
         dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
 
         photoView = new PhotoView(container.getContext());
@@ -170,11 +171,12 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     private void saveComment(int index, String comment) {
+        updateSession();
         currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
     public void deleteImage(int index) {
-
+        updateSession();
         if (currentExamination.getUltrasoundImages().size() <= 1) {
             Toast.makeText(context, "You can't delete your only image!", Toast.LENGTH_LONG).show();
         } else {
@@ -194,6 +196,11 @@ public class FullScreenImageAdapter extends PagerAdapter{
         container.removeView((View) object);
     }
 
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
+    }
 
     private void showCommentDialog(String comment){
         // newFragment = newInstance(comment);

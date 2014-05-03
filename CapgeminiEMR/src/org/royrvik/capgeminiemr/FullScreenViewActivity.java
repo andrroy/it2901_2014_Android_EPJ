@@ -8,12 +8,14 @@ import android.view.WindowManager;
 import org.royrvik.capgeminiemr.adapter.FullScreenImageAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.utils.CustomViewPager;
+import org.royrvik.capgeminiemr.utils.SessionManager;
 
 public class FullScreenViewActivity extends Activity {
 
     private FullScreenImageAdapter adapter;
     private ViewPager viewPager;
     private Examination currentExamination;
+    private SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +24,7 @@ public class FullScreenViewActivity extends Activity {
         setContentView(R.layout.activity_fullscreen_view);
 
         viewPager = (CustomViewPager) findViewById(R.id.pager);
+        session = new SessionManager(getApplicationContext());
 
         Intent i = getIntent();
         currentExamination = i.getParcelableExtra("examination");
@@ -34,7 +37,27 @@ public class FullScreenViewActivity extends Activity {
         super.onDestroy();
     }
 
+    @Override
+    protected  void onResume(){
+        super.onResume();
+        updateSession();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        updateSession();
+    }
+
+    @Override
     protected void onPause(){
         super.onPause();
+
+    }
+
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
     }
 }
