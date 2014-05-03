@@ -223,8 +223,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         t2 -= t1;
         t1 = System.currentTimeMillis();
 
-
-
         // Delete corresponding rows in TABLE_ULTRASOUNDIMAGE
         Log.d("APP", Integer.toString(db.delete(TABLE_ULTRASOUNDIMAGE, KEY_EX_ID + "=" + id, null)));
 
@@ -294,7 +292,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<Examination> getAllExaminations() {
 
-
         SQLiteDatabase db = this.getReadableDatabase(this.password);
 
         Cursor cursor = db.rawQuery("select * from examination", null);
@@ -304,16 +301,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
 
             while (!cursor.isAfterLast()) {
+
                 // Get values from row
-                int databaseId = cursor.getInt(cursor.getColumnIndex("id"));
-                int examinationId = cursor.getInt(cursor.getColumnIndex("examination_id"));
-                String firstName = cursor.getString(cursor.getColumnIndex("patient_first_name"));
-                String lastName = cursor.getString(cursor.getColumnIndex("patient_Last_name"));
-                String ssn = cursor.getString(cursor.getColumnIndex("patient_ssn"));
-                Long date = Long.parseLong(cursor.getString(cursor.getColumnIndex("examination_data")));
-                String comment = cursor.getString(cursor.getColumnIndex("examination_comment"));
+                int databaseId = cursor.getInt(cursor.getColumnIndex(KEY_DB_ID));
+                int examinationId = cursor.getInt(cursor.getColumnIndex(KEY_EX_ID));
+                String firstName = cursor.getString(cursor.getColumnIndex(KEY_PATIENT_FIRST_NAME));
+                String lastName = cursor.getString(cursor.getColumnIndex(KEY_PATIENT_LAST_NAME));
+                String ssn = cursor.getString(cursor.getColumnIndex(KEY_SSN));
+                Long date = Long.parseLong(cursor.getString(cursor.getColumnIndex(KEY_EXAMINATION_DATE)));
+                String comment = cursor.getString(cursor.getColumnIndex(KEY_EXAMINATION_COMMENT));
                 // Get Ultrasoundimages from appropriate table for this Examination
-                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(databaseId);
+                ArrayList<UltrasoundImage> usiList = getAllUltrasoundImagesFromExamination(examinationId);
                 // Create examination with data from this row
                 Examination ex = new Examination(examinationId, firstName, lastName, ssn,
                         date, comment, usiList);
@@ -340,7 +338,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      */
     public ArrayList<UltrasoundImage> getAllUltrasoundImagesFromExamination(int id) {
 
-
         SQLiteDatabase db = this.getReadableDatabase(this.password);
 
         ArrayList<UltrasoundImage> usiList = new ArrayList<UltrasoundImage>();
@@ -354,9 +351,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 UltrasoundImage usi = new UltrasoundImage();
 
                 usi.setComment(cursor.getString(2));
-                //Log.d(TAG, "comment" + cursor.getString(2));
                 usi.setImageUri(cursor.getString(3));
-                //Log.d(TAG, "uri" + cursor.getString(3));
 
                 // Add the USI to the list
                 usiList.add(usi);

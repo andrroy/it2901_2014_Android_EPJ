@@ -24,18 +24,16 @@ import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
 
-
 public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
-            imagesWithoutCommentTextView, dateOfBirthTextView;
+            imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView;
     //private ImageButton greenidStatusImageButton;
     private ImageButton editIDImageButton;
     private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
-    //private EditText examinationCommentEditText;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
@@ -91,6 +89,11 @@ public class ExaminationActivity extends ActionBarActivity {
             currentExamination = intent.getParcelableExtra("examination");
         }
 
+        //Set exam time
+        // TODO: get time from launcher?
+        long unixTime = System.currentTimeMillis() / 1000L;
+        currentExamination.setExaminationTime(unixTime);
+
         // Initialize GUI elements
         initFirstViewElements();
         updateElements();
@@ -102,9 +105,11 @@ public class ExaminationActivity extends ActionBarActivity {
         firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
         lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
+        examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
         dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
+        examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -195,10 +200,15 @@ public class ExaminationActivity extends ActionBarActivity {
         }
 
         dateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
-        Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
+                Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
 
-        // TODO: show birth date
-        //dateOfBirthTextView.setText();
+        examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                currentExamination.getExaminationComment()));
+
+
+        examDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
+                Utils.formattedDate(currentExamination.getExaminationTime())));
+
 
         // Count number of images without comment
         int imagesWithoutComment = 0;
