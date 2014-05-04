@@ -1,6 +1,5 @@
 package org.royrvik.vscanlauncher;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -36,7 +35,7 @@ import java.util.TreeSet;
  *
  * @see SystemUiHider
  */
-public class HomeScreenActivity extends Activity {
+public class ScannerActivity extends Activity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -77,7 +76,7 @@ public class HomeScreenActivity extends Activity {
 
         setContentView(R.layout.activity_scan);
 
-        Toast.makeText(HomeScreenActivity.this, "New examination started", Toast.LENGTH_LONG).show();
+        Toast.makeText(ScannerActivity.this, "New examination started", Toast.LENGTH_LONG).show();
 
         videoView = (VideoView) findViewById(R.id.fullscreen_content);
         Uri uri = Uri.parse("android.resource://"+getPackageName()+"/"+R.raw.samplevideo);
@@ -231,11 +230,15 @@ public class HomeScreenActivity extends Activity {
             imagePaths.set(iterator++,f);
         }
         Log.d("APP", "LOL: " + imagePaths.toString());
-       
-        if(patientdData == null)
+
+        if(patientdData == null){
             new EMRLauncher(getApplicationContext(), imagePaths).start();
-        else
-            new EMRLauncher(getApplicationContext(), imagePaths, patientdData);
+            finish();
+        }
+        else{
+            new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
+            finish();
+        }
     }
 
 
@@ -324,6 +327,11 @@ public class HomeScreenActivity extends Activity {
 
         return allFileNames;
 
+    }
+
+    @Override
+    public void onBackPressed(){
+        finish();
     }
 
     private void saveImage(Bitmap finalBitmap, String name) {

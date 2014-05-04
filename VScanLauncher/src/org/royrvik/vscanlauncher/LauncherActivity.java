@@ -61,7 +61,7 @@ public class LauncherActivity extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LauncherActivity.this);
                 builder.setTitle("Identify patient?");
                 builder.setMessage("Do you wish to identify the patient before the examination?");
-                builder.setIcon(R.drawable.ic_addPatient);
+                builder.setIcon(R.drawable.ic_addpatient);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startIdentifyPatient();
@@ -70,7 +70,7 @@ public class LauncherActivity extends ActionBarActivity {
                 builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent i = new Intent(LauncherActivity.this, HomeScreenActivity.class);
+                        Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                         startActivity(i);
                         finish();
                     }
@@ -317,7 +317,7 @@ public class LauncherActivity extends ActionBarActivity {
             ArrayList<String> data = intent.getStringArrayListExtra("patient");
             if (data != null && data.size() > 0) {
                 patientData = data;
-                Intent i = new Intent(LauncherActivity.this, HomeScreenActivity.class);
+                Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                 i.putStringArrayListExtra("patientData", patientData);
                 startActivity(i);
                 finish();
@@ -325,9 +325,9 @@ public class LauncherActivity extends ActionBarActivity {
             } else patientData.add("No ID available.");
             // patientIdTextView.setText(patientData.get(1));
             if (patientData.size() > 1) {
-                Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LauncherActivity.this, "ID received", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getApplicationContext(), "No data received, check connection", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LauncherActivity.this, "No data received, check connection", Toast.LENGTH_SHORT).show();
             }
         }
     }
