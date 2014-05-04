@@ -11,6 +11,7 @@
         android:id="@+id/currentSetupKeyTextView"
         android:text="asda"
         android:textSize="22dp"
+        android:layout_marginTop="3dp"
         android:layout_marginLeft="12dp"/>
 
     <TextView
@@ -20,7 +21,8 @@
         android:id="@+id/currentSetupValueTextView"
         android:layout_below="@id/currentSetupKeyTextView"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginBottom="5dp"
         android:textColor="@color/grey"
         android:text="asda"/>
 

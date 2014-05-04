@@ -139,7 +139,7 @@ public class LoginActivity extends ActionBarActivity {
                 input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 new AlertDialog.Builder(LoginActivity.this)
                         .setTitle("Password has changed.")
-                        .setMessage("Please enter the password that was last used with this applicationn.")
+                        .setMessage("Please enter the password that was last used with this application.")
                         .setView(input)
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
@@ -150,7 +150,6 @@ public class LoginActivity extends ActionBarActivity {
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        //Do nothing
                     }
                 }).show();
             }
@@ -176,11 +175,15 @@ public class LoginActivity extends ActionBarActivity {
             passwordEditText.setEnabled(true);
             loginButton.setEnabled(true);
             offlineModeButton.setEnabled(false);
+            offlineModeButton.setVisibility(View.GONE);
         } else {
             networkStatusTextView.setText("Network Unavailable");
             usernameEditText.setEnabled(false);
+            usernameEditText.setVisibility(View.INVISIBLE);
             passwordEditText.setEnabled(false);
+            passwordEditText.setVisibility(View.INVISIBLE);
             loginButton.setEnabled(false);
+            loginButton.setVisibility(View.GONE);
             offlineModeButton.setEnabled(true);
         }
 

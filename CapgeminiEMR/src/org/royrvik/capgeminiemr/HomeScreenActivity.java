@@ -88,9 +88,9 @@ public class HomeScreenActivity extends ActionBarActivity {
 
                     // Build and show popup
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
-                    dialog.setTitle("Examination ID " + ex.getExaminationNumber());
+                    dialog.setTitle("Examination " + ex.getExaminationNumber());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName() + "\n");
+                    infoString.append("Name: " + ex.getPatientFirstName() + " " + ex.getPatientLastName() + "\n");
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
                     infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
@@ -146,11 +146,19 @@ public class HomeScreenActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout_button:
-                Log.d("APP", "logout");
-                session.logout();
-                dbHelper.logout();
-                // Exit the application
-                finish();
+                AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+                builder.setTitle("Log out?");
+                builder.setMessage("Do you wish to end your current session and log out?");
+                builder.setIcon(R.drawable.ic_alert);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        session.logout();
+                        dbHelper.logout();
+                        finish();
+                    }
+                });
+                builder.setNegativeButton("No", null);
+                builder.show();
                 break;
         }
         return true;
@@ -176,7 +184,24 @@ public class HomeScreenActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-            finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
+        builder.setTitle("Exit application");
+        builder.setMessage("Do you wish to return to the Vscan application without logging out?");
+        builder.setIcon(R.drawable.ic_alert);
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("Log out", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                session.logout();
+                dbHelper.logout();
+                finish();
+            }
+        });
+        builder.show();
     }
 
     @Override

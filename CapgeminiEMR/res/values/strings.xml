@@ -52,7 +52,7 @@
     <string name="comment">Comment:</string>
 
     <!-- Login -->
-    <string name="offline_mode">Offline mode</string>
+    <string name="offline_mode">Continue in offline mode</string>
     <string name="network_unavailable">Network unavailable</string>
     <string name="login_heading">Log in to DIPS</string>
     <string name="username2">Username</string>
