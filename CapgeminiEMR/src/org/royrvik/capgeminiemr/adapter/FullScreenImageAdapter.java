@@ -77,7 +77,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         File file = new File(currentExamination.getAllImages().get(position));
         Date fileDate = new Date(file.lastModified());
         TextView imageDataView = (TextView) viewLayout.findViewById(R.id.imageData);
-        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        String date = new SimpleDateFormat("'Captured' EEEE dd.MM.yyyy HH:mm").format(fileDate);
         imageDataView.setText(date + "");
 
         imageView.setImageBitmap(BitmapUtils.
@@ -122,12 +122,10 @@ public class FullScreenImageAdapter extends PagerAdapter{
                 commentTextView = (TextView) dialog.findViewById(R.id.commentEditText);
                 if (!currentExamination.getUltrasoundImages().get(position).getComment().isEmpty()) {
 
-                    if(currentExamination.getUltrasoundImages().get(position).getComment().equals(" ")){
+                    if(currentExamination.getUltrasoundImages().get(position).getComment().equals(" "))
                         commentTextView.setText("");
-                        Log.d("APP:", "Comment text should be removed");
-                    }else {
+                    else
                         commentTextView.append(currentExamination.getUltrasoundImages().get(position).getComment());
-                    }
                 }
 
                 commentTextView.setFocusable(true);

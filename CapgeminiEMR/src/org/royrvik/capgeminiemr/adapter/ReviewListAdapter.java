@@ -23,13 +23,11 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
 
     private int resource;
     private LayoutInflater inflater;
-    private Context context;
 
     public ReviewListAdapter(Context context, int resourceId, List<UltrasoundImage> objects) {
         super(context, resourceId, objects);
         resource = resourceId;
         inflater = LayoutInflater.from(context);
-        this.context = context;
     }
 
     @Override
@@ -46,7 +44,7 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         Date fileDate = new Date(file.lastModified());
         TextView imageDataView = (TextView) convertView.findViewById(R.id.imageDate);
 
-        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        String date = new SimpleDateFormat("'Captured' EEEE dd.MM.yyyy HH:mm").format(fileDate);
         imageDataView.setText(date);
 
         rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 100, 100)); // TODO: This value is too high.

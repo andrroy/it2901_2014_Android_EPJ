@@ -25,7 +25,7 @@ public class Utils {
     }
 
     /**
-     * Formats an unix timestamp to a readable date on the form "HH:mm:ss dd.MM.yyyy"
+     * Formats an unix timestamp to a readable date on the form "dd.MM.yyyy HH:mm:ss"
      * @param timestamp Unix timestamp
      * @return A formatted string
      */
@@ -34,7 +34,6 @@ public class Utils {
         cal.setTimeInMillis(timestamp*1000);
         DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss");
         return dateFormat.format(cal.getTime());
-
 
     }
 }

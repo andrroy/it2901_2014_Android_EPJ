@@ -186,7 +186,7 @@
                 android:layout_height="50dp"
                 android:text="@string/review_and_upload"
                 android:layout_marginRight="@dimen/examination_base_container_margin"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="@dimen/button_margin_bottom"
                 android:id="@+id/reviewUploadButton"
                 android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"

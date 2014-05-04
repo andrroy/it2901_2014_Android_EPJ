@@ -16,11 +16,11 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="6dp"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="6dp"
             android:fontFamily="sans-serif-light"
             android:text="image captured: 2010-01-06 16:01:31"
             android:textStyle="italic"
-            android:textColor="@color/lightgrey"
+            android:textColor="@color/slightlylightgrey"
             android:layout_alignParentTop="true"
             />
 
@@ -51,6 +51,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/imageCommentTextView"
         android:layout_centerVertical="true"

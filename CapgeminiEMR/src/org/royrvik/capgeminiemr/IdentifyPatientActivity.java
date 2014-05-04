@@ -35,7 +35,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private RemoteServiceConnection service;
     private ProgressDialog pDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,7 +136,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         //Toast.makeText(getApplicationContext(), "Error: " + info.get(4), Toast.LENGTH_SHORT).show(); //Todo: Fix error
-                        Toast.makeText(getApplicationContext(), "Error: Andreas should do his job", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error: Invalid ID", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {

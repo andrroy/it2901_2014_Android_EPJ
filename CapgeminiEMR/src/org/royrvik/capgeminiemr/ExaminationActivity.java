@@ -1,13 +1,16 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,14 +33,13 @@ public class ExaminationActivity extends ActionBarActivity {
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
             imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView;
-    //private ImageButton greenidStatusImageButton;
-    private ImageButton editIDImageButton;
+    private ImageButton editIDImageButton, editExamCommentButton;
     private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
     private Examination currentExamination;
     private DatabaseHelper dbHelper;
     private SessionManager session;
-
+    private ArrayList<String> incomingImages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,8 @@ public class ExaminationActivity extends ActionBarActivity {
         Intent intent = getIntent();
         // Activity was started to create a new examination
         if (activityStartedForAction().equals("new_examination")) {
-            ArrayList<String> incomingImages = intent.getStringArrayListExtra("chosen_images");
+            Log.d("APP", "NEW EXAMINATION");
+            incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
             if (infoArrayList.size() < 2) {
@@ -81,6 +84,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
         // Activity was started to edit an existing examination
         else if (activityStartedForAction().equals("edit_examination")) {
+            Log.d("APP", "EDIT EXAMINATION");
             int exId = intent.getIntExtra("ex_id", -1);
             if (exId != -1) {
                 currentExamination = dbHelper.getExamination(exId); // This should never be used - Rix1
@@ -95,18 +99,19 @@ public class ExaminationActivity extends ActionBarActivity {
         currentExamination.setExaminationTime(unixTime);
 
         // Initialize GUI elements
-        initFirstViewElements();
+        initViewElements();
         updateElements();
 
     }
 
-    private void initFirstViewElements() {
+    private void initViewElements() {
         idTextView = (TextView) findViewById(R.id.examSSNtextView);
         firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
         lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
         examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
+        editExamCommentButton = (ImageButton) findViewById(R.id.editExamCommentButton);
         dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
         examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
@@ -115,9 +120,10 @@ public class ExaminationActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("id", currentExamination.getPatientSsn());
-                i.putExtra("return", true);
-                startActivityForResult(i, REQUEST_CODE);
+                i.putExtra("chosen_images", incomingImages);
+                // TODO? Does not currently save any progress, just quit and start from scratch
+                startActivity(i);
+                finish();
             }
         });
 
@@ -165,6 +171,43 @@ public class ExaminationActivity extends ActionBarActivity {
                     i.putExtra("examination", currentExamination);
                     startActivityForResult(i, FULLSCREEN_REQUEST_CODE);
                 }
+            }
+        });
+
+        editExamCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Custom Dialog
+                final Dialog dialog = new Dialog(ExaminationActivity.this);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.setContentView(R.layout.dialog_comment);
+
+                final TextView commentTextView = (TextView) dialog.findViewById(R.id.commentEditText);
+                if (currentExamination.getExaminationComment() != null)
+                    commentTextView.setText(currentExamination.getExaminationComment());
+
+                commentTextView.setFocusable(true);
+
+                Button dialogSave = (Button) dialog.findViewById(R.id.dialogButtonOK);
+                Button dialogCancel = (Button) dialog.findViewById(R.id.dialogCancel);
+
+                dialogSave.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        currentExamination.setExaminationComment(commentTextView.getText().toString());
+                        dialog.dismiss();
+                        updateElements();
+                    }
+                });
+
+                dialogCancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
             }
         });
     }
@@ -251,7 +294,7 @@ public class ExaminationActivity extends ActionBarActivity {
                 Log.d("APP", "SHIT");
                 currentExamination.setPatientFirstName(info.get(1));
             }
-            initFirstViewElements();
+            initViewElements();
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
