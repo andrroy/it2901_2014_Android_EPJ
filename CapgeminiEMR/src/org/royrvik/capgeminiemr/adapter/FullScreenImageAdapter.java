@@ -23,7 +23,11 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
-public class FullScreenImageAdapter extends PagerAdapter {
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class FullScreenImageAdapter extends PagerAdapter{
 
     private Examination currentExamination;
     private Context context;
@@ -37,6 +41,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
     private int currentImage;
     private DialogFragment newFragment;
     private DatabaseHelper dbHelper;
+    private SessionManager session;
 
 
     public FullScreenImageAdapter(Context context, Examination currentExamination) {
@@ -53,8 +58,7 @@ public class FullScreenImageAdapter extends PagerAdapter {
     }
 
     public Object instantiateItem(final ViewGroup container, final int position) {
-        SessionManager session =  new SessionManager(context);
-
+        session =  new SessionManager(context);
         dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
 
         photoView = new PhotoView(container.getContext());
@@ -68,6 +72,13 @@ public class FullScreenImageAdapter extends PagerAdapter {
         final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
         final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
         final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
+
+        // Display image data
+        File file = new File(currentExamination.getAllImages().get(position));
+        Date fileDate = new Date(file.lastModified());
+        TextView imageDataView = (TextView) viewLayout.findViewById(R.id.imageData);
+        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        imageDataView.setText(date + "");
 
         imageView.setImageBitmap(BitmapUtils.
                 decodeSampledBitmapFromStorage(currentExamination.getAllImages().get(position),
@@ -171,11 +182,12 @@ public class FullScreenImageAdapter extends PagerAdapter {
     }
 
     private void saveComment(int index, String comment) {
+        session.updateSession();
         currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
     public void deleteImage(int index) {
-
+        session.updateSession();
         if (currentExamination.getUltrasoundImages().size() <= 1) {
             Toast.makeText(context, "You can't delete your only image!", Toast.LENGTH_LONG).show();
         } else {
@@ -195,6 +207,11 @@ public class FullScreenImageAdapter extends PagerAdapter {
         container.removeView((View) object);
     }
 
+    private void updateSession() {
+        if (session.isValid()) {
+            session.updateSession();
+        }
+    }
 
     private void showCommentDialog(String comment){
         // newFragment = newInstance(comment);

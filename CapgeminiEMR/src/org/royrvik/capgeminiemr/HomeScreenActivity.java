@@ -88,9 +88,9 @@ public class HomeScreenActivity extends ActionBarActivity {
 
                     // Build and show popup
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
-                    dialog.setTitle("Examination ID " + ex.getId());
+                    dialog.setTitle("Examination ID " + ex.getExaminationNumber());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName());
+                    infoString.append("Name: " + ex.getPatientFirstName() + ex.getPatientLastName() + "\n");
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
                     infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
@@ -130,8 +130,9 @@ public class HomeScreenActivity extends ActionBarActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             // Start ExaminationActivity
                             Intent i = new Intent(HomeScreenActivity.this, ExaminationActivity.class);
-                            i.putExtra("ex_id", ex.getId());
+                            i.putExtra("examination", ex);
                             startActivity(i);
+                            finish();
                         }
                     });
                     dialog.show();
@@ -176,7 +177,7 @@ public class HomeScreenActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        finish();
+            finish();
     }
 
     @Override

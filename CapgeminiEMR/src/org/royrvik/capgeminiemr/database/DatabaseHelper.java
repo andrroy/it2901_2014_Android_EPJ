@@ -150,13 +150,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(KEY_EXAMINATION_COMMENT, ex.getExaminationComment());
 
         // Execute query and get the auto incremented id value
-        int examinationId = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
+        int databaseID = safeLongToInt(db.insert(TABLE_EXAMINATION, null, values));
 
         // Add all UltrasoundImages from the Examination to the Ultrasoundimage table
         for (UltrasoundImage usi : ex.getUltrasoundImages()) {
 
             ContentValues ultrasoundImageValues = new ContentValues();
-            ultrasoundImageValues.put(KEY_EX_ID, examinationId);
+            ultrasoundImageValues.put(KEY_EX_ID, databaseID);
             ultrasoundImageValues.put(KEY_COMMENT, usi.getComment());
             ultrasoundImageValues.put(KEY_URI, usi.getImageUri());
 
@@ -164,7 +164,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
 
-        return examinationId;
+        return databaseID;
 
     }
 
@@ -276,9 +276,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             // Execute query
             db.insert(TABLE_ULTRASOUNDIMAGE, null, ultrasoundImageValues);
         }
-
-        db.close();
-
     }
 
     /**

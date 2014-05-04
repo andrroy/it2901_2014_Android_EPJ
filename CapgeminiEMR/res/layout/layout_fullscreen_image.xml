@@ -24,7 +24,7 @@
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
             android:background="@drawable/button_background"
-            android:textColor="#ffffff"
+            android:textColor="@color/white"
             android:text="@string/close"
             />
 
@@ -38,6 +38,7 @@
             />
 
     <View
+            android:id="@+id/horizontalRuler"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_alignParentBottom="true"
@@ -86,6 +87,22 @@
             android:layout_marginBottom="5dp"
             android:paddingTop="2dp"
             android:paddingBottom="2dp"
+            />
+
+    <TextView
+            android:id="@+id/imageData"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23: 43433. 323"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="60dp"
+            android:fontFamily="sans-serif-light"
+            android:textStyle="italic"
+            android:textSize="16dp"
+            android:textAlignment="textEnd"
             />
 
 

@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -80,7 +81,7 @@ public class ExaminationActivity extends ActionBarActivity {
         else if (activityStartedForAction().equals("edit_examination")) {
             int exId = intent.getIntExtra("ex_id", -1);
             if (exId != -1) {
-                currentExamination = dbHelper.getExamination(exId);
+                currentExamination = dbHelper.getExamination(exId); // This should never be used - Rix1
             } else finish();
         } else if (activityStartedForAction().equals("edit_examinationObject")) {
             currentExamination = intent.getParcelableExtra("examination");
@@ -98,15 +99,15 @@ public class ExaminationActivity extends ActionBarActivity {
     }
 
     private void initFirstViewElements() {
-        idTextView = (TextView) findViewById(R.id.reviewSSNtextView);
-        firstNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
-        lastNameTextView = (TextView) findViewById(R.id.reviewPatientLastNameTextView);
+        idTextView = (TextView) findViewById(R.id.examSSNtextView);
+        firstNameTextView = (TextView) findViewById(R.id.examPatientFirstNameTextView);
+        lastNameTextView = (TextView) findViewById(R.id.examPatientLastNameTextView);
         imagesWithoutCommentTextView = (TextView) findViewById(R.id.imagesWithoutCommentTextView);
         examDateTextView = (TextView) findViewById(R.id.examDateTextView);
         editIDImageButton = (ImageButton) findViewById(R.id.editIDImageButton);
-        dateOfBirthTextView = (TextView) findViewById(R.id.reviewPatientDobTextView);
+        dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
-        examinationCommentTextView = (TextView)findViewById(R.id.reviewCommentTextView);
+        examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,17 +118,6 @@ public class ExaminationActivity extends ActionBarActivity {
                 startActivityForResult(i, REQUEST_CODE);
             }
         });
-
-        /*greenidStatusImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("id", currentExamination.getPatientSsn());
-                i.putExtra("return", true);
-                startActivityForResult(i, REQUEST_CODE);
-            }
-        });*/
-
 
         //Updates the verification imageview.
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
@@ -142,13 +132,13 @@ public class ExaminationActivity extends ActionBarActivity {
                 //if (!idIsValidated()) return;
 
                 // Choose action based on why this activity was started
-                int exId;
+                int dbID;
                 if (currentExamination.getId() == -1) {
-                    exId = dbHelper.addExamination(currentExamination);
-                    currentExamination.setId(exId);
+                   dbID = dbHelper.addExamination(currentExamination);
+                    currentExamination.setId(dbID);
                 } else {
                     dbHelper.updateExamination(currentExamination);
-                    exId = currentExamination.getId();
+                    dbID = currentExamination.getId();
                 }
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
@@ -256,6 +246,7 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
+                Log.d("APP", "SHIT");
                 currentExamination.setPatientFirstName(info.get(1));
             }
             initFirstViewElements();

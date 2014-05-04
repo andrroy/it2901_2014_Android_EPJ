@@ -31,6 +31,7 @@ import java.util.List;
 
 public class ReviewUploadActivity extends ActionBarActivity {
 
+    private int examinationId;
     private DatabaseHelper dbHelper;
     private SessionManager session;
     private RemoteServiceConnection service;
@@ -45,6 +46,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private Examination currentExamination;
     private Intent intent;
     private ProgressDialog pDialog;
+    private View listHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +84,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         LayoutInflater inflater = LayoutInflater.from(this);
 
         View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
-        View listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
+        listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
 
         reviewListView.addFooterView(listFooter);
         reviewListView.addHeaderView(listHeader);
@@ -119,7 +121,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
                     new UploadExaminationTask().execute();
                 else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(ReviewUploadActivity.this);
-                    builder.setMessage("Some images does not have comments attached. \n\nAre you sure you want to upload?");
+                    builder.setMessage("Some images does not have notes attached. Are you sure you want to upload?");
                     builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -141,18 +143,19 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
     /**
      * Updates the TextViews with sensitive information, based on the status of the current session.
+     *
+     * TODO: These views are not associated inside the listViewHeader. Have to figure this out.
      */
     private void updateTextViews() {
-        // TODO: FIX THIS MESS
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
-            reviewIdTextView.setText("ID: *******");
-            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
+            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView.setText("Exam: *******");
+            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
-            reviewIdTextView = (TextView) findViewById(R.id.examNumberTextView);
-            reviewIdTextView.setText(getResources().getString(R.string.exam) + ": " + currentExamination.getExaminationNumber());
-            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
+            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView.setText("Exam: " + currentExamination.getExaminationNumber());
+            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
@@ -161,7 +164,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            publishProgress("Working...");
+            publishProgress("Uploading examination...");
 
             //Get examination data
             //Standard format:
@@ -204,7 +207,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ReviewUploadActivity.this);
-            pDialog.setMessage("Working...");
+            pDialog.setMessage("Uploading examination...");
             pDialog.show();
         }
 

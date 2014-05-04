@@ -28,6 +28,7 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
         String firstName = null;
         String lastName = null;
         String errorMessage = null;
+        boolean didWork = false;
 
         try {
             Class.forName(driver).newInstance();
@@ -45,6 +46,7 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
             results.close();
             statement.close();
             conn.close();
+            didWork = true;
 
         }
         catch (InstantiationException e) { errorMessage = e.getMessage(); }
@@ -62,10 +64,12 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
         * ErrorMessage
         */
         ArrayList<String> returnMessage = new ArrayList<String>();
-        //Sets didWorkField
-        if(errorMessage == null) returnMessage.add(Boolean.toString(true));
-        else returnMessage.add(Boolean.toString(false));
 
+        if(errorMessage != null || firstName == null || lastName == null){
+            didWork = false;
+        }
+
+        returnMessage.add(Boolean.toString(didWork));
         returnMessage.add(ssn);
         returnMessage.add(firstName);
         returnMessage.add(lastName);

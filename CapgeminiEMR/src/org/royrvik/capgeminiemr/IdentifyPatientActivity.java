@@ -122,7 +122,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            publishProgress("Working...");
+            publishProgress("Looking up patient...");
 
             ArrayList<String> info = new ArrayList<String>();
             if (session.isValid()) {
@@ -137,7 +137,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         //Toast.makeText(getApplicationContext(), "Error: " + info.get(4), Toast.LENGTH_SHORT).show(); //Todo: Fix error
-                        Toast.makeText(getApplicationContext(), "Error: Andreas should do his job", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Error: Invalid ID", Toast.LENGTH_SHORT).show();
                     }
                 });
             } else {
@@ -168,7 +168,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(IdentifyPatientActivity.this);
-            pDialog.setMessage("Working...");
+            pDialog.setMessage("Looking up patient...");
             pDialog.show();
         }
 
