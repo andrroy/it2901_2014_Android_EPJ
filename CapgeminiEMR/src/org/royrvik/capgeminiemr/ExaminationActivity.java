@@ -234,8 +234,15 @@ public class ExaminationActivity extends ActionBarActivity {
         dateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
                 Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
 
-        examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
-                currentExamination.getExaminationComment()));
+        // Check if examination has a comment
+        if(currentExamination.getExaminationComment() == null) {
+            examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                    ""));
+        }
+        else {
+            examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                    currentExamination.getExaminationComment()));
+        }
 
         examDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
                 Utils.formattedDate(currentExamination.getExaminationTime())));

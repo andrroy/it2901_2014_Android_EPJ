@@ -99,8 +99,17 @@ public class ReviewUploadActivity extends ActionBarActivity {
         //reviewExamNumberTextView.setText(currentExamination.getExaminationNumber());
         // TODO: set correct exam #
         reviewExamNumberTextView.setText("HEI");
-        examCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.comment) + "</b> " +
-                currentExamination.getExaminationComment()));
+
+        // Check if examination has a comment
+        if(currentExamination.getExaminationComment() == null) {
+            examCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                    ""));
+        }
+        else {
+            examCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
+                    currentExamination.getExaminationComment()));
+        }
+
         reviewDateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
                 Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
         reviewExamDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
