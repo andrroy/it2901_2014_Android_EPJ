@@ -40,7 +40,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
     private ListView reviewListView;
     private Button editButton, uploadButton;
     private TextView reviewExamNumberTextView, reviewFirstNameTextView, reviewLastNameTextView, examCommentTextView,
-        reviewPatientIDTextView;
+        reviewPatientIDTextView, reviewDateOfBirthTextView, reviewExamDateTextView;
     private List<String> data;
     private List<String> images;
     private List<String> notes;
@@ -92,6 +92,8 @@ public class ReviewUploadActivity extends ActionBarActivity {
         reviewLastNameTextView = (TextView) headerView.findViewById(R.id.reviewPatientLastNameTextView);
         examCommentTextView = (TextView) headerView.findViewById(R.id.reviewCommentTextView);
         reviewPatientIDTextView = (TextView) headerView.findViewById(R.id.reviewSSNtextView);
+        reviewDateOfBirthTextView = (TextView) headerView.findViewById(R.id.reviewPatientDobTextView);
+        reviewExamDateTextView = (TextView) headerView.findViewById(R.id.reviewExamDateTextView);
 
         // Set text in header textviews
         //reviewExamNumberTextView.setText(currentExamination.getExaminationNumber());
@@ -99,6 +101,11 @@ public class ReviewUploadActivity extends ActionBarActivity {
         reviewExamNumberTextView.setText("HEI");
         examCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.comment) + "</b> " +
                 currentExamination.getExaminationComment()));
+        reviewDateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
+                Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
+        reviewExamDateTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.conducted) + "</b> " +
+                Utils.formattedDate(currentExamination.getExaminationTime())));
+
 
 
         // Footer
