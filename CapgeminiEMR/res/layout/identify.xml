@@ -50,16 +50,18 @@
                         android:layout_marginTop="50dp"
                         android:layout_alignLeft="@+id/textView3"
                         android:layout_alignStart="@+id/textView3"
-                        android:src="@android:drawable/ic_menu_edit"/>
+                        android:background="#00000000"
+                        android:src="@drawable/ic_manual_edit"/>
 
                     <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/automaticButton"
-                        android:src="@android:drawable/ic_menu_camera"
                         android:layout_alignTop="@+id/manualButton"
                         android:layout_alignRight="@+id/textView3"
-                        android:layout_alignEnd="@+id/textView3"/>
+                        android:layout_alignEnd="@+id/textView3"
+                        android:background="#00000000"
+                        android:src="@drawable/ic_camera"/>
 
                     <TextView
                         android:layout_width="wrap_content"

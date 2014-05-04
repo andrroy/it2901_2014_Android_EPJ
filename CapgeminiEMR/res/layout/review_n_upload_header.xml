@@ -61,6 +61,7 @@
             <ImageView android:layout_height="wrap_content"
                        android:layout_width="wrap_content"
                        android:id="@+id/isVerifiedImageView"
+                       android:layout_marginLeft="-20dp"
                        android:src="@drawable/ic_navigation_accept"
                        android:layout_alignTop="@id/reviewSSNtextView"
                        android:layout_toRightOf="@id/reviewSSNtextView"/>
