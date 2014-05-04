@@ -224,7 +224,7 @@ public class HomeScreenActivity extends Activity {
         String root = Environment.getExternalStorageDirectory().toString();
         int iterator = 0;
         for(String f : getAllImages()){
-            f = root + "/DCIM/Camera" + f;
+            f = root + "/DCIM/Camera/" + f;
             imagePaths.set(iterator++,f);
         }
         Log.d("APP", "LOL: " + imagePaths.toString());
