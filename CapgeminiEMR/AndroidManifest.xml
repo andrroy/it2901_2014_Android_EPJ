@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
@@ -28,20 +28,40 @@
         </activity>
 
         <activity
-                android:name=".FullScreenViewActivity"
-                android:theme="@android:style/Theme.Holo.NoActionBar">
+            android:name=".FullScreenViewActivity"
+            android:theme="@android:style/Theme.Holo.NoActionBar">
         </activity>
 
-        <activity android:name="org.royrvik.capgeminiemr.SettingsActivity"></activity>
-        <activity android:name="org.royrvik.capgeminiemr.HomeScreenActivity"></activity>
-        <activity android:name="org.royrvik.capgeminiemr.TechnicalSetupActivity"></activity>
-        <activity android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"></activity>
-        <activity android:name=".ExaminationActivity"></activity>
-        <activity android:name=".ReviewUploadActivity"/>
-        <activity android:name=".CurrentSetupActivity"/>
-        <activity android:name=".TechLoginActivity"/>
-        <activity android:name=".TechDepartmentActivity"/>
-        <activity android:name=".TechPasswordChangeActivity"/>
+        <activity
+            android:name="org.royrvik.capgeminiemr.SettingsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="org.royrvik.capgeminiemr.HomeScreenActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="org.royrvik.capgeminiemr.TechnicalSetupActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="org.royrvik.capgeminiemr.IdentifyPatientActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ExaminationActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ReviewUploadActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CurrentSetupActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TechLoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TechDepartmentActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TechPasswordChangeActivity"
+            android:screenOrientation="portrait"/>
 
         <service android:name="org.royrvik.emrservice.EMRService"/>
     </application>
