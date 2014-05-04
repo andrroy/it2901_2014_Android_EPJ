@@ -6,5 +6,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="uploadEx">Upload examinaton</string>
-
+    <string name="scanNow">New examination</string>
+    <string name="gateway">Open Gateway</string>
+    <string name="settings">Settings</string>
 </resources>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:flatui="http://schemas.android.com/apk/res-auto"
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/bg">
+
+
+    <TextView android:id="@+id/menu_header"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="30dp"
+              android:textColor="@color/deep"
+              android:textStyle="bold|italic"
+              android:textSize="50sp"
+              android:gravity="center"
+              android:text="@string/app_name" />
+
+    <com.cengalabs.flatui.views.FlatButton
+        android:id="@+id/btn_newExamination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+
+        android:text="@string/scanNow"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        android:layout_below="@+id/menu_header"
+        />
+
+    <com.cengalabs.flatui.views.FlatButton
+            android:id="@+id/btn_gateway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_centerHorizontal="true"
+            android:text="@string/gateway"
+            flatui:textAppearance="none"
+            flatui:fontWeight="extrabold"
+            flatui:fontFamily="Roboto"
+            android:layout_below="@id/btn_newExamination"
+            />
+
+    <com.cengalabs.flatui.views.FlatButton
+        android:id="@+id/btn_settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/settings"
+        flatui:textAppearance="none"
+        flatui:fontWeight="light"
+        flatui:fontFamily="Roboto"
+        android:layout_below="@+id/btn_gateway"
+        />
+
+
+</RelativeLayout>

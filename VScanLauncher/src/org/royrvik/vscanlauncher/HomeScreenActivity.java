@@ -1,14 +1,12 @@
 package org.royrvik.vscanlauncher;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.VideoView;
 import org.royrvik.vscanlauncher.util.SystemUiHider;
@@ -65,7 +63,7 @@ public class HomeScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home_screen);
+        setContentView(R.layout.activity_scan);
 
         Toast.makeText(HomeScreenActivity.this, "New examination started", Toast.LENGTH_LONG).show();
 

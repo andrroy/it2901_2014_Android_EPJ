@@ -16,7 +16,6 @@ import android.text.Html;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.cengalabs.flatui.FlatUI;
 
@@ -32,8 +31,7 @@ public class LauncherActivity extends ActionBarActivity {
     private static int RESULT_LOAD_IMAGE = 1;
     private static final String BROADCAST_CODE = "find a better code?";
 
-    private Button launchSavedButton, launchOtherAppButton, openGalleryButton, launchWithoutImagesButton, identifyPatientButton;
-    private TextView numberOfChosenImagesTV, patientIdTextView;
+    private Button newExaminationBtn, launchGatewayBtn, settingsBtn;
 
     private ReceiveMessages receiver = null;
     private ArrayList<String> selectedImagesPath;
@@ -43,7 +41,7 @@ public class LauncherActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FlatUI.setDefaultTheme(FlatUI.ORANGE);
-        setContentView(R.layout.main);
+        setContentView(R.layout.main_test);
 
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
@@ -54,52 +52,31 @@ public class LauncherActivity extends ActionBarActivity {
         updateImageLibrary();
 
         selectedImagesPath = new ArrayList<String>();
-        openGalleryButton = (Button) findViewById(R.id.openGalleryButton);
-        numberOfChosenImagesTV = (TextView) findViewById(R.id.imagesChosenTextView);
-        patientIdTextView = (TextView) findViewById(R.id.patientIdTextView);
         patientData = new ArrayList<String>();
         receiver = new ReceiveMessages();
         registerReceiver(receiver, new IntentFilter(BROADCAST_CODE));
 
-
-        launchSavedButton = (Button) findViewById(R.id.launchSavedExButton);
-        launchSavedButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                launchHomeScreen();
-            }
-        });
-
-        launchOtherAppButton = (Button) findViewById(R.id.launchOtherAppButton);
-        launchOtherAppButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startOtherApplication();
-            }
-        });
-
-        openGalleryButton = (Button) findViewById(R.id.openGalleryButton);
-        openGalleryButton.setOnClickListener(new View.OnClickListener() {
+        newExaminationBtn = (Button) findViewById(R.id.btn_newExamination);
+        newExaminationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openGallery();
+                //TODO: start scanner
+            }
+        });
+        launchGatewayBtn = (Button) findViewById(R.id.btn_gateway);
+        launchGatewayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //launchHomeScreen();
+                //TODO: start gateway
             }
         });
 
-
-        launchWithoutImagesButton = (Button) findViewById(R.id.launchWithIdButton);
-        launchWithoutImagesButton.setOnClickListener(new View.OnClickListener() {
+        settingsBtn = (Button) findViewById(R.id.btn_settings);
+        settingsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                startOtherAppWithId();
-            }
-        });
-
-        identifyPatientButton = (Button) findViewById(R.id.identifyPatientButton);
-        identifyPatientButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startOtherAppIdentifyPatient();
+            public void onClick(View v) {
+                //TODO: DO nothing, we don't got any settings, lol.
             }
         });
     }
@@ -151,19 +128,6 @@ public class LauncherActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && data != null) {
-            Uri selectedImage = data.getData();
-            String[] filePathColumn = {MediaStore.Images.Media.TITLE};
-
-            Cursor cursor = getContentResolver().query(selectedImage, filePathColumn, null, null, null);
-            cursor.moveToFirst();
-            cursor.close();
-
-            selectedImagesPath.add(getRealPathFromURI(this, selectedImage));
-            numberOfChosenImagesTV.setText("Number of selected images: " + Integer.toString(selectedImagesPath.size()));
-
-        }
     }
 
     @Override
@@ -206,27 +170,8 @@ public class LauncherActivity extends ActionBarActivity {
 
         if (!fileList.contains("ultrasound6"))
             saveImage(image6, "ultrasound6.jpg");
-/*
-        if (!fileList.contains("space1"))
-            saveImage(image7, "space1.png");
-
-        if (!fileList.contains("space2"))
-            saveImage(image8, "space2.png");
-*/
-        // Refresh the image gallery
-        // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
-        try {
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        } catch (SecurityException secException) {
-            Log.d(TAG, "KitKat doesn't like this :(");
-        }
-
-        /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
-            public void onScanCompleted(String path, Uri uri) {
-                Log.w(TAG, "Does it work?");
-            }
-        });*/
     }
+
 
     /**
      * @param context
@@ -338,12 +283,6 @@ public class LauncherActivity extends ActionBarActivity {
             if (data != null && data.size() > 0) {
                 patientData = data;
             } else patientData.add("No ID available.");
-            patientIdTextView.setText(patientData.get(1));
-            if (patientData.size() > 1) {
-                Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(getApplicationContext(), "No data received, check connection", Toast.LENGTH_SHORT).show();
-            }
         }
     }
 }

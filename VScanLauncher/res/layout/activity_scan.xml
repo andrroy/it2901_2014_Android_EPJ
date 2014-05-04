@@ -41,12 +41,14 @@
                     android:textSize="25sp"
                     android:background="@color/transparent"
                     />
+
             <ImageView
                     android:layout_width="0dp"
                     android:layout_height="90dp"
                     android:background="@drawable/ic_upload"
                     android:layout_weight="0.7"
                     />
+
 
         </LinearLayout>
     </FrameLayout>

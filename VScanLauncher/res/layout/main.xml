@@ -17,7 +17,7 @@
         flatui:textAppearance="none"
         flatui:fontWeight="light"
         flatui:fontFamily="Roboto"
-        />
+        android:layout_gravity="center"/>
 
     <com.cengalabs.flatui.views.FlatButton
         android:layout_width="wrap_content"

@@ -15,5 +15,6 @@
     <color name="red">#d94130</color>
     <color name="actionbarfontcolor">#f2f2f2</color>
     <color name="black_overlay">#66000000</color>
+    <color name="deep">#455569</color>
 
 </resources>
