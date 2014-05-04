@@ -320,7 +320,6 @@ public class LauncherActivity extends ActionBarActivity {
                 Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                 i.putStringArrayListExtra("patientData", patientData);
                 startActivity(i);
-                finish();
 
             } else patientData.add("No ID available.");
             // patientIdTextView.setText(patientData.get(1));

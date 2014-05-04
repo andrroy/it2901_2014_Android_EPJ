@@ -155,7 +155,6 @@ public class ScannerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startGatewayApp();
-                Log.d("APP:", "uloadButton clicked!");
             }
         });
 
@@ -331,6 +330,7 @@ public class ScannerActivity extends Activity {
 
     @Override
     public void onBackPressed(){
+        Toast.makeText(ScannerActivity.this, "Examination aborted", Toast.LENGTH_SHORT).show();
         finish();
     }
 
