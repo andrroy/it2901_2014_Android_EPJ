@@ -122,7 +122,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            publishProgress("Working...");
+            publishProgress("Looking up patient...");
 
             ArrayList<String> info = new ArrayList<String>();
             if (session.isValid()) {
@@ -168,7 +168,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(IdentifyPatientActivity.this);
-            pDialog.setMessage("Working...");
+            pDialog.setMessage("Looking up patient...");
             pDialog.show();
         }
 

@@ -86,7 +86,6 @@ public class ReviewUploadActivity extends ActionBarActivity {
         View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
         listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
 
-
         reviewListView.addFooterView(listFooter);
         reviewListView.addHeaderView(listHeader);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
@@ -144,17 +143,19 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
     /**
      * Updates the TextViews with sensitive information, based on the status of the current session.
+     *
+     * TODO: These views are not associated inside the listViewHeader. Have to figure this out.
      */
     private void updateTextViews() {
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) findViewById(R.id.reviewExamNumberTextView);
+            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
             reviewIdTextView.setText("Exam: *******");
-            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
+            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: not available in offline mode");
         } else {
             reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
             reviewIdTextView.setText("Exam: " + currentExamination.getExaminationNumber());
-            reviewNameTextView = (TextView) findViewById(R.id.reviewPatientFirstNameTextView);
+            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
             reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
         }
     }
@@ -163,7 +164,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
         @Override
         protected String doInBackground(String... params) {
-            publishProgress("Working...");
+            publishProgress("Uploading examination...");
 
             //Get examination data
             //Standard format:
@@ -206,7 +207,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         @Override
         protected void onPreExecute() {
             pDialog = new ProgressDialog(ReviewUploadActivity.this);
-            pDialog.setMessage("Working...");
+            pDialog.setMessage("Uploading examination...");
             pDialog.show();
         }
 
