@@ -50,8 +50,6 @@ public class EMRApplication extends Application {
 
     public void setExternalPackageSettings(HashMap<String, String> settingsHashMap) {
 
-        clearSharedPreferences();
-
         // Get SharedPreferences and create editor for manipulating preferences
         SharedPreferences appSharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext());
         SharedPreferences.Editor preferencesEditor = appSharedPrefs.edit();
