@@ -24,6 +24,7 @@ import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.RemoteServiceConnection;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,15 +39,15 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
     private ListView reviewListView;
     private Button editButton, uploadButton;
-    private TextView reviewIdTextView, reviewNameTextView;
-
+    private TextView reviewExamNumberTextView, reviewFirstNameTextView, reviewLastNameTextView, examCommentTextView,
+        reviewPatientIDTextView;
     private List<String> data;
     private List<String> images;
     private List<String> notes;
     private Examination currentExamination;
     private Intent intent;
     private ProgressDialog pDialog;
-    private View listHeader;
+    private View headerView, footerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,18 +62,18 @@ public class ReviewUploadActivity extends ActionBarActivity {
         getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
                 + "</font>"));
 
-        //Getting the session
+        // Getting the session
         session = new SessionManager(getApplicationContext());
 
         dbHelper = DatabaseHelper.getInstance(this, session.getDatabaseInfo());
 
-        //Starting connection service
+        // Starting connection service
         service = new RemoteServiceConnection(getApplicationContext());
         if (!service.bindService()) {
             Crouton.makeText(ReviewUploadActivity.this, "Could not connect to the EMR service", Style.ALERT);
         }
 
-        // get intent from last activity
+        // Get intent from last activity
         Intent i = getIntent();
 
         currentExamination = i.getParcelableExtra("examination");
@@ -80,16 +81,32 @@ public class ReviewUploadActivity extends ActionBarActivity {
 
         // Fetch examination from database and show its images and comments in the listview
         final List<UltrasoundImage> examinationImages = currentExamination.getUltrasoundImages();
+
         reviewListView = (ListView) findViewById(R.id.reviewListView);
+
+        // Header init
         LayoutInflater inflater = LayoutInflater.from(this);
+        headerView = inflater.inflate(R.layout.review_n_upload_header, null);
+        reviewExamNumberTextView = (TextView) headerView.findViewById(R.id.reviewExamNumberTextView);
+        reviewFirstNameTextView = (TextView) headerView.findViewById(R.id.reviewPatientFirstNameTextView);
+        reviewLastNameTextView = (TextView) headerView.findViewById(R.id.reviewPatientLastNameTextView);
+        examCommentTextView = (TextView) headerView.findViewById(R.id.reviewCommentTextView);
+        reviewPatientIDTextView = (TextView) headerView.findViewById(R.id.reviewSSNtextView);
 
-        View listFooter = inflater.inflate(R.layout.review_n_upload_footer, null);
-        listHeader = inflater.inflate(R.layout.review_n_upload_header, null);
+        // Set text in header textviews
+        //reviewExamNumberTextView.setText(currentExamination.getExaminationNumber());
+        // TODO: set correct exam #
+        reviewExamNumberTextView.setText("HEI");
+        examCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.comment) + "</b> " +
+                currentExamination.getExaminationComment()));
 
-        reviewListView.addFooterView(listFooter);
-        reviewListView.addHeaderView(listHeader);
+
+        // Footer
+        footerView = inflater.inflate(R.layout.review_n_upload_footer, null);
+
+        reviewListView.addFooterView(footerView);
+        reviewListView.addHeaderView(headerView);
         reviewListView.setAdapter(new ReviewListAdapter(this, R.layout.row_list_item_review, examinationImages));
-
 
         // Buttons
         editButton = (Button) findViewById(R.id.editButton);
@@ -144,19 +161,22 @@ public class ReviewUploadActivity extends ActionBarActivity {
     /**
      * Updates the TextViews with sensitive information, based on the status of the current session.
      *
-     * TODO: These views are not associated inside the listViewHeader. Have to figure this out.
      */
     private void updateTextViews() {
         if (!session.isValid()) {
-            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
-            reviewIdTextView.setText("Exam: *******");
-            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
-            reviewNameTextView.setText("Name: not available in offline mode");
+            reviewPatientIDTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
+                    "not available in offline mode"));
+            reviewFirstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
+                    "not available in offline mode"));
+            reviewLastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
+                    "not available in offline mode"));
         } else {
-            reviewIdTextView = (TextView) listHeader.findViewById(R.id.reviewExamNumberTextView);
-            reviewIdTextView.setText("Exam: " + currentExamination.getExaminationNumber());
-            reviewNameTextView = (TextView) listHeader.findViewById(R.id.reviewPatientFirstNameTextView);
-            reviewNameTextView.setText("Name: " + currentExamination.getPatientFirstName());
+            reviewPatientIDTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
+                    currentExamination.getPatientSsn()));
+            reviewFirstNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.first_name) + "</b> " +
+                    currentExamination.getPatientFirstName()));
+            reviewLastNameTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.last_name) + "</b> " +
+                    currentExamination.getPatientLastName()));
         }
     }
 
