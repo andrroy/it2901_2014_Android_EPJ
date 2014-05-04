@@ -160,14 +160,8 @@ public class HomeScreenActivity extends ActionBarActivity {
                         finish();
                     }
                 });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                });
+                builder.setNegativeButton("No", null);
                 builder.show();
-                finish();
                 break;
         }
         return true;
