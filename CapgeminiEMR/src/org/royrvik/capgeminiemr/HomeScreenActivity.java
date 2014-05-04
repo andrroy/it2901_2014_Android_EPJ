@@ -177,7 +177,25 @@ public class HomeScreenActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-            finish();
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+        builder.setTitle("Log out?");
+        builder.setMessage("Do you wish to end your current session and log out?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                session.logout();
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+
+// Set the Icon for the Dialog
+        builder.setIcon(R.drawable.ic_alert);
+        builder.show();
     }
 
     @Override
