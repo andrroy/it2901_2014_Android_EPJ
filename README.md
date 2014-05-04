@@ -15,7 +15,7 @@ in the libs folder.
 3. Run the EMRService module.
 4. Run the VScanLauncher module.
 5. Run the CapgeminiEMR module.
-6. When prompted to setup the application, the following setup config can be used: http://folk.ntnu.no/magnlu/settings.xml
+6. When prompted to setup the application, the following setup config can be used: http://royrvik.org/settings.xml
 
 
 ### Known issues
