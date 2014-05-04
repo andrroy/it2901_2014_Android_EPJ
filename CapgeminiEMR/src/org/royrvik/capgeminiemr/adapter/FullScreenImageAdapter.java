@@ -77,7 +77,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         File file = new File(currentExamination.getAllImages().get(position));
         Date fileDate = new Date(file.lastModified());
         TextView imageDataView = (TextView) viewLayout.findViewById(R.id.imageData);
-        String date = new SimpleDateFormat("'Captured' EEEE, d'.' MMM yyyy '@' hh:mm").format(fileDate);
+        String date = new SimpleDateFormat("'Captured' EEEE dd.MM.yyyy HH:mm").format(fileDate);
         imageDataView.setText(date + "");
 
         imageView.setImageBitmap(BitmapUtils.
