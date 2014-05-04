@@ -1,6 +1,7 @@
 package org.royrvik.vscanlauncher;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -58,10 +59,14 @@ public class HomeScreenActivity extends Activity {
     private SystemUiHider mSystemUiHider;
     private VideoView videoView;
     private static final int NUMBERofIMAGES = 3;
+    private ArrayList<String> patientdData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        if(intent.hasExtra("patientData"))
+            this.patientdData = intent.getStringArrayListExtra("patientData");
 
         setContentView(R.layout.activity_scan);
 
@@ -207,7 +212,10 @@ public class HomeScreenActivity extends Activity {
         //TODO: Generate arraylists
         ArrayList<String> imagePaths;
         imagePaths = getImageURIs();
-        new EMRLauncher(getApplicationContext(), imagePaths).start();
+        if(patientdData == null)
+            new EMRLauncher(getApplicationContext(), imagePaths).start();
+        else
+            new EMRLauncher(getApplicationContext(), imagePaths, patientdData);
     }
 
     private ArrayList<String> getImageURIs(){

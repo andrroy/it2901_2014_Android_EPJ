@@ -7,6 +7,7 @@ import java.util.ArrayList;
 /**
  * Created by Joakim.
  */
+
 public class EMRLauncher extends Intent {
 
     private static final int START_IMAGES = 1;

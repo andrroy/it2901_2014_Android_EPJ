@@ -1,9 +1,7 @@
 package org.royrvik.vscanlauncher;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
+import android.app.AlertDialog;
+import android.content.*;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -60,15 +58,32 @@ public class LauncherActivity extends ActionBarActivity {
         newExaminationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: start scanner
+                AlertDialog.Builder builder = new AlertDialog.Builder(LauncherActivity.this);
+                builder.setTitle("Identify patient?");
+                builder.setMessage("Do you wish to identify the patient before the examination?");
+                builder.setIcon(R.drawable.ic_addPatient);
+                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        startIdentifyPatient();
+                    }
+                });
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent i = new Intent(LauncherActivity.this, HomeScreenActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+                });
+                builder.show();
             }
         });
+
         launchGatewayBtn = (Button) findViewById(R.id.btn_gateway);
         launchGatewayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //launchHomeScreen();
-                //TODO: start gateway
+                launchHomeScreen();
             }
         });
 
@@ -82,7 +97,7 @@ public class LauncherActivity extends ActionBarActivity {
     }
 
     /**
-     * Launch straight to the home screen.
+     * Launch straight to the home screen of Gateway.
      */
     private void launchHomeScreen() {
         new EMRLauncher(getApplicationContext()).start();
@@ -113,7 +128,7 @@ public class LauncherActivity extends ActionBarActivity {
     /**
      * Launches the main EMR application to identify a patient
      */
-    private void startOtherAppIdentifyPatient() {
+    private void startIdentifyPatient() {
         new EMRLauncher(getApplicationContext(), BROADCAST_CODE).start();
     }
 
@@ -282,7 +297,18 @@ public class LauncherActivity extends ActionBarActivity {
             ArrayList<String> data = intent.getStringArrayListExtra("patient");
             if (data != null && data.size() > 0) {
                 patientData = data;
+                Intent i = new Intent(LauncherActivity.this, HomeScreenActivity.class);
+                i.putStringArrayListExtra("patientData", patientData);
+                startActivity(i);
+                finish();
+
             } else patientData.add("No ID available.");
+            // patientIdTextView.setText(patientData.get(1));
+            if (patientData.size() > 1) {
+                Toast.makeText(getApplicationContext(), "ID received", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getApplicationContext(), "No data received, check connection", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
