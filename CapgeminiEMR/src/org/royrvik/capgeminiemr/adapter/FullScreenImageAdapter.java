@@ -122,12 +122,10 @@ public class FullScreenImageAdapter extends PagerAdapter{
                 commentTextView = (TextView) dialog.findViewById(R.id.commentEditText);
                 if (!currentExamination.getUltrasoundImages().get(position).getComment().isEmpty()) {
 
-                    if(currentExamination.getUltrasoundImages().get(position).getComment().equals(" ")){
+                    if(currentExamination.getUltrasoundImages().get(position).getComment().equals(" "))
                         commentTextView.setText("");
-                        Log.d("APP:", "Comment text should be removed");
-                    }else {
+                    else
                         commentTextView.append(currentExamination.getUltrasoundImages().get(position).getComment());
-                    }
                 }
 
                 commentTextView.setFocusable(true);

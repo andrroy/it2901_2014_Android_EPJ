@@ -35,7 +35,6 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private RemoteServiceConnection service;
     private ProgressDialog pDialog;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
