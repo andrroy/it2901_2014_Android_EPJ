@@ -147,9 +147,6 @@ public class HomeScreenActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.logout_button:
-                Log.d("APP", "logout");
-                session.logout();
-                dbHelper.logout();
                 AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
                 builder.setTitle("Log out?");
                 builder.setMessage("Do you wish to end your current session and log out?");
@@ -157,6 +154,7 @@ public class HomeScreenActivity extends ActionBarActivity {
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         session.logout();
+                        dbHelper.logout();
                         finish();
                     }
                 });
@@ -188,18 +186,19 @@ public class HomeScreenActivity extends ActionBarActivity {
     @Override
     public void onBackPressed(){
         AlertDialog.Builder builder = new AlertDialog.Builder(HomeScreenActivity.this);
-        builder.setTitle("Log out?");
-        builder.setMessage("Do you wish to end your current session and log out?");
+        builder.setTitle("Exit application");
+        builder.setMessage("Do you wish to return to the Vscan application without logging out?");
         builder.setIcon(R.drawable.ic_alert);
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("Continue", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                session.logout();
                 finish();
             }
         });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("Log out", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                session.logout();
+                dbHelper.logout();
                 finish();
             }
         });
