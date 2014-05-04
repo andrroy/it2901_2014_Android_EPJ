@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/rewiewHeaderLayout"
                 android:layout_marginTop="@dimen/examination_base_container_margin"
                 android:layout_marginRight="@dimen/examination_base_container_margin"
                 android:layout_marginLeft="@dimen/examination_base_container_margin"

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">VScanLauncher</string>
+
+    <string name="app_name">Vscan</string>
+    <string name="title_activity_home_screen">HomeScreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="uploadEx">Upload examinaton</string>
+
 </resources>

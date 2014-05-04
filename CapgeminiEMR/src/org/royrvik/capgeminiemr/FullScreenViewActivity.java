@@ -52,7 +52,6 @@ public class FullScreenViewActivity extends Activity {
     @Override
     protected void onPause(){
         super.onPause();
-
     }
 
     private void updateSession() {
