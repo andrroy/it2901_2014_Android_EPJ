@@ -181,8 +181,8 @@ public class LauncherActivity extends ActionBarActivity {
         Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
         Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
         Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
-        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
-        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
+//        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
+//        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
         //Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
         //Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
 
@@ -201,11 +201,11 @@ public class LauncherActivity extends ActionBarActivity {
         if (!fileList.contains("ultrasound4"))
             saveImage(image4, "ultrasound4.jpg");
 
-        if (!fileList.contains("ultrasound5"))
-            saveImage(image5, "ultrasound5.jpg");
-
-        if (!fileList.contains("ultrasound6"))
-            saveImage(image6, "ultrasound6.jpg");
+//        if (!fileList.contains("ultrasound5"))
+//            saveImage(image5, "ultrasound5.jpg");
+//
+//        if (!fileList.contains("ultrasound6"))
+//            saveImage(image6, "ultrasound6.jpg");
 /*
         if (!fileList.contains("space1"))
             saveImage(image7, "space1.png");
@@ -215,11 +215,11 @@ public class LauncherActivity extends ActionBarActivity {
 */
         // Refresh the image gallery
         // This does not work on Android 4.4+. We catch the exception, but other than that we do nothing.
-        try {
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
-        } catch (SecurityException secException) {
-            Log.d(TAG, "KitKat doesn't like this :(");
-        }
+//        try {
+//            sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse("file://" + Environment.getExternalStorageDirectory())));
+//        } catch (SecurityException secException) {
+//            Log.d(TAG, "KitKat doesn't like this :(");
+//        }
 
         /*MediaScannerConnection.scanFile(this, new String[]{Environment.getExternalStorageDirectory().toString()}, null, new MediaScannerConnection.OnScanCompletedListener() {
             public void onScanCompleted(String path, Uri uri) {
@@ -260,6 +260,7 @@ public class LauncherActivity extends ActionBarActivity {
         File myDir = new File(root + "/DCIM/Camera");
         myDir.mkdirs();
         File file = new File(myDir, name);
+        Log.d("APP", "Se her RIkard: " + file.getAbsolutePath());
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);

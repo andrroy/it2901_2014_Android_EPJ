@@ -3,8 +3,11 @@ package org.royrvik.vscanlauncher;
 import android.content.Context;
 import android.content.res.Resources;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
@@ -21,7 +24,11 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 
 /**
@@ -207,34 +214,127 @@ public class HomeScreenActivity extends Activity {
 
     private void startGatewayApp(){
         //TODO: Generate arraylists
-        ArrayList<String> imagePaths;
-        imagePaths = getImageURIs();
+        ArrayList<String> imagePaths = null;
+        //imagePaths = getImageURIs();
+
+        Log.d("APP", "HEI ANDREAS");
+        updateImageLibrary();
+        imagePaths = getAllImages();
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        int iterator = 0;
+        for(String f : getAllImages()){
+            f = root + "/DCIM/Camera" + f;
+            imagePaths.set(iterator++,f);
+        }
+        Log.d("APP", "LOL: " + imagePaths.toString());
         new EMRLauncher(getApplicationContext(), imagePaths).start();
     }
 
-    private ArrayList<String> getImageURIs(){
-        ArrayList<String> uriList = new ArrayList<String>();
-        Uri path = null;
-        String extraPath = "R.drawable.ultrasound";
-        for (int i = 1; i<NUMBERofIMAGES; i++) {
-            path = Uri.parse("drawable://" + extraPath + i);
-            uriList.add(getRealPathFromURI(this, path));
-        }
-        return uriList;
+
+
+    /* ANDREAS TESTER */
+    private void updateImageLibrary() {
+
+        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
+        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
+        Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
+        Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
+//        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
+//        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
+        //Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
+        //Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
+
+        ArrayList<String> fileList = getAllImages();
+
+        // So we don't add duplicates of all images every time we launch the application
+        if (!fileList.contains("ultrasound1"))
+            saveImage(image1, "ultrasound1.jpg");
+
+        if (!fileList.contains("ultrasound2"))
+            saveImage(image2, "ultrasound2.jpg");
+
+        if (!fileList.contains("ultrasound3"))
+            saveImage(image3, "ultrasound3.jpg");
+
+        if (!fileList.contains("ultrasound4"))
+            saveImage(image4, "ultrasound4.jpg");
+
     }
 
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = {MediaStore.Images.Media.DATA};
-            cursor = context.getContentResolver().query(contentUri, proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
+
+    private ArrayList<String> getAllImages() {
+
+        Uri u = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String[] projection = {MediaStore.Images.ImageColumns.DATA};
+        Cursor c = null;
+        SortedSet<String> dirList = new TreeSet<String>();
+
+        ArrayList<String> allFileNames = new ArrayList<String>();
+
+        String[] directories = null;
+        if (u != null) {
+            c = managedQuery(u, projection, null, null, null);
+        }
+
+        if ((c != null) && (c.moveToFirst())) {
+            do {
+                String tempDir = c.getString(0);
+                tempDir = tempDir.substring(0, tempDir.lastIndexOf("/"));
+                try {
+                    dirList.add(tempDir);
+                } catch (Exception e) {
+
+                }
             }
+            while (c.moveToNext());
+            directories = new String[dirList.size()];
+            dirList.toArray(directories);
+
+        }
+
+        for (int i = 0; i < dirList.size(); i++) {
+            File imageDir = new File(directories[i]);
+            File[] imageList = imageDir.listFiles();
+            if (imageList == null)
+                continue;
+            for (File imagePath : imageList) {
+                try {
+
+                    if (imagePath.isDirectory()) {
+                        imageList = imagePath.listFiles();
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            for (File f : imageList)
+                allFileNames.add(f.getName());
+
+        }
+
+        return allFileNames;
+
+    }
+
+    private void saveImage(Bitmap finalBitmap, String name) {
+
+        String root = Environment.getExternalStorageDirectory().toString();
+        File myDir = new File(root + "/DCIM/Camera");
+        myDir.mkdirs();
+        File file = new File(myDir, name);
+        Log.d("APP", "Se her RIkard: " + file.getAbsolutePath());
+        try {
+            FileOutputStream out = new FileOutputStream(file);
+            finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
 }
