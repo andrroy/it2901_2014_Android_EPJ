@@ -49,8 +49,9 @@ public class TechnicalSetupActivity extends ActionBarActivity {
         statusTextView = (TextView) findViewById(R.id.statusTextView);
 
         //Sets status message based on whether app is configured or not
-        if (globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.", Color.GREEN);
-        else setStatusText("Application is not currently set up.", Color.RED);
+        if (globalApp.hasSettingsConfigured()) setStatusText("Application is already configured.",
+                getResources().getColor(R.color.green));
+        else setStatusText("Application is not currently set up.", getResources().getColor(R.color.red));
 
         pathToXmlEditText = (EditText) findViewById(R.id.pathToSettingsEditText);
         Button getConfigButton = (Button) findViewById(R.id.getConfigButton);
