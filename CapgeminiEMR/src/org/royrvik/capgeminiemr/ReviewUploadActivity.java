@@ -96,9 +96,7 @@ public class ReviewUploadActivity extends ActionBarActivity {
         reviewExamDateTextView = (TextView) headerView.findViewById(R.id.reviewExamDateTextView);
 
         // Set text in header textviews
-        //reviewExamNumberTextView.setText(currentExamination.getExaminationNumber());
-        // TODO: set correct exam #
-        reviewExamNumberTextView.setText("HEI");
+        reviewExamNumberTextView.setText(getResources().getString(R.string.exam) + " " + currentExamination.getExaminationNumber());
 
         // Check if examination has a comment
         if(currentExamination.getExaminationComment() == null) {

@@ -26,13 +26,15 @@ import org.royrvik.capgeminiemr.utils.SessionManager;
 import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private static final int FULLSCREEN_REQUEST_CODE = 15;
     private TextView idTextView, firstNameTextView, lastNameTextView,
-            imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView;
+            imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView,
+            examinationNumberTextView;
     private ImageButton editIDImageButton, editExamCommentButton;
     private ImageView isVerifiedImageView;
     private Button viewImagesButton, reviewAndUploadButton;
@@ -115,6 +117,13 @@ public class ExaminationActivity extends ActionBarActivity {
         dateOfBirthTextView = (TextView) findViewById(R.id.examPatientDobTextView);
         isVerifiedImageView = (ImageView) findViewById(R.id.isVerifiedImageView);
         examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
+        examinationNumberTextView = (TextView)findViewById(R.id.examExamNumberTextView);
+
+        // TODO: Get and show examination number
+        Random generator = new Random();
+        int randomNumber = generator.nextInt(10) + 1;
+        currentExamination.setExaminationNumber(randomNumber);
+        examinationNumberTextView.setText(getResources().getString(R.string.exam) + " " + randomNumber);
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
