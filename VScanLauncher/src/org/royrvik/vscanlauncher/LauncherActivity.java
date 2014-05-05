@@ -310,6 +310,21 @@ public class LauncherActivity extends ActionBarActivity {
 
     }
 
+    @Override
+    public void onBackPressed(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(LauncherActivity.this);
+        builder.setTitle("Exit application?");
+        builder.setMessage("Do you wish to exit the Vscan application?");
+        builder.setIcon(R.drawable.ic_alert);
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("No", null);
+        builder.show();
+    }
+
     private class ReceiveMessages extends BroadcastReceiver {
 
         @Override
@@ -320,7 +335,7 @@ public class LauncherActivity extends ActionBarActivity {
                 Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                 i.putStringArrayListExtra("patientData", patientData);
                 startActivity(i);
-
+                finish();
             } else patientData.add("No ID available.");
             // patientIdTextView.setText(patientData.get(1));
             if (patientData.size() > 1) {

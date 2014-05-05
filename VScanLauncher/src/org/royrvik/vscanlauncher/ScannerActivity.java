@@ -331,6 +331,8 @@ public class ScannerActivity extends Activity {
     @Override
     public void onBackPressed(){
         Toast.makeText(ScannerActivity.this, "Examination aborted", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(ScannerActivity.this, LauncherActivity.class);
+        startActivity(i);
         finish();
     }
 

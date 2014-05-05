@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 import com.cengalabs.flatui.FlatUI;
@@ -81,12 +82,28 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             }
         });
 
+        manualButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                manualButton.setBackgroundResource(R.drawable.ic_editbtn_down);
+                return false;
+            }
+        });
+
         automaticButton = (ImageButton) findViewById(R.id.automaticButton);
         automaticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 IntentIntegrator integrator = new IntentIntegrator(IdentifyPatientActivity.this);
                 integrator.initiateScan();
+            }
+        });
+
+        automaticButton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                automaticButton.setBackgroundResource(R.drawable.ic_camera_down);
+                return false;
             }
         });
 

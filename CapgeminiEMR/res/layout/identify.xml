@@ -7,163 +7,180 @@
               android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"></RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"></RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="0dip"
-        android:layout_weight="10">
+            android:layout_width="wrap_content"
+            android:layout_height="0dip"
+            android:layout_weight="10">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true">
-
-            <ViewFlipper
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/identifyFlipper">
+                android:layout_centerVertical="true">
+
+            <ViewFlipper
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/identifyFlipper">
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/identify1"
-                    android:focusable="true">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/identify1"
+                        android:focusable="true">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="@string/identify_patient"
-                        android:id="@+id/textView3"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-light"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="@string/identify_patient"
+                            android:id="@+id/textView3"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:fontFamily="sans-serif-light"/>
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/manualButton"
-                        android:layout_below="@+id/textView3"
-                        android:layout_marginTop="50dp"
-                        android:layout_alignLeft="@+id/textView3"
-                        android:layout_alignStart="@+id/textView3"
-                        android:background="#00000000"
-                        android:src="@drawable/ic_manual_edit"/>
+                    <LinearLayout
+                            android:id="@+id/bigBtnGroup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:layout_marginTop="50dp"
+                            android:orientation="horizontal"
+                            >
 
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/automaticButton"
-                        android:layout_alignTop="@+id/manualButton"
-                        android:layout_alignRight="@+id/textView3"
-                        android:layout_alignEnd="@+id/textView3"
-                        android:background="#00000000"
-                        android:src="@drawable/ic_camera"/>
+                        <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+
+                            <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/manualButton"
+                                    android:background="#00000000"
+                                    android:src="@drawable/ic_editbtn"/>
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="@string/manual"
+                                    android:id="@+id/textView"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_below="@id/manualButton"
+                                    />
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content">
+                            <ImageButton
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/automaticButton"
+                                    android:background="#00000000"
+                                    android:src="@drawable/ic_camera"
+
+                                    />
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textAppearance="?android:attr/textAppearanceSmall"
+                                    android:text="@string/automatic"
+                                    android:id="@+id/textView4"
+                                    android:fontFamily="sans-serif-light"
+                                    android:layout_centerHorizontal="true"
+                                    android:layout_below="@id/automaticButton"
+                                    />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/manual"
-                        android:id="@+id/textView"
-                        android:layout_alignTop="@+id/textView4"
-                        android:layout_alignLeft="@+id/manualButton"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_alignStart="@+id/manualButton"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/automatic"
-                        android:id="@+id/textView4"
-                        android:layout_below="@+id/automaticButton"
-                        android:layout_alignLeft="@+id/automaticButton"
-                        android:fontFamily="sans-serif-light"
-                        android:layout_alignStart="@+id/automaticButton"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Currently in offline mode"
-                        android:fontFamily="sans-serif-light"
-                        android:id="@+id/offlineMessage"
-                        android:layout_marginTop="53dp"
-                        android:layout_below="@+id/textView"
-                        android:layout_alignLeft="@+id/textView"
-                        android:layout_alignStart="@+id/textView"
-                        android:textColor="#f00"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Currently in offline mode"
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/offlineMessage"
+                            android:textColor="@color/red"
+                            android:layout_below="@id/bigBtnGroup"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            />
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:id="@+id/identify2">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/identify2">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-light"
-                        android:textAppearance="?android:attr/textAppearanceLarge"
-                        android:text="Identify patient - manual"
-                        android:id="@+id/textView7"
-                        android:layout_centerHorizontal="true"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-light"
+                            android:textAppearance="?android:attr/textAppearanceLarge"
+                            android:text="Identify patient - manual"
+                            android:id="@+id/textView7"
+                            android:layout_centerHorizontal="true"/>
 
                     <com.cengalabs.flatui.views.FlatEditText
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:ems="10"
-                        android:id="@+id/editText"
-                        android:layout_centerVertical="true"
-                        android:layout_centerHorizontal="true"
-                        flatui:fieldStyle="box"
-                        flatui:cornerRadius="3dip"
-                        flatui:fontFamily="Roboto"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:ems="10"
+                            android:id="@+id/editText"
+                            android:layout_centerVertical="true"
+                            android:layout_centerHorizontal="true"
+                            flatui:fieldStyle="box"
+                            flatui:cornerRadius="3dip"
+                            flatui:fontFamily="Roboto"/>
 
                     <com.cengalabs.flatui.views.FlatButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Back"
-                        android:id="@+id/backButton"
-                        android:layout_below="@+id/editText"
-                        android:layout_alignLeft="@+id/editText"
-                        android:layout_alignStart="@+id/editText"
-                        android:layout_marginTop="10dp"
-                        flatui:textAppearance="none"
-                        flatui:fontWeight="light"
-                        flatui:fontFamily="Roboto"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Back"
+                            android:id="@+id/backButton"
+                            android:layout_below="@+id/editText"
+                            android:layout_alignLeft="@+id/editText"
+                            android:layout_alignStart="@+id/editText"
+                            android:layout_marginTop="10dp"
+                            flatui:textAppearance="none"
+                            flatui:fontWeight="light"
+                            flatui:fontFamily="Roboto"/>
 
                     <com.cengalabs.flatui.views.FlatButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="OK"
-                        android:id="@+id/okButton"
-                        android:layout_alignTop="@+id/backButton"
-                        android:layout_alignRight="@+id/editText"
-                        android:layout_alignEnd="@+id/editText"
-                        flatui:textAppearance="none"
-                        flatui:fontWeight="light"
-                        flatui:fontFamily="Roboto"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="OK"
+                            android:id="@+id/okButton"
+                            android:layout_alignTop="@+id/backButton"
+                            android:layout_alignRight="@+id/editText"
+                            android:layout_alignEnd="@+id/editText"
+                            flatui:textAppearance="none"
+                            flatui:fontWeight="light"
+                            flatui:fontFamily="Roboto"/>
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:fontFamily="sans-serif-light"
-                        android:id="@+id/errorText"
-                        android:layout_below="@+id/textView7"
-                        android:layout_alignLeft="@+id/textView7"
-                        android:layout_alignStart="@+id/textView7"
-                        android:textColor="#ff0000"
-                        android:enabled="false"
-                        android:focusableInTouchMode="false"
-                        android:layout_above="@+id/editText"
-                        android:layout_alignRight="@+id/editText"
-                        android:layout_alignEnd="@+id/editText"/>
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:fontFamily="sans-serif-light"
+                            android:id="@+id/errorText"
+                            android:layout_below="@+id/textView7"
+                            android:layout_alignLeft="@+id/textView7"
+                            android:layout_alignStart="@+id/textView7"
+                            android:textColor="#ff0000"
+                            android:enabled="false"
+                            android:focusableInTouchMode="false"
+                            android:layout_above="@+id/editText"
+                            android:layout_alignRight="@+id/editText"
+                            android:layout_alignEnd="@+id/editText"/>
                 </RelativeLayout>
 
             </ViewFlipper>
@@ -172,9 +189,9 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="1"></RelativeLayout>
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1"></RelativeLayout>
 
 
 </LinearLayout>
