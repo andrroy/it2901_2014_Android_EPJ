@@ -71,7 +71,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         final Button closeButton = (Button) viewLayout.findViewById(R.id.btnClose);
         final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
         final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
-        final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
+        // final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
 
         // Display image data
         File file = new File(currentExamination.getAllImages().get(position));
@@ -98,12 +98,13 @@ public class FullScreenImageAdapter extends PagerAdapter{
             }
         });
 
-        tagButton.setOnClickListener(new View.OnClickListener() {
+        /*tagButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Currently not in use
             }
         });
+        */
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
