@@ -82,6 +82,11 @@ public class ExaminationActivity extends ActionBarActivity {
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
+
+            // TODO: Get a proper examination number
+            Random generator = new Random();
+            int randomNumber = generator.nextInt(10) + 1;
+            currentExamination.setExaminationNumber(randomNumber);
         }
 
         // Activity was started to edit an existing examination
@@ -119,11 +124,7 @@ public class ExaminationActivity extends ActionBarActivity {
         examinationCommentTextView = (TextView)findViewById(R.id.examCommentTextView);
         examinationNumberTextView = (TextView)findViewById(R.id.examExamNumberTextView);
 
-        // TODO: Get and show examination number
-        Random generator = new Random();
-        int randomNumber = generator.nextInt(10) + 1;
-        currentExamination.setExaminationNumber(randomNumber);
-        examinationNumberTextView.setText(getResources().getString(R.string.exam) + " " + randomNumber);
+        examinationNumberTextView.setText(getResources().getString(R.string.exam) + " " + currentExamination.getExaminationNumber());
 
         editIDImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
