@@ -132,6 +132,7 @@ public class HomeScreenActivity extends ActionBarActivity {
                             Intent i = new Intent(HomeScreenActivity.this, ExaminationActivity.class);
                             i.putExtra("examination", ex);
                             startActivity(i);
+                            finish();
                         }
                     });
                     dialog.show();
