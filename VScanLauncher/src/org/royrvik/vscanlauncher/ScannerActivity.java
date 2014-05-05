@@ -215,21 +215,19 @@ public class ScannerActivity extends Activity {
 
     private void startGatewayApp(){
         //TODO: Generate arraylists
-        ArrayList<String> imagePaths = null;
+        ArrayList<String> imagePaths = new ArrayList<String>();
         //imagePaths = getImageURIs();
 
-        Log.d("APP", "HEI ANDREAS");
         updateImageLibrary();
-        imagePaths = getAllImages();
 
         String root = Environment.getExternalStorageDirectory().toString();
-        int iterator = 0;
-        for(String f : getAllImages()){
-            f = root + "/DCIM/Camera/" + f;
-            imagePaths.set(iterator++,f);
-        }
-        Log.d("APP", "LOL: " + imagePaths.toString());
 
+        imagePaths.add("/storage/emulated/0/DCIM/Camera/ultrasound1.jpg");
+        imagePaths.add(root + "/DCIM/Camera/ultrasound2.jpg");
+        imagePaths.add(root + "/DCIM/Camera/ultrasound3.jpg");
+        imagePaths.add(root + "/DCIM/Camera/ultrasound4.jpg");
+
+        Log.d("APP:", "Imagepaths: " + imagePaths.toString());
         if(patientdData == null){
             new EMRLauncher(getApplicationContext(), imagePaths).start();
             finish();

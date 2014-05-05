@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">CapgeminiEMR</string>
+    <string name="app_name">Gateway 2.0</string>
 
     <!-- Preference screen strings -->
     <string name="general">General</string>

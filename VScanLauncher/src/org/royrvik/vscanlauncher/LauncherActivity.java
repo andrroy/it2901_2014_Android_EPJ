@@ -72,7 +72,6 @@ public class LauncherActivity extends ActionBarActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                         startActivity(i);
-                        finish();
                     }
                 });
                 builder.show();
@@ -335,7 +334,6 @@ public class LauncherActivity extends ActionBarActivity {
                 Intent i = new Intent(LauncherActivity.this, ScannerActivity.class);
                 i.putStringArrayListExtra("patientData", patientData);
                 startActivity(i);
-                finish();
             } else patientData.add("No ID available.");
             // patientIdTextView.setText(patientData.get(1));
             if (patientData.size() > 1) {

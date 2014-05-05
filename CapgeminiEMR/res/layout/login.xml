@@ -9,12 +9,12 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="1"></RelativeLayout>
+        android:layout_weight="0"></RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dip"
-        android:layout_weight="10">
+        android:layout_weight="2">
 
         <RelativeLayout
             android:layout_width="match_parent"
