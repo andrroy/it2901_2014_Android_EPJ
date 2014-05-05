@@ -323,7 +323,13 @@ public class ExaminationActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Back button in actionbar clicked. Exit activity and open previous in activity stack
-                dbHelper.updateExamination(currentExamination);
+                int dbID;
+                if (currentExamination.getId() == -1) {
+                    dbID = dbHelper.addExamination(currentExamination);
+                    currentExamination.setId(dbID);
+                } else {
+                    dbHelper.updateExamination(currentExamination);
+                }
                 startActivity(new Intent(this, HomeScreenActivity.class));
                 finish();
                 break;
@@ -333,7 +339,14 @@ public class ExaminationActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        dbHelper.updateExamination(currentExamination);
+        // Choose action based on why this activity was started
+        int dbID;
+        if (currentExamination.getId() == -1) {
+            dbID = dbHelper.addExamination(currentExamination);
+            currentExamination.setId(dbID);
+        } else {
+            dbHelper.updateExamination(currentExamination);
+        }
         startActivity(new Intent(this, HomeScreenActivity.class));
         finish();
     }
