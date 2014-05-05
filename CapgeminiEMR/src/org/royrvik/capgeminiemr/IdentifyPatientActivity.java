@@ -78,6 +78,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         manualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                manualButton.setBackgroundResource(R.drawable.ic_editbtn);
                 flipper.showNext();
             }
         });
@@ -86,6 +87,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 manualButton.setBackgroundResource(R.drawable.ic_editbtn_down);
+                Log.d("APP", "Manual button is touched!!!!");
+
                 return false;
             }
         });
@@ -94,6 +97,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         automaticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                automaticButton.setBackgroundResource(R.drawable.ic_camera);
                 IntentIntegrator integrator = new IntentIntegrator(IdentifyPatientActivity.this);
                 integrator.initiateScan();
             }
@@ -103,6 +107,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 automaticButton.setBackgroundResource(R.drawable.ic_camera_down);
+                Log.d("APP", "Automatic button is touched!!!!");
                 return false;
             }
         });
