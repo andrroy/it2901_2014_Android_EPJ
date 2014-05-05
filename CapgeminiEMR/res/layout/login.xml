@@ -34,6 +34,7 @@
 
             <com.cengalabs.flatui.views.FlatEditText
                 android:layout_width="150dp"
+                android:nextFocusDown="@+id/passwordEditText"
                 android:layout_height="wrap_content"
                 android:id="@+id/usernameEditText"
                 android:layout_below="@+id/loginTextView"
@@ -50,7 +51,8 @@
                 android:inputType="textPassword"
                 android:ems="10"
                 android:id="@+id/passwordEditText"
-                android:layout_below="@+id/usernameEditText"
+                android:nextFocusDown="@+id/loginButton"
+                android:layout_below="@id/usernameEditText"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="29dp"
                 android:hint="@string/password"
