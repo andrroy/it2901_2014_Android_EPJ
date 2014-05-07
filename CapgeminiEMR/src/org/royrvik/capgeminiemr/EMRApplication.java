@@ -89,6 +89,7 @@ public class EMRApplication extends Application {
         strings.add(getSettingsLDAPOU());
         strings.add(getSettingsAuthenticationServerAddress());
         strings.add(getSettingsAuthenticationServerPort());
+        strings.add(getSettingsAuthenticationProtocol());
         return strings;
     }
 
@@ -110,7 +111,7 @@ public class EMRApplication extends Application {
 
             //Check settings for specific authentication protocol
             //In this case, LDAP
-            if (getSettingsAuthenticationProtocol().equals("ldaps")) {
+            if (getSettingsAuthenticationProtocol().equals("ldaps") || getSettingsAuthenticationProtocol().equals("ldap")) {
                 if (
                         !(getSettingsLDAPUserID().isEmpty()) &&
                                 !(getSettingsLDAPOU().isEmpty()) &&
