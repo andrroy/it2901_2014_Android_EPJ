@@ -61,7 +61,7 @@ public class LauncherActivity extends ActionBarActivity {
                 AlertDialog.Builder builder = new AlertDialog.Builder(LauncherActivity.this);
                 builder.setTitle("Identify patient?");
                 builder.setMessage("Do you wish to identify the patient before the examination?");
-                builder.setIcon(R.drawable.ic_addpatient);
+                builder.setIcon(R.drawable.ic_add_patient);
                 builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         startIdentifyPatient();
