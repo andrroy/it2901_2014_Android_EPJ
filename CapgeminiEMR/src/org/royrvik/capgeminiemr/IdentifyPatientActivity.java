@@ -192,7 +192,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 Log.d("APP:", "Identify: testing cases");
                 if (returnAfter) {
                     Intent data = new Intent();
-                    // TODO: The application should not send more than name back to the Vscan app
+                    // TODO: The application should not send more than name back to the Vscan app.
                     data.putStringArrayListExtra("patient", info);
                     setResult(RESULT_OK, data);
                     returnAfter = false;

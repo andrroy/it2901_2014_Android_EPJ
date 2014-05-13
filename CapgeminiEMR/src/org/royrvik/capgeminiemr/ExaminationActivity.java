@@ -101,8 +101,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
         // Initialize GUI elements
         initViewElements();
-        updateElements();
-
+        idIsValidated();
     }
 
     private void initViewElements() {
@@ -137,10 +136,7 @@ public class ExaminationActivity extends ActionBarActivity {
         idTextView.setOnClickListener(changeID);
 
         //Updates the verification imageview.
-        isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
-        if (idIsValidated()) {
-            isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
-        }
+        idIsValidated();
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
@@ -218,7 +214,19 @@ public class ExaminationActivity extends ActionBarActivity {
     }
 
     private boolean idIsValidated() {
-        return currentExamination.getPatientFirstName().length() > 0;
+        if(currentExamination.getPatientFirstName().length() > 0) {
+            isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
+            lastNameTextView.setVisibility(View.VISIBLE);
+            firstNameTextView.setVisibility(View.VISIBLE);
+            updateElements();
+            return true;
+        }
+        updateElements();
+        lastNameTextView.setVisibility(View.GONE);
+        firstNameTextView.setVisibility(View.GONE);
+        dateOfBirthTextView.setText(Html.fromHtml("<i>" + getResources().getString(R.string.not_found) + "</i>"));
+        isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
+        return false;
     }
 
     private void updateElements() {
@@ -302,21 +310,21 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
-                Log.d("APP:", "Examination: SHIT");
                 currentExamination.setPatientFirstName(info.get(1));
             }
             initViewElements();
+            idIsValidated();
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
-            updateElements();
+            idIsValidated();
         }
         if(resultCode == RESULT_OK && requestCode == CHANGEID_REQUEST_CODE){
             Log.d("APP:", "Examination: Recieved updated examination from IdentifyActivity");
             currentExamination = data.getParcelableExtra("examination");
             // Saves data here because IdentifyPatient does not have support for saving examinations (as of now)
             saveData();
-            updateElements();
+            idIsValidated();
         }
     }
 
