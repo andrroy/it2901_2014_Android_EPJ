@@ -25,9 +25,9 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
 
     protected ArrayList<String> doInBackground(String... args){
 
-        String firstName = null;
-        String lastName = null;
-        String errorMessage = null;
+        String firstName = "";
+        String lastName = "";
+        String errorMessage = "";
         boolean didWork = false;
 
         try {
@@ -65,7 +65,7 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
         */
         ArrayList<String> returnMessage = new ArrayList<String>();
 
-        if(errorMessage != null || firstName == null || lastName == null){
+        if(errorMessage != "" || firstName == "" || lastName == ""){
             didWork = false;
         }
 

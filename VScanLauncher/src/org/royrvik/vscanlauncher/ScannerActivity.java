@@ -26,6 +26,7 @@ import android.view.View;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -67,6 +68,7 @@ public class ScannerActivity extends Activity {
     private VideoView videoView;
     private static final int NUMBERofIMAGES = 3;
     private ArrayList<String> patientdData;
+    private final long EXAMINATION_TIME = System.currentTimeMillis() / 1000L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,10 +222,22 @@ public class ScannerActivity extends Activity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
+    /**
+     *
+     * Prepeares neccesary data for the Gateway app.
+     * This Method adds three types of data:
+     *      1. Images for the current examination
+     *      2. A (random) examination ID
+     *      3. A timestamp for when the examination was started. This is declared when the Activity is started.
+     */
+
     private void startGatewayApp(){
-        //TODO: Generate arraylists
+        //TODO: take snapshots and add x number of images
         ArrayList<String> imagePaths = new ArrayList<String>();
-        //imagePaths = getImageURIs();
+
+
+        Random generator = new Random();
+        int randomNumber = generator.nextInt(10) + 1;
 
         updateImageLibrary();
 
@@ -237,12 +251,17 @@ public class ScannerActivity extends Activity {
         imagePaths.add(root + "/DCIM/Camera/vscan_6.jpg");
         imagePaths.add(root + "/DCIM/Camera/vscan_7.jpg");
 
+
         Log.d("APP:", "Imagepaths: " + imagePaths.toString());
+
         if(patientdData == null){
             new EMRLauncher(getApplicationContext(), imagePaths).start();
             finish();
         }
         else{
+            patientdData.add(Integer.toString(randomNumber));
+            patientdData.add(Long.toString(EXAMINATION_TIME));
+            Log.d("APP:", "PatientDATA: " + patientdData.toString());
             new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
             finish();
         }
@@ -290,6 +309,10 @@ public class ScannerActivity extends Activity {
             saveImage(image7, "vscan_7.jpg");
     }
 
+
+    /**
+     * @return an ArrayList of all image names as Strings
+     */
 
     private ArrayList<String> getAllImages() {
 
@@ -354,6 +377,13 @@ public class ScannerActivity extends Activity {
         startActivity(i);
         finish();
     }
+
+    /**
+     * Takes a bitmap and saves it to /DCIM/Camera as a .jpeg file
+     *
+     * @param finalBitmap bitmap to be saved as .jpeg
+     * @param name        name of image
+     */
 
     private void saveImage(Bitmap finalBitmap, String name) {
 

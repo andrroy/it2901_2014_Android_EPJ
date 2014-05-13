@@ -18,7 +18,7 @@ public class EMRLauncher extends Intent {
     private Context context;
 
     /**
-     * Constructor used to launch the EMR app to the EMR Homescreen
+     * Constructor used to launch the Gateway application to the Homescreen
      * @param context Application {@linkplain android.content.Context} from the launcher
      */
     public EMRLauncher(Context context) {
@@ -28,7 +28,7 @@ public class EMRLauncher extends Intent {
     }
 
     /**
-     * Constructor used to launch the EMR app to Identify a patient and return the gathered data.
+     * Constructor used to launch the Gateway application to Identify a patient and return the gathered data.
      * @param context Application {@linkplain android.content.Context} from the launcher
      * @param broadcastCode A {@linkplain java.lang.String} with the broadcast code registered to the BroadcastReceiver in the launcher.
      */
@@ -40,9 +40,9 @@ public class EMRLauncher extends Intent {
     }
 
     /**
-     * Constructor used to launch the EMR app to start with images.
+     * Constructor used to launch the Gateway application to start with images.
      * @param context Application {@linkplain android.content.Context} from the launcher
-     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the EMR app
+     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the Gateway application
      */
     public EMRLauncher(Context context, ArrayList<String> images) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
@@ -52,10 +52,10 @@ public class EMRLauncher extends Intent {
     }
 
     /**
-     * Constructor used to launch the EMR app to start with images and patient data.
+     * Constructor used to launch the Gateway application to start with images and patient data.
      * @param context Application {@linkplain android.content.Context} from the launcher
-     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the EMR app
-     * @param patientData The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of patient data to send to the EMR app
+     * @param images The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of images to send to the Gateway application
+     * @param patientData The {@linkplain java.util.ArrayList}<{@linkplain java.lang.String}> of patient data to send to the Gateway application
      */
     public EMRLauncher(Context context, ArrayList<String> images, ArrayList<String> patientData) {
         super(context.getPackageManager().getLaunchIntentForPackage("org.royrvik.capgeminiemr"));
@@ -66,7 +66,7 @@ public class EMRLauncher extends Intent {
     }
 
     /**
-     * Starts the EMR app with the constructed intent
+     * Starts the Gateway application with the constructed intent
      */
     public void start() {
         context.startActivity(this);

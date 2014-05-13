@@ -1,5 +1,6 @@
 package org.royrvik.capgeminiemr;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +15,7 @@ import android.widget.*;
 import com.cengalabs.flatui.FlatUI;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.qrscan.IntentIntegrator;
 import org.royrvik.capgeminiemr.qrscan.IntentResult;
@@ -35,6 +37,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private SessionManager session;
     private RemoteServiceConnection service;
     private ProgressDialog pDialog;
+    private Examination currentExamination;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +63,17 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         // get intent from last activity
         Intent i = getIntent();
-        incomingImages = i.getStringArrayListExtra("chosen_images");
-        returnAfter = i.getBooleanExtra("return", false);
+
+        // Easy way of figuring out where the activity was started from.
+        if(i.hasExtra("examination")) {
+            Log.d("APP:", "Identify: Examination is being edited");
+            currentExamination = i.getParcelableExtra("examination");
+        }else{
+            Log.d("APP:", "Identify: Examination is about to be created");
+            incomingImages = i.getStringArrayListExtra("chosen_images");
+            returnAfter = i.getBooleanExtra("return", false);
+        }
+
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
@@ -126,6 +138,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 if (!patientIDEditText.getText().toString().trim().isEmpty()) {
+                    Log.d("APP:", "Identify: Start checkPinTask");
                     new CheckPidTask().execute(patientIDEditText.getText().toString());
 
                 } else
@@ -146,10 +159,25 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
             ArrayList<String> info = new ArrayList<String>();
             if (session.isValid()) {
+                Log.d("APP:", "Identify: Session is valid");
                 ArrayList<String> auth = ((EMRApplication) getApplicationContext()).getDepartmentAuth();
                 info = (ArrayList<String>) service.getPatientData(params[0], auth.get(0), auth.get(1));
+                if(currentExamination != null){
+                    Log.d("APP:", "Identify success: Setting new name...");
+                    currentExamination.setPatientSsn(info.get(1));
+                    currentExamination.setPatientFirstName(info.get(2));
+                    currentExamination.setPatientLastName(info.get(3));
+                }
             } else {
+                Log.d("APP:", "Identify fail: Session is not valid. Clearing name and set SSN...");
+                // If the validation fails, clear name and set ssn to what user wrote.
                 info.add(patientIDEditText.getText().toString());
+
+                if(currentExamination != null){
+                    currentExamination.setPatientSsn(patientIDEditText.getText().toString());
+                    currentExamination.setPatientFirstName("");
+                    currentExamination.setPatientLastName("");
+                }
             }
 
             if (info == null || !Boolean.valueOf(info.get(0))) {
@@ -161,19 +189,26 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                     }
                 });
             } else {
-
+                Log.d("APP:", "Identify: testing cases");
                 if (returnAfter) {
                     Intent data = new Intent();
+                    // TODO: The application should not send more than name back to the Vscan app
                     data.putStringArrayListExtra("patient", info);
                     setResult(RESULT_OK, data);
                     returnAfter = false;
-                } else {
+
+                    // Updates existing examination with new name and ID
+                } else if(currentExamination != null){
+                    Log.d("APP:", "Identify: Everything seems to be ok, returnToExamination() naow");
+                    returnToExamination();
+                }
+                // This creates a new examination
+                else if(currentExamination == null){
                     Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
                     i.putStringArrayListExtra("info", info);
                     i.putStringArrayListExtra("chosen_images", incomingImages);
                     startActivity(i);
                 }
-
                 finish();
             }
 
@@ -233,6 +268,20 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         }
     }
 
+
+    /**
+     * Returns to ExaminationActivity
+     * Should only be called when editing SSN of existing examination
+     */
+
+    public void returnToExamination(){
+        Log.d("APP", "IdentifyPatient: Returning to Examination...");
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra("examination", currentExamination);
+        setResult(Activity.RESULT_OK, returnIntent);
+        finish();
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -259,8 +308,16 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed(){
-        // Choose action based on why this activity was started
-        //TODO: The application should return.
+        Log.d("APP:", "Identify: Back button pressed");
+        // If the user presses back when editing an existing examination
+        if (flipper.getDisplayedChild() > 0)
+            flipper.showPrevious();
+        else if(currentExamination != null){
+                returnToExamination();
+        }else{
+            setResult(RESULT_CANCELED);
+            finish();
+        }
     }
 
     @Override

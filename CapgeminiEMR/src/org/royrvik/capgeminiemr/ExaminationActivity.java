@@ -33,6 +33,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
     private static final int REQUEST_CODE = 5;
     private static final int FULLSCREEN_REQUEST_CODE = 15;
+    private static final int CHANGEID_REQUEST_CODE = 6;
     private TextView idTextView, firstNameTextView, lastNameTextView,
             imagesWithoutCommentTextView, dateOfBirthTextView, examinationCommentTextView, examDateTextView,
             examinationNumberTextView;
@@ -69,7 +70,7 @@ public class ExaminationActivity extends ActionBarActivity {
         Intent intent = getIntent();
         // Activity was started to create a new examination
         if (activityStartedForAction().equals("new_examination")) {
-            Log.d("APP", "NEW EXAMINATION");
+            Log.d("APP:", "Examination: NEW EXAMINATION");
             incomingImages = intent.getStringArrayListExtra("chosen_images");
             ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
             currentExamination = new Examination();
@@ -78,21 +79,18 @@ public class ExaminationActivity extends ActionBarActivity {
             } else {
                 currentExamination.setPatientFirstName(infoArrayList.get(2));
                 currentExamination.setPatientLastName(infoArrayList.get(3));
+                currentExamination.setExaminationNumber(Integer.parseInt(infoArrayList.get(5)));
+                currentExamination.setExaminationTime(Long.parseLong(infoArrayList.get(6)));
             }
             currentExamination.setPatientSsn(infoArrayList.get(1));
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
-
-            // TODO: Get a proper examination number
-            Random generator = new Random();
-            int randomNumber = generator.nextInt(10) + 1;
-            currentExamination.setExaminationNumber(randomNumber);
         }
 
         // Activity was started to edit an existing examination
         else if (activityStartedForAction().equals("edit_examination")) {
-            Log.d("APP", "EDIT EXAMINATION");
+            Log.d("APP:", "Examination: EDIT EXAMINATION");
             int exId = intent.getIntExtra("ex_id", -1);
             if (exId != -1) {
                 currentExamination = dbHelper.getExamination(exId); // This should never be used - Rix1
@@ -100,11 +98,6 @@ public class ExaminationActivity extends ActionBarActivity {
         } else if (activityStartedForAction().equals("edit_examinationObject")) {
             currentExamination = intent.getParcelableExtra("examination");
         }
-
-        //Set exam time
-        // TODO: get time from launcher?
-        long unixTime = System.currentTimeMillis() / 1000L;
-        currentExamination.setExaminationTime(unixTime);
 
         // Initialize GUI elements
         initViewElements();
@@ -133,10 +126,9 @@ public class ExaminationActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
-                i.putExtra("chosen_images", incomingImages);
-                // TODO? Does not currently save any progress, just quit and start from scratch
-                startActivity(i);
-                finish();
+                i.putExtra("examination", currentExamination);
+                saveData();
+                startActivityForResult(i, CHANGEID_REQUEST_CODE);
             }
         };
 
@@ -280,7 +272,6 @@ public class ExaminationActivity extends ActionBarActivity {
         if (imagesWithoutComment > 0) {
             imagesWithoutCommentTextView.setTextColor(getResources().getColor(R.color.red));
         }
-
     }
 
     /**
@@ -311,13 +302,20 @@ public class ExaminationActivity extends ActionBarActivity {
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
-                Log.d("APP", "SHIT");
+                Log.d("APP:", "Examination: SHIT");
                 currentExamination.setPatientFirstName(info.get(1));
             }
             initViewElements();
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
             currentExamination = data.getParcelableExtra("examination");
+            updateElements();
+        }
+        if(resultCode == RESULT_OK && requestCode == CHANGEID_REQUEST_CODE){
+            Log.d("APP:", "Examination: Recieved updated examination from IdentifyActivity");
+            currentExamination = data.getParcelableExtra("examination");
+            // Saves data here because IdentifyPatient does not have support for saving examinations (as of now)
+            saveData();
             updateElements();
         }
     }
