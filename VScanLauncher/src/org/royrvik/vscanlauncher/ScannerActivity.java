@@ -255,7 +255,13 @@ public class ScannerActivity extends Activity {
         Log.d("APP:", "Imagepaths: " + imagePaths.toString());
 
         if(patientdData == null){
-            new EMRLauncher(getApplicationContext(), imagePaths).start();
+            patientdData = new ArrayList<String>();
+            for (int i = 0; i<5; i++){
+                patientdData.add("");
+            }
+            patientdData.add(Integer.toString(randomNumber));
+            patientdData.add(Long.toString(EXAMINATION_TIME));
+            new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
             finish();
         }
         else{
