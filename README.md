@@ -15,7 +15,8 @@ in the libs folder.
 3. Run the EMRService module.
 4. Run the VScanLauncher module.
 5. Run the CapgeminiEMR module.
-6. When prompted to setup the application, the following setup config can be used: http://royrvik.org/settings.xml
+6. When prompted to setup the application, the following setup config can be used: http://royrvik.org/settings2.xml
+7. Send an email to andrroy@stud.ntnu.no for username and password
 
 
 ### Known issues
