@@ -194,7 +194,7 @@ public class ExaminationActivity extends ActionBarActivity {
                     public void onClick(View view) {
                         currentExamination.setExaminationComment(commentTextView.getText().toString());
                         dialog.dismiss();
-                        updateElements();
+                        updateExaminationElements();
                     }
                 });
 
@@ -213,6 +213,12 @@ public class ExaminationActivity extends ActionBarActivity {
 
     }
 
+    /**
+     * I just want to state that I am profoundly sorry if this creates a lot of extra work.
+     * I admit that it is thought through.
+     * @return true if validated (on the basis of the lenght of the firstname, lol) false if not
+     */
+
     private boolean idIsValidated() {
         if(currentExamination.getPatientFirstName().length() > 0) {
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
@@ -221,7 +227,7 @@ public class ExaminationActivity extends ActionBarActivity {
             updateElements();
             return true;
         }
-        updateElements();
+        updateExaminationElements();
         lastNameTextView.setVisibility(View.GONE);
         firstNameTextView.setVisibility(View.GONE);
         dateOfBirthTextView.setText(Html.fromHtml("<i>" + getResources().getString(R.string.not_found) + "</i>"));
@@ -229,7 +235,12 @@ public class ExaminationActivity extends ActionBarActivity {
         return false;
     }
 
-    private void updateElements() {
+    private void updateElements(){
+        updatePersonElements();
+        updateExaminationElements();
+    }
+
+    private void updatePersonElements() {
         if (!session.isValid()) {
             idTextView.setText("Patient ID: *******");
             firstNameTextView.setText("Name: not available in offline mode");
@@ -246,7 +257,8 @@ public class ExaminationActivity extends ActionBarActivity {
 
         dateOfBirthTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.date_of_birth) + "</b> " +
                 Utils.ssnToDateOfBirth(currentExamination.getPatientSsn())));
-
+    }
+    private void updateExaminationElements(){
         // Check if examination has a comment
         if(currentExamination.getExaminationComment() == null) {
             examinationCommentTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.exam_comment) + "</b> " +
@@ -370,7 +382,7 @@ public class ExaminationActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        updateElements();
+        idIsValidated();
         updateSession();
     }
 
