@@ -261,8 +261,11 @@ public class ScannerActivity extends Activity {
             }
             patientdData.add(Integer.toString(randomNumber));
             patientdData.add(Long.toString(EXAMINATION_TIME));
+            Log.d("APP:", "PatientDATA2: " + patientdData.toString());
             new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
             finish();
+            // Not surprisingly this starts stright to examinationView.
+            //TODO: Need to find better solution for loading app with Vscan data (time and ex_id)
         }
         else{
             patientdData.add(Integer.toString(randomNumber));

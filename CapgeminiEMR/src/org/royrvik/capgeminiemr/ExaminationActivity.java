@@ -142,7 +142,10 @@ public class ExaminationActivity extends ActionBarActivity {
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //if (!idIsValidated()) return;
+                if (!idIsValidated()){
+                    Log.d("APP:", "Examination: DU skal avslutte her");
+                    return;
+                }
 
                 saveData();
 
