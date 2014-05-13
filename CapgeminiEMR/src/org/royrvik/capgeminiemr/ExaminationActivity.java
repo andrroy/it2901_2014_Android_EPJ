@@ -149,15 +149,7 @@ public class ExaminationActivity extends ActionBarActivity {
             public void onClick(View view) {
                 //if (!idIsValidated()) return;
 
-                // Choose action based on why this activity was started
-                int dbID;
-                if (currentExamination.getId() == -1) {
-                   dbID = dbHelper.addExamination(currentExamination);
-                    currentExamination.setId(dbID);
-                } else {
-                    dbHelper.updateExamination(currentExamination);
-                    dbID = currentExamination.getId();
-                }
+                saveData();
 
                 // Start ReviewUpload and add the examination id as an extra in the intent
                 Intent i = new Intent(ExaminationActivity.this, ReviewUploadActivity.class);
@@ -324,13 +316,7 @@ public class ExaminationActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 // Back button in actionbar clicked. Exit activity and open previous in activity stack
-                int dbID;
-                if (currentExamination.getId() == -1) {
-                    dbID = dbHelper.addExamination(currentExamination);
-                    currentExamination.setId(dbID);
-                } else {
-                    dbHelper.updateExamination(currentExamination);
-                }
+                saveData();
                 startActivity(new Intent(this, HomeScreenActivity.class));
                 finish();
                 break;
@@ -338,9 +324,9 @@ public class ExaminationActivity extends ActionBarActivity {
         return true;
     }
 
-    @Override
-    public void onBackPressed(){
-        // Choose action based on why this activity was started
+    // Choose action based on why this activity was started
+    // TODO: this method should initiate an async task
+    private void saveData(){
         int dbID;
         if (currentExamination.getId() == -1) {
             dbID = dbHelper.addExamination(currentExamination);
@@ -348,6 +334,12 @@ public class ExaminationActivity extends ActionBarActivity {
         } else {
             dbHelper.updateExamination(currentExamination);
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        // Choose action based on why this activity was started
+        saveData();
         startActivity(new Intent(this, HomeScreenActivity.class));
         finish();
     }
@@ -375,5 +367,12 @@ public class ExaminationActivity extends ActionBarActivity {
         if (session.isValid()) {
             session.updateSession();
         }
+    }
+    @Override
+    protected void onPause(){
+        super.onPause();
+        // We cannot pause this because it is waiting for onActivityResult()...
+        // saveData();
+        // finish();
     }
 }

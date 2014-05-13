@@ -77,4 +77,10 @@ public class CurrentSetupActivity extends ActionBarActivity {
         Crouton.cancelAllCroutons();
         super.onDestroy();
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        finish();
+    }
 }

@@ -222,10 +222,13 @@ public class ScannerActivity extends Activity {
 
         String root = Environment.getExternalStorageDirectory().toString();
 
-        imagePaths.add("/storage/emulated/0/DCIM/Camera/ultrasound1.jpg");
-        imagePaths.add(root + "/DCIM/Camera/ultrasound2.jpg");
-        imagePaths.add(root + "/DCIM/Camera/ultrasound3.jpg");
-        imagePaths.add(root + "/DCIM/Camera/ultrasound4.jpg");
+        imagePaths.add("/storage/emulated/0/DCIM/Camera/vscan_1.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_2.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_3.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_4.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_5.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_6.jpg");
+        imagePaths.add(root + "/DCIM/Camera/vscan_7.jpg");
 
         Log.d("APP:", "Imagepaths: " + imagePaths.toString());
         if(patientdData == null){
@@ -243,10 +246,13 @@ public class ScannerActivity extends Activity {
     /* ANDREAS TESTER */
     private void updateImageLibrary() {
 
-        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound1);
-        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound2);
-        Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound3);
-        Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound4);
+        Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_1);
+        Bitmap image2 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_2);
+        Bitmap image3 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_3);
+        Bitmap image4 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_4);
+        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_5);
+        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_6);
+        Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_7);
 //        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
 //        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
         //Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
@@ -255,18 +261,26 @@ public class ScannerActivity extends Activity {
         ArrayList<String> fileList = getAllImages();
 
         // So we don't add duplicates of all images every time we launch the application
-        if (!fileList.contains("ultrasound1"))
-            saveImage(image1, "ultrasound1.jpg");
+        if (!fileList.contains("vscan_1"))
+            saveImage(image1, "vscan_1.jpg");
 
-        if (!fileList.contains("ultrasound2"))
-            saveImage(image2, "ultrasound2.jpg");
+        if (!fileList.contains("vscan_2"))
+            saveImage(image2, "vscan_2.jpg");
 
-        if (!fileList.contains("ultrasound3"))
-            saveImage(image3, "ultrasound3.jpg");
+        if (!fileList.contains("vscan_3"))
+            saveImage(image3, "vscan_3.jpg");
 
-        if (!fileList.contains("ultrasound4"))
-            saveImage(image4, "ultrasound4.jpg");
+        if (!fileList.contains("vscan_4"))
+            saveImage(image4, "vscan_4.jpg");
 
+        if (!fileList.contains("vscan_5"))
+            saveImage(image5, "vscan_5.jpg");
+
+        if (!fileList.contains("vscan_6"))
+            saveImage(image6, "vscan_6.jpg");
+
+        if (!fileList.contains("vscan_7"))
+            saveImage(image7, "vscan_7.jpg");
     }
 
 

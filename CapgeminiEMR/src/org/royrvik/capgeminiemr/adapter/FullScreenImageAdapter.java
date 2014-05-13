@@ -71,7 +71,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         final Button closeButton = (Button) viewLayout.findViewById(R.id.btnClose);
         final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
         final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
-        // final Button tagButton = (Button) viewLayout.findViewById(R.id.btnTag);
+
 
         // Display image data
         File file = new File(currentExamination.getAllImages().get(position));
@@ -98,13 +98,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
             }
         });
 
-        /*tagButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Currently not in use
-            }
-        });
-        */
 
         commentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -181,7 +174,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
     }
 
     private void saveComment(int index, String comment) {
-        session.updateSession();
+            session.updateSession();
         currentExamination.getUltrasoundImages().get(index).setComment(comment);
     }
 
@@ -210,19 +203,5 @@ public class FullScreenImageAdapter extends PagerAdapter{
         if (session.isValid()) {
             session.updateSession();
         }
-    }
-
-    private void showCommentDialog(String comment){
-        // newFragment = newInstance(comment);
-        // newFragment.show(((Activity) context).getFragmentManager(), "commentDialog");
-
-    }
-
-    public void onDialogPositiveClick(DialogFragment dialog) {
-//        saveComment(currentImage);
-    }
-
-    public void onDialogNegativeClick(DialogFragment dialog) {
-  //      newFragment.dismiss();
     }
 }
