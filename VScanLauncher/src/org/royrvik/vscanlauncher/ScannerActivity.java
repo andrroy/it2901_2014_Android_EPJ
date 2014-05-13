@@ -10,6 +10,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 import org.royrvik.vscanlauncher.util.SystemUiHider;
@@ -94,6 +95,7 @@ public class ScannerActivity extends Activity {
         final View contentView = findViewById(R.id.fullscreen_content);
 
         final Button uploadButton = (Button) findViewById(R.id.dummy_button);
+        final ImageView uploadIcon = (ImageView) findViewById(R.id.cloudUpload);
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -151,12 +153,17 @@ public class ScannerActivity extends Activity {
             }
         });
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
+
+        View.OnClickListener uploadButtonListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startGatewayApp();
             }
-        });
+        };
+
+        uploadButton.setOnClickListener(uploadButtonListener);
+        uploadIcon.setOnClickListener(uploadButtonListener);
+
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away

@@ -78,17 +78,15 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         manualButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                manualButton.setBackgroundResource(R.drawable.ic_editbtn);
+                manualButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_editbtn));
                 flipper.showNext();
             }
         });
 
         manualButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                manualButton.setBackgroundResource(R.drawable.ic_editbtn_down);
-                Log.d("APP", "Manual button is touched!!!!");
-
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                manualButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_editbtn_down));
                 return false;
             }
         });
@@ -97,7 +95,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         automaticButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                automaticButton.setBackgroundResource(R.drawable.ic_camera);
+                automaticButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera));
                 IntentIntegrator integrator = new IntentIntegrator(IdentifyPatientActivity.this);
                 integrator.initiateScan();
             }
@@ -105,12 +103,13 @@ public class IdentifyPatientActivity extends ActionBarActivity {
 
         automaticButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                automaticButton.setBackgroundResource(R.drawable.ic_camera_down);
-                Log.d("APP", "Automatic button is touched!!!!");
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                automaticButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_camera_down));
                 return false;
             }
         });
+
+
 
         backButton = (Button) findViewById(R.id.backButton);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -256,6 +255,12 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         if (session.isValid()) {
             session.updateSession();
         }
+    }
+
+    @Override
+    public void onBackPressed(){
+        // Choose action based on why this activity was started
+        //TODO: The application should return.
     }
 
     @Override

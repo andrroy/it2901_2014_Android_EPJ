@@ -1,6 +1,7 @@
 package org.royrvik.capgeminiemr;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -126,7 +127,9 @@ public class ExaminationActivity extends ActionBarActivity {
 
         examinationNumberTextView.setText(getResources().getString(R.string.exam) + " " + currentExamination.getExaminationNumber());
 
-        editIDImageButton.setOnClickListener(new View.OnClickListener() {
+
+
+        View.OnClickListener changeID = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(ExaminationActivity.this, IdentifyPatientActivity.class);
@@ -135,7 +138,11 @@ public class ExaminationActivity extends ActionBarActivity {
                 startActivity(i);
                 finish();
             }
-        });
+        };
+
+
+        editIDImageButton.setOnClickListener(changeID);
+        idTextView.setOnClickListener(changeID);
 
         //Updates the verification imageview.
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
@@ -176,7 +183,7 @@ public class ExaminationActivity extends ActionBarActivity {
             }
         });
 
-        editExamCommentButton.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener examinationCommentListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Custom Dialog
@@ -211,7 +218,11 @@ public class ExaminationActivity extends ActionBarActivity {
                 });
                 dialog.show();
             }
-        });
+        };
+
+        editExamCommentButton.setOnClickListener(examinationCommentListener);
+        examinationCommentTextView.setOnClickListener(examinationCommentListener);
+
     }
 
     private boolean idIsValidated() {

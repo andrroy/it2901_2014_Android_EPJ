@@ -43,6 +43,7 @@
                     />
 
             <ImageView
+                    android:id="@+id/cloudUpload"
                     android:layout_width="0dp"
                     android:layout_height="90dp"
                     android:background="@drawable/ic_upload"

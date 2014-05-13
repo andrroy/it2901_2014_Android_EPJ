@@ -96,14 +96,14 @@ public class LoginActivity extends ActionBarActivity {
         switch (launcherCommand) {
             case 1: //Images
                 incomingImages = i.getStringArrayListExtra("chosen_images");
-                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from launcher", Style.INFO).show();
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from Vscan", Style.INFO).show();
                 break;
             case 2: //No images
-                Crouton.makeText(LoginActivity.this, "Received no images from launcher", Style.INFO).show();
+                Crouton.makeText(LoginActivity.this, "Received no images from Vscan", Style.INFO).show();
                 break;
             case 3: //Images and ID
                 incomingImages = i.getStringArrayListExtra("chosen_images");
-                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from launcher", Style.INFO).show();
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from Vscan", Style.INFO).show();
                 patientData = i.getStringArrayListExtra("patientData");
                 // patientId = i.getStringExtra("id");
                 break;
