@@ -31,8 +31,7 @@ public class LoginActivity extends ActionBarActivity {
     private EditText usernameEditText, passwordEditText;
     private Button loginButton, offlineModeButton;
     private TextView networkStatusTextView;
-    private ArrayList<String> incomingImages;
-    private ArrayList patientData;
+    private ArrayList<String> incomingImages, patientData, examinationData;
     private int launcherCommand;
     private String broadcastCode = "";
     private SessionManager session;
@@ -94,21 +93,22 @@ public class LoginActivity extends ActionBarActivity {
         launcherCommand = i.getIntExtra("type", 0);
         if (launcherCommand != 0) checkSetup();
         switch (launcherCommand) {
-            case 1: //Images
-                incomingImages = i.getStringArrayListExtra("chosen_images");
-                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from Vscan", Style.INFO).show();
-                break;
-            case 2: //No images
+            case 1: //No images
                 Crouton.makeText(LoginActivity.this, "Received no images from Vscan", Style.INFO).show();
                 break;
-            case 3: //Images and ID
-                incomingImages = i.getStringArrayListExtra("chosen_images");
-                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from Vscan", Style.INFO).show();
-                patientData = i.getStringArrayListExtra("patientData");
-                // patientId = i.getStringExtra("id");
-                break;
-            case 4: //Identify
+            case 2: //Identify
                 Crouton.makeText(LoginActivity.this, "Identify Patient", Style.INFO).show();
+                break;
+            case 3: //Images
+                incomingImages = i.getStringArrayListExtra("chosen_images");
+                examinationData = i.getStringArrayListExtra("examinationData");
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images from Vscan", Style.INFO).show();
+                break;
+            case 4: //Images and ID
+                incomingImages = i.getStringArrayListExtra("chosen_images");
+                patientData = i.getStringArrayListExtra("patientData");
+                examinationData = i.getStringArrayListExtra("examinationData");
+                Crouton.makeText(LoginActivity.this, "Received " + Integer.toString(incomingImages.size()) + " images and ID from Vscan", Style.INFO).show();
                 break;
             default:
                 checkSetup();
@@ -212,29 +212,30 @@ public class LoginActivity extends ActionBarActivity {
     private void startApplication() {
         Intent i;
         switch (launcherCommand) {
-            case 1: //Images
-                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
-                i.putStringArrayListExtra("chosen_images", incomingImages);
-                startActivity(i);
-                finish();
-                break;
-            case 2: //No images
+            case 1: //No images
                 i = new Intent(LoginActivity.this, HomeScreenActivity.class);
                 startActivity(i);
                 finish();
                 break;
-            case 3: //Images and ID
-                i = new Intent(LoginActivity.this, ExaminationActivity.class);
-                i.putStringArrayListExtra("chosen_images", incomingImages);
-                i.putStringArrayListExtra("info", patientData);
-                // i.putExtra("id", patientId);
-                startActivity(i);
-                finish();
-                break;
-            case 4: //Identify
+            case 2: //Identify
                 i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
                 i.putExtra("return", true);
                 startActivityForResult(i, RESULT_IDENTIFY_PATIENT);
+                break;
+            case 3: //Images
+                i = new Intent(LoginActivity.this, IdentifyPatientActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                i.putStringArrayListExtra("examinationData", examinationData);
+                startActivity(i);
+                finish();
+                break;
+            case 4: //Images and ID
+                i = new Intent(LoginActivity.this, ExaminationActivity.class);
+                i.putStringArrayListExtra("chosen_images", incomingImages);
+                i.putStringArrayListExtra("examinationData", examinationData);
+                i.putStringArrayListExtra("patientData", patientData);
+                startActivity(i);
+                finish();
                 break;
             default:
         }

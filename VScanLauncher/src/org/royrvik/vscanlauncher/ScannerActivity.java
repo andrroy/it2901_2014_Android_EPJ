@@ -66,13 +66,14 @@ public class ScannerActivity extends Activity {
     private SystemUiHider mSystemUiHider;
     private VideoView videoView;
     private static final int NUMBERofIMAGES = 3;
-    private ArrayList<String> patientdData;
+    private ArrayList<String> patientdData, examinationData;
     private final long EXAMINATION_TIME = System.currentTimeMillis() / 1000L;
-    private static int screenshots;
+    private int screenshots;
     private FrameLayout pnlFlash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        screenshots = 0;
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         if(intent.hasExtra("patientData"))
@@ -170,8 +171,8 @@ public class ScannerActivity extends Activity {
             @Override
             public void onClick(View v) {
                 takePhoto();
-                delayedHide(80);
-            }
+                delayedHide(AUTO_HIDE_DELAY_MILLIS);
+                }
         });
 
 
@@ -220,7 +221,7 @@ public class ScannerActivity extends Activity {
         // Trigger the initial hide() shortly after the activity has been
         // created, to briefly hint to the user that UI controls
         // are available.
-        delayedHide(100);
+        delayedHide(500);
     }
 
 
@@ -266,16 +267,13 @@ public class ScannerActivity extends Activity {
      */
 
     private void startGatewayApp(){
-        //TODO: take snapshots and add x number of images
         ArrayList<String> imagePaths = new ArrayList<String>();
-
+        examinationData = new ArrayList<String>();
 
         Random generator = new Random();
-        int randomNumber = generator.nextInt(10) + 1;
+        int examinationNumber = generator.nextInt(10) + 1;
 
         updateImageLibrary();
-
-        String root = Environment.getExternalStorageDirectory().toString();
 
         // Simulates taking photos by adding number of times pushed the camera button
         int append = 0;
@@ -287,34 +285,24 @@ public class ScannerActivity extends Activity {
             imagePaths.add("/storage/emulated/0/DCIM/Camera/vscan_" + append + ".jpg");
         }
 
-
         Log.d("APP:", "Imagepaths: " + imagePaths.toString());
 
         if(patientdData == null){
-            patientdData = new ArrayList<String>();
-            for (int i = 0; i<5; i++){
-                patientdData.add("");
-            }
-            patientdData.add(Integer.toString(randomNumber));
-            patientdData.add(Long.toString(EXAMINATION_TIME));
-            Log.d("APP:", "PatientDATA2: " + patientdData.toString());
-            new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
+            examinationData.add(Integer.toString(examinationNumber));
+            examinationData.add(Long.toString(EXAMINATION_TIME));
+            Log.d("APP:", "ExaminaionData: " + examinationData.toString());
+            new EMRLauncher(getApplicationContext(), imagePaths, examinationData).start();
             finish();
-            // Not surprisingly this starts stright to examinationView.
-            //TODO: Need to find better solution for loading app with Vscan data (time and ex_id)
         }
         else{
-            patientdData.add(Integer.toString(randomNumber));
-            patientdData.add(Long.toString(EXAMINATION_TIME));
+            examinationData.add(Integer.toString(examinationNumber));
+            examinationData.add(Long.toString(EXAMINATION_TIME));
             Log.d("APP:", "PatientDATA: " + patientdData.toString());
-            new EMRLauncher(getApplicationContext(), imagePaths, patientdData).start();
+            new EMRLauncher(getApplicationContext(), imagePaths, patientdData, examinationData).start();
             finish();
         }
     }
 
-
-
-    /* ANDREAS TESTER */
     private void updateImageLibrary() {
 
         Bitmap image1 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_1);
@@ -324,10 +312,6 @@ public class ScannerActivity extends Activity {
         Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_5);
         Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_6);
         Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.vscan_7);
-//        Bitmap image5 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound5);
-//        Bitmap image6 = BitmapFactory.decodeResource(getResources(), R.drawable.ultrasound6);
-        //Bitmap image7 = BitmapFactory.decodeResource(getResources(), R.drawable.space1);
-        //Bitmap image8 = BitmapFactory.decodeResource(getResources(), R.drawable.space2);
 
         ArrayList<String> fileList = getAllImages();
 

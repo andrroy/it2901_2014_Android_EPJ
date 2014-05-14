@@ -32,7 +32,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
     private EditText patientIDEditText;
     private TextView error, offlineMessage;
     private ViewFlipper flipper;
-    private ArrayList<String> incomingImages;
+    private ArrayList<String> incomingImages, examinationData;
     private boolean returnAfter = false;
     private SessionManager session;
     private RemoteServiceConnection service;
@@ -71,9 +71,9 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         }else{
             Log.d("APP:", "Identify: Examination is about to be created");
             incomingImages = i.getStringArrayListExtra("chosen_images");
+            examinationData = i.getStringArrayListExtra("examinationData");
             returnAfter = i.getBooleanExtra("return", false);
         }
-
 
         flipper = (ViewFlipper) findViewById(R.id.identifyFlipper);
         patientIDEditText = (EditText) findViewById(R.id.editText);
@@ -162,58 +162,52 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 Log.d("APP:", "Identify: Session is valid");
                 ArrayList<String> auth = ((EMRApplication) getApplicationContext()).getDepartmentAuth();
                 info = (ArrayList<String>) service.getPatientData(params[0], auth.get(0), auth.get(1));
-                if(currentExamination != null){
-                    Log.d("APP:", "Identify success: Setting new name...");
-                    currentExamination.setPatientSsn(info.get(1));
-                    currentExamination.setPatientFirstName(info.get(2));
-                    currentExamination.setPatientLastName(info.get(3));
+
+                // If service failed to fetch data
+                if (info == null || !Boolean.valueOf(info.get(0))) {
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            Toast.makeText(getApplicationContext(), "Error: Invalid ID", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else { // If service succeded
+                    Log.d("APP:", "Identify: testing cases");
+                    if (returnAfter) {
+                        returnToVscan(info);
+
+                        // Updates existing examination with new name and ID
+                    } else if (currentExamination != null) {
+                        Log.d("APP:", "Identify success: Setting new name and returning to ExaminationActivity...");
+                        currentExamination.setPatientSsn(info.get(1));
+                        currentExamination.setPatientFirstName(info.get(2));
+                        currentExamination.setPatientLastName(info.get(3));
+                        returnToExamination();
+                    }
+                    // This creates a new examination and starts ExaminationActivity
+                    else if (currentExamination == null) {
+                        createNewExamination(info);
+                    }
                 }
-            } else {
+            }else { // If session is not valid set patient data
                 Log.d("APP:", "Identify fail: Session is not valid. Clearing name and set SSN...");
                 // If the validation fails, clear name and set ssn to what user wrote.
+                info.add("");
                 info.add(patientIDEditText.getText().toString());
-
-                if(currentExamination != null){
+                if(returnAfter)
+                    returnToVscan(info);
+                else if(currentExamination != null){
                     currentExamination.setPatientSsn(patientIDEditText.getText().toString());
                     currentExamination.setPatientFirstName("");
                     currentExamination.setPatientLastName("");
-                }
-            }
-
-            if (info == null || !Boolean.valueOf(info.get(0))) {
-                // Run Toast on UI thread
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        //Toast.makeText(getApplicationContext(), "Error: " + info.get(4), Toast.LENGTH_SHORT).show(); //Todo: Fix error
-                        Toast.makeText(getApplicationContext(), "Error: Invalid ID", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            } else {
-                Log.d("APP:", "Identify: testing cases");
-                if (returnAfter) {
-                    Intent data = new Intent();
-                    // TODO: The application should not send more than name back to the Vscan app.
-                    data.putStringArrayListExtra("patient", info);
-                    setResult(RESULT_OK, data);
-                    returnAfter = false;
-
-                    // Updates existing examination with new name and ID
-                } else if(currentExamination != null){
-                    Log.d("APP:", "Identify: Everything seems to be ok, returnToExamination() naow");
                     returnToExamination();
-                }
-                // This creates a new examination
-                else if(currentExamination == null){
-                    Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
-                    i.putStringArrayListExtra("info", info);
-                    i.putStringArrayListExtra("chosen_images", incomingImages);
-                    startActivity(i);
+                }else{
+                    createNewExamination(info);
                 }
                 finish();
             }
-
             return null;
         }
+
 
         @Override
         protected void onProgressUpdate(String... values) {
@@ -268,13 +262,29 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         }
     }
 
+    private void createNewExamination(ArrayList<String> info){
+        Intent i = new Intent(IdentifyPatientActivity.this, ExaminationActivity.class);
+        i.putStringArrayListExtra("patientData", info);
+        i.putStringArrayListExtra("chosen_images", incomingImages);
+        i.putStringArrayListExtra("examinationData", examinationData);
+        startActivity(i);
+        finish();
+    }
+
+    private void returnToVscan(ArrayList<String> info){
+        Intent data = new Intent();
+        data.putStringArrayListExtra("patient", info);
+        setResult(RESULT_OK, data);
+        returnAfter = false;
+        finish();
+    }
 
     /**
      * Returns to ExaminationActivity
      * Should only be called when editing SSN of existing examination
      */
 
-    public void returnToExamination(){
+    private void returnToExamination(){
         Log.d("APP", "IdentifyPatient: Returning to Examination...");
         Intent returnIntent = new Intent();
         returnIntent.putExtra("examination", currentExamination);
@@ -313,7 +323,7 @@ public class IdentifyPatientActivity extends ActionBarActivity {
         if (flipper.getDisplayedChild() > 0)
             flipper.showPrevious();
         else if(currentExamination != null){
-                returnToExamination();
+            returnToExamination();
         }else{
             setResult(RESULT_CANCELED);
             finish();

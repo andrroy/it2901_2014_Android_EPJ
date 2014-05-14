@@ -72,17 +72,19 @@ public class ExaminationActivity extends ActionBarActivity {
         if (activityStartedForAction().equals("new_examination")) {
             Log.d("APP:", "Examination: NEW EXAMINATION");
             incomingImages = intent.getStringArrayListExtra("chosen_images");
-            ArrayList<String> infoArrayList = intent.getStringArrayListExtra("info");
+            ArrayList<String> patientData = intent.getStringArrayListExtra("patientData");
+            ArrayList<String> examinationData = intent.getStringArrayListExtra("examinationData");
             currentExamination = new Examination();
-            if (infoArrayList.size() < 2) {
+            if (patientData.size() <= 2) {
                 currentExamination.setPatientFirstName("");
             } else {
-                currentExamination.setPatientFirstName(infoArrayList.get(2));
-                currentExamination.setPatientLastName(infoArrayList.get(3));
-                currentExamination.setExaminationNumber(Integer.parseInt(infoArrayList.get(5)));
-                currentExamination.setExaminationTime(Long.parseLong(infoArrayList.get(6)));
+                currentExamination.setPatientFirstName(patientData.get(2));
+                currentExamination.setPatientLastName(patientData.get(3));
             }
-            currentExamination.setPatientSsn(infoArrayList.get(1));
+            currentExamination.setPatientSsn(patientData.get(1));
+            currentExamination.setExaminationNumber(Integer.parseInt(examinationData.get(0)));
+            currentExamination.setExaminationTime(Long.parseLong(examinationData.get(1)));
+
             for (String uri : incomingImages) {
                 currentExamination.addUltrasoundImage(new UltrasoundImage(uri));
             }
@@ -134,9 +136,6 @@ public class ExaminationActivity extends ActionBarActivity {
 
         editIDImageButton.setOnClickListener(changeID);
         idTextView.setOnClickListener(changeID);
-
-        //Updates the verification imageview.
-        idIsValidated();
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
@@ -213,13 +212,12 @@ public class ExaminationActivity extends ActionBarActivity {
 
         editExamCommentButton.setOnClickListener(examinationCommentListener);
         examinationCommentTextView.setOnClickListener(examinationCommentListener);
-
     }
 
     /**
      * I just want to state that I am profoundly sorry if this creates a lot of extra work.
      * I admit that it is thought through.
-     * @return true if validated (on the basis of the lenght of the firstname, lol) false if not
+     * @return true if validated (on the basis of the length of the firstname, lol) false if not
      */
 
     private boolean idIsValidated() {
@@ -227,14 +225,18 @@ public class ExaminationActivity extends ActionBarActivity {
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
             lastNameTextView.setVisibility(View.VISIBLE);
             firstNameTextView.setVisibility(View.VISIBLE);
+            reviewAndUploadButton.setEnabled(true);
             updateElements();
             return true;
         }
         updateExaminationElements();
+        idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
+                currentExamination.getPatientSsn()));
         lastNameTextView.setVisibility(View.GONE);
         firstNameTextView.setVisibility(View.GONE);
         dateOfBirthTextView.setText(Html.fromHtml("<i>" + getResources().getString(R.string.not_found) + "</i>"));
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
+        reviewAndUploadButton.setEnabled(false);
         return false;
     }
 
@@ -304,7 +306,7 @@ public class ExaminationActivity extends ActionBarActivity {
         // get intent from last activity
         Intent intent = getIntent();
         // Check what kind of extras intent has
-        if (intent.hasExtra("chosen_images") && intent.hasExtra("info")) {
+        if (intent.hasExtra("chosen_images") && intent.hasExtra("patientData")) {
             // Activity was started to add a new examination
             return "new_examination";
         } else if (intent.hasExtra("ex_id")) {
@@ -314,8 +316,7 @@ public class ExaminationActivity extends ActionBarActivity {
             // Activity was started to edit an examinationObject
             return "edit_examinationObject";
         }
-
-        return null;
+        return "";
     }
 
     @Override
