@@ -55,12 +55,13 @@ public class ExaminationActivity extends ActionBarActivity {
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
-                + "</font>"));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\"> <em><b>" + getResources().getString(R.string.app_name)
+                + "</b></em></font>"));
 
         //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_backbtn);
 
         //Getting the session
         session = new SessionManager(getApplicationContext());
@@ -136,6 +137,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
         editIDImageButton.setOnClickListener(changeID);
         idTextView.setOnClickListener(changeID);
+        lastNameTextView.setOnClickListener(changeID);
 
         reviewAndUploadButton = (Button) findViewById(R.id.reviewUploadButton);
         reviewAndUploadButton.setOnClickListener(new View.OnClickListener() {
@@ -212,6 +214,7 @@ public class ExaminationActivity extends ActionBarActivity {
 
         editExamCommentButton.setOnClickListener(examinationCommentListener);
         examinationCommentTextView.setOnClickListener(examinationCommentListener);
+        dateOfBirthTextView.setOnClickListener(examinationCommentListener);
     }
 
     /**
@@ -224,7 +227,7 @@ public class ExaminationActivity extends ActionBarActivity {
         if(currentExamination.getPatientFirstName().length() > 0) {
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
             lastNameTextView.setVisibility(View.VISIBLE);
-            firstNameTextView.setVisibility(View.VISIBLE);
+            dateOfBirthTextView.setVisibility(View.VISIBLE);
             reviewAndUploadButton.setEnabled(true);
             updateElements();
             return true;
@@ -233,8 +236,8 @@ public class ExaminationActivity extends ActionBarActivity {
         idTextView.setText(Html.fromHtml("<b>" + getResources().getString(R.string.patient_id) + "</b> " +
                 currentExamination.getPatientSsn()));
         lastNameTextView.setVisibility(View.GONE);
-        firstNameTextView.setVisibility(View.GONE);
-        dateOfBirthTextView.setText(Html.fromHtml("<i>" + getResources().getString(R.string.not_found) + "</i>"));
+        dateOfBirthTextView.setVisibility(View.GONE);
+        firstNameTextView.setText(Html.fromHtml("<i>" + getResources().getString(R.string.not_found) + "</i>"));
         isVerifiedImageView.setImageResource(R.drawable.ic_navigation_cancel);
         reviewAndUploadButton.setEnabled(false);
         return false;

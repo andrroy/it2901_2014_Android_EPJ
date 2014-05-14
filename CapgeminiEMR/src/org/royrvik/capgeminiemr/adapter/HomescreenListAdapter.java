@@ -57,7 +57,10 @@ public class HomescreenListAdapter extends ArrayAdapter<Examination> {
         ssnTextView.setText(rowItem.getPatientSsn());
 
         TextView nameTextView = (TextView) convertView.findViewById(R.id.homeListNameTextView);
-        nameTextView.setText(rowItem.getPatientLastName() + ", " + rowItem.getPatientFirstName());
+        if(rowItem.getPatientFirstName().equals(""))
+            nameTextView.setText(context.getResources().getString(R.string.not_found));
+        else
+            nameTextView.setText(rowItem.getPatientLastName() + ", " + rowItem.getPatientFirstName());
 
         TextView dateTextView = (TextView) convertView.findViewById(R.id.homeListDateTextView);
         dateTextView.setText(Utils.formattedDate(rowItem.getExaminationTime()));

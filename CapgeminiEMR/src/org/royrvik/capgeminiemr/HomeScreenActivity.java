@@ -18,6 +18,7 @@ import org.royrvik.capgeminiemr.adapter.HomescreenListAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
 
@@ -37,8 +38,9 @@ public class HomeScreenActivity extends ActionBarActivity {
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
-                + "</font>"));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\"> <em><b>" + getResources().getString(R.string.app_name)
+                + "</b></em></font>"));
+
 
         //Alert dialog used throughout the view
         AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
@@ -72,8 +74,8 @@ public class HomeScreenActivity extends ActionBarActivity {
         }
 
         if (!session.isValid()) {
-
-            dialog.setMessage("This information is not available in offline mode");
+            dialog.setTitle(getResources().getString(R.string.homescreen));
+            dialog.setMessage(getResources().getString(R.string.err_not_available));
             dialog.setIcon(R.drawable.ic_info);
             dialog.setNeutralButton("OK", null);
             dialog.show();
@@ -90,9 +92,14 @@ public class HomeScreenActivity extends ActionBarActivity {
                     AlertDialog.Builder dialog = new AlertDialog.Builder(HomeScreenActivity.this);
                     dialog.setTitle("Examination " + ex.getExaminationNumber());
                     StringBuilder infoString = new StringBuilder();
-                    infoString.append("Name: " + ex.getPatientFirstName() + " " + ex.getPatientLastName() + "\n");
+
+                    if(ex.getPatientFirstName().equals(""))
+                        infoString.append("Name: " + getResources().getString(R.string.not_found)+"\n");
+                    else
+                        infoString.append("Name: " + ex.getPatientFirstName() + " " + ex.getPatientLastName() + "\n");
+
                     infoString.append("SSN: " + ex.getPatientSsn() + "\n");
-                    infoString.append("Date: " + ex.getExaminationTime() + "\n"); //Todo: Convert to date
+                    infoString.append("Date: " + Utils.formattedDate(ex.getExaminationTime()) + "\n");
                     infoString.append("Number of images: " + ex.getUltrasoundImages().size() + "\n");
                     dialog.setMessage(infoString);
                     dialog.setIcon(R.drawable.ic_info);

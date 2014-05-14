@@ -193,6 +193,8 @@ public class IdentifyPatientActivity extends ActionBarActivity {
                 // If the validation fails, clear name and set ssn to what user wrote.
                 info.add("");
                 info.add(patientIDEditText.getText().toString());
+                info.add("");
+                info.add("");
                 if(returnAfter)
                     returnToVscan(info);
                 else if(currentExamination != null){

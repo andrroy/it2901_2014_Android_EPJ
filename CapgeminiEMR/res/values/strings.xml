@@ -66,9 +66,10 @@
     <string name="discard">Discard</string>
     <string name="writeComment">Write your comment here...</string>
 
-
     <!-- Homescreen -->
     <string name="empty_list">No examinations found</string>
     <string name="logout">Log out</string>
+    <string name="homescreen">Homescreen</string>
+    <string name="err_not_available">This information is not available in offline mode</string>
 
 </resources>

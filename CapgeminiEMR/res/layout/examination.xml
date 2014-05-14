@@ -6,7 +6,6 @@
         xmlns:flatui="http://schemas.android.com/apk/res-auto"
         android:background="@color/bg">
 
-
     <RelativeLayout
             android:layout_marginTop="@dimen/examination_base_container_margin"
             android:layout_marginRight="@dimen/examination_base_container_margin"
@@ -196,6 +195,4 @@
                 flatui:fontWeight="light"
                 flatui:fontFamily="Roboto"/>
     </RelativeLayout>
-
-
 </LinearLayout>
