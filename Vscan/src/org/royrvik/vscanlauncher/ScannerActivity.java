@@ -420,7 +420,6 @@ public class ScannerActivity extends Activity {
         File myDir = new File(root + "/DCIM/Camera");
         myDir.mkdirs();
         File file = new File(myDir, name);
-        Log.d("APP", "Se her RIkard: " + file.getAbsolutePath());
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);

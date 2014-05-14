@@ -1,14 +1,11 @@
 package org.royrvik.capgeminiemr.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
@@ -30,27 +27,46 @@ public class ReviewListAdapter extends ArrayAdapter<UltrasoundImage> {
         inflater = LayoutInflater.from(context);
     }
 
+    /**
+     * Viewholder Pattern
+     * In order to not load more views than necessary we reuse views.
+     * This makes for better memory utilization and smoother scrolling in the listView
+     */
+
+    static class ViewHolder {
+        TextView imageDataView;
+        ImageView rowImage;
+        TextView commentTextView;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = (RelativeLayout) inflater.inflate(resource, null);
+        ViewHolder holder;
 
-        //Data for THIS row
+        if (convertView == null) {
+            convertView = inflater.inflate(resource, null);
+
+
+            holder = new ViewHolder();
+            holder.imageDataView = (TextView) convertView.findViewById(R.id.imageDate);
+            holder.rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
+            holder.commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
+
+            convertView.setTag(holder);
+        } else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
         UltrasoundImage rowItem = getItem(position);
-
-        ImageView rowImage = (ImageView) convertView.findViewById(R.id.reviewImageImageView);
-
         File file = new File(rowItem.getImageUri());
+
         Date fileDate = new Date(file.lastModified());
-        TextView imageDataView = (TextView) convertView.findViewById(R.id.imageDate);
-
         String date = new SimpleDateFormat("'Captured' EEEE dd.MM.yyyy HH:mm").format(fileDate);
-        imageDataView.setText(date);
 
-        rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 800, 100)); // TODO: This value is too high.
-
-        TextView commentTextView = (TextView) convertView.findViewById(R.id.imageCommentTextView);
-        commentTextView.setText(rowItem.getComment());
+        holder.imageDataView.setText(date);
+        holder.rowImage.setImageBitmap(BitmapUtils.decodeSampledBitmapFromStorage(rowItem.getImageUri(), 800, 100));
+        holder.commentTextView.setText(rowItem.getComment());
 
         return convertView;
     }

@@ -65,7 +65,7 @@ public class GetNameTask extends AsyncTask<String, Void, ArrayList<String>> {
         */
         ArrayList<String> returnMessage = new ArrayList<String>();
 
-        if(errorMessage != "" || firstName == "" || lastName == ""){
+        if(!errorMessage.equals("") || firstName.equals("") || lastName.equals("")){
             didWork = false;
         }
 

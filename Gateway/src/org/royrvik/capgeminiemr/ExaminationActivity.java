@@ -24,6 +24,7 @@ import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.data.UltrasoundImage;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.UpdateDatabaseTask;
 import org.royrvik.capgeminiemr.utils.Utils;
 
 import java.util.ArrayList;
@@ -224,11 +225,16 @@ public class ExaminationActivity extends ActionBarActivity {
      */
 
     private boolean idIsValidated() {
+        Log.d("APP:", "idIsValidated started: checking if-statement");
         if(currentExamination.getPatientFirstName().length() > 0) {
+            Log.d("APP:", "If-statement completed. Setting imageResource");
             isVerifiedImageView.setImageResource(R.drawable.ic_navigation_accept);
+            Log.d("APP:", "Setting imageResource finished. Change visibility");
             lastNameTextView.setVisibility(View.VISIBLE);
             dateOfBirthTextView.setVisibility(View.VISIBLE);
+            Log.d("APP:", "Change visibility completed. set button enabeled");
             reviewAndUploadButton.setEnabled(true);
+            Log.d("APP:", "Views updated, updating elements:");
             updateElements();
             return true;
         }
@@ -246,6 +252,8 @@ public class ExaminationActivity extends ActionBarActivity {
     private void updateElements(){
         updatePersonElements();
         updateExaminationElements();
+        Log.d("APP:", "Elements updated. Finished updateElements and isValidated.");
+
     }
 
     private void updatePersonElements() {
@@ -325,25 +333,26 @@ public class ExaminationActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("APP:", "OnActivityResult started, checking IFs");
         if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
+            Log.d("APP:", "You should not be here!");
             ArrayList<String> info = data.getStringArrayListExtra("patient");
             if (info.size() > 1) {
                 currentExamination.setPatientSsn(info.get(0));
                 currentExamination.setPatientFirstName(info.get(1));
             }
             initViewElements();
-            idIsValidated();
         }
         if (resultCode == RESULT_OK && requestCode == FULLSCREEN_REQUEST_CODE) {
+            Log.d("APP:", "Examination activity started, assigning currentExamination");
             currentExamination = data.getParcelableExtra("examination");
-            idIsValidated();
+            Log.d("APP:", "Got parcelableExtra, we think onResume is started from here");
         }
         if(resultCode == RESULT_OK && requestCode == CHANGEID_REQUEST_CODE){
             Log.d("APP:", "Examination: Recieved updated examination from IdentifyActivity");
             currentExamination = data.getParcelableExtra("examination");
             // Saves data here because IdentifyPatient does not have support for saving examinations (as of now)
             saveData();
-            idIsValidated();
         }
     }
 
@@ -361,7 +370,6 @@ public class ExaminationActivity extends ActionBarActivity {
     }
 
     // Choose action based on why this activity was started
-    // TODO: this method should initiate an async task
     private void saveData(){
         int dbID;
         if (currentExamination.getId() == -1) {
@@ -369,6 +377,7 @@ public class ExaminationActivity extends ActionBarActivity {
             currentExamination.setId(dbID);
         } else {
             dbHelper.updateExamination(currentExamination);
+            //new UpdateDatabaseTask(session, getApplicationContext(), currentExamination).execute(); // Async task not in use.
         }
     }
 
@@ -388,9 +397,13 @@ public class ExaminationActivity extends ActionBarActivity {
 
     @Override
     protected void onResume() {
+        Log.d("APP:", "onResume: started, calling super method");
         super.onResume();
+        Log.d("APP:", "onResume: super method called, doing isValidated");
         idIsValidated();
+        Log.d("APP:", "onResume: isValidated completed, updating session...");
         updateSession();
+        Log.d("APP:", "onResume: updating session completed, finished loading activity");
     }
 
     @Override

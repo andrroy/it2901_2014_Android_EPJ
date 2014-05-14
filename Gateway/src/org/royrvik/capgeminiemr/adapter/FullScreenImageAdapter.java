@@ -14,12 +14,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.royrvik.capgeminiemr.EMRApplication;
 import org.royrvik.capgeminiemr.R;
 import org.royrvik.capgeminiemr.data.Examination;
 import org.royrvik.capgeminiemr.database.DatabaseHelper;
 import org.royrvik.capgeminiemr.utils.BitmapUtils;
 import org.royrvik.capgeminiemr.utils.SessionManager;
+import org.royrvik.capgeminiemr.utils.UpdateDatabaseTask;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -59,8 +59,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
 
     public Object instantiateItem(final ViewGroup container, final int position) {
         session =  new SessionManager(context);
-        dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
-
         photoView = new PhotoView(container.getContext());
 
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -72,6 +70,7 @@ public class FullScreenImageAdapter extends PagerAdapter{
         final Button deleteButton = (Button) viewLayout.findViewById(R.id.btnDelete);
         final Button commentButton = (Button) viewLayout.findViewById(R.id.btnComment);
 
+        dbHelper = DatabaseHelper.getInstance(context, session.getDatabaseInfo());
 
         // Display image data
         File file = new File(currentExamination.getAllImages().get(position));
@@ -90,11 +89,18 @@ public class FullScreenImageAdapter extends PagerAdapter{
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("APP:", "Close button clicked");
                 dbHelper.updateExamination(currentExamination);
+                // new UpdateDatabaseTask(session, context, currentExamination).execute();
+
+                Log.d("APP:", "Done updating, closing view");
+
                 Intent returnIntent = new Intent();
                 returnIntent.putExtra("examination", currentExamination);
                 ((Activity)context).setResult(Activity.RESULT_OK, returnIntent);
                 ((Activity) context). finish();
+                Log.d("APP:", "Done closing - finish");
+
             }
         });
 
@@ -187,7 +193,6 @@ public class FullScreenImageAdapter extends PagerAdapter{
             notifyDataSetChanged();
         }
     }
-
 
     @Override
     public int getItemPosition(Object object) {

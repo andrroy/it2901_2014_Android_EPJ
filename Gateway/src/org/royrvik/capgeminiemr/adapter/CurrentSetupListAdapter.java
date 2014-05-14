@@ -26,7 +26,7 @@ public class CurrentSetupListAdapter extends ArrayAdapter<SettingsItem> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        convertView = (RelativeLayout) inflater.inflate(resource, null);
+        convertView = inflater.inflate(resource, null);
 
         // Data for THIS row
         SettingsItem rowItem = getItem(position);
