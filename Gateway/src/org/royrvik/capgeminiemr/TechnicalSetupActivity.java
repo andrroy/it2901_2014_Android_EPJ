@@ -36,12 +36,13 @@ public class TechnicalSetupActivity extends ActionBarActivity {
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
-                + "</font>"));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\"> <em><b>" + getResources().getString(R.string.app_name)
+                + "</b></em></font>"));
 
         //Actionbar back button
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_backbtn);
 
         // Initialize Application (SharedPreferences controller)
         globalApp = (EMRApplication) getApplicationContext();

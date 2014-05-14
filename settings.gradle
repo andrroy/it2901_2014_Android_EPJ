@@ -1,3 +1,1 @@
-include ':CapgeminiEMR'
-include ':EMRService'
-include ':VScanLauncher'
+include 'Gateway', 'CustomService', 'Vscan'

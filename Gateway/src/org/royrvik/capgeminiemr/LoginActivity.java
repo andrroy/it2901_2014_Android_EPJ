@@ -46,8 +46,8 @@ public class LoginActivity extends ActionBarActivity {
         // Actionbar style
         FlatUI.setActionBarTheme(this, FlatUI.DARK, false, true);
         getSupportActionBar().setBackgroundDrawable(FlatUI.getActionBarDrawable(FlatUI.DARK, false));
-        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\">" + getResources().getString(R.string.app_name)
-                + "</font>"));
+        getActionBar().setTitle(Html.fromHtml("<font color=\"#f2f2f2\"> <em><b>" + getResources().getString(R.string.app_name)
+                + "</b></em></font>"));
 
         //Get current session
         session = new SessionManager(getApplicationContext());
