@@ -9,10 +9,9 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
-import android.widget.VideoView;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.widget.*;
 import org.royrvik.vscanlauncher.util.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -69,6 +68,8 @@ public class ScannerActivity extends Activity {
     private static final int NUMBERofIMAGES = 3;
     private ArrayList<String> patientdData;
     private final long EXAMINATION_TIME = System.currentTimeMillis() / 1000L;
+    private static int screenshots;
+    private FrameLayout pnlFlash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,8 +97,10 @@ public class ScannerActivity extends Activity {
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
-        final Button uploadButton = (Button) findViewById(R.id.dummy_button);
-        final ImageView uploadIcon = (ImageView) findViewById(R.id.cloudUpload);
+        final Button uploadButton = (Button) findViewById(R.id.uploadBtn);
+        final ImageView cameraIcon = (ImageView) findViewById(R.id.cameraIcon);
+        final ImageView uploadIcon = (ImageView) findViewById(R.id.uploadIcon);
+        pnlFlash = (FrameLayout) findViewById(R.id.pnlFlash);
 
         // Set up an instance of SystemUiHider to control the system UI for
         // this activity.
@@ -156,21 +159,51 @@ public class ScannerActivity extends Activity {
         });
 
 
-        View.OnClickListener uploadButtonListener = new View.OnClickListener() {
+        uploadIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startGatewayApp();
             }
-        };
+        });
 
-        uploadButton.setOnClickListener(uploadButtonListener);
-        uploadIcon.setOnClickListener(uploadButtonListener);
+        cameraIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                takePhoto();
+                delayedHide(80);
+            }
+        });
 
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+        findViewById(R.id.uploadBtn).setOnTouchListener(mDelayHideTouchListener);
+    }
+
+    private void takePhoto(){
+        screenshots ++;
+        pnlFlash.setVisibility(View.VISIBLE);
+
+        AlphaAnimation fade = new AlphaAnimation(1, 0);
+        fade.setDuration(50);
+        fade.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation anim) {
+                pnlFlash.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        pnlFlash.startAnimation(fade);
     }
 
     @Override
@@ -243,13 +276,15 @@ public class ScannerActivity extends Activity {
 
         String root = Environment.getExternalStorageDirectory().toString();
 
-        imagePaths.add("/storage/emulated/0/DCIM/Camera/vscan_1.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_2.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_3.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_4.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_5.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_6.jpg");
-        imagePaths.add(root + "/DCIM/Camera/vscan_7.jpg");
+        // Simulates taking photos by adding number of times pushed the camera button
+        int append = 0;
+        for (int i = 1; i<= screenshots; i++) {
+            append++;
+            if(append>7) { //Number of screenshots available
+                append = 0;
+            }
+            imagePaths.add("/storage/emulated/0/DCIM/Camera/vscan_" + append + ".jpg");
+        }
 
 
         Log.d("APP:", "Imagepaths: " + imagePaths.toString());
