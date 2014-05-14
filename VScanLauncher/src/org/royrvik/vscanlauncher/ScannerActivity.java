@@ -204,6 +204,7 @@ public class ScannerActivity extends Activity {
             }
         });
         pnlFlash.startAnimation(fade);
+        Toast.makeText(ScannerActivity.this, "Image captured", Toast.LENGTH_SHORT).show();
     }
 
     @Override
