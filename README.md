@@ -17,6 +17,7 @@ in the libs folder.
 5. Run the CapgeminiEMR module.
 6. When prompted to setup the application, the following setup config can be used: http://royrvik.org/settings2.xml
 7. Send an email to andrroy@stud.ntnu.no for username and password
+8. The patient Navn Navnesen with SSN 12345678910 can be used as a test patient
 
 
 ### Known issues
