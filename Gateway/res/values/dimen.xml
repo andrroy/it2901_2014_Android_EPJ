@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="examination_inner_container_margin">20dip</dimen>
+    <dimen name="examination_inner_container_margin">40dip</dimen>
     <dimen name="examination_base_container_margin">10dip</dimen>
     <dimen name="button_margin_bottom">3dip</dimen>
 </resources>

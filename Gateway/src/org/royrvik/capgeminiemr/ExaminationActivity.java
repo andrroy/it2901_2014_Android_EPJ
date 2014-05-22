@@ -421,7 +421,5 @@ public class ExaminationActivity extends ActionBarActivity {
     protected void onPause(){
         super.onPause();
         // We cannot pause this because it is waiting for onActivityResult()...
-        // saveData();
-        // finish();
     }
 }

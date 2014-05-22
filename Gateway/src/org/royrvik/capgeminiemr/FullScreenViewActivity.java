@@ -2,8 +2,10 @@ package org.royrvik.capgeminiemr;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.WindowManager;
 import org.royrvik.capgeminiemr.adapter.FullScreenImageAdapter;
 import org.royrvik.capgeminiemr.data.Examination;
@@ -29,8 +31,27 @@ public class FullScreenViewActivity extends Activity {
         Intent i = getIntent();
         currentExamination = i.getParcelableExtra("examination");
 
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("APP:", "onPageScrolled");
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("APP:", "onPageSelected");
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                Log.d("APP:", "onPageScrollStateChanged");
+            }
+        });
+
         adapter = new FullScreenImageAdapter(this, currentExamination);
         viewPager.setAdapter(adapter);
+
     }
 
     protected void onDestroy(){

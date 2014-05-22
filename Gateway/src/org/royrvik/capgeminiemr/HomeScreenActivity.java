@@ -223,4 +223,11 @@ public class HomeScreenActivity extends ActionBarActivity {
             session.updateSession();
         }
     }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        finish();
+    }
+
 }
