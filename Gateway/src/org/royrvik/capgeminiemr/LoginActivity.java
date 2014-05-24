@@ -66,7 +66,7 @@ public class LoginActivity extends ActionBarActivity {
 
 
         //If the current session is still valid, forward to next activity
-        if (session.isValid()) startApplication();
+        if (session.isValid()) checkCredentials();
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,8 +127,13 @@ public class LoginActivity extends ActionBarActivity {
                 usernameEditText.getText().toString(),
                 Encryption.encrypt(usernameEditText.getText().toString(), passwordEditText.getText().toString())
         );
+        checkCredentials();
+    }
 
-        //Check if the credentials are correct, and forwarding to next view if true
+    /**
+     * Checks to see if the credentials are correct, and forwarding to next view if true
+     */
+    private void checkCredentials() {
         if (session.isValid()) {
             final DatabaseHelper db = DatabaseHelper.getInstance(getApplicationContext(), session.getDatabaseInfo());
             if (db.checkDatabasePassword()) {
@@ -146,7 +151,7 @@ public class LoginActivity extends ActionBarActivity {
                                 if (!db.updateDatabasePassword(Encryption.encrypt(session.getDatabaseInfo().get(0), input.getText().toString()))) {
                                     Crouton.makeText(LoginActivity.this, "Wrong previous password.", Style.ALERT).show();
                                 }
-                                login();
+                                checkCredentials();
                             }
                         }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
