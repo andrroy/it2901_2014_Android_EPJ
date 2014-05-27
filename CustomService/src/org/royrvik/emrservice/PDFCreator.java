@@ -167,9 +167,10 @@ public class PDFCreator {
             try {
                 int indentation = 0;
                 image = Image.getInstance(i);
-                float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-                        - document.rightMargin() - indentation) / image.getWidth()) * 100;
-                image.scalePercent(scaler);
+                //float scaler = ((document.getPageSize().getWidth() - document.leftMargin()
+                       // - document.rightMargin() - indentation) / image.getWidth()) * 100;
+                //image.scalePercent(scaler);
+                image.scalePercent(60);
             }
             catch (IOException e) {e.printStackTrace(); }
 
