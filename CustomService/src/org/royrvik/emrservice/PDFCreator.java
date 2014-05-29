@@ -57,7 +57,7 @@ public class PDFCreator {
 
     private static void addMetaData(Document document) {
         document.addTitle("Examination");
-        document.addSubject("Examination of patient");
+        document.addSubject("Examination of patient, created using Itext© through the AGPL license");
         document.addKeywords("Java, PDF, sensitive");
         document.addAuthor("EMRApplication");
         document.addCreator(username);
